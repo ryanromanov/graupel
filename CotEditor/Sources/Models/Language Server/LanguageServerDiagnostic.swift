@@ -145,33 +145,58 @@ struct LanguageServerPositionConverter {
 
     /// Returns the character range to mark for a diagnostic.
     ///
-    /// An empty range is widened to the adjacent character so that it stays visible.
+    /// An empty range is widened to the adjacent character, and a range only on trailing whitespace
+    /// is moved to the last visible character of the line, so that the mark stays visible.
     ///
     /// - Parameter diagnostic: The diagnostic.
     /// - Returns: A range in the string, or `nil` if the string is empty.
     func range(of diagnostic: LanguageServerDiagnostic) -> NSRange? {
-
+        
         guard self.string.length > 0 else { return nil }
-
+        
         let start = self.location(of: diagnostic.start)
         let end = max(self.location(of: diagnostic.end), start)
-
-        guard start == end else { return NSRange(start..<end) }
-
-        // mark the character at the position, or the one before it at the end of a line
         let lineEnd = self.contentsEnd(ofLineAt: diagnostic.start.line)
-        if start < lineEnd {
-            return NSRange(location: start, length: 1)
-        } else if start > 0 {
-            return NSRange(location: start - 1, length: 1)
+        
+        let range: NSRange = if start < end {
+            NSRange(start..<end)
+        } else if start < lineEnd {
+            NSRange(location: start, length: 1)
         } else {
-            return NSRange(location: 0, length: 1)
+            // the character before the line end
+            NSRange(location: max(start - 1, 0), length: 1)
         }
+        
+        return self.avoidingTrailingWhitespace(range, inLine: diagnostic.start.line)
     }
-
-
+    
+    
     // MARK: Private Methods
 
+    /// Moves a range within the trailing whitespace of a line onto the last visible character of the line,
+    /// because text views don't draw underlines on trailing whitespace.
+    private func avoidingTrailingWhitespace(_ range: NSRange, inLine line: Int) -> NSRange {
+        
+        guard line >= 0, line < self.lineStarts.count else { return range }
+        
+        let lineStart = self.lineStarts[line]
+        let lineEnd = self.contentsEnd(ofLineAt: line)
+        
+        var visibleEnd = lineEnd
+        while visibleEnd > lineStart, [0x20, 0x09].contains(self.string.character(at: visibleEnd - 1)) {
+            visibleEnd -= 1
+        }
+        
+        guard
+            visibleEnd > lineStart,
+            range.location >= visibleEnd,
+            range.upperBound <= lineEnd
+        else { return range }
+        
+        return NSRange(location: visibleEnd - 1, length: 1)
+    }
+    
+    
     /// The location just before the line ending of the given line.
     private func contentsEnd(ofLineAt line: Int) -> Int {
 

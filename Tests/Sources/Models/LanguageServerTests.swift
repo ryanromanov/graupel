@@ -118,6 +118,24 @@ struct LanguageServerPositionConverterTests {
         #expect(range(0, 0) == NSRange(location: 0, length: 1))
         // at the line end, mark the last character instead of the line ending
         #expect(range(0, 5) == NSRange(location: 4, length: 1))
+    }
+    
+    
+    @Test func trailingWhitespaceMovesToVisibleCharacter() {
+        
+        let converter = LanguageServerPositionConverter(string: "x = (1 + \t\nend")
+        
+        func range(_ start: Int, _ end: Int) -> NSRange? {
+            converter.range(of: LanguageServerDiagnostic(start: Position(line: 0, character: start), end: Position(line: 0, character: end), severity: .error, message: ""))
+        }
+        
+        // at the line end and on trailing whitespace: mark the "+"
+        #expect(range(10, 10) == NSRange(location: 7, length: 1))
+        #expect(range(8, 10) == NSRange(location: 7, length: 1))
+        // whitespace inside the line stays
+        #expect(range(3, 4) == NSRange(location: 3, length: 1))
+        // ranges reaching visible characters stay
+        #expect(range(6, 10) == NSRange(location: 6, length: 4))
 
         #expect(LanguageServerPositionConverter(string: "").range(of: LanguageServerDiagnostic(start: Position(line: 0, character: 0), end: Position(line: 0, character: 0), severity: .error, message: "")) == nil)
     }
