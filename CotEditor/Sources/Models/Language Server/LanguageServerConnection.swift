@@ -103,8 +103,12 @@ extension Logger {
         }
 
         Task {
-            for try await data in errors {
-                Logger.languageServer.debug("server: \(String(bytes: data, encoding: .utf8) ?? "", privacy: .public)")
+            do {
+                for try await data in errors {
+                    Logger.languageServer.debug("server: \(String(bytes: data, encoding: .utf8) ?? "", privacy: .public)")
+                }
+            } catch {
+                Logger.languageServer.error("failed reading server errors: \(error, privacy: .public)")
             }
         }
 
