@@ -161,7 +161,7 @@ actor UserUnixTask {
 }
 
 
-private extension Pipe {
+extension Pipe {
     
     /// An asynchronous stream of data read from the pipe.
     var readingStream: AsyncThrowingStream<Data, any Error> {

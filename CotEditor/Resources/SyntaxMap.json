@@ -42,6 +42,11 @@
       "bibtex"
     ]
   },
+  "Boreas" : {
+    "extensions" : [
+      "bor"
+    ]
+  },
   "C" : {
     "extensions" : [
       "c",

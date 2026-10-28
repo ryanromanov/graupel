@@ -111,7 +111,8 @@ extension NSTextView: EditorCounter.Source { }
     private let lastAdditionalFileAttributes: Mutex<[String: any Sendable]> = .init([:])
     
     private var urlDetector: URLDetector?
-    
+    private var languageServerSession: LanguageServerSession?
+
     private var syntaxUpdateObserver: NotificationCenter.ObservationToken?
     private var textStorageObserver: AnyCancellable?
     private var defaultObservers: Set<AnyCancellable> = []
@@ -237,6 +238,7 @@ extension NSTextView: EditorCounter.Source { }
         didSet {
             Task { @MainActor in
                 self.synchronizeFileType()
+                self.invalidateLanguageServer()
                 NotificationCenter.default.post(NSDocument.DidChangeFileURLMessage(), subject: self)
             }
         }
@@ -264,8 +266,9 @@ extension NSTextView: EditorCounter.Source { }
             
             NotificationCenter.default.post(DidMakeWindowMessage(), subject: self)
         }
-        
+
         self.applyContentToWindow()
+        self.invalidateLanguageServer()
     }
     
     
@@ -689,8 +692,10 @@ extension NSTextView: EditorCounter.Source { }
         self.syntaxController.cancel()
         self.urlDetector?.cancel()
         self.lineEndingScanner.cancel()
+        self.languageServerSession?.close()
+        self.languageServerSession = nil
     }
-    
+
     
     override func printOperation(withSettings printSettings: [NSPrintInfo.AttributeKey: Any]) throws -> NSPrintOperation {
         
@@ -1196,9 +1201,26 @@ extension NSTextView: EditorCounter.Source { }
         self.syntaxController.update(syntax: syntax, name: name)
         self.syntaxName = name
         self.synchronizeFileType(documentName: documentName)
-        
+
         self.invalidateMode()
         self.invalidateRestorableState()
+        self.invalidateLanguageServer()
+    }
+
+
+    /// Starts, restarts, or stops the language server session to match the current syntax and file.
+    private func invalidateLanguageServer() {
+
+        // wait until the document is shown
+        guard self.windowController != nil else { return }
+
+        if let session = self.languageServerSession,
+           session.syntaxName == self.syntaxName,
+           session.fileURL == self.fileURL
+        { return }
+
+        self.languageServerSession?.close()
+        self.languageServerSession = LanguageServerSession(syntaxName: self.syntaxName, fileURL: self.fileURL, textStorage: self.textStorage)
     }
     
     
