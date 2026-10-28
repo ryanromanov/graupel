@@ -32,4 +32,4 @@ CODE_SIGN_STYLE = Automatic
 DEVELOPMENT_TEAM = HT3Z3A72WZ
 
 // Uncomment the following line to override these settings for ad-hoc local development.
-//#include "CodeSigning-AdHoc.xcconfig"
+#include "CodeSigning-AdHoc.xcconfig"
