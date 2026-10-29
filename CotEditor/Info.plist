@@ -162,7 +162,7 @@
 		</dict>
 	</dict>
 	<key>OSAScriptingDefinition</key>
-	<string>$(PRODUCT_NAME).sdef</string>
+	<string>$(PRODUCT_MODULE_NAME).sdef</string>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUPublicEDKey</key>
