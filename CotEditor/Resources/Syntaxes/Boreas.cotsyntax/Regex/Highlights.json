@@ -1,0 +1,47 @@
+{
+  "keywords": [
+    {
+      "begin": "\\b(program|module|function|subroutine|record|const|use|call|return|exit|cycle|print|if|then|else|do|while|end|select|case|default|fallthrough|break|update|allocate|deallocate|allocatable|public|private|and|or|not)\\b",
+      "ignoreCase": true,
+      "regularExpression": true
+    },
+    {
+      "begin": "->|::",
+      "ignoreCase": true,
+      "regularExpression": true
+    }
+  ],
+  "types": [
+    {
+      "begin": "\\b(integer|real|complex|logical|string)\\b",
+      "ignoreCase": true,
+      "regularExpression": true
+    },
+    {
+      "begin": "\\b(in|out|inout)\\b",
+      "ignoreCase": true,
+      "regularExpression": true
+    }
+  ],
+  "commands": [
+    {
+      "begin": "\\b(size|shape|reshape|matmul|transpose|dot_product|allocated|present|sum|product|maxval|minval|any|all|max|min|huge|epsilon|tiny|sqrt|abs|sin|cos|tan|asin|acos|atan|atan2|sinh|cosh|tanh|asinh|acosh|atanh|exp|log|log10|gamma|log_gamma|erf|erfc|hypot|real|int|floor|ceiling|nint|aint|anint|mod|modulo|sign|dim|cmplx|aimag|conjg)(?=\\s*\\()",
+      "ignoreCase": true,
+      "regularExpression": true
+    }
+  ],
+  "values": [
+    {
+      "begin": "\\b(true|false|null)\\b",
+      "ignoreCase": true,
+      "regularExpression": true
+    }
+  ],
+  "numbers": [
+    {
+      "begin": "\\b\\d+\\.\\d*(e[-+]?\\d+)?|\\.\\d+(e[-+]?\\d+)?|\\b\\d+e[-+]?\\d+|\\b\\d+\\b",
+      "ignoreCase": true,
+      "regularExpression": true
+    }
+  ]
+}
