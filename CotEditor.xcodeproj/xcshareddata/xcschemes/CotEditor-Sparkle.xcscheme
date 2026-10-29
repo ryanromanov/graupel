@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2A6F0D4E1B5500E100C2D03C"
-               BuildableName = "CotEditor.app"
+               BuildableName = "Graupel.app"
                BlueprintName = "CotEditor"
                ReferencedContainer = "container:CotEditor.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2A6F0D4E1B5500E100C2D03C"
-            BuildableName = "CotEditor.app"
+            BuildableName = "Graupel.app"
             BlueprintName = "CotEditor"
             ReferencedContainer = "container:CotEditor.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2A6F0D4E1B5500E100C2D03C"
-            BuildableName = "CotEditor.app"
+            BuildableName = "Graupel.app"
             BlueprintName = "CotEditor"
             ReferencedContainer = "container:CotEditor.xcodeproj">
          </BuildableReference>

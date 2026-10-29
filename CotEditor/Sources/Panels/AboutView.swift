@@ -60,11 +60,12 @@ struct AboutView: View {
                      tableName: "About",
                      comment: "%1$@ is version number and %2$@ is build number")
                 
-                Link(String("github.com/ryanromanov/graupel"), destination: URL(string: "https://github.com/ryanromanov/graupel")!)
+                Link(String("Graupel on GitHub"), destination: URL(string: "https://github.com/ryanromanov/graupel")!)
                     .foregroundStyle(.tint)
                 
                 Text(Bundle.main.copyright!)
                     .font(.footnote)
+                    .fixedSize(horizontal: false, vertical: true)  // Graupel: show all notices
                     .foregroundStyle(.secondary)
             }
             .textSelection(.enabled)
