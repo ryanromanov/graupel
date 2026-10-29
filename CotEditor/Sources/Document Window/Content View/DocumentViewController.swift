@@ -848,6 +848,7 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         // observe cursor
         self.textSelectionObservers[ObjectIdentifier(textView)] = NotificationCenter.default.addObserver(of: textView, for: .didLiveChangeSelection) { [weak self] _ in
             self?.document.counter.invalidateSelection()
+            self?.document.invalidateDiagnosticAtCursor()
         }
         
         // setup textView

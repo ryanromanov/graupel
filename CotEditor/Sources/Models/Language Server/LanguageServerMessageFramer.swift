@@ -27,32 +27,32 @@ import Foundation
 
 /// Splits a byte stream into Language Server Protocol messages framed with the `Content-Length` header.
 struct LanguageServerMessageFramer {
-
+    
     enum FramingError: Error, Equatable {
-
+        
         case missingContentLength
     }
-
-
+    
+    
     // MARK: Private Properties
-
+    
     private static let separator = Data("\r\n\r\n".utf8)
-
+    
     private var buffer = Data()
-
-
+    
+    
     // MARK: Public Methods
-
+    
     /// Wraps a message body with the header.
     ///
     /// - Parameter body: The JSON-encoded message.
     /// - Returns: The data to write to the stream.
     static func frame(_ body: Data) -> Data {
-
+        
         Data("Content-Length: \(body.count)\r\n\r\n".utf8) + body
     }
-
-
+    
+    
     /// Appends received bytes and returns the bodies of all messages completed by them.
     ///
     /// A message may arrive split across several chunks, and a chunk may hold several messages.
@@ -61,35 +61,35 @@ struct LanguageServerMessageFramer {
     /// - Returns: The message bodies in the received order.
     /// - Throws: `FramingError` if a header lacks `Content-Length`. The buffer is discarded in that case.
     mutating func append(_ data: Data) throws(FramingError) -> [Data] {
-
+        
         self.buffer.append(data)
-
+        
         var bodies: [Data] = []
         while let headerEnd = self.buffer.range(of: Self.separator) {
             let header = String(bytes: self.buffer[..<headerEnd.lowerBound], encoding: .utf8) ?? ""
-
+            
             guard let length = Self.contentLength(in: header) else {
                 self.buffer.removeAll()
                 throw .missingContentLength
             }
-
+            
             let bodyStart = headerEnd.upperBound
             guard self.buffer.distance(from: bodyStart, to: self.buffer.endIndex) >= length else { break }
-
+            
             let bodyEnd = self.buffer.index(bodyStart, offsetBy: length)
             bodies.append(Data(self.buffer[bodyStart..<bodyEnd]))
             self.buffer = Data(self.buffer[bodyEnd...])
         }
-
+        
         return bodies
     }
-
-
+    
+    
     // MARK: Private Methods
-
+    
     /// Finds the `Content-Length` field value in a header (field names are case-insensitive).
     private static func contentLength(in header: String) -> Int? {
-
+        
         header
             .split(separator: "\r\n")
             .lazy

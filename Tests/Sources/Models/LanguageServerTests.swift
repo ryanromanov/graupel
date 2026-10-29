@@ -28,47 +28,47 @@ import Testing
 @testable import CotEditor
 
 struct LanguageServerMessageFramerTests {
-
+    
     @Test func frame() {
-
+        
         let data = LanguageServerMessageFramer.frame(Data("{}".utf8))
-
+        
         #expect(String(bytes: data, encoding: .utf8) == "Content-Length: 2\r\n\r\n{}")
     }
-
-
+    
+    
     @Test func splitAndJoinedMessages() throws {
-
+        
         let stream = LanguageServerMessageFramer.frame(Data(#"{"a":1}"#.utf8))
             + LanguageServerMessageFramer.frame(Data(#"{"b":"é"}"#.utf8))
         var framer = LanguageServerMessageFramer()
-
+        
         // feed one byte at a time, as a pipe may deliver arbitrary chunks
         var bodies: [Data] = []
         for byte in stream {
             bodies += try framer.append(Data([byte]))
         }
         #expect(bodies.map { String(bytes: $0, encoding: .utf8) } == [#"{"a":1}"#, #"{"b":"é"}"#])
-
+        
         // all at once
         var framer2 = LanguageServerMessageFramer()
         #expect(try framer2.append(stream).count == 2)
     }
-
-
+    
+    
     @Test func headerFields() throws {
-
+        
         var framer = LanguageServerMessageFramer()
         let data = Data("content-length: 2\r\nContent-Type: application/vscode-jsonrpc; charset=utf-8\r\n\r\n{}".utf8)
-
+        
         #expect(try framer.append(data) == [Data("{}".utf8)])
     }
-
-
+    
+    
     @Test func missingContentLength() {
-
+        
         var framer = LanguageServerMessageFramer()
-
+        
         #expect(throws: LanguageServerMessageFramer.FramingError.missingContentLength) {
             try framer.append(Data("Content-Type: x\r\n\r\n{}".utf8))
         }
@@ -77,44 +77,44 @@ struct LanguageServerMessageFramerTests {
 
 
 struct LanguageServerPositionConverterTests {
-
+    
     private typealias Position = LanguageServerDiagnostic.Position
-
-
+    
+    
     @Test func location() {
-
+        
         let converter = LanguageServerPositionConverter(string: "ab\ncd\r\nef\rgh")
-
+        
         #expect(converter.location(of: Position(line: 0, character: 1)) == 1)
         #expect(converter.location(of: Position(line: 1, character: 0)) == 3)
         #expect(converter.location(of: Position(line: 2, character: 1)) == 8)
         #expect(converter.location(of: Position(line: 3, character: 2)) == 12)
-
+        
         // beyond the line end clamps to the line end (before the line ending)
         #expect(converter.location(of: Position(line: 1, character: 99)) == 5)
         // beyond the last line clamps to the end
         #expect(converter.location(of: Position(line: 9, character: 0)) == 12)
     }
-
-
+    
+    
     @Test func utf16() {
-
+        
         // "😀" is two UTF-16 code units, as the protocol counts by default
         let converter = LanguageServerPositionConverter(string: "😀x")
-
+        
         #expect(converter.location(of: Position(line: 0, character: 2)) == 2)
     }
-
-
+    
+    
     @Test func emptyRangeStaysVisible() {
-
+        
         let converter = LanguageServerPositionConverter(string: "x = (\nend")
-
+        
         func range(_ line: Int, _ character: Int) -> NSRange? {
             let position = Position(line: line, character: character)
             return converter.range(of: LanguageServerDiagnostic(start: position, end: position, severity: .error, message: ""))
         }
-
+        
         #expect(range(0, 0) == NSRange(location: 0, length: 1))
         // at the line end, mark the last character instead of the line ending
         #expect(range(0, 5) == NSRange(location: 4, length: 1))
@@ -136,25 +136,25 @@ struct LanguageServerPositionConverterTests {
         #expect(range(3, 4) == NSRange(location: 3, length: 1))
         // ranges reaching visible characters stay
         #expect(range(6, 10) == NSRange(location: 6, length: 4))
-
+        
         #expect(LanguageServerPositionConverter(string: "").range(of: LanguageServerDiagnostic(start: Position(line: 0, character: 0), end: Position(line: 0, character: 0), severity: .error, message: "")) == nil)
     }
-
-
+    
+    
     @Test func diagnosticFromJSON() throws {
-
+        
         let json: [String: Any] = [
             "range": ["start": ["line": 2, "character": 10], "end": ["line": 2, "character": 11]],
             "severity": 2,
             "message": "expected an expression",
         ]
         let diagnostic = try #require(LanguageServerDiagnostic(json: json))
-
+        
         #expect(diagnostic.start == Position(line: 2, character: 10))
         #expect(diagnostic.end == Position(line: 2, character: 11))
         #expect(diagnostic.severity == .warning)
         #expect(diagnostic.message == "expected an expression")
-
+        
         // severity defaults to error
         #expect(LanguageServerDiagnostic(json: json.filter { $0.key != "severity" })?.severity == .error)
         #expect(LanguageServerDiagnostic(json: ["message": "no range"]) == nil)

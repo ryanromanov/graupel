@@ -85,6 +85,12 @@ struct StatusBar: View {
                 }
                 EditorCountView(result: document.counter.result)
                     .layoutPriority(-1)
+                
+                if let mark = document.diagnosticAtCursor {
+                    DiagnosticView(mark: mark)
+                        .layoutPriority(-2)
+                        .transition(.opacity.animation(.linear))
+                }
             }
             
             Spacer()
@@ -226,6 +232,48 @@ private struct NotEditableBadge: View {
         Label(.init("Not editable", table: "Document"), systemImage: "pencil.slash")
             .help(.init("The document is not editable.", table: "Document", comment: "tooltip"))
             .labelStyle(.iconOnly)
+    }
+}
+
+
+private struct DiagnosticView: View {
+    
+    var mark: DiagnosticMark
+    
+    
+    var body: some View {
+        
+        Label {
+            Text(self.mark.message)
+                .truncationMode(.tail)
+        } icon: {
+            Image(systemName: self.symbolName)
+                .foregroundStyle(self.color)
+        }
+        .help(self.mark.message)
+        .accessibilityElement(children: .combine)
+    }
+    
+    
+    private var symbolName: String {
+        
+        switch self.mark.severity {
+            case .error: "xmark.octagon.fill"
+            case .warning: "exclamationmark.triangle.fill"
+            case .information: "info.circle.fill"
+            case .hint: "lightbulb.fill"
+        }
+    }
+    
+    
+    private var color: Color {
+        
+        switch self.mark.severity {
+            case .error: .red
+            case .warning: .orange
+            case .information: .blue
+            case .hint: .secondary
+        }
     }
 }
 

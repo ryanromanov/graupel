@@ -27,24 +27,24 @@ import Foundation
 
 /// A problem reported by a language server.
 struct LanguageServerDiagnostic: Equatable, Sendable {
-
+    
     enum Severity: Int, Sendable {
-
+        
         case error = 1
         case warning
         case information
         case hint
     }
-
-
+    
+    
     /// A position as defined in the Language Server Protocol: a zero-based line and a UTF-16 offset in the line.
     struct Position: Equatable, Sendable {
-
+        
         var line: Int
         var character: Int
     }
-
-
+    
+    
     var start: Position
     var end: Position
     var severity: Severity
@@ -53,19 +53,19 @@ struct LanguageServerDiagnostic: Equatable, Sendable {
 
 
 extension LanguageServerDiagnostic {
-
+    
     /// Creates a diagnostic from the JSON object of the `publishDiagnostics` notification.
     ///
     /// - Parameter json: The decoded `Diagnostic` object.
     init?(json: [String: Any]) {
-
+        
         guard
             let range = json["range"] as? [String: Any],
             let start = Position(json: range["start"]),
             let end = Position(json: range["end"]),
             let message = json["message"] as? String
         else { return nil }
-
+        
         self.start = start
         self.end = end
         // -> The protocol lets the client decide when the severity is omitted.
@@ -76,15 +76,15 @@ extension LanguageServerDiagnostic {
 
 
 private extension LanguageServerDiagnostic.Position {
-
+    
     init?(json: Any?) {
-
+        
         guard
             let json = json as? [String: Any],
             let line = json["line"] as? Int,
             let character = json["character"] as? Int
         else { return nil }
-
+        
         self.init(line: line, character: character)
     }
 }
@@ -95,13 +95,13 @@ private extension LanguageServerDiagnostic.Position {
 /// The protocol counts characters in UTF-16 code units, which are what `NSString` indexes,
 /// and treats `\n`, `\r\n`, and `\r` as line endings.
 struct LanguageServerPositionConverter {
-
+    
     private let string: NSString
     private let lineStarts: [Int]
-
-
+    
+    
     init(string: NSString) {
-
+        
         var lineStarts = [0]
         var index = 0
         while index < string.length {
@@ -118,12 +118,12 @@ struct LanguageServerPositionConverter {
             }
             index += 1
         }
-
+        
         self.string = string
         self.lineStarts = lineStarts
     }
-
-
+    
+    
     /// Returns the character location of a position.
     ///
     /// Following the protocol, a character offset beyond the line end means the line end,
@@ -132,17 +132,17 @@ struct LanguageServerPositionConverter {
     /// - Parameter position: The position to convert.
     /// - Returns: A location in the string.
     func location(of position: LanguageServerDiagnostic.Position) -> Int {
-
+        
         guard position.line >= 0 else { return 0 }
         guard position.line < self.lineStarts.count else { return self.string.length }
-
+        
         let lineStart = self.lineStarts[position.line]
         let lineEnd = self.contentsEnd(ofLineAt: position.line)
-
+        
         return min(lineStart + max(position.character, 0), lineEnd)
     }
-
-
+    
+    
     /// Returns the character range to mark for a diagnostic.
     ///
     /// An empty range is widened to the adjacent character, and a range only on trailing whitespace
@@ -172,7 +172,7 @@ struct LanguageServerPositionConverter {
     
     
     // MARK: Private Methods
-
+    
     /// Moves a range within the trailing whitespace of a line onto the last visible character of the line,
     /// because text views don't draw underlines on trailing whitespace.
     private func avoidingTrailingWhitespace(_ range: NSRange, inLine line: Int) -> NSRange {
@@ -199,14 +199,14 @@ struct LanguageServerPositionConverter {
     
     /// The location just before the line ending of the given line.
     private func contentsEnd(ofLineAt line: Int) -> Int {
-
+        
         guard line >= 0, line < self.lineStarts.count else { return self.string.length }
-
+        
         var end = (line + 1 < self.lineStarts.count) ? self.lineStarts[line + 1] : self.string.length
         while end > self.lineStarts[line], [0x0A, 0x0D].contains(self.string.character(at: end - 1)) {
             end -= 1
         }
-
+        
         return end
     }
 }

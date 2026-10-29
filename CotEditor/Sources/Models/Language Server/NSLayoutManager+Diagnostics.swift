@@ -27,24 +27,24 @@ import AppKit
 import StringUtils
 
 extension NSAttributedString.Key {
-
+    
     /// Marks the ranges underlined for diagnostics, so that they can be removed without touching other attributes.
     static let diagnosticSeverity = NSAttributedString.Key("CotEditor.diagnosticSeverity")
 }
 
 
 extension NSTextStorage {
-
+    
     /// Replaces the diagnostic marks in all layout managers.
     ///
     /// - Parameter diagnostics: The diagnostics to mark, which positions refer to the current contents.
     @MainActor func apply(diagnostics: [LanguageServerDiagnostic]) {
-
+        
         let converter = LanguageServerPositionConverter(string: self.string as NSString)
         let marks = diagnostics.compactMap { diagnostic in
             converter.range(of: diagnostic).map { (range: $0, diagnostic: diagnostic) }
         }
-
+        
         for layoutManager in self.layoutManagers {
             layoutManager.apply(diagnosticMarks: marks)
         }
@@ -52,15 +52,47 @@ extension NSTextStorage {
 }
 
 
-private extension NSLayoutManager {
+/// A diagnostic as marked in the text.
+struct DiagnosticMark: Equatable {
+    
+    var severity: LanguageServerDiagnostic.Severity
+    var message: String
+}
 
+
+extension NSLayoutManager {
+    
+    /// Returns the diagnostic marked at a location, or right before it so that a caret just after a mark finds it.
+    ///
+    /// - Parameter location: The character location, typically the insertion point.
+    /// - Returns: The mark, or `nil` if none.
+    @MainActor final func diagnosticMark(at location: Int) -> DiagnosticMark? {
+        
+        let length = self.attributedString().length
+        
+        for index in [location, location - 1] where (0..<length).contains(index) {
+            if let rawValue = self.temporaryAttribute(.diagnosticSeverity, atCharacterIndex: index, effectiveRange: nil) as? Int,
+               let severity = LanguageServerDiagnostic.Severity(rawValue: rawValue),
+               let message = self.temporaryAttribute(.toolTip, atCharacterIndex: index, effectiveRange: nil) as? String
+            {
+                return DiagnosticMark(severity: severity, message: message)
+            }
+        }
+        
+        return nil
+    }
+}
+
+
+private extension NSLayoutManager {
+    
     /// Replaces the diagnostic underlines and tooltips.
     @MainActor final func apply(diagnosticMarks marks: [(range: NSRange, diagnostic: LanguageServerDiagnostic)]) {
-
+        
         let wholeRange = self.attributedString().range
-
+        
         guard !marks.isEmpty || self.hasTemporaryAttribute(.diagnosticSeverity, in: wholeRange) else { return }
-
+        
         self.groupTemporaryAttributesUpdate(in: wholeRange) {
             var markedRanges: [NSRange] = []
             self.enumerateTemporaryAttribute(.diagnosticSeverity, type: Int.self, in: wholeRange) { _, range, _ in
@@ -72,7 +104,7 @@ private extension NSLayoutManager {
                 self.removeTemporaryAttribute(.underlineColor, forCharacterRange: range)
                 self.removeTemporaryAttribute(.toolTip, forCharacterRange: range)
             }
-
+            
             // apply less severe ones first so that more severe ones win where they overlap
             for mark in marks.sorted(using: KeyPathComparator(\.diagnostic.severity.rawValue, order: .reverse)) {
                 self.addTemporaryAttributes([
@@ -88,9 +120,9 @@ private extension NSLayoutManager {
 
 
 private extension LanguageServerDiagnostic.Severity {
-
+    
     var color: NSColor {
-
+        
         switch self {
             case .error: .systemRed
             case .warning: .systemOrange
