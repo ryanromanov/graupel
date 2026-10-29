@@ -176,10 +176,7 @@ extension Logger {
         
         let lastVersion = UserDefaults.standard[.lastVersion].flatMap(Int.init)
         
-        // show What's New panel for the latest minor update
-        if let lastVersion, lastVersion < NewFeature.buildNumber {
-            self.showWhatsNew(nil)
-        }
+        // Graupel: don't show What's New, which describes CotEditor releases
         
         // store the latest version
         // -> Migration processes should be completed up to this point.
