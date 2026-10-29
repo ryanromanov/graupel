@@ -3962,361 +3962,361 @@
       }
     },
     "56.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"CotEditor\"; ObjectID = \"56\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Graupel\"; ObjectID = \"56\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         }
       }
     },
     "57.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"CotEditor\"; ObjectID = \"57\";",
+      "comment" : "Class = \"NSMenu\"; title = \"Graupel\"; ObjectID = \"57\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         }
       }
     },
     "58.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"About CotEditor\"; ObjectID = \"58\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"About Graupel\"; ObjectID = \"58\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikaci CotEditor"
+            "value" : "O aplikaci Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über CotEditor"
+            "value" : "Über Graupel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "About CotEditor"
+            "value" : "About Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About CotEditor"
+            "value" : "About Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acerca de CotEditor"
+            "value" : "Acerca de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À propos de CotEditor"
+            "value" : "À propos de Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor परिचय"
+            "value" : "Graupel परिचय"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informazioni su CotEditor"
+            "value" : "Informazioni su Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorについて"
+            "value" : "Graupelについて"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor에 관하여"
+            "value" : "Graupel에 관하여"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Over CotEditor"
+            "value" : "Over Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor…"
+            "value" : "Graupel…"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o CotEditor"
+            "value" : "Sobre o Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "О приложении CotEditor"
+            "value" : "О приложении Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Hakkında"
+            "value" : "Graupel Hakkında"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Про CotEditor"
+            "value" : "Про Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关于CotEditor"
+            "value" : "关于Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於CotEditor"
+            "value" : "關於Graupel"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於CotEditor"
+            "value" : "關於Graupel"
           }
         }
       }
@@ -6602,241 +6602,241 @@
       }
     },
     "134.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Hide CotEditor\"; ObjectID = \"134\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide Graupel\"; ObjectID = \"134\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrýt CotEditor"
+            "value" : "Skrýt Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor ausblenden"
+            "value" : "Graupel ausblenden"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Hide CotEditor"
+            "value" : "Hide Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide CotEditor"
+            "value" : "Hide Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar CotEditor"
+            "value" : "Ocultar Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Masquer CotEditor"
+            "value" : "Masquer Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor छिपाएँ"
+            "value" : "Graupel छिपाएँ"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nascondi CotEditor"
+            "value" : "Nascondi Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorを非表示"
+            "value" : "Graupelを非表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 가리기"
+            "value" : "Graupel 가리기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verberg CotEditor"
+            "value" : "Verberg Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukryj CotEditora"
+            "value" : "Ukryj Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar CotEditor"
+            "value" : "Ocultar Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скрыть CotEditor"
+            "value" : "Скрыть Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’ü Gizle"
+            "value" : "Graupel’ü Gizle"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сховати CotEditor"
+            "value" : "Сховати Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏CotEditor"
+            "value" : "隐藏Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏CotEditor"
+            "value" : "隱藏Graupel"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏CotEditor"
+            "value" : "隱藏Graupel"
           }
         }
       }
     },
     "136.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Quit CotEditor\"; ObjectID = \"136\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Quit Graupel\"; ObjectID = \"136\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončit CotEditor"
+            "value" : "Ukončit Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor beenden"
+            "value" : "Graupel beenden"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Quit CotEditor"
+            "value" : "Quit Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit CotEditor"
+            "value" : "Quit Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salir de CotEditor"
+            "value" : "Salir de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quitter CotEditor"
+            "value" : "Quitter Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor बंद करें"
+            "value" : "Graupel बंद करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esci da CotEditor"
+            "value" : "Esci da Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorを終了"
+            "value" : "Graupelを終了"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 종료"
+            "value" : "Graupel 종료"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop CotEditor"
+            "value" : "Stop Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zakończ CotEditora"
+            "value" : "Zakończ Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encerrar CotEditor"
+            "value" : "Encerrar Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завершить CotEditor"
+            "value" : "Завершить Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’den Çık"
+            "value" : "Graupel’den Çık"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завершити CotEditor"
+            "value" : "Завершити Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出CotEditor"
+            "value" : "退出Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束CotEditor"
+            "value" : "結束Graupel"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束CotEditor"
+            "value" : "結束Graupel"
           }
         }
       }
@@ -17522,121 +17522,121 @@
       }
     },
     "g34-YV-E6o.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"CotEditor Web Site\"; ObjectID = \"g34-YV-E6o\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Graupel Web Site\"; ObjectID = \"g34-YV-E6o\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Webové stránky CotEditoru"
+            "value" : "Webové stránky Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Webseite"
+            "value" : "Graupel-Webseite"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Web Site"
+            "value" : "Graupel Web Site"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Website"
+            "value" : "Graupel Website"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Página web de CotEditor"
+            "value" : "Página web de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Site web de CotEditor"
+            "value" : "Site web de Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor वेबसाइट"
+            "value" : "Graupel वेबसाइट"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sito web di CotEditor"
+            "value" : "Sito web di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Webサイト"
+            "value" : "Graupel Webサイト"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 웹사이트"
+            "value" : "Graupel 웹사이트"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-website"
+            "value" : "Graupel-website"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona internetowa CotEditora"
+            "value" : "Strona internetowa Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Site do CotEditor"
+            "value" : "Site do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Веб-сайт CotEditor"
+            "value" : "Веб-сайт Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Web Sitesi"
+            "value" : "Graupel Web Sitesi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вебсайт CotEditor"
+            "value" : "Вебсайт Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor网站"
+            "value" : "Graupel网站"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor網站"
+            "value" : "Graupel網站"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor網站"
+            "value" : "Graupel網站"
           }
         }
       }

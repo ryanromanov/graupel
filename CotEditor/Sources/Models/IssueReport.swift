@@ -54,22 +54,20 @@ struct IssueReport {
     
     // MARK: Private Methods
     
-    private static let issueLink = "[GitHub Issues](https://github.com/coteditor/CotEditor/issues)"
-    private static let mail = "<coteditor.github@gmail.com>"
+    private static let issueLink = "[GitHub Issues](https://github.com/ryanromanov/graupel/issues)"
     
     
     private var description: String {
         
-        String(localized: "IssueReport.description",
-               defaultValue: "Fill in the following template, then post it on \(Self.issueLink) or send it to \(Self.mail). Note that the content of your email may be shared on the Issue page. Write your message in either English or Japanese.",
-               comment: "%1$@ is a link to a web page and %2$@ is an e-mail")
+        // Graupel: not localized, as the CotEditor translations name CotEditor's e-mail address
+        "Fill in the following template, then post it on \(Self.issueLink)."
     }
     
     
     private var environment: String {
         
         """
-        - CotEditor: \(Bundle.main.shortVersion!) (\(Bundle.main.bundleVersion!))
+        - Graupel: \(Bundle.main.shortVersion!) (\(Bundle.main.bundleVersion!))
         - System: macOS \(ProcessInfo.processInfo.operatingSystemVersionString)
         - Language: \(self.appLanguage, default: "–")
         """

@@ -60,7 +60,7 @@ struct AboutView: View {
                      tableName: "About",
                      comment: "%1$@ is version number and %2$@ is build number")
                 
-                Link(String("coteditor.com"), destination: URL(string: "https://coteditor.com")!)
+                Link(String("github.com/ryanromanov/graupel"), destination: URL(string: "https://github.com/ryanromanov/graupel")!)
                     .foregroundStyle(.tint)
                 
                 Text(Bundle.main.copyright!)

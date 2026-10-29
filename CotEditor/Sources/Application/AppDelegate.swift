@@ -73,8 +73,8 @@ extension Logger {
     
     private enum AppWebURL: String {
         
-        case website = "https://coteditor.com"
-        case issueTracker = "https://github.com/coteditor/CotEditor/issues"
+        case website = "https://github.com/ryanromanov/graupel"
+        case issueTracker = "https://github.com/ryanromanov/graupel/issues"
         
         var url: URL  { URL(string: self.rawValue)! }
     }
@@ -422,7 +422,7 @@ extension Logger {
     }
     
     
-    /// Opens the application web site (coteditor.com) in the default web browser.
+    /// Opens the application web site in the default web browser.
     @IBAction func openWebSite(_ sender: Any?) {
         
         NSWorkspace.shared.open(AppWebURL.website.url)

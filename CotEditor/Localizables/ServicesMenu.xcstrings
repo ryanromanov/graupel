@@ -1,229 +1,229 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "New CotEditor Window Containing Selection" : {
+    "New Graupel Window Containing Selection" : {
       "comment" : "Refer to how Apple translates “New TextEdit Window Containing Selection”",
       "extractionState" : "manual",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nové okno CotEditoru s výběrem"
+            "value" : "Nové okno Graupelu s výběrem"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Auswahl in neuem CotEditor-Fenster"
+            "value" : "Auswahl in neuem Graupel-Fenster"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New CotEditor Window Containing Selection"
+            "value" : "New Graupel Window Containing Selection"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ventana de CotEditor con selección"
+            "value" : "Ventana de Graupel con selección"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Nouvelle fenêtre de CotEditor contenant la sélection"
+            "value" : "Nouvelle fenêtre de Graupel contenant la sélection"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "चयन वाली नई CotEditor विंडो"
+            "value" : "चयन वाली नई Graupel विंडो"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nuova finestra CotEditor contenente selezione"
+            "value" : "Nuova finestra Graupel contenente selezione"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選択部分を含む新しいCotEditorウインドウを開く"
+            "value" : "選択部分を含む新しいGraupelウインドウを開く"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "새로운 CotEditor 윈도우에서 선택 부분 열기"
+            "value" : "새로운 Graupel 윈도우에서 선택 부분 열기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nieuw CotEditor-venster met selectie"
+            "value" : "Nieuw Graupel-venster met selectie"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nowe okno CotEditora zawierające zaznaczenie"
+            "value" : "Nowe okno Graupela zawierające zaznaczenie"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nova Janela do CotEditor com Seleção"
+            "value" : "Nova Janela do Graupel com Seleção"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть выбранное в новом окне CotEditor"
+            "value" : "Открыть выбранное в новом окне Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçimi İçeren Yeni CotEditor Penceresi"
+            "value" : "Seçimi İçeren Yeni Graupel Penceresi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нове вікно CotEditor з вибраним"
+            "value" : "Нове вікно Graupel з вибраним"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新CotEditor窗口包含所选内容"
+            "value" : "新Graupel窗口包含所选内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新增包含所選範圍的CotEditor視窗"
+            "value" : "新增包含所選範圍的Graupel視窗"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新增包括所選範圍的CotEditor視窗"
+            "value" : "新增包括所選範圍的Graupel視窗"
           }
         }
       }
     },
-    "Open in CotEditor" : {
+    "Open in Graupel" : {
       "extractionState" : "manual",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřít v CotEditoru"
+            "value" : "Otevřít v Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In CotEditor öffnen"
+            "value" : "In Graupel öffnen"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in CotEditor"
+            "value" : "Open in Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir en CotEditor"
+            "value" : "Abrir en Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir dans CotEditor"
+            "value" : "Ouvrir dans Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor में खोलें"
+            "value" : "Graupel में खोलें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri in CotEditor"
+            "value" : "Apri in Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorで開く"
+            "value" : "Graupelで開く"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor에서 열기"
+            "value" : "Graupel에서 열기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in CotEditor"
+            "value" : "Open in Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otwórz w CotEditorze"
+            "value" : "Otwórz w Graupelze"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir no CotEditor"
+            "value" : "Abrir no Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть в CotEditor"
+            "value" : "Открыть в Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’de Aç"
+            "value" : "Graupel’de Aç"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрити в CotEditor"
+            "value" : "Відкрити в Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在CotEditor中打开"
+            "value" : "在Graupel中打开"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在CotEditor中開啟"
+            "value" : "在Graupel中開啟"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在CotEditor中開啟"
+            "value" : "在Graupel中開啟"
           }
         }
       }

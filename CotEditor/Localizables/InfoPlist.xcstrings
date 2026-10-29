@@ -904,91 +904,91 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor"
+            "value" : "Graupel"
           }
         }
       },
@@ -1001,115 +1001,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कॉट एडिटर"
+            "value" : "Graupel"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "コットエディタ"
+            "value" : "Graupel"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "코트 에디터"
+            "value" : "Graupel"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cot editor"
+            "value" : "Graupel"
           }
         }
       }
@@ -3585,115 +3585,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor potřebuje souhlas uživatele k ovládání jiných aplikací pomocí AppleScriptu."
+            "value" : "Graupel potřebuje souhlas uživatele k ovládání jiných aplikací pomocí AppleScriptu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor benötigt deine Erlaubnis, um andere Programme mit AppleScript zu steuern."
+            "value" : "Graupel benötigt deine Erlaubnis, um andere Programme mit AppleScript zu steuern."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor needs your approval to control other applications with AppleScript."
+            "value" : "Graupel needs your approval to control other applications with AppleScript."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor needs your approval to control other applications with AppleScript."
+            "value" : "Graupel needs your approval to control other applications with AppleScript."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor necesita tu aprobación para controlar otras aplicaciones con AppleScript."
+            "value" : "Graupel necesita tu aprobación para controlar otras aplicaciones con AppleScript."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor a besoin de votre autorisation pour contrôler les autres applications avec AppleScript."
+            "value" : "Graupel a besoin de votre autorisation pour contrôler les autres applications avec AppleScript."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "अन्य एप्लिकेशन को AppleScript से नियंत्रित करने के लिए CotEditor को आपकी स्वीकृति चाहिए।"
+            "value" : "अन्य एप्लिकेशन को AppleScript से नियंत्रित करने के लिए Graupel को आपकी स्वीकृति चाहिए।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor ha bisogno dell’autorizzazione per controllare altre applicazioni tramite AppleScript."
+            "value" : "Graupel ha bisogno dell’autorizzazione per controllare altre applicazioni tramite AppleScript."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorがAppleScriptでほかのアプリを操作するためにユーザの許可が必要です。"
+            "value" : "GraupelがAppleScriptでほかのアプリを操作するためにユーザの許可が必要です。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor가 AppleScript로 다른 응용 프로그램을 제어하려면 사용자 승인이 필요합니다."
+            "value" : "Graupel가 AppleScript로 다른 응용 프로그램을 제어하려면 사용자 승인이 필요합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor heeft jouw toestemming nodig om andere apps te bedienen met AppleScript."
+            "value" : "Graupel heeft jouw toestemming nodig om andere apps te bedienen met AppleScript."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor potrzebuje zgody użytkownika, aby sterować innymi aplikacjami za pomocą AppleScript."
+            "value" : "Graupel potrzebuje zgody użytkownika, aby sterować innymi aplikacjami za pomocą AppleScript."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O CotEditor precisa da sua aprovação para controlar outros aplicativos via AppleScript."
+            "value" : "O Graupel precisa da sua aprovação para controlar outros aplicativos via AppleScript."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Для управления другими приложениями с помощью AppleScript приложению CotEditor требуется Ваше разрешение."
+            "value" : "Для управления другими приложениями с помощью AppleScript приложению Graupel требуется Ваше разрешение."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor, başka uygulamaları AppleScript ile denetlemek için kullanıcı onayına gereksinim duyuyor."
+            "value" : "Graupel, başka uygulamaları AppleScript ile denetlemek için kullanıcı onayına gereksinim duyuyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor потрібен дозвіл на керування іншими програмами за допомогою AppleScript."
+            "value" : "Graupel потрібен дозвіл на керування іншими програмами за допомогою AppleScript."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor需要用户授权使用AppleScript控制其他应用。"
+            "value" : "Graupel需要用户授权使用AppleScript控制其他应用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor需要用戶授權使用AppleScript控制其他應用。"
+            "value" : "Graupel需要用戶授權使用AppleScript控制其他應用。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor需要你的批准才能使用AppleScript控制其他應用程式。"
+            "value" : "Graupel需要你的批准才能使用AppleScript控制其他應用程式。"
           }
         }
       }
@@ -3705,7 +3705,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "© 2005-2009 nakamuxu\n© 2011, 2014 usami-k\n© 2013-2026 1024jp"
+            "value" : "Graupel © 2026 Ryan Romanosky\nBased on CotEditor:\n© 2005-2009 nakamuxu\n© 2011, 2014 usami-k\n© 2013-2026 1024jp"
           }
         }
       },

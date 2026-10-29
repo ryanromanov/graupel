@@ -10,16 +10,16 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="29">
                         <items>
-                            <menuItem title="CotEditor" id="56">
-                                <menu key="submenu" title="CotEditor" systemMenu="apple" id="57">
+                            <menuItem title="Graupel" id="56">
+                                <menu key="submenu" title="Graupel" systemMenu="apple" id="57">
                                     <items>
-                                        <menuItem title="About CotEditor" id="58">
+                                        <menuItem title="About Graupel" id="58">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showAboutPanel:" target="Ady-hI-5gd" id="u8D-Wn-gmq"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Donate to CotEditor…" secondaryImage="mug" catalog="system" id="qPX-5r-cB2">
+                                        <menuItem title="Donate to CotEditor…" secondaryImage="mug" catalog="system" hidden="YES" id="qPX-5r-cB2">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showDonationWindow:" target="Ady-hI-5gd" id="y4U-qi-7Pb"/>
@@ -37,7 +37,7 @@
                                             <menu key="submenu" title="Services" systemMenu="services" id="130"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="144"/>
-                                        <menuItem title="Hide CotEditor" keyEquivalent="h" id="134">
+                                        <menuItem title="Hide Graupel" keyEquivalent="h" id="134">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="JrT-Ri-zBE"/>
                                             </connections>
@@ -55,7 +55,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="149"/>
-                                        <menuItem title="Quit CotEditor" keyEquivalent="q" id="136">
+                                        <menuItem title="Quit Graupel" keyEquivalent="q" id="136">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="e2R-9T-s5O"/>
                                             </connections>
@@ -1245,7 +1245,7 @@ CA
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="619"/>
-                                        <menuItem title="What’s New in CotEditor" secondaryImage="sparkles" catalog="system" identifier="whats_new" id="DCW-Ij-540">
+                                        <menuItem title="What’s New in CotEditor" secondaryImage="sparkles" catalog="system" identifier="whats_new" hidden="YES" id="DCW-Ij-540">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showWhatsNew:" target="Ady-hI-5gd" id="BdY-Zk-DOK"/>
@@ -1270,7 +1270,7 @@ CA
                                                 <action selector="reportBug:" target="Ady-hI-5gd" id="cDG-26-UaZ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="CotEditor Web Site" secondaryImage="arrow.forward.circle" catalog="system" id="g34-YV-E6o">
+                                        <menuItem title="Graupel Web Site" secondaryImage="arrow.forward.circle" catalog="system" id="g34-YV-E6o">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openWebSite:" target="Ady-hI-5gd" id="EVb-Xf-aoz"/>

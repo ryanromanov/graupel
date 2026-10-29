@@ -190,7 +190,7 @@
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.productivity",
         "INFOPLIST_KEY_NSAppleEventsUsageDescription": "${PRODUCT_NAME} needs your approval to control other applications with AppleScript.",
-        "INFOPLIST_KEY_NSHumanReadableCopyright": "© 2005-2009 nakamuxu\n© 2011, 2014 usami-k\n© 2013-2026 1024jp",
+        "INFOPLIST_KEY_NSHumanReadableCopyright": "Graupel © 2026 Ryan Romanosky\nBased on CotEditor:\n© 2005-2009 nakamuxu\n© 2011, 2014 usami-k\n© 2013-2026 1024jp",
         "INFOPLIST_KEY_NSMainStoryboardFile": "Main",
         "MARKETING_VERSION": "7.2.0-alpha",
         "PRODUCT_BUNDLE_IDENTIFIER": "com.ryanromanov.Graupel",

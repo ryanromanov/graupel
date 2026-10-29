@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>Graupel</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -114,7 +116,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>New CotEditor Window Containing Selection</string>
+				<string>New Graupel Window Containing Selection</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openSelection</string>
@@ -129,7 +131,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Open in CotEditor</string>
+				<string>Open in Graupel</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openFile</string>
