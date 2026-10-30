@@ -80,7 +80,7 @@ private struct NoAppPurchaseView: View {
     var body: some View {
         
         ContentUnavailableView {
-            Image(.bagCoffee)
+            Image(systemName: "cup.and.saucer.fill")
                 .font(.system(size: 64, weight: .light))
                 .accessibilityHidden(true)
             
@@ -120,7 +120,7 @@ private struct AppPurchaseView: View {
                     .accessibilityAddTraits(.isHeader)
                 
                 ProductView(id: Donation.Product.continuous.id, prefersPromotionalIcon: true) {
-                    Label(.InAppPurchase.donationSubscriptionYearlyDisplayName, image: .bagCoffee)
+                    Label(.InAppPurchase.donationSubscriptionYearlyDisplayName, systemImage: "cup.and.saucer.fill")
                         .labelStyle(.iconOnly)
                         .font(.system(size: 40))
                         .foregroundStyle(.secondary)
@@ -181,7 +181,7 @@ private struct AppPurchaseView: View {
                     .accessibilityAddTraits(.isHeader)
                 
                 ProductView(id: Donation.Product.onetime.id, prefersPromotionalIcon: true) {
-                    Label(.InAppPurchase.donationOnetimeDisplayName, image: .espresso)
+                    Label(.InAppPurchase.donationOnetimeDisplayName, systemImage: "mug.fill")
                         .labelStyle(.iconOnly)
                 }
                 .productViewStyle(OnetimeProductViewStyle())

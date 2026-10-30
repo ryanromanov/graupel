@@ -73,11 +73,11 @@ private extension Syntax.Outline.Kind {
     var symbol: SymbolResource {
         
         switch self {
-            case .container: .resource(.cubeSquareFill)
+            case .container: .system("shippingbox.fill")
             case .value: .system("dot.square.fill")
-            case .function: .resource(.fCursiveSquareFill)
+            case .function: .system("f.square.fill")
             case .title: .system("tag.square.fill")
-            case .heading(nil): .resource(.listBulletSquareFill)
+            case .heading(nil): .system("list.bullet.rectangle.fill")
             case .heading(let level?): .system("\(level).square.fill")
             case .mark: .system("flag.fill")
             case .separator: .system("minus")

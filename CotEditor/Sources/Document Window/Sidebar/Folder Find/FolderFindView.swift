@@ -477,7 +477,7 @@ private struct FolderFindFileResultView: View {
                 Text(self.highlightedLine.lineBreakableByCharacter())
                     .accessibilityLabel(self.accessibilityLine)
             } icon: {
-                Image(.textSquareFill)
+                Image(systemName: "doc.text.fill")
                     .symbolRenderingMode(.hierarchical)
             }
             .foregroundStyle(.secondary)

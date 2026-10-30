@@ -891,8 +891,8 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     comment: "Tab refers to indentation")
                 item.toolTip = String(localized: "Toolbar.tabStyle.tooltip.off",
                                       defaultValue: "Use spaces for indentation", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .tabForwardSplit)
-                item.stateImages[.off] = NSImage(resource: .tabForward)
+                item.stateImages[.on] = NSImage(systemSymbolName: "arrow.left.arrow.right", accessibilityDescription: nil)
+                item.stateImages[.off] = NSImage(systemSymbolName: "arrow.right.to.line", accessibilityDescription: nil)
                 item.action = #selector(DocumentViewController.toggleAutoTabExpand)
                 item.menu.items = [
                     .sectionHeader(title: String(localized: "Toolbar.tabStyle.menu.tabWidth.label",
@@ -989,7 +989,7 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     defaultValue: "Emoji & Symbols", table: "Document")
                 item.toolTip = String(localized: "Toolbar.emojiAndSymbols.tooltip",
                                       defaultValue: "Show Emoji & Symbols", table: "Document")
-                item.image = NSImage(resource: .emoji)
+                item.image = NSImage(systemSymbolName: "face.smiling", accessibilityDescription: nil)
                 item.action = #selector(NSApplication.orderFrontCharacterPalette)
                 return item
                 

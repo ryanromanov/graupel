@@ -1448,7 +1448,7 @@ private final class FileBrowserTableCellView: NSTableCellView {
         
         let aliasArrowView = NSImageView()
         aliasArrowView.alignment = .center
-        aliasArrowView.image = .arrowAliasFill
+        aliasArrowView.image = NSImage(systemSymbolName: "arrow.up.right.square.fill", accessibilityDescription: nil)
         aliasArrowView.symbolConfiguration = .init(paletteColors: [.labelColor, .controlBackgroundColor])
         aliasArrowView.setAccessibilityLabel(String(localized: "Alias", table: "Document", comment: "accessibility label"))
         aliasArrowView.setAccessibilityRoleDescription(nil)

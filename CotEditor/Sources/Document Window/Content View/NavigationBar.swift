@@ -64,7 +64,7 @@ struct NavigationBar: View {
             Button {
                 NSApp.sendAction(#selector(DocumentViewController.openSplitTextView), to: nil, from: self.outlineNavigator.textView)
             } label: {
-                Label(.init("Split Editor", table: "Document", comment: "verb; button; split the editor pane"), image: .splitAdd)
+                Label(.init("Split Editor", table: "Document", comment: "verb; button; split the editor pane"), systemImage: "rectangle.split.2x1")
                     .frame(width: 18)
                     .frame(maxHeight: .infinity, alignment: .center)
             }
