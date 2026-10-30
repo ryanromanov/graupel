@@ -160,3 +160,28 @@ struct LanguageServerPositionConverterTests {
         #expect(LanguageServerDiagnostic(json: ["message": "no range"]) == nil)
     }
 }
+
+
+struct LanguageServerCommandTests {
+    
+    @Test func shellOutput() {
+        
+        let marker = ShellSearchPath.marker
+        let output = "\u{1B}]7;file://host/Users/me\u{7}welcome!\n\(marker)\n/opt/bin:/usr/bin\n\(marker)\n"
+        
+        #expect(ShellSearchPath.directories(shellOutput: output) == ["/opt/bin", "/usr/bin"])
+        #expect(ShellSearchPath.directories(shellOutput: "\(marker)\n\n\(marker)") == nil)
+        #expect(ShellSearchPath.directories(shellOutput: "no path") == nil)
+    }
+    
+    
+    @Test func executableURL() {
+        
+        let command = LanguageServerCommand(name: "sh", arguments: ["-c"])
+        
+        #expect(command.executableURL(searchPath: ["/nonexistent", "/bin"]) == URL(filePath: "/bin/sh"))
+        #expect(command.executableURL(searchPath: ["/nonexistent"]) == nil)
+        #expect(LanguageServerCommand(name: "/bin/sh").executableURL(searchPath: []) == URL(filePath: "/bin/sh"))
+        #expect(LanguageServerCommand(name: "/nonexistent/sh").executableURL(searchPath: ["/bin"]) == nil)
+    }
+}

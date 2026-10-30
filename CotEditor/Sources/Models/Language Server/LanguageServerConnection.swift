@@ -74,10 +74,19 @@ extension Logger {
     
     /// Creates a connection with an executable that runs the language server on its standard input and output.
     ///
-    /// - Parameter executableURL: The file URL of the server executable or script.
-    init(executableURL: URL) {
+    /// - Parameters:
+    ///   - executableURL: The file URL of the server executable or script.
+    ///   - arguments: The command-line arguments.
+    ///   - searchPath: The directories for the server's `PATH`, so that it finds the same tools as in Terminal.
+    init(executableURL: URL, arguments: [String] = [], searchPath: [String] = []) {
         
         self.process.executableURL = executableURL
+        self.process.arguments = arguments
+        if !searchPath.isEmpty {
+            var environment = ProcessInfo.processInfo.environment
+            environment["PATH"] = searchPath.joined(separator: ":")
+            self.process.environment = environment
+        }
         self.process.standardInput = self.inputPipe
         self.process.standardOutput = self.outputPipe
         self.process.standardError = self.errorPipe
