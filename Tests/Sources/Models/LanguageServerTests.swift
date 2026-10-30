@@ -76,6 +76,60 @@ struct LanguageServerMessageFramerTests {
 }
 
 
+struct LanguageServerCompletionTests {
+    
+    @Test func completionList() {
+        
+        let result: [String: Any] = [
+            "isIncomplete": false,
+            "items": [
+                ["label": "total", "kind": 6, "sortText": "0000"],
+                ["label": "trim", "kind": 3, "sortText": "0001"],
+            ],
+        ]
+        
+        #expect(LanguageServerCompletionItem.words(result: result) == ["total", "trim"])
+    }
+    
+    
+    @Test func itemArray() {
+        
+        let result: [Any] = [["label": "b"], ["label": "a"], ["kind": 1], "junk"]
+        
+        // without sort texts, items are sorted by label
+        #expect(LanguageServerCompletionItem.words(result: result) == ["a", "b"])
+        #expect(LanguageServerCompletionItem.words(result: nil).isEmpty)
+        #expect(LanguageServerCompletionItem.words(result: NSNull()).isEmpty)
+    }
+    
+    
+    @Test func sortTextThenServerOrder() {
+        
+        let result: [Any] = [
+            ["label": "c", "sortText": "1"],
+            ["label": "b", "sortText": "0"],
+            ["label": "a", "sortText": "1"],
+        ]
+        
+        #expect(LanguageServerCompletionItem.words(result: result) == ["b", "c", "a"])
+    }
+    
+    
+    @Test func insertedText() {
+        
+        let item = LanguageServerCompletionItem(json: [
+            "label": "print(x)",
+            "insertText": "print",
+            "textEdit": ["newText": "println", "range": [:]],
+        ])
+        
+        #expect(item?.label == "print(x)")
+        #expect(item?.text == "println")
+        #expect(LanguageServerCompletionItem(json: ["label": "a", "insertText": "b"])?.text == "b")
+    }
+}
+
+
 struct LanguageServerPositionConverterTests {
     
     private typealias Position = LanguageServerDiagnostic.Position
@@ -103,6 +157,24 @@ struct LanguageServerPositionConverterTests {
         let converter = LanguageServerPositionConverter(string: "😀x")
         
         #expect(converter.location(of: Position(line: 0, character: 2)) == 2)
+        #expect(converter.position(at: 3) == Position(line: 0, character: 3))
+    }
+    
+    
+    @Test func position() {
+        
+        let converter = LanguageServerPositionConverter(string: "ab\ncd\r\nef\rgh")
+        
+        #expect(converter.position(at: 0) == Position(line: 0, character: 0))
+        #expect(converter.position(at: 2) == Position(line: 0, character: 2))
+        #expect(converter.position(at: 3) == Position(line: 1, character: 0))
+        #expect(converter.position(at: 8) == Position(line: 2, character: 1))
+        #expect(converter.position(at: 12) == Position(line: 3, character: 2))
+        #expect(converter.position(at: 99) == Position(line: 3, character: 2))
+        
+        for location in [0, 1, 3, 4, 7, 8, 10, 12] {
+            #expect(converter.location(of: converter.position(at: location)) == location)
+        }
     }
     
     

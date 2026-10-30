@@ -64,6 +64,9 @@ import OSLog
     let syntaxName: String
     let command: LanguageServerCommand
     
+    /// The characters after which the server suggests completions, or `nil` if it can't complete.
+    private(set) var completionTriggerCharacters: [String]?
+    
     private(set) var status: Status = .launching {
         
         didSet {
@@ -177,6 +180,20 @@ import OSLog
     }
     
     
+    /// Sends a request to the server.
+    ///
+    /// The handler isn't called if the server stops before answering.
+    ///
+    /// - Parameters:
+    ///   - method: The method name.
+    ///   - params: The parameters, which must be a JSON object or array.
+    ///   - handler: The handler called with the result or the error object.
+    func request(_ method: String, params: Any? = nil, handler: @escaping LanguageServerConnection.ResponseHandler) {
+        
+        self.connection?.request(method, params: params, handler: handler)
+    }
+    
+    
     // MARK: Private Methods
     
     private var isRegistered: Bool {
@@ -242,17 +259,23 @@ import OSLog
                 "textDocument": [
                     "synchronization": ["dynamicRegistration": false],
                     "publishDiagnostics": ["versionSupport": true],
+                    "completion": ["completionItem": ["snippetSupport": false]],
                 ],
             ],
         ]
         
-        connection.request("initialize", params: params) { [weak self] _, error in
+        connection.request("initialize", params: params) { [weak self] result, error in
             guard let self else { return }
             
             if let error {
                 Logger.languageServer.error("initialize failed: \(error, privacy: .public)")
                 self.status = .failed(reason: error["message"] as? String ?? "The server didn’t start.")
                 return
+            }
+            
+            let capabilities = (result as? [String: Any])?["capabilities"] as? [String: Any]
+            if let completionProvider = capabilities?["completionProvider"] as? [String: Any] {
+                self.completionTriggerCharacters = completionProvider["triggerCharacters"] as? [String] ?? []
             }
             
             connection.notify("initialized", params: [:])

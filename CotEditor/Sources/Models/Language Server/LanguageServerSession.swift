@@ -45,6 +45,9 @@ import AppKit
     
     var serverStatus: LanguageServer.Status { self.server.status }
     
+    /// The characters after which the server suggests completions, or `nil` if it can't complete.
+    var completionTriggerCharacters: [String]? { self.isOpen ? self.server.completionTriggerCharacters : nil }
+    
     
     // MARK: Private Properties
     
@@ -127,6 +130,33 @@ import AppKit
                 self?.changeDebouncer?.schedule()
             }
         }
+    }
+    
+    
+    /// Asks the server for the words that complete the word at a location.
+    ///
+    /// - Parameters:
+    ///   - location: The character location of the cursor.
+    ///   - handler: The handler called with the words, which isn't called if the server doesn't answer.
+    /// - Returns: Whether the server was asked; it isn't if it can't complete.
+    func requestCompletions(at location: Int, handler: @escaping ([String]) -> Void) -> Bool {
+        
+        guard self.completionTriggerCharacters != nil, let textStorage = self.textStorage else { return false }
+        
+        // let the server complete the current text rather than the text before the pending change
+        self.changeDebouncer?.fire()
+        
+        let position = LanguageServerPositionConverter(string: textStorage.string as NSString).position(at: location)
+        self.server.request("textDocument/completion", params: [
+            "textDocument": ["uri": self.uri],
+            "position": ["line": position.line, "character": position.character],
+        ]) { result, error in
+            guard error == nil else { return }
+            
+            handler(LanguageServerCompletionItem.words(result: result))
+        }
+        
+        return true
     }
     
     

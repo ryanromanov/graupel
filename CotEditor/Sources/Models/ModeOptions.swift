@@ -99,7 +99,7 @@ extension Syntax.Kind {
                     grammarChecking: false,
                     automaticSpellingCorrection: false,
                     completionWordTypes: [.document, .syntax],
-                    automaticCompletion: false
+                    automaticCompletion: true
                 )
         }
     }

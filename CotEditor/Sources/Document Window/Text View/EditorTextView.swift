@@ -139,6 +139,12 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     
     var accessibilityHelpProvider: (() -> String?)?
     
+    /// Asks a language server for the words that complete the word at a location, and returns whether it was asked.
+    var completionProvider: ((_ location: Int, _ handler: @escaping ([String]) -> Void) -> Bool)?
+    
+    /// Returns the characters after which the language server suggests completions.
+    var completionTriggerCharactersProvider: (() -> [String])?
+    
     
     // MARK: Private Properties
     
@@ -166,6 +172,8 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     
     private var isShowingCompletion = false
     private var partialCompletionWord: String?
+    private var serverCompletions: (location: Int, words: [String])?
+    private var completionRequestCount = 0
     private lazy var completionDebouncer = Debouncer { [weak self] in self?.performCompletion() }
     
     private lazy var trimTrailingWhitespaceTask = Debouncer { [weak self] in
@@ -561,7 +569,7 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
         // auto completion
         if self.isAutomaticCompletionEnabled {
             if !self.hasMarkedText(),
-               self.rangeForUserCompletion.length >= self.minimumAutomaticCompletionLength
+               self.rangeForUserCompletion.length >= self.minimumAutomaticCompletionLength || self.isAfterCompletionTrigger
             {
                 self.completionDebouncer.schedule(delay: .seconds(self.automaticCompletionDelay))
             } else {
@@ -1771,7 +1779,58 @@ extension EditorTextView {
     }
     
     
+    override func complete(_ sender: Any?) {
+        
+        // ask the language server first, and show the words when it answers
+        // -> The words from the server are in the order the server finds best and fit where the cursor is.
+        let range = self.rangeForUserCompletion
+        
+        self.completionRequestCount += 1
+        let request = self.completionRequestCount
+        
+        guard
+            self.selectedRange.isEmpty,
+            !range.isNotFound,
+            let completionProvider = self.completionProvider
+        else {
+            self.serverCompletions = nil
+            return super.complete(sender)
+        }
+        
+        let partialWord = (self.string as NSString).substring(with: range)
+        let isRequested = completionProvider(range.upperBound) { [weak self] words in
+            // skip an answer to an older request or for text that has changed since
+            guard
+                let self,
+                request == self.completionRequestCount,
+                self.selectedRange == NSRange(location: range.upperBound, length: 0),
+                self.rangeForUserCompletion == range,
+                (self.string as NSString).substring(with: range) == partialWord,
+                !self.hasMarkedText(),
+                self.window?.firstResponder == self
+            else { return }
+            
+            self.serverCompletions = (range.location, words)
+            self.showCompletions(sender)
+        }
+        
+        if !isRequested {
+            self.serverCompletions = nil
+            super.complete(sender)
+        }
+    }
+    
+    
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+        
+        // use only the words from the language server when it answered for the word
+        if let serverCompletions = self.serverCompletions, serverCompletions.location == charRange.location {
+            let partialWord = (self.string as NSString).substring(with: charRange)
+            
+            return serverCompletions.words.filter {
+                partialWord.isEmpty || $0.range(of: partialWord, options: [.caseInsensitive, .anchored]) != nil
+            }
+        }
         
         guard
             !charRange.isEmpty,
@@ -1862,6 +1921,7 @@ extension EditorTextView {
             
             // discard stored original word
             self.partialCompletionWord = nil
+            self.serverCompletions = nil
         }
         
         super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: flag)
@@ -1879,13 +1939,32 @@ extension EditorTextView {
     
     // MARK: Private Methods
     
+    /// Shows the completion list without asking the language server.
+    private func showCompletions(_ sender: Any?) {
+        
+        super.complete(sender)
+    }
+    
+    
+    /// Whether the character before the cursor is one after which the language server suggests completions, such as `.`.
+    private var isAfterCompletionTrigger: Bool {
+        
+        guard
+            self.selectedRange.isEmpty,
+            let character = self.string.character(before: self.selectedRange)
+        else { return false }
+        
+        return self.completionTriggerCharactersProvider?().contains(String(character)) == true
+    }
+    
+    
     /// Displays the word completion candidates list.
     private func performCompletion() {
         
         guard
             !self.hasMarkedText(),
             self.selectedRange.isEmpty,
-            self.rangeForUserCompletion.length >= self.minimumAutomaticCompletionLength,
+            self.rangeForUserCompletion.length >= self.minimumAutomaticCompletionLength || self.isAfterCompletionTrigger,
             self.string.character(before: self.selectedRange)
                 .map(CharacterSet.whitespacesAndNewlines.contains) != true,  // last character is blank
             self.string.character(after: self.selectedRange)

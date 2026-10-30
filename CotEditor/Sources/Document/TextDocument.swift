@@ -1255,6 +1255,25 @@ extension NSTextView: EditorCounter.Source { }
     }
     
     
+    /// The characters after which the language server suggests completions, or `nil` if no server can complete.
+    var completionTriggerCharacters: [String]? {
+        
+        self.languageServerSession?.completionTriggerCharacters
+    }
+    
+    
+    /// Asks the language server for the words that complete the word at a location.
+    ///
+    /// - Parameters:
+    ///   - location: The character location of the cursor.
+    ///   - handler: The handler called with the words, which isn't called if the server doesn't answer.
+    /// - Returns: Whether a server was asked.
+    func requestCompletions(at location: Int, handler: @escaping ([String]) -> Void) -> Bool {
+        
+        self.languageServerSession?.requestCompletions(at: location, handler: handler) ?? false
+    }
+    
+    
     /// Updates `diagnosticAtCursor` for the cursor in the focused text view.
     func invalidateDiagnosticAtCursor() {
         

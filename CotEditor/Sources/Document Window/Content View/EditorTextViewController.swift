@@ -110,6 +110,10 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
         textView.delegate = self
         textView.usesRuler = false
         textView.accessibilityHelpProvider = { [weak self] in self?.editorAccessibilityHelp }
+        textView.completionProvider = { [weak self] location, handler in
+            self?.document.requestCompletions(at: location, handler: handler) ?? false
+        }
+        textView.completionTriggerCharactersProvider = { [weak self] in self?.document.completionTriggerCharacters ?? [] }
         
         let scrollView = BidiScrollView()
         scrollView.hasVerticalScroller = true

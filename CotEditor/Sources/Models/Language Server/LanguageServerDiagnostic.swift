@@ -143,6 +143,19 @@ struct LanguageServerPositionConverter {
     }
     
     
+    /// Returns the position of a character location.
+    ///
+    /// - Parameter location: A location in the string.
+    /// - Returns: The position.
+    func position(at location: Int) -> LanguageServerDiagnostic.Position {
+        
+        let location = min(max(location, 0), self.string.length)
+        let line = self.lineStarts.lastIndex { $0 <= location } ?? 0
+        
+        return LanguageServerDiagnostic.Position(line: line, character: location - self.lineStarts[line])
+    }
+    
+    
     /// Returns the character range to mark for a diagnostic.
     ///
     /// An empty range is widened to the adjacent character, and a range only on trailing whitespace
