@@ -91,6 +91,9 @@ extension NSTextView: EditorCounter.Source { }
     private(set) var syntaxName: String
     private(set) var mode: Mode
     
+    /// The diagnostic marked at the cursor in the focused text view.
+    private(set) var diagnosticAtCursor: DiagnosticMark?
+    
     
     // MARK: Private Properties
     
@@ -111,6 +114,7 @@ extension NSTextView: EditorCounter.Source { }
     private let lastAdditionalFileAttributes: Mutex<[String: any Sendable]> = .init([:])
     
     private var urlDetector: URLDetector?
+    private var languageServerSession: LanguageServerSession?
     
     private var syntaxUpdateObserver: NotificationCenter.ObservationToken?
     private var textStorageObserver: AnyCancellable?
@@ -237,6 +241,7 @@ extension NSTextView: EditorCounter.Source { }
         didSet {
             Task { @MainActor in
                 self.synchronizeFileType()
+                self.invalidateLanguageServer()
                 NotificationCenter.default.post(NSDocument.DidChangeFileURLMessage(), subject: self)
             }
         }
@@ -266,6 +271,7 @@ extension NSTextView: EditorCounter.Source { }
         }
         
         self.applyContentToWindow()
+        self.invalidateLanguageServer()
     }
     
     
@@ -689,6 +695,8 @@ extension NSTextView: EditorCounter.Source { }
         self.syntaxController.cancel()
         self.urlDetector?.cancel()
         self.lineEndingScanner.cancel()
+        self.languageServerSession?.close()
+        self.languageServerSession = nil
     }
     
     
@@ -1199,6 +1207,39 @@ extension NSTextView: EditorCounter.Source { }
         
         self.invalidateMode()
         self.invalidateRestorableState()
+        self.invalidateLanguageServer()
+    }
+    
+    
+    /// Starts, restarts, or stops the language server session to match the current syntax and file.
+    private func invalidateLanguageServer() {
+        
+        // wait until the document is shown
+        guard self.windowController != nil else { return }
+        
+        if let session = self.languageServerSession,
+           session.syntaxName == self.syntaxName,
+           session.fileURL == self.fileURL
+        { return }
+        
+        self.languageServerSession?.close()
+        self.languageServerSession = LanguageServerSession(syntaxName: self.syntaxName, fileURL: self.fileURL, textStorage: self.textStorage)
+        self.languageServerSession?.didUpdateDiagnostics = { [weak self] in
+            self?.invalidateDiagnosticAtCursor()
+        }
+    }
+    
+    
+    /// Updates `diagnosticAtCursor` for the cursor in the focused text view.
+    func invalidateDiagnosticAtCursor() {
+        
+        let mark = self.textView.flatMap { textView in
+            textView.layoutManager?.diagnosticMark(at: textView.selectedRange().location)
+        }
+        
+        if mark != self.diagnosticAtCursor {
+            self.diagnosticAtCursor = mark
+        }
     }
     
     
