@@ -94,6 +94,9 @@ extension NSTextView: EditorCounter.Source { }
     /// The diagnostic marked at the cursor in the focused text view.
     private(set) var diagnosticAtCursor: DiagnosticMark?
     
+    /// The status of the language server, or `nil` if the document has none.
+    private(set) var languageServerStatus: LanguageServer.Status?
+    
     
     // MARK: Private Properties
     
@@ -1212,12 +1215,15 @@ extension NSTextView: EditorCounter.Source { }
     
     
     /// Starts, restarts, or stops the language server session to match the current syntax and file.
-    private func invalidateLanguageServer() {
+    ///
+    /// - Parameter force: Whether to start a new session even if the current one matches.
+    private func invalidateLanguageServer(force: Bool = false) {
         
         // wait until the document is shown
         guard self.windowController != nil else { return }
         
-        if let session = self.languageServerSession,
+        if !force,
+           let session = self.languageServerSession,
            session.syntaxName == self.syntaxName,
            session.fileURL == self.fileURL
         { return }
@@ -1226,6 +1232,25 @@ extension NSTextView: EditorCounter.Source { }
         self.languageServerSession = LanguageServerSession(syntaxName: self.syntaxName, fileURL: self.fileURL, textStorage: self.textStorage)
         self.languageServerSession?.didUpdateDiagnostics = { [weak self] in
             self?.invalidateDiagnosticAtCursor()
+        }
+        self.languageServerSession?.didUpdateServerStatus = { [weak self] in
+            self?.languageServerStatus = self?.languageServerSession?.serverStatus
+        }
+        self.languageServerStatus = self.languageServerSession?.serverStatus
+    }
+    
+    
+    /// Restarts the language server of the syntax for all open documents, for example after its settings changed.
+    ///
+    /// - Parameter syntaxName: The name of the syntax.
+    static func restartLanguageServer(syntaxName: String) {
+        
+        LanguageServer.discardServer(syntaxName: syntaxName)
+        
+        for document in NSDocumentController.shared.documents {
+            guard let document = document as? TextDocument, document.syntaxName == syntaxName else { continue }
+            
+            document.invalidateLanguageServer(force: true)
         }
     }
     

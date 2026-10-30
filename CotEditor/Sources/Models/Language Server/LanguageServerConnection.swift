@@ -44,8 +44,8 @@ extension Logger {
     /// Called for each notification sent by the server.
     var notificationHandler: ((_ method: String, _ params: Any?) -> Void)?
     
-    /// Called after the server process exited.
-    var terminationHandler: (() -> Void)?
+    /// Called with the reason when the server exits before the connection closes.
+    var terminationHandler: ((_ reason: String) -> Void)?
     
     
     // MARK: Private Properties
@@ -68,6 +68,9 @@ extension Logger {
     private var nextID = 1
     private var responseHandlers: [Int: ResponseHandler] = [:]
     private var isClosed = false
+    
+    /// The last line the server wrote to its standard error, which usually explains why it exited.
+    private var lastErrorLine: String?
     
     
     // MARK: Lifecycle
@@ -93,7 +96,7 @@ extension Logger {
         self.process.terminationHandler = { [weak self] process in
             let status = process.terminationStatus
             Task { @MainActor in
-                self?.didTerminate(status: status)
+                await self?.didTerminate(status: status)
             }
         }
         
@@ -124,10 +127,14 @@ extension Logger {
             }
         }
         
-        Task {
+        Task { [weak self] in
             do {
                 for try await data in errors {
-                    Logger.languageServer.debug("server: \(String(bytes: data, encoding: .utf8) ?? "", privacy: .public)")
+                    let output = String(bytes: data, encoding: .utf8) ?? ""
+                    Logger.languageServer.debug("server: \(output, privacy: .public)")
+                    if let line = output.split(whereSeparator: \.isNewline).last(where: { !$0.allSatisfy(\.isWhitespace) }) {
+                        self?.lastErrorLine = String(line)
+                    }
                 }
             } catch {
                 Logger.languageServer.error("failed reading server errors: \(error, privacy: .public)")
@@ -212,15 +219,20 @@ extension Logger {
     }
     
     
-    /// Stops sending to the server after its process exited.
-    private func didTerminate(status: Int32) {
+    /// Stops sending to the server after its process exited, and reports an unexpected exit.
+    private func didTerminate(status: Int32) async {
         
-        if !self.isClosed {
-            Logger.languageServer.error("server exited unexpectedly with status \(status, privacy: .public)")
-            self.isClosed = true
-            self.responseHandlers.removeAll()
-        }
-        self.terminationHandler?()
+        guard !self.isClosed else { return }
+        
+        Logger.languageServer.error("server exited unexpectedly with status \(status, privacy: .public)")
+        self.isClosed = true
+        self.responseHandlers.removeAll()
+        
+        // let the last error output arrive
+        try? await Task.sleep(for: .milliseconds(100))
+        
+        let reason = self.lastErrorLine ?? String(localized: "The server stopped with status \(status).", table: "LanguageServer")
+        self.terminationHandler?(reason)
     }
     
     

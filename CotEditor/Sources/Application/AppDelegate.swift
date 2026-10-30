@@ -376,6 +376,14 @@ extension Logger {
     }
     
     
+    /// Shows the Language Servers pane in the Settings window.
+    @IBAction func showLanguageServerSettings(_ sender: Any?) {
+        
+        // Graupel: language servers
+        self.settingsWindowController.openPane(.languageServers)
+    }
+    
+    
     /// Shows the Encoding List to customize encodings list.
     @IBAction func showEncodingsListEditor(_ sender: Any?) {
         

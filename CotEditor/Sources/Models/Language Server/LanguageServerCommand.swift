@@ -24,18 +24,31 @@
 //
 
 import Foundation
+import Defaults
 import StringUtils
 
 /// How to launch the language server for a syntax.
 ///
-/// An executable script `_Language Servers/<syntax name>.sh` in the application scripts directory
-/// takes priority, so that users can override or add servers. The leading underscore hides the folder
-/// from the Script menu. Otherwise, a bundled syntax uses its usual server, if it's installed.
+/// The command in the settings takes priority, then an executable script `_Language Servers/<syntax name>.sh`
+/// in the application scripts directory, and then the server that a bundled syntax uses by default.
+/// The leading underscore hides the script folder from the Script menu.
 struct LanguageServerCommand: Equatable, Sendable {
+    
+    enum Source: Equatable, Sendable {
+        
+        case settings
+        case script
+        case builtIn
+    }
+    
     
     /// The command name, which is looked up in the search path, or the absolute path of the executable.
     var name: String
     var arguments: [String] = []
+    var source: Source = .builtIn
+    
+    /// The command as users would type it.
+    var commandLine: String
     
     
     /// The servers of the bundled syntaxes, by syntax name.
@@ -46,21 +59,109 @@ struct LanguageServerCommand: Equatable, Sendable {
     private static let directoryName = "_Language Servers"
     
     
+    /// Creates a command that runs an executable.
+    ///
+    /// - Parameters:
+    ///   - name: The command name or the absolute path of the executable.
+    ///   - arguments: The command-line arguments.
+    ///   - source: Where the command comes from.
+    init(name: String, arguments: [String] = [], source: Source = .builtIn) {
+        
+        self.name = name
+        self.arguments = arguments
+        self.source = source
+        self.commandLine = ([name] + arguments).joined(separator: " ")
+    }
+    
+    
+    /// Creates a command that the shell runs, so that it can contain quotes, `~`, and paths with spaces.
+    ///
+    /// - Parameter commandLine: The command line that the user entered.
+    init?(commandLine: String) {
+        
+        let commandLine = commandLine.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !commandLine.isEmpty else { return nil }
+        
+        // `exec` replaces the shell with the server, so that the server itself receives the termination
+        self.name = "/bin/sh"
+        self.arguments = ["-c", "exec \(commandLine)"]
+        self.source = .settings
+        self.commandLine = commandLine
+    }
+    
+    
     /// Returns the command to launch the server for the syntax, if any.
     ///
     /// - Parameter syntaxName: The name of the syntax.
-    /// - Returns: The user's script, the default command for the syntax, or `nil`.
+    /// - Returns: The command, or `nil` if the syntax has no server or the user turned it off.
     static func command(syntaxName: String) -> LanguageServerCommand? {
         
-        if let scriptsURL = try? URL(for: .applicationScriptsDirectory, in: .userDomainMask) {
-            let url = scriptsURL.appending(components: Self.directoryName, "\(syntaxName).sh")
-            
-            if FileManager.default.isExecutableFile(atPath: url.path) {
-                return LanguageServerCommand(name: url.path)
-            }
+        self.command(syntaxName: syntaxName,
+                     settings: UserDefaults.standard[.languageServers],
+                     disabledSyntaxes: UserDefaults.standard[.disabledLanguageServers],
+                     scriptsDirectoryURL: self.scriptsDirectoryURL)
+    }
+    
+    
+    /// Returns the command to launch the server for the syntax, if any.
+    ///
+    /// - Parameters:
+    ///   - syntaxName: The name of the syntax.
+    ///   - settings: The command lines in the settings, by syntax name.
+    ///   - disabledSyntaxes: The names of the syntaxes whose server the user turned off.
+    ///   - scriptsDirectoryURL: The application scripts directory.
+    /// - Returns: The command, or `nil` if the syntax has no server or the user turned it off.
+    static func command(syntaxName: String, settings: [String: String], disabledSyntaxes: [String], scriptsDirectoryURL: URL?) -> LanguageServerCommand? {
+        
+        guard !disabledSyntaxes.contains(syntaxName) else { return nil }
+        
+        if let commandLine = settings[syntaxName], let command = LanguageServerCommand(commandLine: commandLine) {
+            return command
+        }
+        
+        return self.defaultCommand(syntaxName: syntaxName, scriptsDirectoryURL: scriptsDirectoryURL)
+    }
+    
+    
+    /// Returns the command used when the settings have none for the syntax: the user's script or the built-in server.
+    ///
+    /// - Parameters:
+    ///   - syntaxName: The name of the syntax.
+    ///   - scriptsDirectoryURL: The application scripts directory.
+    /// - Returns: The command, or `nil` if the syntax has no server by default.
+    static func defaultCommand(syntaxName: String, scriptsDirectoryURL: URL? = Self.scriptsDirectoryURL) -> LanguageServerCommand? {
+        
+        if let url = scriptsDirectoryURL?.appending(components: Self.directoryName, "\(syntaxName).sh"),
+           FileManager.default.isExecutableFile(atPath: url.path)
+        {
+            return LanguageServerCommand(name: url.path, source: .script)
         }
         
         return self.defaults[syntaxName]
+    }
+    
+    
+    /// The names of the syntaxes that have a server without any settings.
+    static var defaultSyntaxNames: [String] {
+        
+        var names = Array(self.defaults.keys)
+        
+        if let directoryURL = self.scriptsDirectoryURL?.appending(component: Self.directoryName),
+           let urls = try? FileManager.default.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil)
+        {
+            names += urls
+                .filter { $0.pathExtension == "sh" && FileManager.default.isExecutableFile(atPath: $0.path) }
+                .map { $0.deletingPathExtension().lastPathComponent }
+        }
+        
+        return names.uniqued
+    }
+    
+    
+    private static var scriptsDirectoryURL: URL? {
+        
+        try? URL(for: .applicationScriptsDirectory, in: .userDomainMask)
     }
     
     

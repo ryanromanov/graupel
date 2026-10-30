@@ -90,6 +90,10 @@ struct StatusBar: View {
                     DiagnosticView(mark: mark)
                         .layoutPriority(-2)
                         .transition(.opacity.animation(.linear))
+                } else if let status = document.languageServerStatus, status.isProblem {
+                    LanguageServerProblemView(syntaxName: document.syntaxName, status: status)
+                        .layoutPriority(-2)
+                        .transition(.opacity.animation(.linear))
                 }
             }
             
@@ -274,6 +278,59 @@ private struct DiagnosticView: View {
             case .information: .blue
             case .hint: .secondary
         }
+    }
+}
+
+
+/// Tells that the language server isn't available, and opens its settings when clicked.
+private struct LanguageServerProblemView: View {
+    
+    var syntaxName: String
+    var status: LanguageServer.Status
+    
+    
+    var body: some View {
+        
+        Button {
+            NSApp.sendAction(#selector(AppDelegate.showLanguageServerSettings), to: nil, from: nil)
+        } label: {
+            Label {
+                Text(self.title)
+                    .truncationMode(.tail)
+            } icon: {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+            }
+        }
+        .buttonStyle(.plain)
+        .help(self.tooltip)
+        .accessibilityHint(self.tooltip)
+    }
+    
+    
+    private var title: String {
+        
+        switch self.status {
+            case .notInstalled:
+                String(localized: "\(self.syntaxName) server not installed", table: "Document")
+            default:
+                String(localized: "\(self.syntaxName) server stopped", table: "Document")
+        }
+    }
+    
+    
+    private var tooltip: String {
+        
+        let reason = switch self.status {
+            case .notInstalled(let command):
+                String(localized: "Graupel checks \(self.syntaxName) files with “\(command)”, which isn’t installed.", table: "Document")
+            case .failed(let reason):
+                reason
+            default:
+                ""
+        }
+        
+        return reason + "\n" + String(localized: "Click to open the Language Servers settings.", table: "Document")
     }
 }
 

@@ -24,6 +24,7 @@
 //
 
 import Foundation
+import Observation
 import OSLog
 
 /// A language server shared by all open documents of a syntax.
@@ -32,14 +33,55 @@ import OSLog
 /// See `LanguageServerCommand` for how the server is found.
 @MainActor final class LanguageServer {
     
+    enum Status: Equatable, Sendable {
+        
+        /// The server is being found and started.
+        case launching
+        
+        /// The server is running from the executable.
+        case running(URL)
+        
+        /// The command of the server isn't installed.
+        case notInstalled(command: String)
+        
+        /// The server couldn't start or stopped unexpectedly.
+        case failed(reason: String)
+        
+        
+        /// Whether the server isn't available because of a problem to tell users about.
+        var isProblem: Bool {
+            
+            switch self {
+                case .notInstalled, .failed: true
+                case .launching, .running: false
+            }
+        }
+    }
+    
+    
     // MARK: Public Properties
     
     let syntaxName: String
+    let command: LanguageServerCommand
+    
+    private(set) var status: Status = .launching {
+        
+        didSet {
+            guard self.status != oldValue else { return }
+            
+            if self.isRegistered {
+                LanguageServerStatusStore.shared.statuses[self.syntaxName] = self.status
+            }
+            for session in self.sessions.values {
+                session.serverStatusDidChange()
+            }
+        }
+    }
     
     
     // MARK: Private Properties
     
-    /// The running servers by syntax name.
+    /// The servers in use by syntax name.
     private static var servers: [String: LanguageServer] = [:]
     
     /// The connection, which is set once the server is found and launched.
@@ -53,15 +95,17 @@ import OSLog
     
     // MARK: Lifecycle
     
-    private init(syntaxName: String) {
+    private init(syntaxName: String, command: LanguageServerCommand) {
         
         self.syntaxName = syntaxName
+        self.command = command
     }
     
     
-    /// Returns the running server for the syntax, launching it if the syntax has a server.
+    /// Returns the server in use for the syntax, launching one if the syntax has a server.
     ///
     /// The server is found and launched asynchronously; documents open on it once it's ready.
+    /// A server that failed stays in use, so that its documents can show why, until it's restarted.
     ///
     /// - Parameter syntaxName: The name of the syntax.
     /// - Returns: The server, or `nil` if the syntax has no server.
@@ -71,14 +115,26 @@ import OSLog
         
         guard let command = LanguageServerCommand.command(syntaxName: syntaxName) else { return nil }
         
-        let server = LanguageServer(syntaxName: syntaxName)
+        let server = LanguageServer(syntaxName: syntaxName, command: command)
         self.servers[syntaxName] = server
+        LanguageServerStatusStore.shared.statuses[syntaxName] = server.status
         
         Task {
-            await server.launch(command)
+            await server.launch()
         }
         
         return server
+    }
+    
+    
+    /// Stops using the current server for the syntax, so that the next document launches a new one.
+    ///
+    /// The old server shuts down when its documents close their sessions.
+    ///
+    /// - Parameter syntaxName: The name of the syntax.
+    static func discardServer(syntaxName: String) {
+        
+        self.servers[syntaxName]?.unregister()
     }
     
     
@@ -123,48 +179,57 @@ import OSLog
     
     // MARK: Private Methods
     
+    private var isRegistered: Bool {
+        
+        Self.servers[self.syntaxName] === self
+    }
+    
+    
+    /// Removes the server from the servers in use.
+    private func unregister() {
+        
+        guard self.isRegistered else { return }
+        
+        Self.servers[self.syntaxName] = nil
+        LanguageServerStatusStore.shared.statuses[self.syntaxName] = nil
+    }
+    
+    
     /// Finds the server executable and launches it.
-    private func launch(_ command: LanguageServerCommand) async {
+    private func launch() async {
         
         let searchPath = await ShellSearchPath.directories()
         
         guard !self.isShutDown else { return }
         
-        guard let executableURL = command.executableURL(searchPath: searchPath) else {
-            Logger.languageServer.info("no \(self.syntaxName, privacy: .public) server: \(command.name, privacy: .public) is not installed")
-            return self.unregister()
+        guard let executableURL = self.command.executableURL(searchPath: searchPath) else {
+            Logger.languageServer.info("no \(self.syntaxName, privacy: .public) server: \(self.command.name, privacy: .public) is not installed")
+            self.status = .notInstalled(command: self.command.name)
+            return
         }
         
-        let connection = LanguageServerConnection(executableURL: executableURL, arguments: command.arguments, searchPath: searchPath)
+        let connection = LanguageServerConnection(executableURL: executableURL, arguments: self.command.arguments, searchPath: searchPath)
         do {
             try connection.start()
         } catch {
             Logger.languageServer.error("cannot launch \(executableURL.path, privacy: .public): \(error, privacy: .public)")
-            return self.unregister()
+            self.status = .failed(reason: error.localizedDescription)
+            return
         }
         
         // output is handled on the main actor, so no message arrives before the handlers are set
         connection.notificationHandler = { [weak self] method, params in
             self?.handleNotification(method: method, params: params)
         }
-        connection.terminationHandler = { [weak self] in
-            self?.didTerminate()
+        connection.terminationHandler = { [weak self] reason in
+            self?.status = .failed(reason: reason)
         }
         self.connection = connection
-        self.initialize()
+        self.initialize(executableURL: executableURL)
     }
     
     
-    /// Removes the server from the running servers, so that the next document launches a new one.
-    private func unregister() {
-        
-        if Self.servers[self.syntaxName] === self {
-            Self.servers[self.syntaxName] = nil
-        }
-    }
-    
-    
-    private func initialize() {
+    private func initialize(executableURL: URL) {
         
         guard let connection = self.connection else { return }
         
@@ -186,26 +251,18 @@ import OSLog
             
             if let error {
                 Logger.languageServer.error("initialize failed: \(error, privacy: .public)")
+                self.status = .failed(reason: error["message"] as? String ?? "The server didn’t start.")
                 return
             }
             
             connection.notify("initialized", params: [:])
             self.isInitialized = true
+            self.status = .running(executableURL)
             
             for session in self.sessions.values {
                 session.didOpen()
             }
         }
-    }
-    
-    
-    /// Forgets the server after its process exited.
-    private func didTerminate() {
-        
-        if !self.sessions.isEmpty {
-            Logger.languageServer.error("\(self.syntaxName, privacy: .public) server exited while documents were open")
-        }
-        self.unregister()
     }
     
     
@@ -224,4 +281,17 @@ import OSLog
                 Logger.languageServer.debug("ignored notification: \(method, privacy: .public)")
         }
     }
+}
+
+
+/// The status of the language server in use for each syntax, for showing in the settings.
+@MainActor @Observable final class LanguageServerStatusStore {
+    
+    static let shared = LanguageServerStatusStore()
+    
+    /// The statuses by syntax name. A syntax without a server in use has none.
+    fileprivate(set) var statuses: [String: LanguageServer.Status] = [:]
+    
+    
+    private init() { }
 }

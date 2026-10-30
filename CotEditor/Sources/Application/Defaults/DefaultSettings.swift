@@ -102,6 +102,10 @@ struct DefaultSettings {
             // Mode
             .modes: [:],
             
+            // Graupel: language servers (not portable, as commands depend on the Mac)
+            .languageServers: [:],
+            .disabledLanguageServers: [],
+            
             // Format
             .lineEndCharCode: 0,
             .encodingList: DefaultSettings.encodings.map(UInt.init),

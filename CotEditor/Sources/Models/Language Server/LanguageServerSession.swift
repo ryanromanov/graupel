@@ -37,6 +37,14 @@ import AppKit
     /// Called after the marks in the text are updated.
     var didUpdateDiagnostics: (() -> Void)?
     
+    /// Called after the status of the server changed.
+    var didUpdateServerStatus: (() -> Void)?
+    
+    /// The command that launched the server.
+    var command: LanguageServerCommand { self.server.command }
+    
+    var serverStatus: LanguageServer.Status { self.server.status }
+    
     
     // MARK: Private Properties
     
@@ -119,6 +127,13 @@ import AppKit
                 self?.changeDebouncer?.schedule()
             }
         }
+    }
+    
+    
+    /// Called by the server when its status changed.
+    func serverStatusDidChange() {
+        
+        self.didUpdateServerStatus?()
     }
     
     

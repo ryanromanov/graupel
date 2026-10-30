@@ -36,6 +36,7 @@ enum SettingsPane: String, ControlUI.SettingsPane {
     case format
     case snippets
     case shortcuts
+    case languageServers  // Graupel
     case integration
     
     
@@ -78,6 +79,10 @@ enum SettingsPane: String, ControlUI.SettingsPane {
                 String(localized: "SettingsPane.shortcuts.label",
                        defaultValue: "Shortcuts",
                        table: "Settings")
+            case .languageServers:
+                String(localized: "SettingsPane.languageServers.label",
+                       defaultValue: "Language Servers",
+                       table: "Settings")
             case .integration:
                 String(localized: "SettingsPane.integration.label",
                        defaultValue: "Integration",
@@ -98,6 +103,7 @@ enum SettingsPane: String, ControlUI.SettingsPane {
             case .format: "text.document"
             case .snippets: "text.viewfinder"
             case .shortcuts: "keyboard"
+            case .languageServers: "checkmark.seal"
             case .integration: "apple.terminal.fill"
         }
     }
@@ -115,6 +121,7 @@ enum SettingsPane: String, ControlUI.SettingsPane {
             case .format: FormatSettingsView()
             case .snippets: SnippetsSettingsView()
             case .shortcuts: ShortcutsSettingsView()
+            case .languageServers: LanguageServerSettingsView()
             case .integration: IntegrationSettingsView()
         }
     }

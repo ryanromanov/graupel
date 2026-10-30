@@ -99,6 +99,10 @@ extension DefaultKeys {
     // Mode
     static let modes = DefaultKey<[String: AnyHashable]>("modes")
     
+    // Graupel: language servers
+    static let languageServers = DefaultKey<[String: String]>("languageServers")
+    static let disabledLanguageServers = DefaultKey<[String]>("disabledLanguageServers")
+    
     // Format
     static let lineEndCharCode = DefaultKey<Int>("defaultLineEndCharCode")
     static let encodingList = DefaultKey<[CFStringEncoding]>("encodingList")

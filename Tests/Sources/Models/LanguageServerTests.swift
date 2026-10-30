@@ -184,4 +184,52 @@ struct LanguageServerCommandTests {
         #expect(LanguageServerCommand(name: "/bin/sh").executableURL(searchPath: []) == URL(filePath: "/bin/sh"))
         #expect(LanguageServerCommand(name: "/nonexistent/sh").executableURL(searchPath: ["/bin"]) == nil)
     }
+    
+    
+    @Test func precedence() throws {
+        
+        let scriptsURL = FileManager.default.temporaryDirectory.appending(component: UUID().uuidString)
+        let scriptURL = scriptsURL.appending(components: "_Language Servers", "Boreas.sh")
+        try FileManager.default.createDirectory(at: scriptURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data("#!/bin/sh\n".utf8).write(to: scriptURL)
+        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: scriptURL.path)
+        defer { try? FileManager.default.removeItem(at: scriptsURL) }
+        
+        func command(_ syntaxName: String = "Boreas", settings: [String: String] = [:], disabled: [String] = [], scripts: URL? = nil) -> LanguageServerCommand? {
+            
+            LanguageServerCommand.command(syntaxName: syntaxName, settings: settings, disabledSyntaxes: disabled, scriptsDirectoryURL: scripts)
+        }
+        
+        // built-in
+        #expect(command() == LanguageServerCommand(name: "boreas", arguments: ["lsp"]))
+        #expect(command("Python") == nil)
+        
+        // a script overrides the built-in server
+        #expect(command(scripts: scriptsURL)?.source == .script)
+        #expect(command(scripts: scriptsURL)?.name == scriptURL.path)
+        
+        // the settings override both, and are run by the shell
+        let custom = try #require(command(settings: ["Boreas": "  my-server --stdio "], scripts: scriptsURL))
+        #expect(custom.source == .settings)
+        #expect(custom.commandLine == "my-server --stdio")
+        #expect(custom.name == "/bin/sh")
+        #expect(custom.arguments == ["-c", "exec my-server --stdio"])
+        #expect(command("Python", settings: ["Python": "pylsp"])?.commandLine == "pylsp")
+        
+        // an empty setting falls back to the default
+        #expect(command(settings: ["Boreas": " "])?.source == .builtIn)
+        #expect(command("Python", settings: ["Python": ""]) == nil)
+        
+        // turned off
+        #expect(command(settings: ["Boreas": "my-server"], disabled: ["Boreas"], scripts: scriptsURL) == nil)
+    }
+    
+    
+    @Test func statusProblem() {
+        
+        #expect(LanguageServer.Status.notInstalled(command: "boreas").isProblem)
+        #expect(LanguageServer.Status.failed(reason: "crashed").isProblem)
+        #expect(!LanguageServer.Status.launching.isProblem)
+        #expect(!LanguageServer.Status.running(URL(filePath: "/bin/sh")).isProblem)
+    }
 }
