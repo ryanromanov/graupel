@@ -67,13 +67,16 @@ import OSLog
         
         guard let scriptURL = Self.scriptURL(syntaxName: syntaxName) else { return nil }
         
+        let connection = LanguageServerConnection(executableURL: scriptURL)
         do {
-            self.connection = try LanguageServerConnection(scriptURL: scriptURL)
+            // output is handled on the main actor, so no message arrives before the handler is set below
+            try connection.start()
         } catch {
             Logger.languageServer.error("cannot launch \(scriptURL.path, privacy: .public): \(error, privacy: .public)")
             return nil
         }
         
+        self.connection = connection
         self.syntaxName = syntaxName
         self.fileURL = fileURL
         self.uri = (fileURL ?? URL(filePath: "/Untitled-\(UUID().uuidString)")).absoluteString
@@ -82,7 +85,6 @@ import OSLog
         self.connection.notificationHandler = { [weak self] method, params in
             self?.handleNotification(method: method, params: params)
         }
-        self.connection.start()
         self.initialize()
     }
     

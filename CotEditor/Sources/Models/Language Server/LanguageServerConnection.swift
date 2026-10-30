@@ -32,10 +32,7 @@ extension Logger {
 }
 
 
-/// A JSON-RPC connection to a language server launched from a user script.
-///
-/// The server runs as a user Unix task, the same way as the scripts in the Script menu,
-/// so that it lives outside of the app sandbox.
+/// A JSON-RPC connection to a language server running as a child process.
 @MainActor final class LanguageServerConnection {
     
     typealias Message = [String: Any]
@@ -53,7 +50,10 @@ extension Logger {
     /// How long to wait for the server to answer `shutdown` before closing its input anyway.
     private static let shutdownTimeout: Duration = .seconds(2)
     
-    private let task: NSUserUnixTask
+    /// How long to wait for the server to exit after its input closed before terminating it.
+    private static let exitTimeout: Duration = .seconds(2)
+    
+    private let process = Process()
     private let inputPipe = Pipe()
     private let outputPipe = Pipe()
     private let errorPipe = Pipe()
@@ -69,15 +69,15 @@ extension Logger {
     
     // MARK: Lifecycle
     
-    /// Creates a connection with a script that runs the language server on its standard input and output.
+    /// Creates a connection with an executable that runs the language server on its standard input and output.
     ///
-    /// - Parameter scriptURL: The script file URL in the application scripts directory.
-    init(scriptURL: URL) throws {
+    /// - Parameter executableURL: The file URL of the server executable or script.
+    init(executableURL: URL) {
         
-        self.task = try NSUserUnixTask(url: scriptURL)
-        self.task.standardInput = self.inputPipe.fileHandleForReading
-        self.task.standardOutput = self.outputPipe.fileHandleForWriting
-        self.task.standardError = self.errorPipe.fileHandleForWriting
+        self.process.executableURL = executableURL
+        self.process.standardInput = self.inputPipe
+        self.process.standardOutput = self.outputPipe
+        self.process.standardError = self.errorPipe
         
         // fail writes with EPIPE instead of terminating the app when the server has quit
         _ = fcntl(self.inputPipe.fileHandleForWriting.fileDescriptor, F_SETNOSIGPIPE, 1)
@@ -87,7 +87,11 @@ extension Logger {
     // MARK: Public Methods
     
     /// Launches the server and starts reading its output.
-    func start() {
+    ///
+    /// - Throws: An error if the server cannot be launched.
+    func start() throws {
+        
+        try self.process.run()
         
         let output = self.outputPipe.readingStream
         let errors = self.errorPipe.readingStream
@@ -109,14 +113,6 @@ extension Logger {
                 }
             } catch {
                 Logger.languageServer.error("failed reading server errors: \(error, privacy: .public)")
-            }
-        }
-        
-        Task { [task] in
-            do {
-                try await task.execute(withArguments: [])
-            } catch {
-                Logger.languageServer.error("server failed: \(error, privacy: .public)")
             }
         }
     }
@@ -175,7 +171,7 @@ extension Logger {
     
     // MARK: Private Methods
     
-    /// Closes the server's standard input, which makes a well-behaved server exit.
+    /// Closes the server's standard input, which makes a well-behaved server exit, and terminates it if it doesn't.
     private func closeInput() {
         
         guard !self.isClosed else { return }
@@ -186,6 +182,14 @@ extension Logger {
         let handle = self.inputPipe.fileHandleForWriting
         self.writeQueue.async {
             try? handle.close()
+        }
+        
+        Task { [process] in
+            try? await Task.sleep(for: Self.exitTimeout)
+            if process.isRunning {
+                Logger.languageServer.error("server didn't exit; terminating it")
+                process.terminate()
+            }
         }
     }
     
