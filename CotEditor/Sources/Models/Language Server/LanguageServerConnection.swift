@@ -44,6 +44,9 @@ extension Logger {
     /// Called for each notification sent by the server.
     var notificationHandler: ((_ method: String, _ params: Any?) -> Void)?
     
+    /// Called after the server process exited.
+    var terminationHandler: (() -> Void)?
+    
     
     // MARK: Private Properties
     
@@ -78,6 +81,12 @@ extension Logger {
         self.process.standardInput = self.inputPipe
         self.process.standardOutput = self.outputPipe
         self.process.standardError = self.errorPipe
+        self.process.terminationHandler = { [weak self] process in
+            let status = process.terminationStatus
+            Task { @MainActor in
+                self?.didTerminate(status: status)
+            }
+        }
         
         // fail writes with EPIPE instead of terminating the app when the server has quit
         _ = fcntl(self.inputPipe.fileHandleForWriting.fileDescriptor, F_SETNOSIGPIPE, 1)
@@ -191,6 +200,18 @@ extension Logger {
                 process.terminate()
             }
         }
+    }
+    
+    
+    /// Stops sending to the server after its process exited.
+    private func didTerminate(status: Int32) {
+        
+        if !self.isClosed {
+            Logger.languageServer.error("server exited unexpectedly with status \(status, privacy: .public)")
+            self.isClosed = true
+            self.responseHandlers.removeAll()
+        }
+        self.terminationHandler?()
     }
     
     

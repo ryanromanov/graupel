@@ -24,18 +24,15 @@
 //
 
 import AppKit
-import OSLog
 
 /// Keeps a language server informed about one document and marks the problems it reports.
-///
-/// The server for a syntax is the executable script `_Language Servers/<syntax name>.sh`
-/// in the application scripts directory. The leading underscore hides the folder from the Script menu.
 @MainActor final class LanguageServerSession {
     
     // MARK: Public Properties
     
     let syntaxName: String
     let fileURL: URL?
+    let uri: String
     
     /// Called after the marks in the text are updated.
     var didUpdateDiagnostics: (() -> Void)?
@@ -43,10 +40,7 @@ import OSLog
     
     // MARK: Private Properties
     
-    private static let directoryName = "_Language Servers"
-    
-    private let connection: LanguageServerConnection
-    private let uri: String
+    private let server: LanguageServer
     private weak var textStorage: NSTextStorage?
     
     private var version = 0
@@ -57,7 +51,7 @@ import OSLog
     
     // MARK: Lifecycle
     
-    /// Starts a session if a language server script exists for the syntax.
+    /// Starts a session if a language server exists for the syntax.
     ///
     /// - Parameters:
     ///   - syntaxName: The name of the document's syntax.
@@ -65,33 +59,21 @@ import OSLog
     ///   - textStorage: The document contents.
     init?(syntaxName: String, fileURL: URL?, textStorage: NSTextStorage) {
         
-        guard let scriptURL = Self.scriptURL(syntaxName: syntaxName) else { return nil }
+        guard let server = LanguageServer.server(syntaxName: syntaxName) else { return nil }
         
-        let connection = LanguageServerConnection(executableURL: scriptURL)
-        do {
-            // output is handled on the main actor, so no message arrives before the handler is set below
-            try connection.start()
-        } catch {
-            Logger.languageServer.error("cannot launch \(scriptURL.path, privacy: .public): \(error, privacy: .public)")
-            return nil
-        }
-        
-        self.connection = connection
+        self.server = server
         self.syntaxName = syntaxName
         self.fileURL = fileURL
         self.uri = (fileURL ?? URL(filePath: "/Untitled-\(UUID().uuidString)")).absoluteString
         self.textStorage = textStorage
         
-        self.connection.notificationHandler = { [weak self] method, params in
-            self?.handleNotification(method: method, params: params)
-        }
-        self.initialize()
+        server.open(self)
     }
     
     
     // MARK: Public Methods
     
-    /// Closes the document on the server, stops the server, and removes the marks.
+    /// Closes the document on the server and removes the marks.
     func close() {
         
         self.changeDebouncer?.cancel()
@@ -99,65 +81,26 @@ import OSLog
         self.textObserver = nil
         
         if self.isOpen {
-            self.connection.notify("textDocument/didClose", params: ["textDocument": ["uri": self.uri]])
+            self.server.notify("textDocument/didClose", params: ["textDocument": ["uri": self.uri]])
             self.isOpen = false
         }
-        self.connection.close()
+        self.server.close(self)
         
         self.textStorage?.apply(diagnostics: [])
         self.didUpdateDiagnostics?()
     }
     
     
-    // MARK: Private Methods
-    
-    /// The URL of the executable script for the syntax, if any.
-    private static func scriptURL(syntaxName: String) -> URL? {
+    /// Opens the document on the server and starts sending its changes.
+    ///
+    /// Called by the server once it's ready.
+    func didOpen() {
         
-        guard let scriptsURL = try? URL(for: .applicationScriptsDirectory, in: .userDomainMask) else { return nil }
-        
-        let url = scriptsURL.appending(components: Self.directoryName, "\(syntaxName).sh")
-        
-        return FileManager.default.isExecutableFile(atPath: url.path) ? url : nil
-    }
-    
-    
-    private func initialize() {
-        
-        let params: [String: Any] = [
-            "processId": ProcessInfo.processInfo.processIdentifier,
-            "clientInfo": ["name": Bundle.main.bundleIdentifier!],
-            "rootUri": NSNull(),
-            "capabilities": [
-                "general": ["positionEncodings": ["utf-16"]],
-                "textDocument": [
-                    "synchronization": ["dynamicRegistration": false],
-                    "publishDiagnostics": ["versionSupport": true],
-                ],
-            ],
-        ]
-        
-        self.connection.request("initialize", params: params) { [weak self] _, error in
-            guard let self else { return }
-            
-            if let error {
-                Logger.languageServer.error("initialize failed: \(error, privacy: .public)")
-                return
-            }
-            
-            self.connection.notify("initialized", params: [:])
-            self.didOpen()
-        }
-    }
-    
-    
-    private func didOpen() {
-        
-        guard let textStorage = self.textStorage else { return }
+        guard !self.isOpen, let textStorage = self.textStorage else { return }
         
         self.version = 1
         self.isOpen = true
-        self.connection.notify("textDocument/didOpen", params: [
+        self.server.notify("textDocument/didOpen", params: [
             "textDocument": [
                 "uri": self.uri,
                 "languageId": self.syntaxName.lowercased(),
@@ -179,39 +122,34 @@ import OSLog
     }
     
     
+    /// Marks the problems the server reported for the document.
+    ///
+    /// - Parameter params: The parameters of the `textDocument/publishDiagnostics` notification.
+    func didPublishDiagnostics(_ params: [String: Any]) {
+        
+        guard self.isOpen else { return }
+        
+        // skip diagnostics for an older version, which positions no longer match the contents
+        if let version = params["version"] as? Int, version != self.version { return }
+        
+        let diagnostics = (params["diagnostics"] as? [[String: Any]] ?? [])
+            .compactMap(LanguageServerDiagnostic.init(json:))
+        self.textStorage?.apply(diagnostics: diagnostics)
+        self.didUpdateDiagnostics?()
+    }
+    
+    
+    // MARK: Private Methods
+    
     /// Sends the whole document, as the session uses full document synchronization.
     private func didChange() {
         
         guard self.isOpen, let textStorage = self.textStorage else { return }
         
         self.version += 1
-        self.connection.notify("textDocument/didChange", params: [
+        self.server.notify("textDocument/didChange", params: [
             "textDocument": ["uri": self.uri, "version": self.version],
             "contentChanges": [["text": textStorage.string]],
         ])
-    }
-    
-    
-    private func handleNotification(method: String, params: Any?) {
-        
-        switch method {
-            case "textDocument/publishDiagnostics":
-                guard
-                    self.isOpen,
-                    let params = params as? [String: Any],
-                    params["uri"] as? String == self.uri
-                else { return }
-                
-                // skip diagnostics for an older version, which positions no longer match the contents
-                if let version = params["version"] as? Int, version != self.version { return }
-                
-                let diagnostics = (params["diagnostics"] as? [[String: Any]] ?? [])
-                    .compactMap(LanguageServerDiagnostic.init(json:))
-                self.textStorage?.apply(diagnostics: diagnostics)
-                self.didUpdateDiagnostics?()
-            
-            default:
-                Logger.languageServer.debug("ignored notification: \(method, privacy: .public)")
-        }
     }
 }
