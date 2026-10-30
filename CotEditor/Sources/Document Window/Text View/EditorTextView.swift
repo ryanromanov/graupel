@@ -1807,7 +1807,8 @@ extension EditorTextView {
                 self.rangeForUserCompletion == range,
                 (self.string as NSString).substring(with: range) == partialWord,
                 !self.hasMarkedText(),
-                self.window?.firstResponder == self
+                self.window?.firstResponder == self,
+                !words.isEmpty
             else { return }
             
             self.serverCompletions = (range.location, words)

@@ -45,8 +45,14 @@ import AppKit
     
     var serverStatus: LanguageServer.Status { self.server.status }
     
-    /// The characters after which the server suggests completions, or `nil` if it can't complete.
-    var completionTriggerCharacters: [String]? { self.isOpen ? self.server.completionTriggerCharacters : nil }
+    /// The characters after which the server suggests completions, or `nil` if it can't complete now.
+    var completionTriggerCharacters: [String]? {
+        
+        // a stopped server would never answer
+        guard self.isOpen, case .running = self.server.status else { return nil }
+        
+        return self.server.completionTriggerCharacters
+    }
     
     
     // MARK: Private Properties
