@@ -476,7 +476,9 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
             return
         }
         
+        // show the completion list, as Esc does in other Mac text views
         // -> NSTextView doesn't implement `cancelOperation(_:)`. (macOS 10.14)
+        self.complete(sender)
     }
     
     
