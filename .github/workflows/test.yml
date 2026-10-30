@@ -1,6 +1,7 @@
 name: Test
 
-on: [push, pull_request]
+# Graupel: run by hand for now; `xcode-27` is a runner label of CotEditor's setup, which this repository doesn't have
+on: workflow_dispatch
 
 permissions:
   contents: read

@@ -2,35 +2,16 @@
 
 ## Supported Versions
 
-Security fixes are provided for the latest stable release of CotEditor.
-Older versions may not receive security updates.
-
-| Version | Supported |
-| ------- | --------- |
-| Latest stable release | :white_check_mark: |
-| Older versions | :x: |
+Graupel is in early development. Security fixes are made only to the latest version on the `main` branch.
 
 
 ## Reporting a Vulnerability
 
-If you believe you have found a security vulnerability in CotEditor, please report it privately through GitHub's [private vulnerability reporting](https://github.com/coteditor/CotEditor/security/advisories/) feature. Please do not open a public issue for suspected security vulnerabilities.
+If you believe you have found a security vulnerability in Graupel, please report it privately through GitHub's
+[private vulnerability reporting](https://github.com/ryanromanov/graupel/security/advisories/new). Please do not open a
+public issue for suspected security vulnerabilities.
 
-For CotEditor, relevant reports may include issues such as:
+Graupel is based on CotEditor but is a separate project: please don't report Graupel's vulnerabilities to CotEditor.
+If a vulnerability also affects CotEditor itself, consider reporting it to CotEditor as well.
 
-- unintended file access or information disclosure
-- unexpected command execution
-- sandbox, permission, signing, or update-related security issues
-- vulnerabilities triggered by opening or processing crafted files
-
-When possible, please include:
-
-- the affected CotEditor version and macOS version
-- whether the issue affects the App Store build, the non-App Store build, or both
-- a description of the security impact
-- steps to reproduce
-- a proof-of-concept file, sample input, screenshots, or a crash log if relevant
-- any required permissions, settings, scripts, or external tools
-
-We will make a best effort to acknowledge reports within 14 days, although response times may vary depending on availability. After triage, we may ask for additional details, work with you privately on a fix, and publish a security advisory once a fix is available.
-
-Please use public issues for general bugs, crashes without a clear security impact, feature requests, and usability issues.
+When possible, please include the Graupel and macOS versions, a description of the impact, and steps to reproduce.

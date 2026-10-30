@@ -1,113 +1,58 @@
-# CotEditor
+# Graupel
 
-CotEditor is a lightweight plain text editor designed for macOS. The project aims to provide a general plain text editor for everyone with an intuitive macOS-native user interface.
+Graupel is a free, native text editor for the Mac that understands code. It talks to *language servers*, the same
+programs that power error checking and completion in larger editors, so it can underline mistakes as you type and
+suggest names that fit where the cursor is.
+
+Graupel was made first for [Boreas](https://github.com/ryanromanov/boreas), a Fortran-inspired language, and
+supports it out of the box. It works with any language that has a language server.
 
 - __Requirement__: macOS Tahoe 26 or later
-- __Web Site__: <https://coteditor.com>
-- __Mac App Store__: <https://apps.apple.com/app/coteditor/id1024640650>
-- __Languages__: 
-    English,
-    Simplified Chinese,
-    Traditional Chinese,
-    Chinese (Hong Kong),
-    Czech,
-    Dutch,
-    English (UK),
-    French,
-    German,
-    Hindi,
-    Italian,
-    Japanese,
-    Korean,
-    Polish,
-    Portuguese,
-    Russian,
-    Spanish,
-    Turkish,
-    and Ukrainian
-
-![screenshot](screenshot@2x.png)
+- __Status__: early development (0.1). There is no signed release yet; build it from source.
 
 
+## Features
 
-## Design Philosophy
-
-CotEditor is built with a clear focus on being a truly __macOS-native__ text editor.
-Its design emphasizes the following principles:
-
-- __Behave as a first-class macOS application.__
-  CotEditor adopts system-native UI components, conventions, and behaviors so that it feels instantly familiar to macOS users. Rather than asserting its own personality, CotEditor aims to blend naturally into the macOS experience as one of its native apps. Features that deviate from standard macOS behavior may be rejected, even if they’re common in other editors.
-
-- __Be accessible and comfortable for both beginners and advanced users.__
-  CotEditor aims to stay simple enough for casual use while providing the precision and control expected by experienced editors and developers.
-
-- __Less is more.__
-  CotEditor avoids unnecessary complexity, as minor options accumulate and ultimately place unnecessary decision-making burdens on users.
-
-- __Handle a wide range of plain text formats accurately.__
-  From everyday notes to niche or legacy formats, CotEditor prioritizes correct text handling, encoding support, and predictable editing behavior.
-
-- __Respect a diverse user base through localization and accessibility.__
-  Whenever possible, CotEditor integrates macOS features for localization, accessibility, and user customization to serve a global audience.
-
-These principles guide the project’s long-term direction and day-to-day development decisions,
-and they also help determine which feature requests align with CotEditor’s macOS-native identity.
+- Everything CotEditor offers: syntax highlighting, themes, find and replace with regular expressions, outline,
+  split editor, scripting, and much more.
+- __Problems as you type__: errors from the language server are underlined, and the one at the cursor is shown in
+  the status bar.
+- __Completion__: suggestions from the language server as you type; with Boreas, the names in your file, record
+  fields after a dot, built-ins, and keywords. Press Esc to show the list at any time.
+- __Language Servers settings__: Graupel finds the servers of the languages it comes with by itself; use a
+  different command, or add a server for another language, in Settings > Language Servers. If a server is
+  missing or stops, the status bar says so.
 
 
+## Building
 
-## Supported macOS Versions
+Open `CotEditor.xcodeproj` in Xcode and build the `CotEditor` scheme, or run:
 
-CotEditor supports the latest two major macOS releases.
+```sh
+xcodebuild -project CotEditor.xcodeproj -scheme CotEditor -configuration Debug -derivedDataPath build \
+    -skipPackagePluginValidation -skipMacroValidation build
+```
 
-This policy has been in place for many years and is not evaluated on a per-release basis. It allows the project to adopt new macOS technologies in a timely manner while maintaining the quality and stability of supported releases. Supporting more macOS versions would significantly increase the testing and maintenance burden, making it harder to deliver both new features and reliable updates.
-
-If you're using an older macOS release that is no longer supported by the current version of CotEditor, please use the latest compatible version available from the [Archives](https://coteditor.com/archives). It is also the most stable version for your system, as it includes the final updates and fixes for that macOS release.
-
-
-
-## Source Code
-
-CotEditor is a purely macOS native application written in Swift. It adheres to Cocoa's document-based application architecture and respects the power of `NSTextView` and related text system APIs.
+The app is built as `build/Build/Products/Debug/Graupel.app`. (The project, scheme, and code still use
+CotEditor's names, which keeps the code close to CotEditor's.)
 
 
-### Development Environment
+## Based on CotEditor
 
-- macOS 27
-- Xcode 27.2
-- Sandbox and hardened runtime enabled
+Graupel is a modified version of [CotEditor](https://github.com/coteditor/CotEditor) 7.2 by the CotEditor
+Project, and owes nearly all of its editing features to it. Graupel is independent: it isn't affiliated with or
+endorsed by the CotEditor Project, so please don't report Graupel's issues to CotEditor.
 
+Graupel's own changes include language server support, the removal of the App Sandbox (so that language servers can
+run without the menu bar showing each one as a running script), and its own name, icon, and settings.
+The full history of changes is in this repository's commit log.
 
-
-## Contribution
-
-CotEditor has its own contributing guidelines. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before creating an issue or submitting a pull request.
-
-
-
-## How to Build
-
-### Build for ad‑hoc usage
-
-For those people who just want to build and play with CotEditor locally.
-
-1. Open `CotEditor.xcodeproj` in Xcode.
-1. Switch to ad-hoc build mode:
-    1. Open `Configurations/CodeSigning.xcconfig`.
-    1. Uncomment `#include "CodeSigning-AdHoc.xcconfig"`.
-1. Build the “CotEditor” scheme.
-
-
-### Build for distribution
-
-1. Open `CotEditor.xcodeproj` in Xcode.
-1. Build the “CotEditor” scheme.
-
+Graupel's Help is still CotEditor's and is being rewritten.
 
 
 ## License
 
-© 2005-2009 nakamuxu,
-© 2011, 2014 usami-k,
-© 2013-2026 1024jp.
-
-The source code is licensed under the terms of the __Apache License, Version 2.0__. Image resources are licensed under the [__Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License__](https://creativecommons.org/licenses/by-nc-nd/4.0/). See [LICENSE](LICENSE) for details.
+The source code is licensed under the __Apache License, Version 2.0__, both CotEditor's code and Graupel's changes.
+Image resources from CotEditor are © CotEditor Project and licensed under the
+[__Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License__](https://creativecommons.org/licenses/by-nc-nd/4.0/);
+Graupel uses them unmodified. The Graupel app icon is © Ryan Romanosky. See [LICENSE](LICENSE) for details.

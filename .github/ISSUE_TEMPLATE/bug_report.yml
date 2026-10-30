@@ -39,7 +39,7 @@ body:
 
   - type: input
     attributes:
-      label: CotEditor version
+      label: Graupel version
     validations:
       required: true
   - type: input
@@ -58,5 +58,5 @@ body:
     attributes:
       label: Confirmation
       options:
-        - label: I have confirmed that this issue persists with the latest version of CotEditor and the latest updates for my current major version of macOS.
+        - label: I have confirmed that this issue persists with the latest version of Graupel and the latest updates for my current major version of macOS.
           required: false
