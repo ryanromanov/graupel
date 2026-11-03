@@ -71,46 +71,48 @@ struct IntegrationSettingsView: View {
                 }
             }
             
-            GridRow {
-                Text("Remote editing:", tableName: "IntegrationSettings")
-                    .gridColumnAlignment(.trailing)
-                
-                VStack(alignment: .leading) {
-                    Toggle(.init("Accept rmate connections", table: "IntegrationSettings", comment: "verb; checkbox; rmate is a remote connection protocol"), isOn: $enablesRemoteEditing)
+            if RemoteEditingController.isAvailable {
+                GridRow {
+                    Text("Remote editing:", tableName: "IntegrationSettings")
+                        .gridColumnAlignment(.trailing)
                     
-                    HStack {
-                        Text("Port:", tableName: "IntegrationSettings")
-                            .foregroundStyle(self.enablesRemoteEditing ? .primary : .tertiary)
-                            .accessibilityHidden(true)
-                        TextField(.init("Port:", table: "IntegrationSettings"),
-                                  value: $remoteEditingPort, format: .number.grouping(.never),
-                                  prompt: Text(RMateServer.defaultPort, format: .number.grouping(.never)))
-                        .disabled(!self.enablesRemoteEditing)
-                        .labelsVisibility(.hidden)
-                        .frame(width: 80)
+                    VStack(alignment: .leading) {
+                        Toggle(.init("Accept rmate connections", table: "IntegrationSettings", comment: "verb; checkbox; rmate is a remote connection protocol"), isOn: $enablesRemoteEditing)
                         
-                        if let message = RemoteEditingController.shared.errorMessage {
-                            Label(message, systemImage: "exclamationmark.triangle")
-                                .symbolVariant(.fill)
-                                .symbolRenderingMode(.multicolor)
-                                .controlSize(.small)
+                        HStack {
+                            Text("Port:", tableName: "IntegrationSettings")
+                                .foregroundStyle(self.enablesRemoteEditing ? .primary : .tertiary)
+                                .accessibilityHidden(true)
+                            TextField(.init("Port:", table: "IntegrationSettings"),
+                                      value: $remoteEditingPort, format: .number.grouping(.never),
+                                      prompt: Text(RMateServer.defaultPort, format: .number.grouping(.never)))
+                            .disabled(!self.enablesRemoteEditing)
+                            .labelsVisibility(.hidden)
+                            .frame(width: 80)
+                            
+                            if let message = RemoteEditingController.shared.errorMessage {
+                                Label(message, systemImage: "exclamationmark.triangle")
+                                    .symbolVariant(.fill)
+                                    .symbolRenderingMode(.multicolor)
+                                    .controlSize(.small)
+                            }
                         }
-                    }
-                    .frame(minHeight: 28)
-                    .padding(.leading, 20)
-                    
-                    let description = AttributedString(localized: "Allow remote files to be opened in CotEditor using the `rmate` protocol.",
-                                                       table: "IntegrationSettings")
-                        .replacingAttributes(AttributeContainer.inlinePresentationIntent(.code),
-                                             with: AttributeContainer
-                            .inlinePresentationIntent(.code)
-                            .link(URL(string: "help:anchor=howto_edit_remote%20bookID=com.coteditor.CotEditor.help")!))
-                    Text(description)
-                        .foregroundStyle(.secondary)
-                        .tint(.accentColor)
-                        .controlSize(.small)
-                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(minHeight: 28)
                         .padding(.leading, 20)
+                        
+                        let description = AttributedString(localized: "Allow remote files to be opened in CotEditor using the `rmate` protocol.",
+                                                           table: "IntegrationSettings")
+                            .replacingAttributes(AttributeContainer.inlinePresentationIntent(.code),
+                                                 with: AttributeContainer
+                                .inlinePresentationIntent(.code)
+                                .link(URL(string: "help:anchor=howto_edit_remote%20bookID=com.coteditor.CotEditor.help")!))
+                        Text(description)
+                            .foregroundStyle(.secondary)
+                            .tint(.accentColor)
+                            .controlSize(.small)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.leading, 20)
+                    }
                 }
             }
             

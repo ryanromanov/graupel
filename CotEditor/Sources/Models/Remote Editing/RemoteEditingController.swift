@@ -40,6 +40,9 @@ import LineEnding
     
     static let shared = RemoteEditingController()
     
+    /// Whether Graupel offers remote editing. It's off until the feature is reviewed and documented (ARCHITECTURE.md, entry 28).
+    static let isAvailable = false
+    
     nonisolated static let fileStore = RMateFileStore(directory: .applicationSupportDirectory
         .appending(component: "CotEditor", directoryHint: .isDirectory)
         .appending(path: "Remote Documents", directoryHint: .isDirectory))
@@ -80,6 +83,7 @@ import LineEnding
             .prepend(defaults[.enablesRemoteEditing])
             .combineLatest(defaults.publisher(for: .remoteEditingPort).prepend(defaults[.remoteEditingPort]))
             .sink { [weak self] enabled, port in
+                let enabled = enabled && Self.isAvailable
                 self?.server.listen(port: enabled ? port : nil)
                 self?.updateTerminationActivity(enabled: enabled)
             }
