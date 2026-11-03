@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="version, history, changelog, release notes">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<link rel="stylesheet" href="../../Shared/sty/releasenotes.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Release notes</title>
+</head>
+
+<body>
+<a name="releasenotes"></a>
+
+<h1>Release notes</h1>
+
+<p>What changed in each version of Graupel. Graupel 0.1 is based on CotEditor 7.2; for changes before Graupel, see <a href="https://github.com/coteditor/CotEditor/blob/main/CHANGELOG.md">CotEditor’s change log</a>.</p>
+
+
+<article headingoffset="1">
+	<header>
+		<h1>Graupel 0.1.0</h1>
+		<p>not released yet</p>
+	</header>
+
+	<section>
+		<h2>New features</h2>
+
+		<ul>
+			<li>Language servers check your code as you type. Graupel underlines the problems they find and shows the one at the cursor in the status bar.</li>
+			<li>Suggestions from language servers: names from your file, fields after a dot, built-in functions, and keywords. Press Esc to show them at any time.</li>
+			<li>Graupel finds the language servers of the languages it comes with by itself. Use other servers in the new Language Servers settings.</li>
+			<li>The status bar tells you when a language server is missing or has stopped.</li>
+			<li>Boreas syntax, with its own file icon.</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Changes</h2>
+
+		<ul>
+			<li>Graupel has its own name, icons, and settings.</li>
+			<li>The command-line tool is now called <code>graupel</code>.</li>
+			<li>Graupel doesn’t run in the App Sandbox, so language servers can start without the menu bar listing each one as a running script.</li>
+			<li>Suggestions while typing are on by default for code.</li>
+			<li>Remote editing over <code>rmate</code> is turned off for now.</li>
+		</ul>
+	</section>
+</article>
+
+</body>
+</html>

@@ -104,7 +104,7 @@
 		</dict>
 	</array>
 	<key>CFBundleHelpBookFolder</key>
-	<string>CotEditor.help</string>
+	<string>Graupel.help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
 	<key>CFBundleSpokenName</key>

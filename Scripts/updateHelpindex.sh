@@ -23,7 +23,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-cd ../CotEditor/Resources/CotEditor.help/Contents/Resources/
+cd ../CotEditor/Resources/Graupel.help/Contents/Resources/
 
 for dir in *.lproj; do
     lang=$(basename $dir .lproj)
@@ -31,7 +31,7 @@ for dir in *.lproj; do
     [ $lang == 'ja' ] && stopwords="" || stopwords="--stopwords ${lang}"
     
     echo "📦 Indexing ${dir}..."
-    hiutil -I corespotlight -vv -Caf "${dir}/CotEditor.cshelpindex" "${dir}/pgs/" --min-term-length=$min_length $stopwords 2>&1 | \
+    hiutil -I corespotlight -vv -Caf "${dir}/Graupel.cshelpindex" "${dir}/pgs/" --min-term-length=$min_length $stopwords 2>&1 | \
     awk "{ if (/error:/) {err = 1}; print} END {exit err}"
     if [ $? -gt 0 ]; then
         exit 1
