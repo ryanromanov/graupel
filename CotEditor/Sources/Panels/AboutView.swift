@@ -195,7 +195,7 @@ private struct CreditsView: View {
                 .foregroundStyle(.tertiary)
                 .accessibilityHidden(true)
             
-            Text("CotEditor is an open source program\nlicensed under the Apache License, Version 2.0.", tableName: "About")
+            Text("Graupel is an open source program\nlicensed under the Apache License, Version 2.0.", tableName: "About")
                 .textSelection(.enabled)
             Link(String("https://github.com/coteditor"),
                  destination: URL(string: "https://github.com/coteditor")!)
@@ -267,7 +267,7 @@ private struct LicenseView: View {
     var body: some View {
         
         LazyVStack(alignment: .leading, spacing: 12) {
-            Text("CotEditor uses the following awesome technologies. We are deeply grateful to the people who make their valuable work available to us.", tableName: "About")
+            Text("Graupel uses the following awesome technologies. We are deeply grateful to the people who make their valuable work available to us.", tableName: "About")
                 .lineSpacing(2)
             
             ForEach(LicenseItem.items, content: ItemView.init(item:))

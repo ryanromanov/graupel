@@ -7,115 +7,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vytvořit nový dokument se zadaným textem v aplikaci CotEditor."
+            "value" : "Vytvořit nový dokument se zadaným textem v aplikaci Graupel."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erstellt ein neues Dokument mit dem angegebenen Text in CotEditor."
+            "value" : "Erstellt ein neues Dokument mit dem angegebenen Text in Graupel."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Create a new document with the specified text in CotEditor."
+            "value" : "Create a new document with the specified text in Graupel."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create a new document with the specified text in CotEditor."
+            "value" : "Create a new document with the specified text in Graupel."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crear un nuevo documento con el texto especificado en CotEditor."
+            "value" : "Crear un nuevo documento con el texto especificado en Graupel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crée un nouveau document avec le texte spécifié dans CotEditor."
+            "value" : "Crée un nouveau document avec le texte spécifié dans Graupel."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor में निर्दिष्ट टेक्स्ट के साथ एक नया दस्तावेज़ बनाएँ।"
+            "value" : "Graupel में निर्दिष्ट टेक्स्ट के साथ एक नया दस्तावेज़ बनाएँ।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crea un nuovo documento con il testo specificato in CotEditor."
+            "value" : "Crea un nuovo documento con il testo specificato in Graupel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorで指定されたテキストで新規書類を作成します。"
+            "value" : "Graupelで指定されたテキストで新規書類を作成します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor에서 지정된 텍스트로 새로운 문서를 생성합니다."
+            "value" : "Graupel에서 지정된 텍스트로 새로운 문서를 생성합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maak een nieuw document met de opgegeven tekst in CotEditor."
+            "value" : "Maak een nieuw document met de opgegeven tekst in Graupel."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utwórz nowy dokument z podanym tekstem w CotEditorze."
+            "value" : "Utwórz nowy dokument z podanym tekstem w Graupelze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crie um novo documento com texto especificado no CotEditor."
+            "value" : "Crie um novo documento com texto especificado no Graupel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создать новый документ с указанным текстом в CotEditor."
+            "value" : "Создать новый документ с указанным текстом в Graupel."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Belirtilen metin ile CotEditor’da yeni bir belge oluşturun."
+            "value" : "Belirtilen metin ile Graupel’da yeni bir belge oluşturun."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Створити новий документ із указаним текстом у CotEditor."
+            "value" : "Створити новий документ із указаним текстом у Graupel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在CotEditor中使用指定的文本创建新文档。"
+            "value" : "在Graupel中使用指定的文本创建新文档。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在CotEditor內以指定的文字創建新文件。"
+            "value" : "在Graupel內以指定的文字創建新文件。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在CotEditor中製作包括指定文字的新文件。"
+            "value" : "在Graupel中製作包括指定文字的新文件。"
           }
         }
       }

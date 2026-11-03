@@ -90,7 +90,7 @@
 			<key>CFBundleTypeIconSystemGenerated</key>
 			<true/>
 			<key>CFBundleTypeName</key>
-			<string>CotEditor Syntax</string>
+			<string>Graupel Syntax</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -176,7 +176,7 @@
 				<string>com.apple.package</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>CotEditor Settings Archive</string>
+			<string>Graupel Settings Archive</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBadgeName</key>
@@ -200,7 +200,7 @@
 				<string>public.json</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>CotEditor Theme</string>
+			<string>Graupel Theme</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBadgeName</key>
@@ -224,7 +224,7 @@
 				<string>com.apple.package</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>CotEditor Syntax</string>
+			<string>Graupel Syntax</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBadgeName</key>
@@ -248,7 +248,7 @@
 				<string>public.json</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>CotEditor Replace Definition</string>
+			<string>Graupel Replace Definition</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBadgeName</key>

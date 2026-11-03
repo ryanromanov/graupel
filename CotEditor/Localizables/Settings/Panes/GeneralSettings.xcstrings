@@ -1,114 +1,114 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "A system feature that automatically overwrites your files while editing. Even if turned off, CotEditor covertly creates a backup in case it unexpectedly quits." : {
+    "A system feature that automatically overwrites your files while editing. Even if turned off, Graupel covertly creates a backup in case it unexpectedly quits." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systémová funkce, která automaticky přepíše soubory během úprav. V případě, že není povolena, CotEditor vytvoří skryté zálohy pro případ neočekávaného selhání."
+            "value" : "Systémová funkce, která automaticky přepíše soubory během úprav. V případě, že není povolena, Graupel vytvoří skryté zálohy pro případ neočekávaného selhání."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine Systemfunktion, die deine Dateien während der Bearbeitung automatisch überschreibt. Auch wenn diese Funktion deaktiviert ist, erstellt CotEditor im Hintergrund Backups für den Fall, dass es unerwartet beendet wird."
+            "value" : "Eine Systemfunktion, die deine Dateien während der Bearbeitung automatisch überschreibt. Auch wenn diese Funktion deaktiviert ist, erstellt Graupel im Hintergrund Backups für den Fall, dass es unerwartet beendet wird."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A system feature that automatically overwrites your files while editing. Even if turned off, CotEditor covertly creates a backup in case it unexpectedly quits."
+            "value" : "A system feature that automatically overwrites your files while editing. Even if turned off, Graupel covertly creates a backup in case it unexpectedly quits."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una función del sistema que sobrescribe automáticamente los archivos mientras los editas. Incluso si está desactivada, CotEditor crea una copia de seguridad en segundo plano por si se cierra inesperadamente."
+            "value" : "Una función del sistema que sobrescribe automáticamente los archivos mientras los editas. Incluso si está desactivada, Graupel crea una copia de seguridad en segundo plano por si se cierra inesperadamente."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fonctionnalité du système qui enregistre automatiquement vos fichiers pendant que vous les éditez. Si vous désactivez cette option, CotEditor créera quand même une sauvegarde en cas d’arrêt imprévu."
+            "value" : "Fonctionnalité du système qui enregistre automatiquement vos fichiers pendant que vous les éditez. Si vous désactivez cette option, Graupel créera quand même une sauvegarde en cas d’arrêt imprévu."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "एक सिस्टम सुविधा जो संपादन के दौरान आपकी फ़ाइलों को स्वचालित रूप से अधिलेखित करती है। बंद होने पर भी, CotEditor अप्रत्याशित रूप से बंद होने की स्थिति में गुप्त रूप से एक बैकअप बनाता है।"
+            "value" : "एक सिस्टम सुविधा जो संपादन के दौरान आपकी फ़ाइलों को स्वचालित रूप से अधिलेखित करती है। बंद होने पर भी, Graupel अप्रत्याशित रूप से बंद होने की स्थिति में गुप्त रूप से एक बैकअप बनाता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Funzione di sistema che sovrascrive automaticamente i file durante la modifica. Anche se disattivata, CotEditor crea un backup in background in caso di chiusura imprevista."
+            "value" : "Funzione di sistema che sovrascrive automaticamente i file durante la modifica. Anche se disattivata, Graupel crea un backup in background in caso di chiusura imprevista."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "書類の編集中に自動でファイルを上書きするmacOSの機能です。この機能を無効にした場合も、CotEditorは予期しない終了に備えて裏でバックアップを作成します。"
+            "value" : "書類の編集中に自動でファイルを上書きするmacOSの機能です。この機能を無効にした場合も、Graupelは予期しない終了に備えて裏でバックアップを作成します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "편집하는 동안 파일을 자동으로 덮어쓰는 시스템 기능입니다. 이 옵션을 끄더라도, CotEditor는 예상하지 못한 종료로부터 복원하기 위해 백업을 생성합니다."
+            "value" : "편집하는 동안 파일을 자동으로 덮어쓰는 시스템 기능입니다. 이 옵션을 끄더라도, Graupel는 예상하지 못한 종료로부터 복원하기 위해 백업을 생성합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een systeemfunctie die automatisch je bestanden overschrijft tijdens het bewerken. Zelfs als deze functie is uitgeschakeld, maakt CotEditor op de achtergrond een back-up voor het geval het programma onverwacht wordt afgesloten."
+            "value" : "Een systeemfunctie die automatisch je bestanden overschrijft tijdens het bewerken. Zelfs als deze functie is uitgeschakeld, maakt Graupel op de achtergrond een back-up voor het geval het programma onverwacht wordt afgesloten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Funkcja systemu, która automatycznie nadpisuje Twoje pliki podczas edycji. Nawet jeśli jest wyłączona, CotEditor tworzy w ukryciu kopię zapasową na wypadek nieoczekiwanego zamknięcia"
+            "value" : "Funkcja systemu, która automatycznie nadpisuje Twoje pliki podczas edycji. Nawet jeśli jest wyłączona, Graupel tworzy w ukryciu kopię zapasową na wypadek nieoczekiwanego zamknięcia"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um recurso do sistema que salva os arquivos automaticamente durante a edição. Mesmo se inativo, o CotEditor cria um backup em segundo plano para o caso de falhas inesperadas."
+            "value" : "Um recurso do sistema que salva os arquivos automaticamente durante a edição. Mesmo se inativo, o Graupel cria um backup em segundo plano para o caso de falhas inesperadas."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Системная функция, которая автоматически перезаписывает файлы во время редактирования. Даже если она отключена, CotEditor незаметно создаёт резервную копию на случай неожиданного завершения работы."
+            "value" : "Системная функция, которая автоматически перезаписывает файлы во время редактирования. Даже если она отключена, Graupel незаметно создаёт резервную копию на случай неожиданного завершения работы."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Düzenleme sırasında dosyalarınızın üzerine kendiliğinden yazan bir sistem özelliği. Kapalı olsa bile CotEditor beklenmedik çıkmalar için arka planda yedek oluşturur."
+            "value" : "Düzenleme sırasında dosyalarınızın üzerine kendiliğinden yazan bir sistem özelliği. Kapalı olsa bile Graupel beklenmedik çıkmalar için arka planda yedek oluşturur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Системна функція, яка автоматично перезаписує файли під час редагування. Навіть якщо її вимкнено, CotEditor непомітно створює резервну копію на випадок неочікуваного завершення роботи."
+            "value" : "Системна функція, яка автоматично перезаписує файли під час редагування. Навіть якщо її вимкнено, Graupel непомітно створює резервну копію на випадок неочікуваного завершення роботи."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "编辑文件时自动覆盖保存文件的系统特性。即使关闭此功能，CotEditor仍会在后台创建备份，以防程序意外退出。"
+            "value" : "编辑文件时自动覆盖保存文件的系统特性。即使关闭此功能，Graupel仍会在后台创建备份，以防程序意外退出。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "編輯檔案時自動覆蓋儲存檔案的系統特性。即使關閉此功能，CotEditor仍會在背景建立備份，以防程式意外結束。"
+            "value" : "編輯檔案時自動覆蓋儲存檔案的系統特性。即使關閉此功能，Graupel仍會在背景建立備份，以防程式意外結束。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "編輯時可以自動覆寫檔案的系統功能。即使關閉此功能，CotEditor亦會秘密製作一個備份，以備程式意外結束。"
+            "value" : "編輯時可以自動覆寫檔案的系統功能。即使關閉此功能，Graupel亦會秘密製作一個備份，以備程式意外結束。"
           }
         }
       }
@@ -504,115 +504,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zachovat verzi CotEditoru"
+            "value" : "Zachovat verzi Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Version behalten"
+            "value" : "Graupel-Version behalten"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Keep CotEditor’s version"
+            "value" : "Keep Graupel’s version"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keep CotEditor’s version"
+            "value" : "Keep Graupel’s version"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conservar la versión de CotEditor"
+            "value" : "Conservar la versión de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Garder la version dans CotEditor"
+            "value" : "Garder la version dans Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor का वर्शन रखें"
+            "value" : "Graupel का वर्शन रखें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantieni la versione di CotEditor"
+            "value" : "Mantieni la versione di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorの編集内容を保持"
+            "value" : "Graupelの編集内容を保持"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 버전 유지"
+            "value" : "Graupel 버전 유지"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behoud de versie van CotEditor"
+            "value" : "Behoud de versie van Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zachowaj wersję CotEditora"
+            "value" : "Zachowaj wersję Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manter Versão do CotEditor"
+            "value" : "Manter Versão do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохранить версию CotEditor"
+            "value" : "Сохранить версию Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor sürümünü tut"
+            "value" : "Graupel sürümünü tut"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зберігати версію CotEditor"
+            "value" : "Зберігати версію Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor的版本"
+            "value" : "保留Graupel的版本"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor的版本"
+            "value" : "保留Graupel的版本"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor的版本"
+            "value" : "保留Graupel的版本"
           }
         }
       }
@@ -1462,79 +1462,79 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chcete nyní restartovat CotEditor?"
+            "value" : "Chcete nyní restartovat Graupel?"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest du CotEditor jetzt neu starten?"
+            "value" : "Möchtest du Graupel jetzt neu starten?"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Do you want to restart CotEditor now?"
+            "value" : "Do you want to restart Graupel now?"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Do you want to restart CotEditor now?"
+            "value" : "Do you want to restart Graupel now?"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¿Quieres reiniciar CotEditor ahora?"
+            "value" : "¿Quieres reiniciar Graupel ahora?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voulez-vous relancer CotEditor maintenant ?"
+            "value" : "Voulez-vous relancer Graupel maintenant ?"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "क्या आप अभी CotEditor पुनः आरंभ करना चाहते हैं?"
+            "value" : "क्या आप अभी Graupel पुनः आरंभ करना चाहते हैं?"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vuoi riavviare CotEditor adesso?"
+            "value" : "Vuoi riavviare Graupel adesso?"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorを今すぐ再起動しますか?"
+            "value" : "Graupelを今すぐ再起動しますか?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor를 재시작하시겠습니까?"
+            "value" : "Graupel를 재시작하시겠습니까?"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je CotEditor nu opnieuw opstarten?"
+            "value" : "Wil je Graupel nu opnieuw opstarten?"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Czy chcesz teraz ponownie uruchomić CotEditora?"
+            "value" : "Czy chcesz teraz ponownie uruchomić Graupela?"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deseja reabrir o CotEditor agora?"
+            "value" : "Deseja reabrir o Graupel agora?"
           }
         },
         "ru" : {
@@ -1546,31 +1546,31 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’ü şimdi yeniden başlatmak istiyor musunuz?"
+            "value" : "Graupel’ü şimdi yeniden başlatmak istiyor musunuz?"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перезапустити CotEditor зараз?"
+            "value" : "Перезапустити Graupel зараз?"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "现在就重启CotEditor吗？"
+            "value" : "现在就重启Graupel吗？"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現在就重啟CotEditor嗎？"
+            "value" : "現在就重啟Graupel嗎？"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你要立即重新啟動CotEditor嗎？"
+            "value" : "你要立即重新啟動Graupel嗎？"
           }
         }
       }

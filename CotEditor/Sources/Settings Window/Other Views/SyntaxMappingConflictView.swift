@@ -67,7 +67,7 @@ struct SyntaxMappingConflictView: View {
             Text("Syntax Mapping Conflicts", tableName: "SyntaxMappingConflict", comment: "heading")
                 .font(.headline)
                 .accessibilityHeading(.h1)
-            Text("The following file mapping rules are registered in multiple syntaxes. CotEditor uses the first syntax automatically. To resolve conflicts, edit each syntax definition.", tableName: "SyntaxMappingConflict")
+            Text("The following file mapping rules are registered in multiple syntaxes. Graupel uses the first syntax automatically. To resolve conflicts, edit each syntax definition.", tableName: "SyntaxMappingConflict")
             
             if !self.extensionConflicts.isEmpty {
                 ConflictTable(.init("Extension", table: "SyntaxMappingConflict", comment: "heading"), items: self.extensionConflicts)

@@ -8909,115 +8909,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřete původní umístění a udělte CotEditoru přístup."
+            "value" : "Otevřete původní umístění a udělte Graupelu přístup."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffne den ursprünglichen Speicherort, um CotEditor Zugriff zu gewähren."
+            "value" : "Öffne den ursprünglichen Speicherort, um Graupel Zugriff zu gewähren."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Open the original location to grant CotEditor access."
+            "value" : "Open the original location to grant Graupel access."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open the original location to grant CotEditor access."
+            "value" : "Open the original location to grant Graupel access."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Abre la ubicación original para permitir que CotEditor acceda a ella."
+            "value" : "Abre la ubicación original para permitir que Graupel acceda a ella."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Ouvrez l’emplacement d’origine pour autoriser CotEditor à y accéder."
+            "value" : "Ouvrez l’emplacement d’origine pour autoriser Graupel à y accéder."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor को पहुँच देने के लिए मूल स्थान खोलें।"
+            "value" : "Graupel को पहुँच देने के लिए मूल स्थान खोलें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accedi alla posizione originale per autorizzare CotEditor all’accesso."
+            "value" : "Accedi alla posizione originale per autorizzare Graupel all’accesso."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorがアクセスできるように、オリジナルの場所を開いてください。"
+            "value" : "Graupelがアクセスできるように、オリジナルの場所を開いてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "원본 위치를 열어 CotEditor에 접근 권한을 부여하십시오."
+            "value" : "원본 위치를 열어 Graupel에 접근 권한을 부여하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Open de oorspronkelijke locatie om CotEditor toegang te geven."
+            "value" : "Open de oorspronkelijke locatie om Graupel toegang te geven."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otwórz miejsce oryginału, aby udzielić dostępu aplikacji CotEditor."
+            "value" : "Otwórz miejsce oryginału, aby udzielić dostępu aplikacji Graupel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abra o local original para conceder acesso ao CotEditor."
+            "value" : "Abra o local original para conceder acesso ao Graupel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте оригинальное местоположение, чтобы предоставить CotEditor доступ к объекту."
+            "value" : "Откройте оригинальное местоположение, чтобы предоставить Graupel доступ к объекту."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’e erişim izni vermek için özgün konumu açın."
+            "value" : "Graupel’e erişim izni vermek için özgün konumu açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрийте початкове розташування, щоб надати CotEditor доступ."
+            "value" : "Відкрийте початкове розташування, щоб надати Graupel доступ."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开原始位置以授予CotEditor存取权限。"
+            "value" : "打开原始位置以授予Graupel存取权限。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開啟原始位置以授予CotEditor存取權限。"
+            "value" : "開啟原始位置以授予Graupel存取權限。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開啟原始位置以授予CotEditor取用權限。"
+            "value" : "開啟原始位置以授予Graupel取用權限。"
           }
         }
       }
@@ -18674,115 +18674,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zachovat verzi CotEditoru"
+            "value" : "Zachovat verzi Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Version behalten"
+            "value" : "Graupel-Version behalten"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Keep CotEditor’s Version"
+            "value" : "Keep Graupel’s Version"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keep CotEditor’s Version"
+            "value" : "Keep Graupel’s Version"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conservar la versión de CotEditor"
+            "value" : "Conservar la versión de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Garder la version dans CotEditor"
+            "value" : "Garder la version dans Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor का वर्शन रखें"
+            "value" : "Graupel का वर्शन रखें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantieni la versione di CotEditor"
+            "value" : "Mantieni la versione di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorの編集内容を保持"
+            "value" : "Graupelの編集内容を保持"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 버전 유지"
+            "value" : "Graupel 버전 유지"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behoud versie van CotEditor"
+            "value" : "Behoud versie van Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zachowaj wersję CotEditora"
+            "value" : "Zachowaj wersję Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manter Versão do CotEditor"
+            "value" : "Manter Versão do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохранить версию CotEditor"
+            "value" : "Сохранить версию Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Sürümünü Tut"
+            "value" : "Graupel Sürümünü Tut"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Залишити версію CotEditor"
+            "value" : "Залишити версію Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor编辑的内容"
+            "value" : "保留Graupel编辑的内容"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor編輯的內容"
+            "value" : "保留Graupel編輯的內容"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor編輯的版本"
+            "value" : "保留Graupel編輯的版本"
           }
         }
       }
@@ -18914,115 +18914,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chcete zachovat verzi CotEditoru, nebo ji aktualizovat na upravenou verzi?"
+            "value" : "Chcete zachovat verzi Graupelu, nebo ji aktualizovat na upravenou verzi?"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest du die CotEditor-Version behalten oder auf die geänderte Version aktualisieren?"
+            "value" : "Möchtest du die Graupel-Version behalten oder auf die geänderte Version aktualisieren?"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Do you want to keep CotEditor’s version or update it to the modified version?"
+            "value" : "Do you want to keep Graupel’s version or update it to the modified version?"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Do you want to keep CotEditor’s version or update it to the modified version?"
+            "value" : "Do you want to keep Graupel’s version or update it to the modified version?"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¿Quieres conservar la versión de CotEditor o actualizarla a la versión modificada?"
+            "value" : "¿Quieres conservar la versión de Graupel o actualizarla a la versión modificada?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voulez-vous garder la version dans CotEditor ou la mettre à jour avec la version modifiée ?"
+            "value" : "Voulez-vous garder la version dans Graupel ou la mettre à jour avec la version modifiée ?"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "क्या आप CotEditor का वर्शन रखना चाहते हैं या इसे संशोधित वर्शन में अपडेट करना चाहते हैं?"
+            "value" : "क्या आप Graupel का वर्शन रखना चाहते हैं या इसे संशोधित वर्शन में अपडेट करना चाहते हैं?"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vuoi mantenere la versione di CotEditor oppure aggiornarla a quella modificata?"
+            "value" : "Vuoi mantenere la versione di Graupel oppure aggiornarla a quella modificata?"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorでの編集内容を保持しますか、それとも変更された内容に更新しますか?"
+            "value" : "Graupelでの編集内容を保持しますか、それとも変更された内容に更新しますか?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 버전을 유지하겠습니까, 아니면 수정된 버전으로 업데이트하겠습니까?"
+            "value" : "Graupel 버전을 유지하겠습니까, 아니면 수정된 버전으로 업데이트하겠습니까?"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de versie van CotEditor behouden of deze bijwerken naar de gewijzigde versie?"
+            "value" : "Wil je de versie van Graupel behouden of deze bijwerken naar de gewijzigde versie?"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Czy chcesz zachować wersję CotEditora czy uaktualnić ją do zmienionej wersji?"
+            "value" : "Czy chcesz zachować wersję Graupela czy uaktualnić ją do zmienionej wersji?"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deseja manter a versão do CotEditor ou atualizar para a versão modificada?"
+            "value" : "Deseja manter a versão do Graupel ou atualizar para a versão modificada?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вы хотите сохранить версию CotEditor или обновить ее до измененной версии?"
+            "value" : "Вы хотите сохранить версию Graupel или обновить ее до измененной версии?"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor sürümünü tutmak mı, yoksa değiştirilmiş sürüme güncellemek mi istiyorsunuz?"
+            "value" : "Graupel sürümünü tutmak mı, yoksa değiştirilmiş sürüme güncellemek mi istiyorsunuz?"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Залишити версію CotEditor чи оновити її до зміненої версії?"
+            "value" : "Залишити версію Graupel чи оновити її до зміненої версії?"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor的版本还是更新至被编辑过的版本？"
+            "value" : "保留Graupel的版本还是更新至被编辑过的版本？"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保留CotEditor的版本還是更新至被編輯過的版本？"
+            "value" : "保留Graupel的版本還是更新至被編輯過的版本？"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你要保留CotEditor的版本，還是將其更新到修改後的版本？"
+            "value" : "你要保留Graupel的版本，還是將其更新到修改後的版本？"
           }
         }
       }
@@ -19153,115 +19153,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Soubor byl změněn v jiné aplikaci. V CotEditoru jsou také neuložené změny."
+            "value" : "Soubor byl změněn v jiné aplikaci. V Graupelu jsou také neuložené změny."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Datei wurde von einem anderen Programm geändert. Es gibt auch ungesicherte Änderungen in CotEditor."
+            "value" : "Die Datei wurde von einem anderen Programm geändert. Es gibt auch ungesicherte Änderungen in Graupel."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The file has been changed by another application. There are also unsaved changes in CotEditor."
+            "value" : "The file has been changed by another application. There are also unsaved changes in Graupel."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The file has been changed by another application. There are also unsaved changes in CotEditor."
+            "value" : "The file has been changed by another application. There are also unsaved changes in Graupel."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otra aplicación ha modificado el archivo. También hay cambios no guardados en CotEditor."
+            "value" : "Otra aplicación ha modificado el archivo. También hay cambios no guardados en Graupel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le fichier a été modifié par une autre application. Il y a des modifications non enregistrées dans CotEditor."
+            "value" : "Le fichier a été modifié par une autre application. Il y a des modifications non enregistrées dans Graupel."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "फ़ाइल किसी अन्य एप्लिकेशन द्वारा बदल दी गई है। CotEditor में सहेजे न गए बदलाव भी हैं।"
+            "value" : "फ़ाइल किसी अन्य एप्लिकेशन द्वारा बदल दी गई है। Graupel में सहेजे न गए बदलाव भी हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il file è stato modificato da un’altra applicazione. Ci sono anche delle modifiche non salvate in CotEditor."
+            "value" : "Il file è stato modificato da un’altra applicazione. Ci sono anche delle modifiche non salvate in Graupel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このファイルは、別のアプリケーションによって変更されました。CotEditorで加えた編集もまだ保存されていません。"
+            "value" : "このファイルは、別のアプリケーションによって変更されました。Graupelで加えた編集もまだ保存されていません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "파일이 다른 응용 프로그램에 의해 수정되었습니다. CotEditor에 아직 저장하지 않은 변경 사항이 있습니다."
+            "value" : "파일이 다른 응용 프로그램에 의해 수정되었습니다. Graupel에 아직 저장하지 않은 변경 사항이 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het bestand is gewijzigd door een andere app. Er zijn ook niet-opgeslagen wijzigingen in CotEditor."
+            "value" : "Het bestand is gewijzigd door een andere app. Er zijn ook niet-opgeslagen wijzigingen in Graupel."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plik został zmieniony przez inną aplikację. Są też niezachowane zmiany w CotEditorze."
+            "value" : "Plik został zmieniony przez inną aplikację. Są też niezachowane zmiany w Graupelze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O arquivo foi alterado por outro aplicativo. Também há alterações não salvas no CotEditor."
+            "value" : "O arquivo foi alterado por outro aplicativo. Também há alterações não salvas no Graupel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файл был изменен другим приложением. В CotEditor также есть несохраненные изменения."
+            "value" : "Файл был изменен другим приложением. В Graupel также есть несохраненные изменения."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dosya başka bir uygulama tarafından değiştirilmiş. Aynı zamanda CotEditor’da kaydedilmemiş değişiklikler var."
+            "value" : "Dosya başka bir uygulama tarafından değiştirilmiş. Aynı zamanda Graupel’da kaydedilmemiş değişiklikler var."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файл було змінено іншою програмою. У CotEditor також є незбережені зміни."
+            "value" : "Файл було змінено іншою програмою. У Graupel також є незбережені зміни."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "该文件已被其他应用程序更改。CotEditor中还有未保存的变更。"
+            "value" : "该文件已被其他应用程序更改。Graupel中还有未保存的变更。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "其他應用程式已對此檔案進行修改。CotEditor中還有未儲存的變更。"
+            "value" : "其他應用程式已對此檔案進行修改。Graupel中還有未儲存的變更。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "其他應用程式已對此檔案進行修改。CotEditor中亦有尚未儲存的變更。"
+            "value" : "其他應用程式已對此檔案進行修改。Graupel中亦有尚未儲存的變更。"
           }
         }
       }

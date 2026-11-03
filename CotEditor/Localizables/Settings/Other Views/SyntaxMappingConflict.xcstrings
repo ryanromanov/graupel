@@ -566,114 +566,114 @@
         }
       }
     },
-    "The following file mapping rules are registered in multiple syntaxes. CotEditor uses the first syntax automatically. To resolve conflicts, edit each syntax definition." : {
+    "The following file mapping rules are registered in multiple syntaxes. Graupel uses the first syntax automatically. To resolve conflicts, edit each syntax definition." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Následující pravidla mapování souborů jsou registrována ve více syntaxích. CotEditor automaticky použije první syntaxi. Chcete-li vyřešit konflikty, upravte každou definici syntaxe."
+            "value" : "Následující pravidla mapování souborů jsou registrována ve více syntaxích. Graupel automaticky použije první syntaxi. Chcete-li vyřešit konflikty, upravte každou definici syntaxe."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die folgenden Dateizuordnungsregeln sind in mehreren Syntaxen registriert. CotEditor verwendet die erste Syntax automatisch. Um Konflikte zu beheben, bearbeite jede Syntax."
+            "value" : "Die folgenden Dateizuordnungsregeln sind in mehreren Syntaxen registriert. Graupel verwendet die erste Syntax automatisch. Um Konflikte zu beheben, bearbeite jede Syntax."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The following file mapping rules are registered in multiple syntaxes. CotEditor uses the first syntax automatically. To resolve conflicts, edit each syntax definition."
+            "value" : "The following file mapping rules are registered in multiple syntaxes. Graupel uses the first syntax automatically. To resolve conflicts, edit each syntax definition."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las siguientes reglas de asignación de archivos están registradas en varias sintaxis. CotEditor utiliza la primera sintaxis automáticamente. Para resolver conflictos, edita cada definición de sintaxis."
+            "value" : "Las siguientes reglas de asignación de archivos están registradas en varias sintaxis. Graupel utiliza la primera sintaxis automáticamente. Para resolver conflictos, edita cada definición de sintaxis."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les règles d’association de fichiers suivantes sont déclarées dans plusieurs syntaxes. CotEditor utilise la première syntaxe automatiquement. Pour résoudre les conflits, éditez chaque syntaxe."
+            "value" : "Les règles d’association de fichiers suivantes sont déclarées dans plusieurs syntaxes. Graupel utilise la première syntaxe automatiquement. Pour résoudre les conflits, éditez chaque syntaxe."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "निम्नलिखित फ़ाइल मैपिंग नियम कई सिंटैक्स में पंजीकृत हैं। CotEditor स्वचालित रूप से पहले सिंटैक्स का उपयोग करता है। विरोध हल करने के लिए, प्रत्येक सिंटैक्स परिभाषा संपादित करें।"
+            "value" : "निम्नलिखित फ़ाइल मैपिंग नियम कई सिंटैक्स में पंजीकृत हैं। Graupel स्वचालित रूप से पहले सिंटैक्स का उपयोग करता है। विरोध हल करने के लिए, प्रत्येक सिंटैक्स परिभाषा संपादित करें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le seguenti regole di mappatura dei file sono registrate in più sintassi. CotEditor usa automaticamente la prima sintassi. Per risolvere i conflitti, modifica la definizione di ciascuna sintassi."
+            "value" : "Le seguenti regole di mappatura dei file sono registrate in più sintassi. Graupel usa automaticamente la prima sintassi. Per risolvere i conflitti, modifica la definizione di ciascuna sintassi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以下のファイル関連付けルールはいくつかのシンタックスで重複して登録されています。CotEditorは自動的に最初のシンタックスを使用します。解決するには、それぞれのシンタックス定義を編集してください。"
+            "value" : "以下のファイル関連付けルールはいくつかのシンタックスで重複して登録されています。Graupelは自動的に最初のシンタックスを使用します。解決するには、それぞれのシンタックス定義を編集してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "다음 파일 매핑 규칙은 여러 개의 구문에서 사용되고 있습니다. CotEditor는 첫 번째 구문을 자동으로 사용합니다. 충돌을 해소하려면, 각각의 구문 정의를 수정하십시오."
+            "value" : "다음 파일 매핑 규칙은 여러 개의 구문에서 사용되고 있습니다. Graupel는 첫 번째 구문을 자동으로 사용합니다. 충돌을 해소하려면, 각각의 구문 정의를 수정하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De volgende regels voor bestandskoppeling zijn geregistreerd in meerdere syntaxen. CotEditor gebruikt automatisch de eerste syntaxis. Bewerk elke syntaxdefinitie om conflicten op te lossen."
+            "value" : "De volgende regels voor bestandskoppeling zijn geregistreerd in meerdere syntaxen. Graupel gebruikt automatisch de eerste syntaxis. Bewerk elke syntaxdefinitie om conflicten op te lossen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Poniższe reguły mapowania plików występują w więcej niż jednej definicji składni. CotEditor automatycznie użyje pierwszej składni. Aby rozwiązać konflikty, dokonaj edycji poszczególnych definicji składni."
+            "value" : "Poniższe reguły mapowania plików występują w więcej niż jednej definicji składni. Graupel automatycznie użyje pierwszej składni. Aby rozwiązać konflikty, dokonaj edycji poszczególnych definicji składni."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As seguintes regras de mapeamento de arquivo estão registradas em várias sintaxes. O CotEditor utiliza automaticamente a primeira sintaxe. Para resolver os conflitos, edite cada definição de sintaxe."
+            "value" : "As seguintes regras de mapeamento de arquivo estão registradas em várias sintaxes. O Graupel utiliza automaticamente a primeira sintaxe. Para resolver os conflitos, edite cada definição de sintaxe."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Следующие правила сопоставления файлов зарегистрированы в нескольких синтаксисах. CotEditor автоматически использует первый синтаксис. Для разрешения конфликтов отредактируйте каждое определение синтаксиса."
+            "value" : "Следующие правила сопоставления файлов зарегистрированы в нескольких синтаксисах. Graupel автоматически использует первый синтаксис. Для разрешения конфликтов отредактируйте каждое определение синтаксиса."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aşağıdaki dosya eşlemleme kuralları birden çok sözdiziminde kayıtlıdır. CotEditor, kendiliğinden ilk sözdizimini kullanır. Çakışmaları çözmek için her bir sözdizimi tanımını düzenleyin."
+            "value" : "Aşağıdaki dosya eşlemleme kuralları birden çok sözdiziminde kayıtlıdır. Graupel, kendiliğinden ilk sözdizimini kullanır. Çakışmaları çözmek için her bir sözdizimi tanımını düzenleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Наведені нижче правила зіставлення файлів зареєстровані для кількох синтаксисів. CotEditor автоматично використовує перший синтаксис. Щоб усунути конфлікти, відредагуйте визначення кожного синтаксису."
+            "value" : "Наведені нижче правила зіставлення файлів зареєстровані для кількох синтаксисів. Graupel автоматично використовує перший синтаксис. Щоб усунути конфлікти, відредагуйте визначення кожного синтаксису."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下列文件映射规则被注册了多种语法。CotEditor自动使用第一个语法。可以通过编辑每个语法来解决冲突。"
+            "value" : "下列文件映射规则被注册了多种语法。Graupel自动使用第一个语法。可以通过编辑每个语法来解决冲突。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "下述檔案映射規則已登記於多個文法定義當中。CotEditor會自動使用最開頭的那筆文法定義。如欲解決這些衝突，請逐個編輯每一筆文法定義。"
+            "value" : "下述檔案映射規則已登記於多個文法定義當中。Graupel會自動使用最開頭的那筆文法定義。如欲解決這些衝突，請逐個編輯每一筆文法定義。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以下檔案對應規則使用了多個語法註冊。CotEditor自動使用第一個語法。如要解決衝突，請編輯每個語法定義。"
+            "value" : "以下檔案對應規則使用了多個語法註冊。Graupel自動使用第一個語法。如要解決衝突，請編輯每個語法定義。"
           }
         }
       }

@@ -104,8 +104,8 @@ struct MultipleReplaceListView: View {
             }
         }
         .fileDialogMessage(.init("FileImporter.message",
-                                 defaultValue: "Choose CotEditor Replace Definition or TSV (Tab-separated values) files.", table: "MultipleReplace",
-                                 comment: "CotEditor Replace Definition is a proper file type name. Refer to InfoPlist.xcstrings."))
+                                 defaultValue: "Choose Graupel Replace Definition or TSV (Tab-separated values) files.", table: "MultipleReplace",
+                                 comment: "Graupel Replace Definition is a proper file type name. Refer to InfoPlist.xcstrings."))
         .fileDialogConfirmationLabel(.init("Action.import.label", defaultValue: "Import"))
         .confirmationDialog(.init("ImportDuplicationError.description",
                                   defaultValue: "“\(self.importingError?.name ?? String(localized: .unknown))” already exists. Do you want to replace it?",

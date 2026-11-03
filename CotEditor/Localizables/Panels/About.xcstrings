@@ -453,226 +453,226 @@
         }
       }
     },
-    "CotEditor is an open source program\nlicensed under the Apache License, Version 2.0." : {
+    "Graupel is an open source program\nlicensed under the Apache License, Version 2.0." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor je open source program\nlicencovaný pod licencí Apache, verze 2.0."
+            "value" : "Graupel je open source program\nlicencovaný pod licencí Apache, verze 2.0."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor ist ein Open-Source-Programm,\ndas unter der Apache-Lizenz, Version 2.0 lizenziert ist."
+            "value" : "Graupel ist ein Open-Source-Programm,\ndas unter der Apache-Lizenz, Version 2.0 lizenziert ist."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor is an open source program\nlicensed under the Apache License, Version 2.0."
+            "value" : "Graupel is an open source program\nlicensed under the Apache License, Version 2.0."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor es un programa de código abierto\nbajo la licencia Apache, versión 2.0."
+            "value" : "Graupel es un programa de código abierto\nbajo la licencia Apache, versión 2.0."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor est un programme open source\nsous licence Apache, version 2.0."
+            "value" : "Graupel est un programme open source\nsous licence Apache, version 2.0."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor एक ओपन सोर्स प्रोग्राम है\nजो Apache License, Version 2.0 के अंतर्गत लाइसेंस प्राप्त है।"
+            "value" : "Graupel एक ओपन सोर्स प्रोग्राम है\nजो Apache License, Version 2.0 के अंतर्गत लाइसेंस प्राप्त है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor è un programma open source\nrilasciato sotto la licenza Apache, versione 2.0."
+            "value" : "Graupel è un programma open source\nrilasciato sotto la licenza Apache, versione 2.0."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorはオープンソースプログラムとして\nApache License, Version 2.0でライセンスされています。"
+            "value" : "Graupelはオープンソースプログラムとして\nApache License, Version 2.0でライセンスされています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor는 오픈 소스 프로그램이며,\nApache License, Version 2.0에 따라 배포됩니다."
+            "value" : "Graupel는 오픈 소스 프로그램이며,\nApache License, Version 2.0에 따라 배포됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor is een opensourceprogramma\ngelicentieerd onder de Apache-licentie, versie 2.0."
+            "value" : "Graupel is een opensourceprogramma\ngelicentieerd onder de Apache-licentie, versie 2.0."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor jest programem o otwartym kodzie źródłowym licencjonowanym na podstawie licencji Apache, wersja 2.0."
+            "value" : "Graupel jest programem o otwartym kodzie źródłowym licencjonowanym na podstawie licencji Apache, wersja 2.0."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O CotEditor é um programa de código aberto\nlicenciado sob a Licença Apache, Versão 2.0."
+            "value" : "O Graupel é um programa de código aberto\nlicenciado sob a Licença Apache, Versão 2.0."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor — программа с открытым исходным кодом,\nраспространяемая по лицензии Apache License, версия 2.0."
+            "value" : "Graupel — программа с открытым исходным кодом,\nраспространяемая по лицензии Apache License, версия 2.0."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor, Apache Lisansı Sürüm 2.0 altında\nlisanslanmış açık kaynaklı bir programdır."
+            "value" : "Graupel, Apache Lisansı Sürüm 2.0 altında\nlisanslanmış açık kaynaklı bir programdır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor — програма з відкритим вихідним кодом, що розповсюджується за ліцензією Apache License, Version 2.0."
+            "value" : "Graupel — програма з відкритим вихідним кодом, що розповсюджується за ліцензією Apache License, Version 2.0."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor是基于Apache协议2.0版的开源软件"
+            "value" : "Graupel是基于Apache协议2.0版的开源软件"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor是基於Apache協議2.0版的開源軟體"
+            "value" : "Graupel是基於Apache協議2.0版的開源軟體"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor是依Apache許可協議2.0版本授權的開放原始碼程式。"
+            "value" : "Graupel是依Apache許可協議2.0版本授權的開放原始碼程式。"
           }
         }
       }
     },
-    "CotEditor uses the following awesome technologies. We are deeply grateful to the people who make their valuable work available to us." : {
+    "Graupel uses the following awesome technologies. We are deeply grateful to the people who make their valuable work available to us." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor používá následující úžasné technologie. Jsme velmi vděční všem, kteří nám umožnili použít jejich přínosnou práci."
+            "value" : "Graupel používá následující úžasné technologie. Jsme velmi vděční všem, kteří nám umožnili použít jejich přínosnou práci."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor verwendet die folgenden großartigen Technologien. Wir sind den Menschen sehr dankbar, die uns ihre wertvolle Arbeit zur Verfügung stellen."
+            "value" : "Graupel verwendet die folgenden großartigen Technologien. Wir sind den Menschen sehr dankbar, die uns ihre wertvolle Arbeit zur Verfügung stellen."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor uses the following awesome technologies. We are deeply grateful to the people who make their valuable work available to us."
+            "value" : "Graupel uses the following awesome technologies. We are deeply grateful to the people who make their valuable work available to us."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor se desarrolla utilizando las siguientes tecnologías excepcionales. Agradecemos profundamente a las personas que ponen su valioso trabajo a nuestra disposición."
+            "value" : "Graupel se desarrolla utilizando las siguientes tecnologías excepcionales. Agradecemos profundamente a las personas que ponen su valioso trabajo a nuestra disposición."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor utilise les technologies géniales suivantes. Nous sommes très reconnaissants envers les personnes qui mettent leur précieux travail à notre disposition."
+            "value" : "Graupel utilise les technologies géniales suivantes. Nous sommes très reconnaissants envers les personnes qui mettent leur précieux travail à notre disposition."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor निम्नलिखित बेहतरीन तकनीकों का उपयोग करता है। हम उन लोगों के गहराई से आभारी हैं जो अपना बहुमूल्य कार्य हमें उपलब्ध कराते हैं।"
+            "value" : "Graupel निम्नलिखित बेहतरीन तकनीकों का उपयोग करता है। हम उन लोगों के गहराई से आभारी हैं जो अपना बहुमूल्य कार्य हमें उपलब्ध कराते हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor fa uso delle fantastiche seguenti tecnologie. Siamo profondamente grati alle persone che mettono a nostra disposizione il loro prezioso lavoro."
+            "value" : "Graupel fa uso delle fantastiche seguenti tecnologie. Siamo profondamente grati alle persone che mettono a nostra disposizione il loro prezioso lavoro."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorは下記の素晴らしい技術を使用しています。有益な作品の公開に深く感謝いたします。"
+            "value" : "Graupelは下記の素晴らしい技術を使用しています。有益な作品の公開に深く感謝いたします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor는 다음과 같은 멋진 기술을 활용합니다. 가치 있는 작업물을 사용할 수 있게 해주신 분들께 매우 감사드립니다."
+            "value" : "Graupel는 다음과 같은 멋진 기술을 활용합니다. 가치 있는 작업물을 사용할 수 있게 해주신 분들께 매우 감사드립니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor gebruikt de volgende geweldige technologieën. We zijn de mensen die hun waardevolle werk aan ons beschikbaar stellen zeer dankbaar."
+            "value" : "Graupel gebruikt de volgende geweldige technologieën. We zijn de mensen die hun waardevolle werk aan ons beschikbaar stellen zeer dankbaar."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor wykorzystuje poniższe niesamowite technologie. Jesteśmy głęboko wdzięczni tym, którzy pozwolili nam skorzystać ze swojej cennej pracy."
+            "value" : "Graupel wykorzystuje poniższe niesamowite technologie. Jesteśmy głęboko wdzięczni tym, którzy pozwolili nam skorzystać ze swojej cennej pracy."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor usa as incríveis tecnologias a seguir. Somos profundamente gratos às pessoas que disponibilizam seu valioso trabalho para nós."
+            "value" : "Graupel usa as incríveis tecnologias a seguir. Somos profundamente gratos às pessoas que disponibilizam seu valioso trabalho para nós."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor использует следующие замечательные технологии. Мы безмерно благодарны всем, кто позволил нам использовать их ценные труды."
+            "value" : "Graupel использует следующие замечательные технологии. Мы безмерно благодарны всем, кто позволил нам использовать их ценные труды."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor aşağıdaki muhteşem teknolojileri kullanır. Değerli çalışmalarını kullanmamıza izin veren herkese şükran borçluyuz."
+            "value" : "Graupel aşağıdaki muhteşem teknolojileri kullanır. Değerli çalışmalarını kullanmamıza izin veren herkese şükran borçluyuz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor використовує наведені нижче чудові технології. Ми щиро вдячні людям, які зробили результати своєї цінної роботи доступними для нас."
+            "value" : "Graupel використовує наведені нижче чудові технології. Ми щиро вдячні людям, які зробили результати своєї цінної роботи доступними для нас."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor使用了下述绝伦的技术。对于让我们得以使用这些宝贵作品的人们，我们深表谢意。"
+            "value" : "Graupel使用了下述绝伦的技术。对于让我们得以使用这些宝贵作品的人们，我们深表谢意。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor有使用到下述絕倫的技術。我們對那些讓我們用上了這些技術的人士們深表敬意。"
+            "value" : "Graupel有使用到下述絕倫的技術。我們對那些讓我們用上了這些技術的人士們深表敬意。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor採用了以下令人驚奇的技術。我們衷心多謝所有允許我們使用其寶貴成果的人。"
+            "value" : "Graupel採用了以下令人驚奇的技術。我們衷心多謝所有允許我們使用其寶貴成果的人。"
           }
         }
       }

@@ -1221,14 +1221,14 @@ CA
                             <menuItem title="Help" id="103">
                                 <menu key="submenu" title="Help" id="106">
                                     <items>
-                                        <menuItem title="CotEditor Help" keyEquivalent="?" id="111">
+                                        <menuItem title="Graupel Help" keyEquivalent="?" id="111">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="gQQ-iI-cNI"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="CotEditor Scripting Guide" id="M1N-Fg-Bo4">
+                                        <menuItem title="Graupel Scripting Guide" id="M1N-Fg-Bo4">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="CotEditor Scripting Guide" id="OLa-Mb-rXS">
+                                            <menu key="submenu" title="Graupel Scripting Guide" id="OLa-Mb-rXS">
                                                 <items>
                                                     <menuItem title="About Scripting" secondaryImage="book.pages" catalog="system" identifier="script_overview" id="u2o-8v-WPL">
                                                         <modifierMask key="keyEquivalentModifierMask"/>

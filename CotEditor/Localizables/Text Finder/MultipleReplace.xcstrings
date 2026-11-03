@@ -234,115 +234,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyberte soubory typu Definice nahrazení CotEditoru nebo TSV (hodnoty oddělené tabulátory)."
+            "value" : "Vyberte soubory typu Definice nahrazení Graupelu nebo TSV (hodnoty oddělené tabulátory)."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wähle CotEditor-Ersetzungsdefinitionsdateien oder TSV-Dateien (Tab-separierte Werte)."
+            "value" : "Wähle Graupel-Ersetzungsdefinitionsdateien oder TSV-Dateien (Tab-separierte Werte)."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Choose CotEditor Replace Definition or TSV (Tab-separated values) files."
+            "value" : "Choose Graupel Replace Definition or TSV (Tab-separated values) files."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose CotEditor Replace Definition or TSV (Tab-separated values) files."
+            "value" : "Choose Graupel Replace Definition or TSV (Tab-separated values) files."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Selecciona archivos de definición de reemplazo de CotEditor o archivos TSV (valores separados por tabulaciones)."
+            "value" : "Selecciona archivos de definición de reemplazo de Graupel o archivos TSV (valores separados por tabulaciones)."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choisissez des fichiers « Liste de remplacements CotEditor » ou des fichiers TSV (valeurs séparées par des tabulations)."
+            "value" : "Choisissez des fichiers « Liste de remplacements Graupel » ou des fichiers TSV (valeurs séparées par des tabulations)."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor रिप्लेस परिभाषा या TSV (टैब-पृथक मान) फ़ाइलें चुनें।"
+            "value" : "Graupel रिप्लेस परिभाषा या TSV (टैब-पृथक मान) फ़ाइलें चुनें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli file di definizione sostituzioni di CotEditor o file TSV (valori separati da tabulazioni)."
+            "value" : "Scegli file di definizione sostituzioni di Graupel o file TSV (valori separati da tabulazioni)."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor置換定義かTSV（タブ区切り値）ファイルを選択してください。"
+            "value" : "Graupel置換定義かTSV（タブ区切り値）ファイルを選択してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 대치 정의 또는 TSV(탭으로 분리된 값) 파일을 선택하십시오."
+            "value" : "Graupel 대치 정의 또는 TSV(탭으로 분리된 값) 파일을 선택하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies bestanden van Vervangingsdefinitie CotEditor of TSV-bestanden (door tabs gescheiden waarden)."
+            "value" : "Kies bestanden van Vervangingsdefinitie Graupel of TSV-bestanden (door tabs gescheiden waarden)."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wybierz pliki definicji zastąpienia CotEditora lub TSV (wartości oddzielonych tabulatorem)."
+            "value" : "Wybierz pliki definicji zastąpienia Graupela lub TSV (wartości oddzielonych tabulatorem)."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escolha arquivos de Definição de Substituição do CotEditor ou TSV (valores separados por tabulação)."
+            "value" : "Escolha arquivos de Definição de Substituição do Graupel ou TSV (valores separados por tabulação)."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите файл замен CotEditor, или TSV (файл значений, разделенных табулятором)."
+            "value" : "Выберите файл замен Graupel, или TSV (файл значений, разделенных табулятором)."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Değiştirme Tanımı veya TSV (sekmeyle ayrılmış değerler) dosyalarını seçin."
+            "value" : "Graupel Değiştirme Tanımı veya TSV (sekmeyle ayrılmış değerler) dosyalarını seçin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оберіть файл замін CotEditor або TSV (файл значень, розділених символом табуляції)"
+            "value" : "Оберіть файл замін Graupel або TSV (файл значень, розділених символом табуляції)"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择CotEditor替换定义文件或TSV（制表符分隔值）文件。"
+            "value" : "选择Graupel替换定义文件或TSV（制表符分隔值）文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選取承載了CotEditor取代定義或定位符號分隔值的檔案。"
+            "value" : "選取承載了Graupel取代定義或定位符號分隔值的檔案。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇CotEditor取代定義檔或TSV（定位符號分隔值）檔案。"
+            "value" : "選擇Graupel取代定義檔或TSV（定位符號分隔值）檔案。"
           }
         }
       }

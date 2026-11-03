@@ -5648,115 +5648,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nápověda pro CotEditor"
+            "value" : "Nápověda pro Graupel"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Hilfe"
+            "value" : "Graupel-Hilfe"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Help"
+            "value" : "Graupel Help"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Help"
+            "value" : "Graupel Help"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayuda de CotEditor"
+            "value" : "Ayuda de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aide CotEditor"
+            "value" : "Aide Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor सहायता"
+            "value" : "Graupel सहायता"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aiuto di CotEditor"
+            "value" : "Aiuto di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorヘルプ"
+            "value" : "Graupelヘルプ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 도움말"
+            "value" : "Graupel 도움말"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Help"
+            "value" : "Graupel Help"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomoc CotEditora"
+            "value" : "Pomoc Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do CotEditor"
+            "value" : "Ajuda do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Справка CotEditor"
+            "value" : "Справка Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Yardımı"
+            "value" : "Graupel Yardımı"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Довідка CotEditor"
+            "value" : "Довідка Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor帮助"
+            "value" : "Graupel帮助"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor輔助說明"
+            "value" : "Graupel輔助說明"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor輔助說明"
+            "value" : "Graupel輔助說明"
           }
         }
       }
@@ -21608,115 +21608,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor - Průvodce skriptováním"
+            "value" : "Graupel - Průvodce skriptováním"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Skripthandbuch"
+            "value" : "Graupel-Skripthandbuch"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Graupel Scripting Guide"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Graupel Scripting Guide"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guía de scripts en CotEditor"
+            "value" : "Guía de scripts en Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guide de scripts CotEditor"
+            "value" : "Guide de scripts Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor स्क्रिप्टिंग गाइड"
+            "value" : "Graupel स्क्रिप्टिंग गाइड"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manuale di scripting di CotEditor"
+            "value" : "Manuale di scripting di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorスクリプトガイド"
+            "value" : "Graupelスクリプトガイド"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 스크립트 가이드"
+            "value" : "Graupel 스크립트 가이드"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-gids voor scripting"
+            "value" : "Graupel-gids voor scripting"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przewodnik tworzenia skryptów CotEditora"
+            "value" : "Przewodnik tworzenia skryptów Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manual de Scripts do CotEditor"
+            "value" : "Manual de Scripts do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Руководство по сценариям CotEditor"
+            "value" : "Руководство по сценариям Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Betik Yazım Kılavuzu"
+            "value" : "Graupel Betik Yazım Kılavuzu"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посібник зі скриптів CotEditor"
+            "value" : "Посібник зі скриптів Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor脚本手册"
+            "value" : "Graupel脚本手册"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor指令碼手冊"
+            "value" : "Graupel指令碼手冊"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor程式碼指南"
+            "value" : "Graupel程式碼指南"
           }
         }
       }
@@ -23048,115 +23048,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor - Průvodce skriptováním"
+            "value" : "Graupel - Průvodce skriptováním"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Skripthandbuch"
+            "value" : "Graupel-Skripthandbuch"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Graupel Scripting Guide"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Graupel Scripting Guide"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guía de scripts en CotEditor"
+            "value" : "Guía de scripts en Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guide de scripts CotEditor"
+            "value" : "Guide de scripts Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor स्क्रिप्टिंग गाइड"
+            "value" : "Graupel स्क्रिप्टिंग गाइड"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manuale di scripting di CotEditor"
+            "value" : "Manuale di scripting di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorスクリプトガイド"
+            "value" : "Graupelスクリプトガイド"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 스크립트 가이드"
+            "value" : "Graupel 스크립트 가이드"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-gids voor scripting"
+            "value" : "Graupel-gids voor scripting"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przewodnik tworzenia skryptów CotEditora"
+            "value" : "Przewodnik tworzenia skryptów Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manual de Scripts do CotEditor"
+            "value" : "Manual de Scripts do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Руководство по сценариям CotEditor"
+            "value" : "Руководство по сценариям Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Betik Yazım Kılavuzu"
+            "value" : "Graupel Betik Yazım Kılavuzu"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посібник зі скриптів CotEditor"
+            "value" : "Посібник зі скриптів Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor脚本手册"
+            "value" : "Graupel脚本手册"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor指令碼手冊"
+            "value" : "Graupel指令碼手冊"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor程式碼指南"
+            "value" : "Graupel程式碼指南"
           }
         }
       }

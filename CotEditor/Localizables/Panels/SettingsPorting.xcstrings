@@ -1459,114 +1459,114 @@
         }
       }
     },
-    "Choose a CotEditor settings archive to import." : {
+    "Choose a Graupel settings archive to import." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyberte archiv nastavení CotEditoru, který chcete importovat."
+            "value" : "Vyberte archiv nastavení Graupelu, který chcete importovat."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wähle ein CotEditor-Einstellungsarchiv, das importiert werden soll."
+            "value" : "Wähle ein Graupel-Einstellungsarchiv, das importiert werden soll."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose a CotEditor settings archive to import."
+            "value" : "Choose a Graupel settings archive to import."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Selecciona el archivo de ajustes de CotEditor que quieras importar."
+            "value" : "Selecciona el archivo de ajustes de Graupel que quieras importar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choisissez une archive de réglages CotEditor à importer."
+            "value" : "Choisissez une archive de réglages Graupel à importer."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "इंपोर्ट करने के लिए एक CotEditor सेटिंग आर्काइव चुनें।"
+            "value" : "इंपोर्ट करने के लिए एक Graupel सेटिंग आर्काइव चुनें।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli un archivio di impostazioni di CotEditor da importare."
+            "value" : "Scegli un archivio di impostazioni di Graupel da importare."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "読み込むCotEditor設定アーカイブを選択してください。"
+            "value" : "読み込むGraupel設定アーカイブを選択してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "가져올 CotEditor 설정 아카이브를 선택하십시오."
+            "value" : "가져올 Graupel 설정 아카이브를 선택하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Kies een CotEditor-instellingenarchief om te importeren."
+            "value" : "Kies een Graupel-instellingenarchief om te importeren."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wybierz archiwum ustawień CotEditora, które chcesz importować."
+            "value" : "Wybierz archiwum ustawień Graupela, które chcesz importować."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escolha um arquivo de ajustes do CotEditor para importar."
+            "value" : "Escolha um arquivo de ajustes do Graupel para importar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите архив настроек CotEditor для импорта."
+            "value" : "Выберите архив настроек Graupel для импорта."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İçe aktarılacak bir CotEditor ayarları arşivi seçin."
+            "value" : "İçe aktarılacak bir Graupel ayarları arşivi seçin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оберіть архів параметрів CotEditor для імпорту."
+            "value" : "Оберіть архів параметрів Graupel для імпорту."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择要导入的CotEditor设置归档。"
+            "value" : "选择要导入的Graupel设置归档。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇要匯入的CotEditor設定封存檔。"
+            "value" : "選擇要匯入的Graupel設定封存檔。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇要輸入的CotEditor設定封存檔。"
+            "value" : "選擇要輸入的Graupel設定封存檔。"
           }
         }
       }
@@ -1577,115 +1577,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tento archiv nastavení byl vytvořen jinou verzí CotEditoru (%@)."
+            "value" : "Tento archiv nastavení byl vytvořen jinou verzí Graupelu (%@)."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieses Einstellungsarchiv wurde von einer anderen Version von CotEditor (%@) erstellt."
+            "value" : "Dieses Einstellungsarchiv wurde von einer anderen Version von Graupel (%@) erstellt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "This settings archive was created by a different version of CotEditor (%@)."
+            "value" : "This settings archive was created by a different version of Graupel (%@)."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This settings archive was created by a different version of CotEditor (%@)."
+            "value" : "This settings archive was created by a different version of Graupel (%@)."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este archivo de ajustes se ha creado con otra versión de CotEditor (%@)."
+            "value" : "Este archivo de ajustes se ha creado con otra versión de Graupel (%@)."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Cette archive de réglages a été créée par une autre version de CotEditor (%@)."
+            "value" : "Cette archive de réglages a été créée par une autre version de Graupel (%@)."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "यह सेटिंग आर्काइव CotEditor के किसी भिन्न वर्शन (%@) द्वारा बनाया गया था।"
+            "value" : "यह सेटिंग आर्काइव Graupel के किसी भिन्न वर्शन (%@) द्वारा बनाया गया था।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questo archivio di impostazioni è stato creato con una versione differente di CotEditor (%@)."
+            "value" : "Questo archivio di impostazioni è stato creato con una versione differente di Graupel (%@)."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "この設定アーカイブは、別のバージョンのCotEditor（%@）で作成されています。"
+            "value" : "この設定アーカイブは、別のバージョンのGraupel（%@）で作成されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 설정 아카이브는 다른 버전의 CotEditor(%@)에서 생성되었습니다."
+            "value" : "이 설정 아카이브는 다른 버전의 Graupel(%@)에서 생성되었습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Dit instellingenarchief is gemaakt door een andere versie van CotEditor (%@)."
+            "value" : "Dit instellingenarchief is gemaakt door een andere versie van Graupel (%@)."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To archiwum ustawień zostało utworzone przy użyciu innej wersji CotEditora (%@)."
+            "value" : "To archiwum ustawień zostało utworzone przy użyciu innej wersji Graupela (%@)."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este arquivo de ajustes foi criado por uma versão diferente do CotEditor (%@)."
+            "value" : "Este arquivo de ajustes foi criado por uma versão diferente do Graupel (%@)."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Этот архив настроек был создан другой версией CotEditor (%@)."
+            "value" : "Этот архив настроек был создан другой версией Graupel (%@)."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu ayarlar arşivi, CotEditor’ün farklı bir sürümü (%@) ile oluşturuldu."
+            "value" : "Bu ayarlar arşivi, Graupel’ün farklı bir sürümü (%@) ile oluşturuldu."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Цей архів параметрів створено в іншій версії CotEditor (%@)."
+            "value" : "Цей архів параметрів створено в іншій версії Graupel (%@)."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此设置归档由不同版本的CotEditor创建（%@）。"
+            "value" : "此设置归档由不同版本的Graupel创建（%@）。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此設定封存檔是由不同版本的CotEditor (%@) 所建立。"
+            "value" : "此設定封存檔是由不同版本的Graupel (%@) 所建立。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此設定封存檔是由不同版本的CotEditor （%@）製作。"
+            "value" : "此設定封存檔是由不同版本的Graupel （%@）製作。"
           }
         }
       }

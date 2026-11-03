@@ -48,48 +48,48 @@
         }
       }
     },
-    "Allow remote files to be opened in CotEditor using the `rmate` protocol." : {
+    "Allow remote files to be opened in Graupel using the `rmate` protocol." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über das Protokoll `rmate` können entfernte Dateien in CotEditor geöffnet werden."
+            "value" : "Über das Protokoll `rmate` können entfernte Dateien in Graupel geöffnet werden."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allow remote files to be opened in CotEditor using the `rmate` protocol."
+            "value" : "Allow remote files to be opened in Graupel using the `rmate` protocol."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Permite abrir archivos remotos en CotEditor mediante el protocolo `rmate`."
+            "value" : "Permite abrir archivos remotos en Graupel mediante el protocolo `rmate`."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Permet d’ouvrir des fichiers distants dans CotEditor à l’aide du protocole `rmate`."
+            "value" : "Permet d’ouvrir des fichiers distants dans Graupel à l’aide du protocole `rmate`."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`rmate`プロトコルを使用してリモートファイルをCotEditorで開けるようにします。"
+            "value" : "`rmate`プロトコルを使用してリモートファイルをGraupelで開けるようにします。"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Sta toe dat bestanden op afstand in CotEditor worden geopend via het `rmate`-protocol."
+            "value" : "Sta toe dat bestanden op afstand in Graupel worden geopend via het `rmate`-protocol."
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "允許透過`rmate`通訊協定在CotEditor中開啟遙距檔案"
+            "value" : "允許透過`rmate`通訊協定在Graupel中開啟遙距檔案"
           }
         }
       }

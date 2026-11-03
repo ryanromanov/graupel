@@ -1226,450 +1226,450 @@
         }
       }
     },
-    "CotEditor Replace Definition" : {
+    "Graupel Replace Definition" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definice nahrazení CotEditoru"
+            "value" : "Definice nahrazení Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Ersetzungsdefinition"
+            "value" : "Graupel-Ersetzungsdefinition"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Replace Definition"
+            "value" : "Graupel Replace Definition"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definición de reemplazo de CotEditor"
+            "value" : "Definición de reemplazo de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Liste de remplacements CotEditor"
+            "value" : "Liste de remplacements Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor रिप्लेस परिभाषा"
+            "value" : "Graupel रिप्लेस परिभाषा"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definizione sostituzioni di CotEditor"
+            "value" : "Definizione sostituzioni di Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor置換定義"
+            "value" : "Graupel置換定義"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 대치 정의"
+            "value" : "Graupel 대치 정의"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vervangingsdefinitie CotEditor"
+            "value" : "Vervangingsdefinitie Graupel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definicja zastąpienia CotEditora"
+            "value" : "Definicja zastąpienia Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definição de Substituição do CotEditor"
+            "value" : "Definição de Substituição do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файл замен CotEditor"
+            "value" : "Файл замен Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Değiştirme Tanımı"
+            "value" : "Graupel Değiştirme Tanımı"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файл замін CotEditor"
+            "value" : "Файл замін Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor替换定义"
+            "value" : "Graupel替换定义"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor取代定義"
+            "value" : "Graupel取代定義"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor取代定義檔"
+            "value" : "Graupel取代定義檔"
           }
         }
       }
     },
-    "CotEditor Settings Archive" : {
+    "Graupel Settings Archive" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiv nastavení CotEditoru"
+            "value" : "Archiv nastavení Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Einstellungsarchiv"
+            "value" : "Graupel-Einstellungsarchiv"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Settings Archive"
+            "value" : "Graupel Settings Archive"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Archivo de ajustes de CotEditor"
+            "value" : "Archivo de ajustes de Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive des réglages CotEditor"
+            "value" : "Archive des réglages Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor सेटिंग आर्काइव"
+            "value" : "Graupel सेटिंग आर्काइव"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivio impostazioni CotEditor"
+            "value" : "Archivio impostazioni Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor設定アーカイブ"
+            "value" : "Graupel設定アーカイブ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 설정 아카이브"
+            "value" : "Graupel 설정 아카이브"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "CotEditor-instellingenarchief"
+            "value" : "Graupel-instellingenarchief"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "archiwum ustawień CotEditora"
+            "value" : "archiwum ustawień Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivo de Ajustes do CotEditor"
+            "value" : "Arquivo de Ajustes do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архив настроек CotEditor"
+            "value" : "Архив настроек Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Ayarları Arşivi"
+            "value" : "Graupel Ayarları Arşivi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архів параметрів CotEditor"
+            "value" : "Архів параметрів Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor设置归档"
+            "value" : "Graupel设置归档"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor設定封存檔"
+            "value" : "Graupel設定封存檔"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor設定封存檔"
+            "value" : "Graupel設定封存檔"
           }
         }
       }
     },
-    "CotEditor Syntax" : {
+    "Graupel Syntax" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Syntaxe CotEditoru"
+            "value" : "Syntaxe Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Syntax"
+            "value" : "Graupel-Syntax"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Syntax"
+            "value" : "Graupel Syntax"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Sintaxis CotEditor"
+            "value" : "Sintaxis Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Syntaxe CotEditor"
+            "value" : "Syntaxe Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor सिंटैक्स"
+            "value" : "Graupel सिंटैक्स"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sintassi CotEditor"
+            "value" : "Sintassi Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorシンタックス"
+            "value" : "Graupelシンタックス"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 구문"
+            "value" : "Graupel 구문"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "CotEditor-syntaxis"
+            "value" : "Graupel-syntaxis"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "składnia CotEditora"
+            "value" : "składnia Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sintaxe do CotEditor"
+            "value" : "Sintaxe do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Синтаксис CotEditor"
+            "value" : "Синтаксис Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Sözdizimi"
+            "value" : "Graupel Sözdizimi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Синтаксис CotEditor"
+            "value" : "Синтаксис Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor语法"
+            "value" : "Graupel语法"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor語法"
+            "value" : "Graupel語法"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor語法"
+            "value" : "Graupel語法"
           }
         }
       }
     },
-    "CotEditor Theme" : {
+    "Graupel Theme" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Motiv CotEditoru"
+            "value" : "Motiv Graupelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Thema"
+            "value" : "Graupel-Thema"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Theme"
+            "value" : "Graupel Theme"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tema CotEditor"
+            "value" : "Tema Graupel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Thème CotEditor"
+            "value" : "Thème Graupel"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor थीम"
+            "value" : "Graupel थीम"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tema CotEditor"
+            "value" : "Tema Graupel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorテーマ"
+            "value" : "Graupelテーマ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 테마"
+            "value" : "Graupel 테마"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-thema"
+            "value" : "Graupel-thema"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "motyw CotEditora"
+            "value" : "motyw Graupela"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tema do CotEditor"
+            "value" : "Tema do Graupel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тема CotEditor"
+            "value" : "Тема Graupel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor teması"
+            "value" : "Graupel teması"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тема CotEditor"
+            "value" : "Тема Graupel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor主题"
+            "value" : "Graupel主题"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor主題"
+            "value" : "Graupel主題"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor主題"
+            "value" : "Graupel主題"
           }
         }
       }

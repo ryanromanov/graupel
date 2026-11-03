@@ -100,7 +100,7 @@ struct IntegrationSettingsView: View {
                         .frame(minHeight: 28)
                         .padding(.leading, 20)
                         
-                        let description = AttributedString(localized: "Allow remote files to be opened in CotEditor using the `rmate` protocol.",
+                        let description = AttributedString(localized: "Allow remote files to be opened in Graupel using the `rmate` protocol.",
                                                            table: "IntegrationSettings")
                             .replacingAttributes(AttributeContainer.inlinePresentationIntent(.code),
                                                  with: AttributeContainer
