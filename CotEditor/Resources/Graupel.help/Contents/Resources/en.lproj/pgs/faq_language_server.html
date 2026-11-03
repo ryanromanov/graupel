@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="language server, not installed, stopped, not working, no underlines, no suggestions, PATH">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>If a language server isn’t working</title>
+</head>
+
+<body>
+<a name="faq_language_server"></a>
+
+<h1>If a language server isn’t working</h1>
+
+<p>When a language server can’t run, the status bar at the bottom of the window says so. Hold the pointer over the message to see the reason.</p>
+
+
+<section>
+<h2>“Server not installed”</h2>
+
+<p>Graupel can’t find the server’s command.</p>
+
+<ul>
+	<li><p>Install the server. To see which command Graupel looks for, choose <strong>Graupel &gt; Settings</strong>, click <strong>Language Servers</strong>, and select the language.</p></li>
+	<li><p>If the command works in Terminal, find where it is with <code>which</code>, for example <code>which boreas</code>, and type that full path in <strong>Command</strong>.</p></li>
+	<li><p>If you installed the server while Graupel was open, quit Graupel and open it again. Graupel reads your shell’s <code>PATH</code> once, when it opens.</p></li>
+</ul>
+</section>
+
+
+<section>
+<h2>“Server stopped”</h2>
+
+<p>The server started but quit because of an error. The reason shown is the last message the server reported.</p>
+
+<ul>
+	<li><p>Check that the command is right, including its options, by running it in Terminal. A server that works waits for input instead of quitting.</p></li>
+	<li><p>After fixing the problem, click <strong>Restart</strong> in Language Servers settings.</p></li>
+</ul>
+
+<p>Graupel doesn’t restart a stopped server by itself, so that a server that fails right away doesn’t run again and again.</p>
+</section>
+
+
+<section>
+<h2>No underlines and no message</h2>
+
+<ul>
+	<li><p>Check the document’s syntax in the toolbar, or choose <strong>Format &gt; Syntax</strong>. Graupel uses the server for the document’s syntax, so a Boreas file opened as plain text isn’t checked.</p></li>
+	<li><p>In Language Servers settings, check that <strong>Check <var>language</var> files as you type</strong> is selected.</p></li>
+	<li><p>If the status says the server is running, it found no problems.</p></li>
+</ul>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="howto_set_up_language_server.html">Set up a language server</a></li>
+	<li><a href="about_language_servers.html">Language servers</a></li>
+</ul>
+</section>
+
+</body>
+</html>

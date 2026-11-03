@@ -1,88 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
-	<meta name="AppleTitle" content="CotEditor User Guide">
+	<meta name="AppleTitle" content="Graupel User Guide">
 	<meta name="AppleIcon" content="../Shared/gfx/icon_32x32@2x.png">
 	<meta name="robots" content="noindex">
 	<link rel="stylesheet" href="../Shared/sty/top.css">
 	<script defer src="../Shared/js/toc.js"></script>
-	
-	<title>CotEditor User Guide</title>
+	<title>Graupel User Guide</title>
 </head>
-
 <body>
 <header>
 	<figure>
 		<img src="../Shared/gfx/icon_256x256@2x.png" srcset="../Shared/gfx/icon_256x256@2x.png 2x" alt="">
 	</figure>
-	<h1>CotEditor User Guide</h1>
+	<h1>Graupel User Guide</h1>
 	<p>for macOS</p>
 	<a class="toc" href="toc.html">Table of Contents</a>
 </header>
-
 <main>
 <section>
-<h2>Get started with CotEditor</h2>
-
-<p>CotEditor is a Mac-only text editor designed for working with plain text—from programming to everyday note-taking. It features a macOS-native interface and seamlessly integrates with system features such as Dark Mode, Versions, iCloud, and VoiceOver. It behaves in a subtle, yet intelligent way that feels right at home on macOS.</p>
+<h2>Get started with Graupel</h2>
+<p>Graupel is a text editor for the Mac. It edits plain text of any kind, and for code it checks your work and suggests words as you type.</p>
 <ul>
-	<li><a href="pgs/howto_open_document.html">How to create or open documents</a></li>
+	<li><a href="pgs/howto_open_document.html">Create or open documents</a></li>
 </ul>
 </section>
-
 <section>
-
 <div>
-<h2>Work with diverse plain text</h2>
-
-<p>CotEditor accurately opens documents that typical text editors can’t handle. This includes files with nonstandard text encodings or mixed line-ending types. Moreover, it helps identify locations in the document that may need attention.</p>
+<h2>Find problems as you type</h2>
+<p>For languages with a language server, such as Boreas, Graupel underlines errors while you write and suggests names that fit where you are.</p>
 <ul>
-	<li><a href="pgs/howto_interpret_encoding.html">How to open a document with a specified encoding</a></li>
-	<li><a href="pgs/about_line_endings.html">How to handle various types of line endings</a></li>
+	<li><a href="pgs/about_language_servers.html">Language servers</a></li>
+	<li><a href="pgs/howto_see_problems.html">See problems in your code</a></li>
+	<li><a href="pgs/howto_complete.html">Complete words</a></li>
 </ul>
 </div>
 </section>
-
 <section>
-
 <div>
-<h2>Capture document structure with syntax analysis</h2>
-
-<p>CotEditor highlights programming keywords, Markdown headings, HTML elements, and more, making your document’s structure easy to see at a glance. It also lists heading-level sections automatically so you can jump to the part you want.</p>
-
+<h2>Write Boreas</h2>
+<p>Graupel comes with everything for Boreas: colors, an outline, checking, and suggestions. Install Boreas and open a <code>.bor</code> file.</p>
 <ul>
-	<li><a href="pgs/syntax_overview.html">How to analyze the syntax of a document</a></li>
+	<li><a href="pgs/about_boreas.html">Write Boreas</a></li>
 </ul>
 </div>
 </section>
-
 <section>
 <div>
-<h2>Powerful find and replace</h2>
-
-<p>The find &amp; replace feature in CotEditor not only supports regular expressions, but can also show a list of search results and highlight matching text in your document.</p>
+<h2>See the structure of a document</h2>
+<p>Graupel colors keywords, Markdown headings, HTML elements, and more for over 70 languages, and lists a document’s functions or headings so you can jump to them.</p>
 <ul>
-	<li><a href="pgs/howto_find.html">How to find and replace text</a></li>
+	<li><a href="pgs/syntax_overview.html">Analyze the syntax of a document</a></li>
 </ul>
 </div>
 </section>
-
 <section>
-
 <div>
-<h2>Automate text editing with scripting</h2>
-
-<p>The Script menu <object type="image/svg+xml" data="../Shared/gfx/script.svg" height="16"></object> lets you run scripts to manipulate your document or launch external programs.</p>
+<h2>Open any plain text</h2>
+<p>Graupel opens files in uncommon text encodings and with mixed line endings, and shows you where they might cause trouble.</p>
 <ul>
-	<li><a href="pgs/script_overview.html">How to automate tasks with scripting</a></li>
+	<li><a href="pgs/howto_interpret_encoding.html">Open a document with a specified encoding</a></li>
+	<li><a href="pgs/about_line_endings.html">Handle various types of line endings</a></li>
 </ul>
 </div>
 </section>
-
-
-<p>To explore the CotEditor User Guide, click Table of Contents at the top of the page, or enter a word or phrase in the search field.</p>
+<section>
+<div>
+<h2>Find and replace</h2>
+<p>Search with regular expressions, see every match in a list, and replace text with several rules at once.</p>
+<ul>
+	<li><a href="pgs/howto_find.html">Find and replace text</a></li>
+	<li><a href="pgs/howto_multiple_replace.html">Replace text using multiple rules</a></li>
+</ul>
+</div>
+</section>
 </main>
 
 </body>

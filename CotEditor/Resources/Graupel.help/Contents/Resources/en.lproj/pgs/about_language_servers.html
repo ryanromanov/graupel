@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="language server, LSP, problems, errors, suggestions, completion, checking">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Language servers</title>
+</head>
+
+<body>
+<a name="about_language_servers"></a>
+
+<h1>Language servers</h1>
+
+<p>A language server is a program that understands a programming language. While you write, Graupel sends it your document, and the server reports the problems it finds and suggests words that fit where you’re typing. Graupel underlines the problems and shows the suggestions in the completion list.</p>
+
+<p>Language servers follow a shared standard, the Language Server Protocol (LSP), so one server works in many editors. Most languages have one, often made by the people who make the language.</p>
+
+
+<section>
+<h2>Servers Graupel finds by itself</h2>
+
+<p>For the languages it comes with a server for, Graupel looks for the server when you open a document and starts it. There’s nothing to set up beyond installing the server.</p>
+
+<table class="settings">
+<thead>
+	<tr><th>Language</th><th>Server</th></tr>
+</thead>
+<tbody>
+	<tr><th>Boreas</th><td><p><code>boreas lsp</code>, part of the <code>boreas</code> command. See <a href="about_boreas.html">Write Boreas</a>.</p></td></tr>
+</tbody>
+</table>
+
+<p>Graupel looks for a server’s command in the same folders as Terminal, using the <code>PATH</code> set up for your shell, and also in <code>/opt/homebrew/bin</code>, <code>/usr/local/bin</code>, and <code>~/.local/bin</code>.</p>
+
+<p>For any other language, you can tell Graupel which server to use. See <a href="howto_set_up_language_server.html">Set up a language server</a>.</p>
+</section>
+
+
+<section>
+<h2>How Graupel runs servers</h2>
+
+<p>Graupel runs one server for each language, shared by all your open documents in that language. The server starts when you open the first document in the language and stops when you close the last one.</p>
+
+<p>If a server isn’t installed, or stops because of an error, the status bar at the bottom of the window says so, for example “Boreas server not installed”. Hold the pointer over the message to see why, or click it to open Language Servers settings.</p>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="howto_see_problems.html">See problems in your code</a></li>
+	<li><a href="howto_complete.html">Complete words</a></li>
+	<li><a href="faq_language_server.html">If a language server isn’t working</a></li>
+</ul>
+</section>
+
+</body>
+</html>

@@ -55,10 +55,16 @@ struct LanguageServerSettingsView: View {
             }
             .frame(height: 240)
             
-            Text("A language server checks your code as you type and marks the problems it finds. Graupel finds the servers of the languages it comes with by itself.", tableName: "LanguageServerSettings")
-                .foregroundStyle(.secondary)
-                .controlSize(.small)
-                .fixedSize(horizontal: false, vertical: true)
+            HStack(alignment: .firstTextBaseline) {
+                Text("A language server checks your code as you type and marks the problems it finds. Graupel finds the servers of the languages it comes with by itself.", tableName: "LanguageServerSettings")
+                    .foregroundStyle(.secondary)
+                    .controlSize(.small)
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                Spacer()
+                
+                HelpLink(anchor: "settings_language_servers")
+            }
         }
         .onAppear {
             self.syntaxNames = Self.listedSyntaxNames

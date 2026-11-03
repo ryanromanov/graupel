@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="problems, errors, warnings, diagnostics, underline, check code, language server">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>See problems in your code</title>
+</head>
+
+<body>
+<a name="howto_see_problems"></a>
+
+<h1>See problems in your code</h1>
+
+<p>When a language server checks your document, Graupel underlines the problems it finds as you type. This works for any language with a language server, such as Boreas. See <a href="about_language_servers.html">Language servers</a>.</p>
+
+
+<section>
+<h2>Read a problem</h2>
+
+<ul>
+	<li><p>Hold the pointer over the underlined text to see what’s wrong.</p></li>
+	<li><p>Or move the insertion point into the underlined text. The status bar at the bottom of the window shows the message.</p></li>
+</ul>
+
+<p>The color of the dotted underline tells you what kind of problem it is:</p>
+
+<table class="settings">
+<thead>
+	<tr><th>Underline</th><th>Kind</th></tr>
+</thead>
+<tbody>
+	<tr><th>Red</th><td><p>An error. The code won’t run as written.</p></td></tr>
+	<tr><th>Orange</th><td><p>A warning. The code runs but probably doesn’t do what you meant.</p></td></tr>
+	<tr><th>Blue</th><td><p>Information from the server.</p></td></tr>
+	<tr><th>Gray</th><td><p>A hint, such as a shorter way to write something.</p></td></tr>
+</tbody>
+</table>
+
+<p>The server checks again a moment after you stop typing, and the underlines move or disappear to match. What counts as a problem, and how many are reported at a time, depends on the server.</p>
+</section>
+
+
+<section>
+<h2>If nothing is underlined</h2>
+
+<p>If the status bar says the server isn’t installed or has stopped, see <a href="faq_language_server.html">If a language server isn’t working</a>. Otherwise, the server found no problems.</p>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="howto_set_up_language_server.html">Set up a language server</a></li>
+	<li><a href="howto_complete.html">Complete words</a></li>
+</ul>
+</section>
+
+</body>
+</html>

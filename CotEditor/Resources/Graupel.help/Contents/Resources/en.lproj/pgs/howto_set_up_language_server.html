@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="language server, LSP, Language Servers settings, command, restart, turn off checking">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Set up a language server</title>
+</head>
+
+<body>
+<a name="howto_set_up_language_server"></a>
+<a name="settings_language_servers"></a>
+
+<h1>Set up a language server</h1>
+
+<p>Use Language Servers settings to choose the server for a language, add a server for another language, or turn checking off. To learn what a language server does, see <a href="about_language_servers.html">Language servers</a>.</p>
+
+<p>To open these settings, choose <strong>Graupel &gt; Settings</strong>, then click <strong>Language Servers</strong>.</p>
+
+
+<section>
+<h2>Use a server for another language</h2>
+
+<ol>
+	<li><p>Install the language server, following its instructions. Check that its command works in Terminal.</p></li>
+	<li><p>In Language Servers settings, click <strong>Add</strong> (+) below the list, then choose the language.</p></li>
+	<li><p>In <strong>Command</strong>, type the command that starts the server, the way you would type it in Terminal, then press Return.</p>
+		<p>For example, the Python server Pyright starts with <code>pyright-langserver --stdio</code>. The server’s documentation gives the command; look for one that uses standard input and output, often with an option such as <code>--stdio</code>.</p>
+	</li>
+</ol>
+
+<p>Graupel starts the server for every open document in that language. <strong>Status</strong> shows where the server is running from, or why it didn’t start.</p>
+</section>
+
+
+<section>
+<h2>Change the server for a language</h2>
+
+<p>Select the language in the list and type a different command in <strong>Command</strong>. To go back to the server Graupel finds by itself, delete the command; the field then shows that server’s command in gray.</p>
+
+<p>Graupel runs the command with <code>/bin/sh</code>, so quotes, <code>~</code>, and paths with spaces work as they do in Terminal.</p>
+</section>
+
+
+<section>
+<h2>Turn checking off or restart a server</h2>
+
+<ul>
+	<li><p>To stop using a server for a language, deselect <strong>Check <var>language</var> files as you type</strong>. Graupel no longer underlines problems in that language, and suggestions come from your document instead.</p></li>
+	<li><p>To start a server again, for example after updating it, click <strong>Restart</strong>.</p></li>
+	<li><p>To remove a language you added, select it and click <strong>Delete</strong> (−). Languages Graupel finds a server for by itself can be turned off but not removed.</p></li>
+</ul>
+</section>
+
+
+<section>
+<h2>Status messages</h2>
+
+<table class="settings">
+<thead>
+	<tr><th>Status</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+	<tr><th>Running</th><td><p>The server is running. The path shows which program it is.</p></td></tr>
+	<tr><th>Starts when you open a file</th><td><p>No document in the language is open, so the server isn’t running yet.</p></td></tr>
+	<tr><th>isn’t installed</th><td><p>Graupel can’t find the command. Install it, or type the full path of the command in <strong>Command</strong>.</p></td></tr>
+	<tr><th>Stopped</th><td><p>The server quit because of an error. The message after “Stopped:” is the last thing the server reported.</p></td></tr>
+	<tr><th>Off</th><td><p>Checking is turned off for the language.</p></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section>
+<h2>Use a script to start a server</h2>
+
+<p>If a server needs more setup than one command, put the setup in a shell script. Name it after the language, such as <code>Boreas.sh</code>, make it executable, and put it in <code>~/Library/Application Scripts/com.ryanromanov.Graupel/_Language Servers/</code>. When <strong>Command</strong> is empty, Graupel runs the script instead of the server it would find by itself.</p>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="faq_language_server.html">If a language server isn’t working</a></li>
+	<li><a href="howto_see_problems.html">See problems in your code</a></li>
+</ul>
+</section>
+
+</body>
+</html>

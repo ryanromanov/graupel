@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="graupel command, command-line tool, Terminal, shell, open from command line, git editor, standard input">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Use the graupel command</title>
+</head>
+
+<body>
+<a name="about_command_line_tool"></a>
+<a name="about_cot"></a>
+
+<h1>Use the graupel command</h1>
+
+<p>The <code>graupel</code> command opens files in Graupel from Terminal, and opens text piped to it as a new document. It comes inside Graupel; install it once to use it.</p>
+
+
+<section>
+<h2>Install the command</h2>
+
+<p>The command is inside the app, at <code>Graupel.app/Contents/SharedSupport/bin/graupel</code>. To use it from anywhere, link it into a folder in your <code>PATH</code>. For <code>/usr/local/bin</code>, run this in Terminal:</p>
+
+<pre class="shell"><code>mkdir -p /usr/local/bin
+ln -s /Applications/Graupel.app/Contents/SharedSupport/bin/graupel /usr/local/bin/graupel</code></pre>
+
+<p>Integration settings show whether the command is installed. Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Integration</strong>.</p>
+
+<p>The command is written in Python 3. If Terminal can’t find <code>python3</code>, install Apple’s command line developer tools:</p>
+
+<pre class="shell"><code>xcode-select --install</code></pre>
+
+<p>The first time you use the command, macOS asks whether Terminal may control Graupel; allow it. If you didn’t, turn on Graupel under Terminal in System Settings &gt; Privacy &amp; Security &gt; Automation. With the <code>--wait</code> option, turn on System Events there as well.</p>
+
+<p>To uninstall the command, run:</p>
+
+<pre class="shell"><code>rm /usr/local/bin/graupel</code></pre>
+</section>
+
+
+<section>
+<h2>Examples</h2>
+
+<p>Open Graupel, or bring it to the front:</p>
+<pre class="shell"><code>graupel</code></pre>
+
+<p>Open a file at line 200:</p>
+<pre class="shell"><code>graupel --line 200 program.bor</code></pre>
+
+<p>Open a file at line 200, column 4, written the way compilers report errors:</p>
+<pre class="shell"><code>graupel --goto program.bor:200:4</code></pre>
+
+<p>Open a file at its last line and column. Negative numbers count from the end:</p>
+<pre class="shell"><code>graupel --line -1 --column -1 program.bor</code></pre>
+
+<p>Open text from another command as a new document:</p>
+<pre class="shell"><code>ls -l | graupel</code></pre>
+
+<p>Use Graupel as the editor for commit messages in Git. The <code>--wait</code> option makes Git wait until you close the document:</p>
+<pre class="shell"><code>git config --global core.editor "graupel --wait"</code></pre>
+</section>
+
+
+<section>
+<h2>Options</h2>
+
+<table class="settings">
+<thead>
+	<tr><th>Option</th><th>Description</th></tr>
+</thead>
+<tbody>
+	<tr><th><code>-w</code>, <code>--wait</code></th><td><p>Wait until the opened document is closed before returning to the prompt.</p></td></tr>
+	<tr><th><code>-g</code>, <code>--background</code></th><td><p>Open the file without bringing Graupel to the front.</p></td></tr>
+	<tr><th><code>-r</code>, <code>--readonly</code></th><td><p>Open the document as read-only.</p></td></tr>
+	<tr><th><code>-n</code>, <code>--new</code></th><td><p>Create a new blank document. With a file that doesn’t exist, create the file and open it.</p></td></tr>
+	<tr><th><code>-s</code>, <code>--syntax</code> <var>syntax</var></th><td><p>Open the document with the given syntax, such as <code>Boreas</code>.</p></td></tr>
+	<tr><th><code>-l</code>, <code>--line</code> <var>line</var></th><td><p>Move the insertion point to the line. A negative number counts from the end of the document.</p></td></tr>
+	<tr><th><code>-c</code>, <code>--column</code> <var>column</var></th><td><p>Move the insertion point to the column. A negative number counts from the end of the line.</p></td></tr>
+	<tr><th><code>--goto</code> <var>file</var>[:<var>line</var>[:<var>column</var>]]</th><td><p>Open the file and move the insertion point to the line and column.</p></td></tr>
+	<tr><th><code>-h</code>, <code>--help</code></th><td><p>Show the options.</p></td></tr>
+	<tr><th><code>-v</code>, <code>--version</code></th><td><p>Show Graupel’s version.</p></td></tr>
+</tbody>
+</table>
+
+<p>A dash (<code>-</code>) in place of a file name reads text from standard input until it ends, then opens it as a new document.</p>
+</section>
+
+</body>
+</html>

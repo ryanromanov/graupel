@@ -3,155 +3,133 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="Mode settings, mode, spell, font, indentation">
+	<meta name="keywords" content="Mode settings, mode, font, spelling, completion, suggestions, indentation, smart quotes">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
-	
-	<title>Change Mode settings in CotEditor on Mac</title>
+
+	<title>Change Mode settings</title>
 </head>
 
 <body>
 <a name="settings_mode"></a>
 
-<h1>Change Mode settings in CotEditor on Mac</h1>
+<h1>Change Mode settings</h1>
 
-<p>In the CotEditor app <img class="appicon" src="../../Shared/gfx/icon_32x32@2x.png" alt=""> on your Mac, use Mode settings to adjust how editors behave depending on the document type.</p>
+<p>Mode settings set how the editor behaves for different kinds of documents, such as whether it corrects spelling or suggests words as you type. For how modes work, see <a href="about_mode.html">Switch editor modes</a>.</p>
 
-<p>To change these settings, choose CotEditor &gt; Settings, then click Mode.</p>
+<p>To change these settings, choose <strong>Graupel &gt; Settings</strong>, then click <strong>Mode</strong>.</p>
 
+
+<section>
+<h2>Modes</h2>
 
 <table class="settings">
-<caption>Modes</caption>
 <thead>
 	<tr><th>Option</th><th>Description</th></tr>
 </thead>
-
 <tbody>
 	<tr>
 		<th>Mode</th>
-		<td><p>Select what to edit in the left list. The Mode section contains kind-based defaults, and any syntax-specific settings you add appear in the Syntax section.</p></td>
+		<td><p>Select the mode to change in the list on the left. <strong>General</strong> and <strong>Code</strong> apply to documents by the kind of their syntax. Settings you add for a single syntax are listed under <strong>Syntax</strong>.</p></td>
 	</tr>
 	<tr>
-		<th>Add +</th>
-		<td><p>Add mode settings for a specific syntax by choosing the syntax from the Add menu.</p></td>
+		<th>Add (+)</th>
+		<td><p>Add settings for one syntax by choosing it from the menu.</p></td>
 	</tr>
 	<tr>
-		<th>Delete -</th>
-		<td><p>Delete the mode settings for the selected syntax. You can’t delete the built-in kind-based modes such as General or Code.</p></td>
+		<th>Delete (−)</th>
+		<td><p>Delete the settings for the selected syntax. <strong>General</strong> and <strong>Code</strong> can’t be deleted.</p></td>
 	</tr>
 </tbody>
 </table>
+</section>
 
+
+<section>
+<h2>Mode options</h2>
 
 <table class="settings">
-<caption>Mode Options</caption>
 <thead>
 	<tr><th>Option</th><th>Description</th></tr>
 </thead>
-
 <tbody>
 	<tr>
 		<th>Font</th>
-		<td><p>Select whether editors use the standard font or the monospaced font. Each font is set in <a href="settings_appearance.html">Appearance settings</a>.</p></td>
+		<td><p>Use the standard font or the monospaced font. You choose both fonts in <a href="settings_appearance.html">Appearance settings</a>.</p></td>
 	</tr>
-</tbody>
-
-<tbody>
 	<tr>
 		<th>Smart copy/paste</th>
-		<td><p>When you paste or drag text between other words, spaces are added or removed automatically to keep spacing correct.</p></td>
+		<td><p>Add or remove spaces when you paste or drag text between words, so that the words stay separated by one space.</p></td>
 	</tr>
-
 	<tr>
 		<th>Smart quotes</th>
-		<td><p>Replace straight quotes (&quot;) with matching typographic quotes (such as “ or ”) when typing.</p></td>
+		<td><p>Replace straight quotes (") with curly quotes (“ ”) as you type.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Smart dashes</th>
-		<td><p>Replace two hyphens (--) with a typographic dash (—) when typing.</p></td>
+		<td><p>Replace two hyphens (--) with a dash as you type.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Text replacement</th>
-		<td><p>Replace text automatically using the replacements set in System Settings &gt; Keyboard &gt; Text Replacements.</p></td>
+		<td><p>Replace text using the replacements in System Settings &gt; Keyboard &gt; Text Replacements.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Add period with double-space</th>
-		<td><p>Insert a period when you press the Space bar twice after a word.</p></td>
+		<td><p>Type a period when you press the Space bar twice after a word.</p></td>
 	</tr>
-
 	<tr>
 		<th>Automatically insert closing brackets and quotes</th>
-		<td><p>When you type an opening bracket or quotation mark, the matching closing character is inserted automatically, and the insertion point moves between the pair.</p></td>
+		<td><p>When you type an opening bracket or quotation mark, type the closing one too and put the insertion point between them.</p></td>
 	</tr>
-</tbody>
-
-<tbody>
 	<tr>
 		<th>Check spelling while typing</th>
-		<td><p>Check spelling automatically as you type. Misspelled words are underlined in red, and suggested corrections are shown.</p></td>
+		<td><p>Underline misspelled words in red as you type.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Check grammar with spelling</th>
-		<td><p>Check grammar automatically while checking spelling. Grammar issues are indicated with a dotted blue underline. Move the pointer over an underlined word to see a description of the issue. <em>Note</em>: Grammar checking is not available for all regions or languages.</p></td>
+		<td><p>Also underline grammar problems, in blue. Hold the pointer over an underlined word to see the problem. Grammar checking isn’t available for every language.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Correct spelling automatically</th>
-		<td><p>Automatically correct misspelled words as you type. Corrected words are briefly underlined, and you can undo the autocorrection.</p></td>
+		<td><p>Correct misspelled words as you type. To undo a correction, choose <strong>Edit &gt; Undo</strong>.</p></td>
 	</tr>
-</tbody>
-
-<tbody>
 	<tr>
 		<th>Completion list includes</th>
-		<td><p>Select the types of words that appear in the completion list:</p>
+		<td><p>Choose where suggestions come from when the document has no language server:</p>
 			<ul>
-				<li><em>Standard words</em>: Includes standard dictionary words.</li>
-				<li><em>Words in document</em>: Includes words that appear in your document.</li>
-				<li><em>Words defined in syntax</em>: Includes words <a href="syntax_completion_settings.html">defined in the syntax</a>. If the syntax definition doesn’t include completion words, CotEditor generates them from the syntax highlighting rules.</li>
-			</ul></td>
-	</tr>
-
-	<tr>
-		<th>Suggest completions while typing</th>
-		<td><p>Show the completion list automatically while typing when possible completions exist.</p></td>
-	</tr>
-</tbody>
-
-<tbody>
-	<tr>
-		<th>Use custom settings</th>
-		<td><p>Use custom indentation settings for the selected mode or syntax. When this option is turned off, CotEditor uses the values in <a href="settings_edit.html">Edit settings</a>.</p></td>
-	</tr>
-
-	<tr>
-		<th>Prefer using spaces/tabs</th>
-		<td><p>Set the character used for indentation and for the Tab key. Choose one of the following:</p>
-			<ul>
-				<li><em>Spaces</em>: Insert multiple space characters based on the indent width.</li>
-				<li><em>Tabs</em>: Insert a single tab character.</li>
+				<li><p><strong>Standard words</strong>: words from the dictionary.</p></li>
+				<li><p><strong>Words in document</strong>: words that appear in the document.</p></li>
+				<li><p><strong>Words defined in syntax</strong>: the words the syntax lists for completion, or if it lists none, its highlighted keywords. See <a href="syntax_completion_settings.html">Define completion candidates in a syntax</a>.</p></li>
 			</ul>
+			<p>When the document has a language server, its suggestions are used instead of these words.</p>
 		</td>
 	</tr>
-
+	<tr>
+		<th>Suggest completions while typing</th>
+		<td><p>Show the list of suggestions after you type three letters, or, with a language server, after a dot. On by default for <strong>Code</strong>. See <a href="howto_complete.html">Complete words</a>.</p></td>
+	</tr>
+	<tr>
+		<th>Use custom settings</th>
+		<td><p>Use the indentation settings below for this mode or syntax instead of the ones in <a href="settings_edit.html">Edit settings</a>.</p></td>
+	</tr>
+	<tr>
+		<th>Prefer using</th>
+		<td><p>Indent with <strong>Spaces</strong> (as many as the indent width) or with <strong>Tabs</strong> (one tab character). The Tab key types the same.</p></td>
+	</tr>
 	<tr>
 		<th>Indent width</th>
-		<td><p>Set the number of spaces that a tab character represents.</p></td>
+		<td><p>The number of spaces one indent level takes, which is also how wide a tab character is shown.</p></td>
 	</tr>
 </tbody>
 </table>
+</section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="about_mode.html">Switch editor modes in CotEditor on Mac</a></li>
-	<li><a href="settings_edit.html">Change Edit settings in CotEditor on Mac</a></li>
-	<li><a href="settings.html">Change settings in CotEditor on Mac</a></li>
+	<li><a href="about_mode.html">Switch editor modes</a></li>
+	<li><a href="settings_edit.html">Change Edit settings</a></li>
 </ul>
 </section>
 

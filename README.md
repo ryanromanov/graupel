@@ -47,7 +47,7 @@ Graupel's own changes include language server support, the removal of the App Sa
 run without the menu bar showing each one as a running script), and its own name, icon, and settings.
 The full history of changes is in this repository's commit log.
 
-Graupel's Help is still CotEditor's and is being rewritten.
+Graupel's Help is being rewritten; some pages still read like CotEditor's.
 
 
 ## License

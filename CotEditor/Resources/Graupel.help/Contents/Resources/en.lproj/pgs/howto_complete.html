@@ -3,42 +3,50 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="Word Completion, complete words, completing">
+	<meta name="keywords" content="complete words, completion, suggestions, autocomplete, language server">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
-	
-	<title>Complete a word in CotEditor on Mac</title>
+
+	<title>Complete words</title>
 </head>
 
 <body>
+<a name="howto_complete"></a>
 
-<h1>Complete a word in CotEditor on Mac</h1>
+<h1>Complete words</h1>
 
-<p>Word completion helps you enter words faster by typing just a few letters and selecting a complete word from the candidate list, such as when entering reserved words in programming languages.</p>
-
+<p>Graupel suggests words as you type. With a language server, such as the one for Boreas, the suggestions fit the place you’re typing: names from your file, fields after a dot, built-in functions, and keywords. Without one, they come from the words in your document and the document’s syntax.</p>
 
 
 <section>
 <h2>Complete a word</h2>
 
 <ol>
-	<li><p>In the CotEditor app <img class="appicon" src="../../Shared/gfx/icon_32x32@2x.png" alt=""> on your Mac, open a document.</p></li>
-	<li><p>Type the first few letters of a word.</p></li>
-	<li><p>Choose Edit &gt; Complete, or press <kbd>Option</kbd>-<kbd>Esc</kbd> or <kbd>F5</kbd>.</p></li>
-	<li><p>Select the word you want to enter from the list.</p>
-		<p>To close the list without completing a word, press the <kbd>Esc</kbd> key.</p>
+	<li><p>Type the first letters of a word. After three letters, a list of suggestions appears.</p>
+		<p>With a language server, a list can also appear after a dot, such as after the name of a record in Boreas.</p>
 	</li>
+	<li><p>Choose a word with the arrow keys and press Return, or keep typing to narrow the list.</p></li>
 </ol>
 
-<p>In the Completion section of the Mode settings pane, you can change the types of completion candidates that appear in the list. For example, the list can include only words from the document or additional words provided by the selected syntax.</p>
+<p>To show the list before three letters, press Esc, or choose <strong>Edit &gt; Complete</strong> (Option-Esc). To close it without choosing a word, press Esc again.</p>
+</section>
+
+
+<section>
+<h2>Turn suggestions while typing off or on</h2>
+
+<p>Graupel shows suggestions as you type in code. To change this, choose <strong>Graupel &gt; Settings</strong>, click <strong>Mode</strong>, select a mode such as <strong>Code</strong>, and select or deselect <strong>Suggest completions while typing</strong>. Esc shows the list either way.</p>
+
+<p>In the same settings, <strong>Completion list includes</strong> sets which words are suggested when there’s no language server.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings_mode.html">Change Mode settings in CotEditor on Mac</a></li>
-	<li><a href="syntax_completion_settings.html">Define completion candidates in CotEditor on Mac</a></li>
+	<li><a href="about_language_servers.html">Language servers</a></li>
+	<li><a href="settings_mode.html">Change Mode settings</a></li>
+	<li><a href="syntax_completion_settings.html">Define completion candidates in a syntax</a></li>
 </ul>
 </section>
 

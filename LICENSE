@@ -2,8 +2,10 @@ Graupel is a modified version of CotEditor (https://github.com/coteditor/CotEdit
 by the CotEditor Project.
 
 The image resources from CotEditor are © CotEditor Project and licensed as
-described below. The Graupel app icon (CotEditor/Resources/AppIcon.icon) is
-© Ryan Romanosky and is not covered by the image resource license below.
+described below. The Graupel app icon (CotEditor/Resources/AppIcon.icon) and
+the other images made for Graupel (its document icons, settings file icons,
+and custom symbols) are © Ryan Romanosky and are not covered by the image
+resource license below.
 
 -------------------------------------------------------------------------------
 

@@ -16,6 +16,10 @@ BOOK = os.path.join(ROOT, "en.lproj")
 # pages allowed to name CotEditor (see docs/HELP_STYLE.md)
 CREDIT_PAGES = {"about_sourcecode.html", "releasenotes.html"}
 
+# names that keep their capitals in sentence-case headings
+PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleScript", "Unicode", "Finder", "Terminal",
+                "Mode", "Settings", "Markdown", "Python", "JavaScript", "Shift", "Japanese", "iCloud", "Apple"}
+
 BANNED = [
     "seamless", "robust", "powerful", "effortless", "intuitive", "leverage", "utilize", "delve", "streamline",
     "elevate", "enhance", "empower", "unlock", "harness", "crucial", "vital", "comprehensive",
@@ -64,9 +68,12 @@ def check(path):
     if "CotEditor" in text and os.path.basename(path) not in CREDIT_PAGES:
         findings.append(f"names CotEditor {text.count('CotEditor')} times")
     for heading in re.findall(r"<h[1-3][^>]*>(.*?)</h[1-3]>", source, flags=re.S):
-        words = re.sub(r"<[^>]+>", "", heading).split()
-        if len(words) > 2 and all(w[:1].isupper() for w in words[1:] if w.isalpha() and len(w) > 3):
-            findings.append(f"Title Case heading: {' '.join(words)}")
+        heading = html.unescape(re.sub(r"<[^>]+>", "", heading)).strip()
+        # later words that aren't short or proper names should be lowercase
+        later = [w.strip("“”‘’\"'.,:;()") for w in heading.split()[1:]]
+        later = [w for w in later if len(w) > 3 and w.isalpha() and w not in PROPER_NOUNS]
+        if heading not in PROPER_NOUNS and len(later) >= 2 and all(w[:1].isupper() for w in later):
+            findings.append(f"Title Case heading: {heading}")
     return errors, findings
 
 
