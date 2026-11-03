@@ -44,7 +44,7 @@ import LineEnding
     static let isAvailable = false
     
     nonisolated static let fileStore = RMateFileStore(directory: .applicationSupportDirectory
-        .appending(component: "CotEditor", directoryHint: .isDirectory)
+        .appending(component: "Graupel", directoryHint: .isDirectory)
         .appending(path: "Remote Documents", directoryHint: .isDirectory))
     
     

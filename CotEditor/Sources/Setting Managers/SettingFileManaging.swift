@@ -70,7 +70,7 @@ extension URL {
     static func applicationSupportDirectory(component subDirectory: String) -> URL {
         
         .applicationSupportDirectory
-        .appending(component: "CotEditor", directoryHint: .isDirectory)
+        .appending(component: "Graupel", directoryHint: .isDirectory)
         .appending(component: subDirectory, directoryHint: .isDirectory)
     }
 }

@@ -199,7 +199,7 @@ enum SyntaxName {
     /// - Throws: `CocoaError` if file operations fail during migration.
     func migrateUserSettings() throws {
         
-        let applicationURL = URL.applicationSupportDirectory.appending(component: "CotEditor", directoryHint: .isDirectory)
+        let applicationURL = URL.applicationSupportDirectory.appending(component: "Graupel", directoryHint: .isDirectory)
         let syntaxURL = applicationURL.appending(component: Self.directoryName)
         let legacyURL = applicationURL.appending(component: "Syntaxes (Legacy, before 7.0)")
         let prereleaseURL = applicationURL.appending(component: "Syntaxes (Upcoming 7.0)")
