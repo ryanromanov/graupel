@@ -7,19 +7,27 @@ Help Script for Table of Contents
  © 2023-2025 1024jp
 */
 
-// Graupel: find the table of contents from this script's location rather than the page's,
-//   which isn't a file path for every page Help Viewer shows, such as the book's start page
-const tocURL = new URL("../../en.lproj/toc.html", document.currentScript.src).href
+// Graupel: follow the page's own Table of Contents link from the toolbar button, instead of building
+//   the address from the page's location, which doesn't work on the book's start page in Help Viewer
 const isTOC = window.location.pathname.endsWith("/toc.html")
 const isPage = window.location.pathname.includes("/pgs/")
+
+function tocLink() {
+    return document.querySelector("a.toc");
+}
 
 // enable toc button in the viewer's toolbar
 document.addEventListener("DOMContentLoaded", () => {
     function toggleTOC() {
         if (isTOC) {
             window.history.back();
+            return;
+        }
+        const link = tocLink();
+        if (link) {
+            link.click();
         } else {
-            window.location = tocURL;
+            window.location.href = isPage ? "../toc.html" : "toc.html";
         }
     }
 
@@ -33,7 +41,7 @@ if (isPage) {
     document.addEventListener("DOMContentLoaded", () => {
             const tocButton = document.createElement("a");
             tocButton.className = "toc";
-            tocButton.href = tocURL;
+            tocButton.href = "../toc.html";
             tocButton.textContent = "Table of Contents";
             document.body.prepend(tocButton);
     });
