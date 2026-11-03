@@ -67,7 +67,7 @@
       "kind": "folder",
       "path": "CotEditor",
       "file-types": {
-        "Resources/cot": "text.script.python",
+        "Resources/graupel": "text.script.python",
       },
       "opaque-folders": [
         "Resources/Licenses",
@@ -83,12 +83,12 @@
           "exclusions": [
             "CotEditor.storekit",
             "Info.plist",
-            "Resources/cot",
+            "Resources/graupel",
           ],
         }, {
           "build-phase": "CotEditor/copy/Copy Command-Line Tools",
           "inclusions": [
-            "Resources/cot",
+            "Resources/graupel",
           ],
         },
       ],

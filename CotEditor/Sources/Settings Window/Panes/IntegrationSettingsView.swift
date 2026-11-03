@@ -46,7 +46,7 @@ struct IntegrationSettingsView: View {
                 VStack(alignment: .leading) {
                     HStack(alignment: .firstTextBaseline) {
                         Button(.init("Learn More…", table: "IntegrationSettings", comment: "verb; button")) {
-                            NSHelpManager.shared.openHelpAnchor("about_cot", inBook: nil)
+                            NSHelpManager.shared.openHelpAnchor("about_command_line_tool", inBook: nil)
                         }
                         if self.commandLineToolStatus.installed,
                            let url = self.commandLineToolURL
@@ -63,7 +63,7 @@ struct IntegrationSettingsView: View {
                             .labelIconToTitleSpacing(6)
                         }
                     }
-                    Text("With the `cot` command-line tool, you can launch CotEditor and let it open files from the command line.", tableName: "IntegrationSettings")
+                    Text("With the `graupel` command-line tool, you can launch Graupel and let it open files from the command line.", tableName: "IntegrationSettings")
                         .foregroundStyle(.secondary)
                         .controlSize(.small)
                         .lineLimit(10)
@@ -150,11 +150,11 @@ private extension CommandLineToolManager.Status {
                 nil
             case .differentTarget:
                 String(localized: "CommandLineToolManager.Status.differentTarget.message",
-                       defaultValue: "The current `cot` symbolic link doesn’t target the running CotEditor.",
+                       defaultValue: "The current `graupel` symbolic link doesn’t target the running Graupel.",
                        table: "IntegrationSettings")
             case .invalidTarget:
                 String(localized: "CommandLineToolManager.Status.invalidTarget.message",
-                       defaultValue: "The current `cot` symbolic link may target an invalid path.", table: "IntegrationSettings")
+                       defaultValue: "The current `graupel` symbolic link may target an invalid path.", table: "IntegrationSettings")
         }
     }
 }

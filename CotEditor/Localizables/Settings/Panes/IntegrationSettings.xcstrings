@@ -212,115 +212,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktuální symbolický odkaz `cot` neodkazuje na spuštěný CotEditor."
+            "value" : "Aktuální symbolický odkaz `graupel` neodkazuje na spuštěný Graupel."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der aktuelle symbolische Link `cot` verweist nicht auf die laufende Version von CotEditor."
+            "value" : "Der aktuelle symbolische Link `graupel` verweist nicht auf die laufende Version von Graupel."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The current `cot` symbolic link doesn’t target the running CotEditor."
+            "value" : "The current `graupel` symbolic link doesn’t target the running Graupel."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The current `cot` symbolic link doesn’t target the running CotEditor."
+            "value" : "The current `graupel` symbolic link doesn’t target the running Graupel."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El enlace simbólico `cot` actual no se dirige al CotEditor en ejecución."
+            "value" : "El enlace simbólico `graupel` actual no se dirige al Graupel en ejecución."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le lien symbolique `cot` actuel ne pointe pas vers la version de CotEditor en cours d’exécution."
+            "value" : "Le lien symbolique `graupel` actuel ne pointe pas vers la version de Graupel en cours d’exécution."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "मौजूदा `cot` सिंबॉलिक लिंक चल रहे CotEditor को लक्षित नहीं करता।"
+            "value" : "मौजूदा `graupel` सिंबॉलिक लिंक चल रहे Graupel को लक्षित नहीं करता।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il link simbolico `cot` attuale non punta al CotEditor in esecuzione."
+            "value" : "Il link simbolico `graupel` attuale non punta al Graupel in esecuzione."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現在の`cot`シンボリックリンクはこのCotEditor以外に向けられています。"
+            "value" : "現在の`graupel`シンボリックリンクはこのGraupel以外に向けられています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "현재 `cot` 심볼릭 링크가 실행 중인 CotEditor를 가리키지 않습니다."
+            "value" : "현재 `graupel` 심볼릭 링크가 실행 중인 Graupel를 가리키지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De huidige `cot` symbolische link richt zich niet op de actieve CotEditor."
+            "value" : "De huidige `graupel` symbolische link richt zich niet op de actieve Graupel."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obecne połączenie symboliczne `cot` nie wskazuje działającego CotEditora."
+            "value" : "Obecne połączenie symboliczne `graupel` nie wskazuje działającego Graupela."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O link simbólico `cot` atual não aponta para o CotEditor em execução."
+            "value" : "O link simbólico `graupel` atual não aponta para o Graupel em execução."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Текущая символическая ссылка `cot` не указывает на запущенный CotEditor."
+            "value" : "Текущая символическая ссылка `graupel` не указывает на запущенный Graupel."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçerli `cot` sembolik bağı, çalışan CotEditor’ü hedeflemiyor."
+            "value" : "Geçerli `graupel` sembolik bağı, çalışan Graupel’ü hedeflemiyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поточне символічне посилання `cot` не вказує на запущений CotEditor."
+            "value" : "Поточне символічне посилання `graupel` не вказує на запущений Graupel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当前的`cot`符号链接没有指向正在运行的CotEditor。"
+            "value" : "当前的`graupel`符号链接没有指向正在运行的Graupel。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當前的`cot`符號鏈接沒有指向正在運行的CotEditor。"
+            "value" : "當前的`graupel`符號鏈接沒有指向正在運行的Graupel。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現時`cot`符號連結的目標不是正在執行的CotEditor。"
+            "value" : "現時`graupel`符號連結的目標不是正在執行的Graupel。"
           }
         }
       }
@@ -331,115 +331,115 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktuální symbolický odkaz `cot` může odkazovat na neplatnou cestu."
+            "value" : "Aktuální symbolický odkaz `graupel` může odkazovat na neplatnou cestu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der aktuelle symbolische Link `cot` könnte auf einen ungültigen Pfad verweisen."
+            "value" : "Der aktuelle symbolische Link `graupel` könnte auf einen ungültigen Pfad verweisen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The current `cot` symbolic link may target an invalid path."
+            "value" : "The current `graupel` symbolic link may target an invalid path."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The current `cot` symbolic link may target an invalid path."
+            "value" : "The current `graupel` symbolic link may target an invalid path."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El enlace simbólico `cot` actual puede apuntar a una ruta no válida."
+            "value" : "El enlace simbólico `graupel` actual puede apuntar a una ruta no válida."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il se peut que le lien symbolique `cot` pointe vers un chemin invalide."
+            "value" : "Il se peut que le lien symbolique `graupel` pointe vers un chemin invalide."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "मौजूदा `cot` सिंबॉलिक लिंक किसी अमान्य पथ को लक्षित कर सकता है।"
+            "value" : "मौजूदा `graupel` सिंबॉलिक लिंक किसी अमान्य पथ को लक्षित कर सकता है।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il link simbolico `cot` attuale potrebbe puntare a un percorso non valido."
+            "value" : "Il link simbolico `graupel` attuale potrebbe puntare a un percorso non valido."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現在の`cot`シンボリックリンクは無効なパスに向けられています。"
+            "value" : "現在の`graupel`シンボリックリンクは無効なパスに向けられています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "현재 `cot` 심볼릭 링크가 유효하지 않은 경로를 가리키고 있는 것 같습니다."
+            "value" : "현재 `graupel` 심볼릭 링크가 유효하지 않은 경로를 가리키고 있는 것 같습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De huidige `cot` symbolische link kan een ongeldig pad als doel hebben."
+            "value" : "De huidige `graupel` symbolische link kan een ongeldig pad als doel hebben."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obecne połączenie symboliczne `cot` może wskazywać nieprawidłową ścieżkę."
+            "value" : "Obecne połączenie symboliczne `graupel` może wskazywać nieprawidłową ścieżkę."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O link simbólico `cot` atual pode apontar para um caminho inválido."
+            "value" : "O link simbólico `graupel` atual pode apontar para um caminho inválido."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Текущая символическая ссылка `cot` может указывать на недопустимый путь."
+            "value" : "Текущая символическая ссылка `graupel` может указывать на недопустимый путь."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçerli `cot` sembolik bağı, geçersiz bir yolu hedefleyebilir."
+            "value" : "Geçerli `graupel` sembolik bağı, geçersiz bir yolu hedefleyebilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поточне символічне посилання `cot` може вказувати на недійсний шлях."
+            "value" : "Поточне символічне посилання `graupel` може вказувати на недійсний шлях."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当前的`cot`符号链接可能指向无效路径。"
+            "value" : "当前的`graupel`符号链接可能指向无效路径。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當前的`cot`符號鏈接可能指向無效路徑。"
+            "value" : "當前的`graupel`符號鏈接可能指向無效路徑。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現時`cot`符號連結的目標可能是無效路徑。"
+            "value" : "現時`graupel`符號連結的目標可能是無效路徑。"
           }
         }
       }
@@ -827,114 +827,114 @@
         }
       }
     },
-    "With the `cot` command-line tool, you can launch CotEditor and let it open files from the command line." : {
+    "With the `graupel` command-line tool, you can launch Graupel and let it open files from the command line." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocí nástroje příkazového řádku `cot` můžete spustit CotEditor a nechat ho otevřít soubory z příkazového řádku."
+            "value" : "Pomocí nástroje příkazového řádku `graupel` můžete spustit Graupel a nechat ho otevřít soubory z příkazového řádku."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mit dem „cot“-Kommandozeilenwerkzeug kannst du CotEditor von der Kommandozeile aus starten und Dateien öffnen."
+            "value" : "Mit dem „cot“-Kommandozeilenwerkzeug kannst du Graupel von der Kommandozeile aus starten und Dateien öffnen."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "With the `cot` command-line tool, you can launch CotEditor and let it open files from the command line."
+            "value" : "With the `graupel` command-line tool, you can launch Graupel and let it open files from the command line."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con la herramienta de línea de comandos `cot`, puedes iniciar CotEditor y dejar que abra archivos desde la línea de comandos."
+            "value" : "Con la herramienta de línea de comandos `graupel`, puedes iniciar Graupel y dejar que abra archivos desde la línea de comandos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avec l’outil en ligne de commande `cot`, vous pouvez lancer CotEditor et ouvrir des fichiers depuis le Terminal."
+            "value" : "Avec l’outil en ligne de commande `graupel`, vous pouvez lancer Graupel et ouvrir des fichiers depuis le Terminal."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`cot` कमांड-लाइन टूल से, आप CotEditor लॉन्च कर सकते हैं और इसे कमांड लाइन से फ़ाइलें खुलवा सकते हैं।"
+            "value" : "`graupel` कमांड-लाइन टूल से, आप Graupel लॉन्च कर सकते हैं और इसे कमांड लाइन से फ़ाइलें खुलवा सकते हैं।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con lo strumento da riga di comando `cot`, puoi avviare CotEditor e aprire file dalla riga di comando."
+            "value" : "Con lo strumento da riga di comando `graupel`, puoi avviare Graupel e aprire file dalla riga di comando."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`cot`コマンドラインツールは、コマンドラインからのCotEditor起動やファイルオープンを可能にします。"
+            "value" : "`graupel`コマンドラインツールは、コマンドラインからのGraupel起動やファイルオープンを可能にします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`cot` 명령어 라인 도구로, 명령어 라인에서 파일을 CotEditor로 열 수 있습니다."
+            "value" : "`graupel` 명령어 라인 도구로, 명령어 라인에서 파일을 Graupel로 열 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Met de commandoregel `cot` kun je CotEditor starten en bestanden laten openen vanaf de commandoregel."
+            "value" : "Met de commandoregel `graupel` kun je Graupel starten en bestanden laten openen vanaf de commandoregel."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Za pomocą narzędzia wiersza poleceń `cot` możesz uruchomić CotEditora i pozwolić mu otwierać pliki z poziomu wiersza poleceń"
+            "value" : "Za pomocą narzędzia wiersza poleceń `graupel` możesz uruchomić Graupela i pozwolić mu otwierać pliki z poziomu wiersza poleceń"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Com a ferramenta de linha de comando `cot`, você pode iniciar o CotEditor e abrir arquivos pela linha de comando."
+            "value" : "Com a ferramenta de linha de comando `graupel`, você pode iniciar o Graupel e abrir arquivos pela linha de comando."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "С помощью инструмента командной строки `cot` Вы можете запустить CotEditor и позволить ему открывать файлы из командной строки."
+            "value" : "С помощью инструмента командной строки `graupel` Вы можете запустить Graupel и позволить ему открывать файлы из командной строки."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`cot` komut satırı aracıyla CotEditor’ü çalıştırabilir ve komut satırından dosyalar açabilirsiniz."
+            "value" : "`graupel` komut satırı aracıyla Graupel’ü çalıştırabilir ve komut satırından dosyalar açabilirsiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "За допомогою засобу командного рядка `cot` можна запускати CotEditor і відкривати в ньому файли з командного рядка."
+            "value" : "За допомогою засобу командного рядка `graupel` можна запускати Graupel і відкривати в ньому файли з командного рядка."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`cot`命令行工具可以让你使用命令行来启动CotEditor并打开文件。"
+            "value" : "`graupel`命令行工具可以让你使用命令行来启动Graupel并打开文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`cot`命令列工具可以讓你使用命令列來啟動CotEditor並開啟檔案。"
+            "value" : "`graupel`命令列工具可以讓你使用命令列來啟動Graupel並開啟檔案。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用`cot`命令列工具，你可以啟動CotEditor，並讓它透過命令列開啟檔案。"
+            "value" : "使用`graupel`命令列工具，你可以啟動Graupel，並讓它透過命令列開啟檔案。"
           }
         }
       }

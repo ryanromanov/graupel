@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-cot
+graupel
 
-CotEditor
+Graupel, based on CotEditor
 https://coteditor.com
 
 Created by 1024jp on 2015-08-12.
@@ -28,6 +28,7 @@ limitations under the License.
 import argparse
 import errno
 import os
+import plistlib
 import sys
 import time
 from subprocess import Popen, PIPE, CalledProcessError
@@ -35,12 +36,12 @@ from typing import Optional
 
 
 # meta data
-__version__ = '7.1.2'
-__description__ = 'command-line utility for CotEditor.'
+__version__ = '0.1.0'  # used only outside the app bundle; see app_version()
+__description__ = 'command-line utility for Graupel.'
 
 
 # constants
-APPLICATION_NAME = 'CotEditor'
+APPLICATION_NAME = 'Graupel'
 WAIT_INTERVAL = 1.0
 
 
@@ -77,6 +78,18 @@ def bundle_path() -> Optional[str]:
             return path
 
     return None
+
+
+def app_version() -> str:
+    """Return the version of the app this script is bundled in, or the script's own version."""
+    path = bundle_path()
+    if path:
+        try:
+            with open(os.path.join(path, 'Contents', 'Info.plist'), 'rb') as f:
+                return plistlib.load(f)['CFBundleShortVersionString']
+        except (OSError, KeyError, plistlib.InvalidFileException):
+            pass
+    return __version__
 
 
 # MARK: OSA Script
@@ -251,7 +264,7 @@ class ScriptableApplication(object):
             sys.stderr.write(
                 Style.warning('Error') + ': '
                 'User authorization required. '
-                'To authorize cot command, select ' +
+                'To authorize the graupel command, select ' +
                 Style.bold(self.name) + ' under your client application, '
                 'such as Terminal, in ' +
                 Style.bold('System Settings') + ' > ' +
@@ -289,7 +302,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         '-v', '--version',
         action='version',
-        version=__version__
+        version=app_version()
     )
     parser.add_argument(
         '-w', '--wait',

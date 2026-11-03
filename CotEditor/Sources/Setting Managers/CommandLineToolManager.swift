@@ -53,8 +53,8 @@ final class CommandLineToolManager: Sendable {
     
     init(bundle: Bundle = .main) {
         
-        self.bundledCommandURL = bundle.cotURL!
-        self.preferredLinkURL = URL(filePath: "/usr/local/bin/cot")
+        self.bundledCommandURL = bundle.commandLineToolURL!
+        self.preferredLinkURL = URL(filePath: "/usr/local/bin/graupel")
         self.preferredApplicationURL = URL.applicationDirectory
             .appendingPathComponent(bundle.bundleName, conformingTo: .application)
         
@@ -63,7 +63,7 @@ final class CommandLineToolManager: Sendable {
     }
     
     
-    /// Checks the destination of symlink and return whether `cot` command is exists at '/usr/local/bin/'.
+    /// Checks the destination of symlink and return whether the `graupel` command exists at '/usr/local/bin/'.
     ///
     /// - Returns: The result status.
     func validateSymlink() -> Status {
@@ -76,7 +76,7 @@ final class CommandLineToolManager: Sendable {
         
         if url == self.linkURL ||
            url == self.bundledCommandURL ||
-           url == Bundle(url: self.preferredApplicationURL)?.cotURL
+           url == Bundle(url: self.preferredApplicationURL)?.commandLineToolURL
         { return .validTarget }
         
         return .differentTarget
@@ -86,8 +86,8 @@ final class CommandLineToolManager: Sendable {
 
 private extension Bundle {
     
-    var cotURL: URL? {
+    var commandLineToolURL: URL? {
         
-        self.sharedSupportURL?.appending(components: "bin", "cot").standardizedFileURL
+        self.sharedSupportURL?.appending(components: "bin", "graupel").standardizedFileURL
     }
 }
