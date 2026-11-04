@@ -11,64 +11,29 @@
 </head>
 
 <body>
+<a name="howto_inspect_fileinfo"></a>
 
 <h1>Get information about a document</h1>
 
-<p>In the Document inspector, you can view a variety of information about the current document.</p>
+<p>The Document inspector shows a document’s file details, text settings, counts, and the character at the insertion point.</p>
+
+<p>To show it, choose <strong>View &gt; Inspector &gt; Document Inspector</strong>, or click <strong>Inspector</strong> in the toolbar. Choose the menu item again to hide it.</p>
 
 
 <section>
-<h2>Open the Document inspector</h2>
+<h2>What the inspector shows</h2>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>View &gt; Inspector &gt; Document Inspector</strong>, or click the Inspector button in the toolbar.</p>
-		<p>To close the inspector, drag the pane separator to the window edge, or choose <strong>View &gt; Inspector &gt; Document Inspector</strong> again.</p></li>
-</ol>
-
-<p>The inspector shows the following information:</p>
-
-<ul>
-	<li><p>File</p>
-		<ul>
-			<li><p><em>Created:</em> The file creation date and time.</p></li>
-			<li><p><em>Modified:</em> The file modification date and time.</p></li>
-			<li><p><em>File Size:</em> The size of the file.</p></li>
-			<li><p><em>Tags:</em> The file tags set in the Finder.</p></li>
-			<li><p><em>Owner:</em> The user name of the owner of the file.</p></li>
-			<li><p><em>Permissions:</em> The file permissions.</p></li>
-			<li><p><em>Full Path:</em> The absolute path to the file in UNIX format.</p></li>
-		</ul>
-	</li>
-	
-	<li><p>Text Settings</p>
-		<ul>
-			<li><p><em>Encoding:</em> The current text encoding.</p></li>
-			<li><p><em>Line Endings:</em> The current line ending setting.</p></li>
-			<li><p><em>Mode:</em> The current editor mode.</p></li>
-		</ul>
-	</li>
-	
-	<li><p>Count</p>
-		<ul>
-			<li><p><em>Characters:</em> The number of characters in the document (and the selection).</p></li>
-			<li><p><em>Lines:</em> The number of lines in the document (and the selection).</p></li>
-			<li><p><em>Words:</em> The number of words in the document (and the selection). The current language in the Spelling window is used to interpret words.</p></li>
-			<li><p><em>Location:</em> The number of characters before the insertion point.</p></li>
-			<li><p><em>Line:</em> The line number containing the insertion point.</p></li>
-			<li><p><em>Column:</em> The number of characters from the start of the current line to the insertion point.</p></li>
-		</ul>
-	</li>
-	
-	<li><p>Character (shown only when a single character is selected)</p>
-		<ul>
-			<li><p><em>Code Points:</em> The Unicode code points for the selected character in hexadecimal.</p></li>
-			<li><p><em>Name:</em> The Unicode name for the selected character.</p></li>
-			<li><p><em>Block:</em> The Unicode block where the selected character belongs.</p></li>
-			<li><p><em>Category:</em> The Unicode category where the selected character belongs.</p></li>
-		</ul>
-	</li>
-</ul>
+<table class="settings">
+<thead>
+	<tr><th>Section</th><th>Contents</th></tr>
+</thead>
+<tbody>
+	<tr><th>File</th><td><p>When the file was created and modified, its size, Finder tags, permissions, owner, and full path.</p></td></tr>
+	<tr><th>Text Settings</th><td><p>The document’s text encoding, line endings, and <a href="about_mode.html">mode</a>.</p></td></tr>
+	<tr><th>Count</th><td><p>The number of characters, lines, and words in the document, and in the selection if there is one. Words are counted using the language set in the Spelling and Grammar window. Also the position of the insertion point: its line, its column, and how many characters come before it.</p></td></tr>
+	<tr><th>Character</th><td><p>When one character is selected: its Unicode code points, name, block, and category.</p></td></tr>
+</tbody>
+</table>
 </section>
 
 
@@ -76,6 +41,7 @@
 <h2>See also</h2>
 <ul>
 	<li><a href="howto_count_characters.html">Count characters</a></li>
+	<li><a href="howto_inspect_character.html">Get information about a character</a></li>
 </ul>
 </section>
 

@@ -11,123 +11,55 @@
 </head>
 
 <body>
+<a name="about_line_endings"></a>
 
 <h1>Handle various types of line endings</h1>
 
-<p>Graupel can handle multiple types of line endings. In normal editing, it uses one line-ending type consistently for each document.</p>
-
-
-<p>Graupel treats the following characters as line ending delimiters:</p>
+<p>Different systems end lines with different characters. Graupel uses one kind of line ending throughout a document, and you can change which.</p>
 
 <table>
-	<thead>
-		<tr><th>Label</th><th>Unicode name</th><th>Code point</th><th>Metacharacter</th><th>Description</th></tr>
-	</thead>
-	<tbody>
-		<tr><td>LF</td>
-			<td>Line Feed</td>
-			<td><code>U+000A</code></td>
-			<td>\n</td>
-			<td><p>The standard line endings in UNIX and modern macOS.</p></td>
-		</tr>
-		
-		<tr><td>CR</td>
-			<td>Carriage Return</td>
-			<td><code>U+000D</code></td>
-			<td>\r</td>
-			<td><p>The line ending used in classic Mac OS.</p></td>
-		</tr>
-		
-		<tr><td>CRLF</td>
-			<td class="na">–</td>
-			<td><code>U+000D</code> <code>U+000A</code></td>
-			<td>\r\n</td>
-			<td><p>The combination of CR and LF line endings. Used mainly in Windows.</p></td>
-		</tr>
-	</tbody>
-	<tbody>
-		<tr><td>NEL</td>
-			<td>Next Line</td>
-			<td><code>U+0085</code></td>
-			<td></td>
-			<td><p>A legacy line ending character used mainly in EBCDIC, a family of character encodings by IBM. Hidden by default.</p></td>
-		</tr>
-		
-		<tr><td>LS</td>
-			<td>Line Separator</td>
-			<td><code>U+2028</code></td>
-			<td></td>
-			<td><p>A control character indicating the separator of lines in Unicode. Hidden by default.</p></td>
-		</tr>
-		
-		<tr><td>PS</td>
-			<td>Paragraph Separator</td>
-			<td><code>U+2029</code></td>
-			<td></td>
-			<td><p>A control character indicating the separator of paragraphs in Unicode. Hidden by default.</p></td>
-		</tr>
-	</tbody>
+<thead>
+	<tr><th>Name</th><th>Characters</th><th>In regular expressions</th><th>Used by</th></tr>
+</thead>
+<tbody>
+	<tr><td>LF (Line Feed)</td><td><code>U+000A</code></td><td><code>\n</code></td><td><p>macOS, Linux, and other UNIX systems.</p></td></tr>
+	<tr><td>CR (Carriage Return)</td><td><code>U+000D</code></td><td><code>\r</code></td><td><p>Mac OS before Mac OS X.</p></td></tr>
+	<tr><td>CRLF</td><td><code>U+000D</code> <code>U+000A</code></td><td><code>\r\n</code></td><td><p>Windows.</p></td></tr>
+	<tr><td>NEL (Next Line)</td><td><code>U+0085</code></td><td></td><td><p>Some IBM systems.</p></td></tr>
+	<tr><td>LS (Line Separator)</td><td><code>U+2028</code></td><td></td><td><p>Unicode’s own line separator.</p></td></tr>
+	<tr><td>PS (Paragraph Separator)</td><td><code>U+2029</code></td><td></td><td><p>Unicode’s own paragraph separator.</p></td></tr>
+</tbody>
 </table>
 
-<p>The latter three types, NEL, LS, and PS, are rarely used as line endings in practice. Therefore, Graupel hides them by default in the line ending choices.</p>
-
-<p><em class="note">Note:</em> Although VT (<code>U+000B</code>) and FF (<code>U+000C</code>) also break lines visually in Graupel, they aren’t treated as line ending characters.</p>
+<p>NEL, LS, and PS are rare, so Graupel lists them only when you hold down the Option key. Vertical tab (<code>U+000B</code>) and form feed (<code>U+000C</code>) also start a new line on screen, but Graupel doesn’t count them as line endings.</p>
 
 
 <section>
-<h2>Set default line endings</h2>
+<h2>See and change a document’s line endings</h2>
 
-<ol>
-	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Format</strong>.</p></li>
-	<li><p>Select the “Default line endings.”</p></li>
-</ol>
+<p>When you open a document, Graupel uses the kind of line ending it finds most often. The status bar shows it, as do the Document inspector and <strong>Format &gt; Line Endings</strong>.</p>
 
-<p>The default line endings setting is used for new documents and when an opened document doesn’t contain any line endings.</p>
+<p>To change it, choose a different line ending from the menu in the status bar or from <strong>Format &gt; Line Endings</strong>. Graupel converts every line ending in the document. To choose NEL, LS, or PS, hold down the Option key while the menu is open.</p>
+
+<p>If a document mixes kinds of line endings, Graupel tells you; see <a href="howto_find_inconsistent_line_endings.html">Find inconsistent line endings</a>.</p>
 </section>
 
 
 <section>
-<h2>Detect line endings in a document</h2>
+<h2>Set the line ending for new documents</h2>
 
-<p>Graupel detects the line endings used in a document automatically. When you open an existing document, the app uses the most common line ending in that document as the line ending for further editing.</p>
-
-
-<p>You can check the line ending used in the document in the following places:</p>
-<ul>
-	<li><p>The label of the Line Endings pop-up menu on the right side of the status bar</p></li>
-	<li><p>The Text Settings section in the Document Inspector, which you can open by choosing View &gt; Inspectors &gt; Document</p></li>
-	<li><p>The selection of the Line Endings submenu in the Format menu</p></li>
-</ul>
-
-<p>If a document has inconsistent line endings, Graupel alerts you and highlights them. For details, see <a href="howto_find_inconsistent_line_endings.html">Find inconsistent line endings</a>.</p>
+<p>Choose <strong>Graupel &gt; Settings</strong>, click <strong>Format</strong>, then choose from <strong>Default line endings</strong>. Graupel also uses it for documents that have only one line.</p>
 </section>
 
 
 <section>
-<h2>Change the document line ending</h2>
+<h2>Insert a different line ending</h2>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Open the Line Endings menu either in the status bar or in the Format menu.</p></li>
-	<li><p>Select the line ending.</p>
-		<p>To convert the document line endings to a hidden one, such as NEL, LS, or PS, open the Line Endings menu while holding the <kbd>Option</kbd> key.</p>
-	</li>
-</ol>
-
-
-</section>
-
-
-<section>
-<h2>Insert line endings different from the document’s line ending</h2>
-
-<p>In general, Graupel uses only the document’s line ending so that you don’t need to care about differences among line-ending types. Even if you insert text containing different line endings, such as through a Graupel script or a regular-expression replacement, Graupel implicitly converts all line endings in the inserted text to the document’s line ending.</p>
-
-<p>Graupel provides the following two ways to insert line endings different from the document’s line ending:</p>
+<p>Text you type, paste, or replace gets the document’s line ending, whatever line endings it had. To insert a different one on purpose:</p>
 
 <ul>
-	<li><p>Manually enter a line ending character by its <a href="howto_input_unicode.html">Unicode code point</a>.</p></li>
-	<li><p>Paste text containing some different line endings with the <a href="howto_paste.html">Paste Exactly command</a>.</p></li>
+	<li><p>Type it by its code point. See <a href="howto_input_unicode.html">Enter a character using Unicode code point</a>.</p></li>
+	<li><p>Paste text with <strong>Edit &gt; Paste Exactly</strong>, which keeps its line endings. See <a href="howto_paste.html">Paste text</a>.</p></li>
 </ul>
 </section>
 
@@ -136,9 +68,6 @@
 <h2>See also</h2>
 <ul>
 	<li><a href="howto_find_newline.html">Find and replace a line ending</a></li>
-	<li><a href="howto_find_inconsistent_line_endings.html">Find inconsistent line endings</a></li>
-	<li><a href="howto_input_unicode.html">Enter a character using Unicode code point</a></li>
-	<li><a href="howto_paste.html">Paste text</a></li>
 	<li><a href="settings_format.html">Change Format settings</a></li>
 </ul>
 </section>

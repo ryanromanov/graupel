@@ -15,47 +15,23 @@
 
 <h1>Go to a specific line</h1>
 
-<p>Use the Go to Line command to quickly move to a specific line.</p>
-
-
-
-<section>
-<h2>Go to a specific line</h2>
-
 <ol>
-	<li><p>Open a document.</p></li>
 	<li><p>Choose <strong>Find &gt; Go to Line</strong>.</p></li>
-	<li><p>Enter the line number you want to jump to.</p></li>
-	<li><p>Click the Go button, or press the <kbd>Return</kbd> key.</p></li>
+	<li><p>Type a line number, then press Return or click <strong>Go</strong>.</p></li>
 </ol>
-</section>
 
+<p>To select several lines, type the first line, a colon, and how many lines:</p>
 
-<section>
-<h2>Specify selection</h2>
-
-<p>You can also specify a range of lines using the specific format. For example:</p>
-
-<table>
-	<thead>
-		<tr><th>Input</th><th>Range to select</th></tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th>3</th>
-			<td><p>Selects line 3 (the third line from the top).</p></td>
-		</tr>
-		<tr>
-			<th>3:2</th>
-			<td><p>Selects 2 lines starting from line 3. Lines 3 and 4 are selected.</p></td>
-		</tr>
-		<tr>
-			<th>3:-1</th>
-			<td><p>Selects the lines from line 3 up to the second-to-last line. For example, if the document has 10 lines, lines 3 to 9 are selected.</p></td>
-		</tr>
-	</tbody>
+<table class="settings">
+<thead>
+	<tr><th>You type</th><th>Graupel selects</th></tr>
+</thead>
+<tbody>
+	<tr><th><code>3</code></th><td><p>Line 3.</p></td></tr>
+	<tr><th><code>3:2</code></th><td><p>Two lines starting at line 3: lines 3 and 4.</p></td></tr>
+	<tr><th><code>3:-1</code></th><td><p>From line 3 to the line before the last. In a 10-line document, lines 3 to 9.</p></td></tr>
+</tbody>
 </table>
-</section>
 
 </body>
 </html>

@@ -15,61 +15,50 @@
 
 <h1>Find text in a folder</h1>
 
-<p>In a folder document, you can search across files in the folder from the sidebar. From the search results, you can open a file and quickly go to the matched text.</p>
-
-<p><em class="tip">Tip:</em> Folder search searches the contents of files. To filter items shown in the file browser by name, use the filter field at the bottom of the file browser.</p>
-
-<p><em class="note">Note:</em> Folder search is available only when you open a folder in Graupel.</p>
+<p>When you’ve opened a folder, you can search the text of all its files from the sidebar. To find files by name instead, use the filter field at the bottom of the file list.</p>
 
 
 <section>
-<h2>Search in a folder</h2>
+<h2>Search a folder</h2>
 
 <ol>
-	<li><p>Open a folder.</p></li>
-	<li><p>In the sidebar, select the Find tab.</p></li>
-	<li><p>Enter the text to search for in the Search in Folder field, then press the <kbd>Return</kbd> key.</p></li>
-	<li><p>In the search results, click a file name or a matched line.</p>
-		<p>The file opens in the same window. If you click a matched line, the matched text is selected in the editor.</p></li>
+	<li><p>Open a folder. See <a href="howto_open_folder.html">Open folders</a>.</p></li>
+	<li><p>In the sidebar, click <strong>Folder Find</strong>.</p></li>
+	<li><p>Type in the <strong>Search in Folder</strong> field, then press Return.</p></li>
+	<li><p>Click a file or a matching line in the results. The file opens in the window, with the match selected if you clicked a line.</p></li>
 </ol>
+
+<p>To search with a <a href="about_regex.html">regular expression</a>, choose <strong>Regular Expression</strong> from the menu above the field. To match capital and small letters exactly, click <strong>Case Sensitive</strong>.</p>
 </section>
 
 
 <section>
-<h2>Change the search method</h2>
+<h2>Search only some files</h2>
 
-<p>Use the menu above the search field to choose Text or Regular Expression. To search with exact capitalization, click the Case Sensitive button.</p>
+<ol>
+	<li><p>From the scope menu below the field, choose <strong>Edit File Scope</strong>.</p></li>
+	<li><p>Add rules for the file name, path, or extension, and choose whether a file must match any or all of them. For example, to skip generated files, add “File path does not contain build”.</p></li>
+</ol>
+
+<p>To use the same rules again, click <strong>Save as Named Scope</strong> and give them a name; they then appear in the scope menu of every folder. To change or delete saved scopes, choose <strong>Manage Saved Scopes</strong>. To search every file again, choose <strong>Clear File Scope</strong>.</p>
 </section>
 
 
 <section>
-<h2>Narrow which files are searched</h2>
+<h2>What gets searched</h2>
 
-<p>To search only specific files, choose Edit File Scope from the File Scope menu below the search field, then add conditions for the file name, file path, or file extension. In the file scope, you can add multiple conditions and choose whether files matching any or all of the conditions are searched. For example, to exclude automatically generated files from the search, add a condition like “File path does not contain build.”</p>
-
-<p>To search all files again, choose Clear File Scope from the File Scope menu.</p>
-
-<p>From the File Scope menu, you can also include hidden files or other file types in the search. However, even when you include hidden files, .DS_Store files and .git folders are always excluded from the search.</p>
-
-<p>By default, Graupel searches only files that can be classified as plain text. Even when you include other file types, files that Graupel can’t read as text may be skipped. Files larger than 1 GB are also skipped. Aliases and symlinks are not followed.</p>
-
-<p><em class="note">Note:</em> Up to 5,000 matches per file and 500,000 matches in total are listed. When a limit is reached, the search results indicate that more matches exist.</p>
-</section>
-
-
-<section>
-<h2>Save file scopes for reuse</h2>
-
-<p>To save the current file scope for later use, click “Save as Named Scope” in the file scope editor, then enter a name for it. The saved scope is applied to the search, and also appears in the File Scope menu so that you can apply it anytime just by choosing it.</p>
-
-<p>To rename, edit, or delete saved scopes, choose “Manage Saved Scopes” from the File Scope menu. Saved scopes are available in all folder documents.</p>
+<ul>
+	<li><p>Only files Graupel can read as text. The scope menu can add other kinds of files, but files that turn out not to be text are skipped.</p></li>
+	<li><p>Not hidden files, unless you choose <strong>Include Hidden Files</strong>. <code>.DS_Store</code> files and <code>.git</code> folders are always skipped.</p></li>
+	<li><p>Not files larger than 1 GB, and not the originals of aliases and symbolic links.</p></li>
+	<li><p>Up to 5,000 matches in a file and 500,000 in all. The results say when there are more.</p></li>
+</ul>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="howto_open_folder.html">Open folders</a></li>
 	<li><a href="howto_find.html">Find and replace text</a></li>
 	<li><a href="about_regex.html">Use regular expressions</a></li>
 </ul>

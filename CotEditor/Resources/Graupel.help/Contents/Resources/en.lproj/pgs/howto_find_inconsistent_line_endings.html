@@ -12,52 +12,42 @@
 
 <body>
 <a name="inconsistent_line_endings"></a>
+<a name="howto_find_inconsistent_line_endings"></a>
 
 <h1>Find inconsistent line endings</h1>
 
-<p>Graupel automatically detects line endings inconsistent with the document line ending setting. Inconsistent line endings can cause problems in various ways, such as running a script.</p>
+<p>A document that mixes kinds of line endings, such as LF and CRLF, can break scripts and other tools. Graupel checks for this when it opens a document. To learn about the kinds of line endings, see <a href="about_line_endings.html">Handle various types of line endings</a>.</p>
 
 
 <section>
-<h2>Detect line endings in the document</h2>
+<h2>When Graupel finds mixed line endings</h2>
 
-<p>When a document is opened, Graupel automatically inspects its line endings and uses the most common one as the document line ending.</p>
+<p>Graupel uses the most common line ending for the document and asks what to do with the others: convert them all to that one, or leave them so you can look first.</p>
 
-<p>If the document contains multiple types of line endings, Graupel warns you. In the dialog, you can choose whether to convert all inconsistent line endings to the most common one or leave them as they are so you can review them first.</p>
-
-<p>If you select the “Don’t ask again for this document” checkbox, the warning dialog no longer appears for that document. To suppress this warning for all documents, go to <a href="settings_general.html">General settings</a> &gt; <a href="howto_manage_warnings.html">Manage Warnings</a>, then turn on “Inconsistent line endings.”</p>
+<p>To stop being asked about one document, select <strong>Don’t ask again for this document</strong>. To stop being asked about any document, choose <strong>Graupel &gt; Settings</strong>, click <strong>General</strong>, click <strong>Manage Warnings</strong>, and select <strong>Inconsistent line endings</strong>. See <a href="howto_manage_warnings.html">Manage warnings</a>.</p>
 </section>
 
 
 <section>
-<h2>Look over the location of inconsistent line endings</h2>
+<h2>See where they are</h2>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>View &gt; Inspector &gt; Warnings</strong>.</p>
-		<p>The Warnings inspector lists all the line endings inconsistent with the document line ending.</p></li>
-</ol>
+<ul>
+	<li><p>Choose <strong>View &gt; Inspector &gt; Warnings</strong>. The Warnings inspector lists every line ending that differs from the document’s.</p></li>
+	<li><p>Show invisible characters. Line endings that differ are drawn in another color. See <a href="howto_display_invisibles.html">Show invisible characters</a>.</p></li>
+</ul>
 </section>
 
 
 <section>
-<h2>Find inconsistent line endings in the editor</h2>
+<h2>Make them all the same</h2>
 
-<p>When line endings are shown as invisible characters, inconsistent line endings are drawn in a different color from other invisible characters. See <a href="howto_display_invisibles.html">Show invisible characters</a> for instructions on how to change their visibility.</p>
-</section>
-
-
-<section>
-<h2>Normalize line endings</h2>
-
-<p>You can convert all line endings including inconsistent ones to a single line ending type by selecting the document line ending in the Line Endings menu in the Format menu or the status bar.</p>
+<p>Choose the line ending you want from <strong>Format &gt; Line Endings</strong> or the menu in the status bar, even if it’s already selected. Graupel converts every line ending in the document.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="about_line_endings.html">Handle various types of line endings</a></li>
 	<li><a href="howto_find_newline.html">Find and replace a line ending</a></li>
 	<li><a href="howto_inspect_usedchar.html">Find characters incompatible with the document encoding</a></li>
 </ul>
