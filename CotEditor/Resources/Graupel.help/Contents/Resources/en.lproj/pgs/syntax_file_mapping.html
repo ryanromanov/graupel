@@ -7,25 +7,25 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Map files to syntaxes in CotEditor on Mac</title>
+	<title>Map files to syntaxes</title>
 </head>
 
 <body>
 <a name="syntax_file_mapping"></a>
 
-<h1>Map files to syntaxes in CotEditor on Mac</h1>
+<h1>Map files to syntaxes</h1>
 
-<p>When you open a document, CotEditor detects the document type and automatically applies the appropriate syntax.</p>
+<p>When you open a document, Graupel detects the document type and automatically applies the appropriate syntax.</p>
 
 
-<p>CotEditor determines which syntax to apply based on the File Mapping rules defined in each syntax definition.</p>
+<p>Graupel determines which syntax to apply based on the File Mapping rules defined in each syntax definition.</p>
 
-<p>CotEditor detects the appropriate syntax in the following order:</p>
+<p>Graupel detects the appropriate syntax in the following order:</p>
 
 <ol>
 	<li>
 		<p><em>Filename</em>:</p>
-		<p>CotEditor first tries to determine the syntax from the entire filename. Filenames are case-sensitive.</p>
+		<p>Graupel first tries to determine the syntax from the entire filename. Filenames are case-sensitive.</p>
 		<ul>
 			<li><p>.htaccess → Apache</p></li>
 			<li><p>Makefile → Makefile</p></li>
@@ -34,7 +34,7 @@
 	
 	<li>
 		<p><em>File extension</em>:</p>
-		<p>If no syntax is found from the filename, CotEditor then tries to determine the syntax from the file extension. Extensions are case-insensitive.</p>
+		<p>If no syntax is found from the filename, Graupel then tries to determine the syntax from the file extension. Extensions are case-insensitive.</p>
 		<p>For example:</p>
 		<ul>
 			<li><p>.html → HTML</p></li>
@@ -45,7 +45,7 @@
 	
 	<li>
 		<p><em>The <code>#!</code> header of the document</em>:</p>
-		<p>If no syntax is found based on the file extension or filename, and the first line of the document starts with a <code>#!</code> (shebang) header, CotEditor tries to determine the syntax from the interpreter specified in the header. The interpreter can be either the last path component following <code>#!</code> or the argument that follows the path when <code>env</code> is used.</p>
+		<p>If no syntax is found based on the file extension or filename, and the first line of the document starts with a <code>#!</code> (shebang) header, Graupel tries to determine the syntax from the interpreter specified in the header. The interpreter can be either the last path component following <code>#!</code> or the argument that follows the path when <code>env</code> is used.</p>
 		
 		<p>For example:</p>
 		<ul>
@@ -56,7 +56,7 @@
 	
 	<li>
 		<p><em>XML declaration</em>:</p>
-		<p>If no corresponding syntax is found up to this point but the file content starts with an XML declaration, CotEditor automatically applies the XML syntax.</p>
+		<p>If no corresponding syntax is found up to this point but the file content starts with an XML declaration, Graupel automatically applies the XML syntax.</p>
 		<p>For example:</p>
 		<ul>
 			<li><p><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</code> → XML</p></li>
@@ -65,7 +65,7 @@
 	
 	<li>
 		<p><em>File type</em>:</p>
-		<p>If no corresponding syntax is found up to this point but the document has a file type that macOS identifies as a kind of JSON, CotEditor automatically applies the JSON syntax.</p>
+		<p>If no corresponding syntax is found up to this point but the document has a file type that macOS identifies as a kind of JSON, Graupel automatically applies the JSON syntax.</p>
 		<p>For example:</p>
 		<ul>
 			<li><p>.geojson → JSON</p></li>
@@ -78,7 +78,7 @@
 	</li>
 </ol>
 
-<p>If multiple syntaxes match at the same level, custom syntaxes take precedence over built-in syntaxes. If multiple matches still remain, CotEditor uses the syntax that appears first at that priority.</p>
+<p>If multiple syntaxes match at the same level, custom syntaxes take precedence over built-in syntaxes. If multiple matches still remain, Graupel uses the syntax that appears first at that priority.</p>
 
 
 <section>

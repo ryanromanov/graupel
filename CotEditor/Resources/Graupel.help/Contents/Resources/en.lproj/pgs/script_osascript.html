@@ -8,22 +8,21 @@
 	<link rel="stylesheet" href="../../Shared/sty/applescript.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Automate tasks using AppleScript in CotEditor on Mac</title>
+	<title>Automate tasks using AppleScript</title>
 </head>
 
 <body>
 
-<h1>Automate tasks using AppleScript in CotEditor on Mac</h1>
+<h1>Automate tasks using AppleScript</h1>
 
-<p>You can automate many tasks such as creating and editing documents, working with selections, and controlling windows using AppleScript or JavaScript for Automation (JXA). This page describes the scripting interface provided by CotEditor, focusing on the available classes and commands.</p>
+<p>You can automate many tasks such as creating and editing documents, working with selections, and controlling windows using AppleScript or JavaScript for Automation (JXA). This page describes the scripting interface provided by Graupel, focusing on the available classes and commands.</p>
 
-<p>CotEditor extends the standard system scripting terms with its own classes and commands, allowing scripts to interact more directly with CotEditor documents and features. You can also use script hooks to automatically run scripts in response to specific events. For details, see <a href="script_hook.html">Run script on specific events</a>.</p>
+<p>Graupel extends the standard system scripting terms with its own classes and commands, allowing scripts to interact more directly with Graupel documents and features. You can also use script hooks to automatically run scripts in response to specific events. For details, see <a href="script_hook.html">Run script on specific events</a>.</p>
 
-<p>You can also view CotEditor’s scripting interface in Script Editor’s library. To open the scripting dictionary:</p>
+<p>You can also view Graupel’s scripting interface in Script Editor’s library. To open the scripting dictionary:</p>
 
 <ol>
-	<li><p>Go to the CotEditor app <img class="appicon" src="../../Shared/gfx/icon_32x32@2x.png" alt=""> on your Mac.</p></li>
-	<li><p>Choose Help &gt; CotEditor Scripting Guide &gt; AppleScript Dictionary.</p></li>
+	<li><p>Choose <strong>Help &gt; Graupel Scripting Guide &gt; AppleScript Dictionary</strong>.</p></li>
 </ol>
 
 
@@ -32,7 +31,7 @@
 <p class="type">class</p>
 <h2><code>document</code></h2>
 
-<p>A CotEditor document.</p>
+<p>A Graupel document.</p>
 
 <dl>
 	<dt>Properties</dt>
@@ -84,7 +83,7 @@
 <p class="type">class</p>
 <h2><code>folder document</code></h2>
 
-<p>CotEditor folder document</p>
+<p>Graupel folder document</p>
 
 <dl>
 	<dt>Properties</dt>
@@ -182,7 +181,7 @@ end tell</code></pre>
 
 <p>Starting from CotEditor 5.0, characters are counted in the Unicode grapheme cluster unit. This is the same as the specification of AppleScript 2.0.</p>
 
-<p>If you specify a negative value for <code>location</code>, CotEditor counts from the end of the document. If the specified <code>length</code> exceeds the remaining characters, CotEditor selects text up to the end of the document. If <code>length</code> is a negative value, the selection range ends at the <code>length</code>-th last character. If the absolute value of <code>length</code> is smaller than <code>location</code> (that is, the selection’s end point is before <code>location</code>), the insertion point just moves to <code>location</code> (same as when {location, 0} was input).</p>
+<p>If you specify a negative value for <code>location</code>, Graupel counts from the end of the document. If the specified <code>length</code> exceeds the remaining characters, Graupel selects text up to the end of the document. If <code>length</code> is a negative value, the selection range ends at the <code>length</code>-th last character. If the absolute value of <code>length</code> is smaller than <code>location</code> (that is, the selection’s end point is before <code>location</code>), the insertion point just moves to <code>location</code> (same as when {location, 0} was input).</p>
 
 <p>This specifying method is based on <code>substr</code> in PHP.</p>
 
@@ -194,7 +193,7 @@ end tell</code></pre>
 <p class="type">command</p>
 <h2><code>write to console</code></h2>
 
-<p>Print text on CotEditor’s console window.</p>
+<p>Print text on Graupel’s console window.</p>
 	
 <dl>
 	<dt>Parameters</dt>
@@ -213,12 +212,12 @@ end tell</code></pre>
 <h3>Example</h3>
 <figure>
 	<pre class="source"><code class="AppleScript">write to console &quot;Script failed.&quot;</code></pre>
-	<figcaption>Displays the message &quot;Script failed.&quot; on CotEditor’s console.</figcaption>
+	<figcaption>Displays the message &quot;Script failed.&quot; on Graupel’s console.</figcaption>
 </figure>
 
 <figure>
 	<pre class="source"><code class="AppleScript">write to console &quot;calculating…&quot; without title and timestamp</code></pre>
-	<figcaption>Displays the message &quot;calculating…&quot; without the script name and timestamp on CotEditor’s console.</figcaption>
+	<figcaption>Displays the message &quot;calculating…&quot; without the script name and timestamp on Graupel’s console.</figcaption>
 </figure>
 </section>
 
@@ -809,8 +808,8 @@ Returns the number of replacements, if any, otherwise returns <code>0</code>.</p
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="script_overview.html">Automate tasks with scripting in CotEditor on Mac</a></li>
-	<li><a href="script_hook.html">Run script on specific events in CotEditor on Mac</a></li>
+	<li><a href="script_overview.html">Automate tasks with scripting</a></li>
+	<li><a href="script_hook.html">Run script on specific events</a></li>
 </ul>
 </section>
 

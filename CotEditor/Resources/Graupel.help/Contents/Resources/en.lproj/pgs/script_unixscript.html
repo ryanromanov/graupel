@@ -7,21 +7,21 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Automate tasks using UNIX scripts in CotEditor on Mac</title>
+	<title>Automate tasks using UNIX scripts</title>
 </head>
 
 <body>
 
-<h1>Automate tasks using UNIX scripts in CotEditor on Mac</h1>
+<h1>Automate tasks using UNIX scripts</h1>
 
-<p>From CotEditor’s Script menu, you can run UNIX scripts that receive information and text from the document you’re editing and send their output back into CotEditor.</p>
+<p>From Graupel’s Script menu, you can run UNIX scripts that receive information and text from the document you’re editing and send their output back into Graupel.</p>
 
 
 
 <section>
 <h2>Prepare a UNIX script</h2>
 
-<p>Create a script file in CotEditor’s scripts folder. You can write UNIX scripts for CotEditor in any scripting language, as long as the execution environment is available on your Mac. However, script files must have one of the following file extensions: .sh, .pl, .php, .rb, .py, .js, .awk, or .swift.</p>
+<p>Create a script file in Graupel’s scripts folder. You can write UNIX scripts for Graupel in any scripting language, as long as the execution environment is available on your Mac. However, script files must have one of the following file extensions: .sh, .pl, .php, .rb, .py, .js, .awk, or .swift.</p>
 
 <p>The script file must be executable. You can <a href="https://support.apple.com/guide/terminal/APDD100908F-06B3-4E63-8A87-32E71241BAB4/" rel="external">make a file executable in Terminal on Mac</a>.</p>
 
@@ -34,7 +34,7 @@
 
 <p>Specify the interpreter for a UNIX script with a <code>#!</code> (shebang) line at the beginning of the file. A shebang such as <code>#!/usr/bin/env python3</code> runs the script with the Python 3 interpreter found using <code>PATH</code>.</p>
 
-<p><em class="note">Note:</em> When using <code>/usr/bin/env</code> in a shebang, CotEditor uses the <code>PATH</code> environment variable available when it runs the script to find the interpreter. This <code>PATH</code> can differ from the one your shell uses in Terminal. If your script requires a specific version of Python or another interpreter, specify its absolute path, such as <code>#!/path/to/python3</code>.</p>
+<p><em class="note">Note:</em> When using <code>/usr/bin/env</code> in a shebang, Graupel uses the <code>PATH</code> environment variable available when it runs the script to find the interpreter. This <code>PATH</code> can differ from the one your shell uses in Terminal. If your script requires a specific version of Python or another interpreter, specify its absolute path, such as <code>#!/path/to/python3</code>.</p>
 </section>
 
 
@@ -48,7 +48,7 @@
 <section>
 <h2>Pass text data to a script</h2>
 
-<p>A script can receive the content of the current document through standard input (STDIN). To specify what CotEditor passes to your script, add a comment at the top of the script that contains “<code>%%%{CotEditorXInput=<var>xxxx</var>}%%%</code>”. Replace “<code><var>xxxx</var></code>” with one of the values below. If you don’t specify a value, CotEditor passes no data. This is the same as using “<code>None</code>.”</p>
+<p>A script can receive the content of the current document through standard input (STDIN). To specify what Graupel passes to your script, add a comment at the top of the script that contains “<code>%%%{GraupelXInput=<var>xxxx</var>}%%%</code>”. Replace “<code><var>xxxx</var></code>” with one of the values below. If you don’t specify a value, Graupel passes no data. This is the same as using “<code>None</code>.”</p>
 
 <p>For “<code><var>xxxx</var></code>,” you can specify one of the following input sources:</p>
 <table>
@@ -63,14 +63,14 @@
 	</tbody>
 </table>
 
-<p>Text passed from CotEditor to a script is always encoded in UTF-8, regardless of the document’s text encoding.</p>
+<p>Text passed from Graupel to a script is always encoded in UTF-8, regardless of the document’s text encoding.</p>
 </section>
 
 
 <section>
 <h2>Receive output data from a script</h2>
 
-<p>CotEditor can receive output from the script through standard output (STDOUT) and apply it within the app. To define how CotEditor handles the output, add a comment at the top of the script that contains “<code>%%%{CotEditorXOutput=<var>xxxx</var>}%%%</code>”. Replace <code><var>xxxx</var></code> with one of the values below. If you don’t specify a value, CotEditor performs no action. This is the same as using “<code>Discard</code>.”</p>
+<p>Graupel can receive output from the script through standard output (STDOUT) and apply it within the app. To define how Graupel handles the output, add a comment at the top of the script that contains “<code>%%%{GraupelXOutput=<var>xxxx</var>}%%%</code>”. Replace <code><var>xxxx</var></code> with one of the values below. If you don’t specify a value, Graupel performs no action. This is the same as using “<code>Discard</code>.”</p>
 
 <p>For “<code><var>xxxx</var></code>,” you can specify one of the following output targets:</p>
 <table>
@@ -89,7 +89,7 @@
 	</tbody>
 </table>
 
-<p>Text returned from a script to CotEditor must also be encoded in UTF-8, regardless of the document’s text encoding.</p>
+<p>Text returned from a script to Graupel must also be encoded in UTF-8, regardless of the document’s text encoding.</p>
 </section>
 
 
@@ -106,8 +106,8 @@
 <p>For example, the following Python script adds a “&gt;” character to the beginning of each selected line in the current document and prints the number of processed lines to the Console.</p>
 
 <pre class="source"><code><span class="comment">#!/usr/bin/env python3
-# %%%{CotEditorXInput=Selection}%%%
-# %%%{CotEditorXOutput=ReplaceSelection}%%%</span>
+# %%%{GraupelXInput=Selection}%%%
+# %%%{GraupelXOutput=ReplaceSelection}%%%</span>
 
 <span class="keyword">import</span> sys
 
@@ -118,7 +118,7 @@ count = 0
 sys.stderr.<span class="command">write</span>(<span class="string">&quot;Processed {} lines.&quot;</span>.<span class="command">format</span>(count))
 </code></pre>
 
-<p>The following message appears in the Console when you run the script from CotEditor’s Script menu:</p>
+<p>The following message appears in the Console when you run the script from Graupel’s Script menu:</p>
 
 </section>
 
@@ -126,7 +126,7 @@ sys.stderr.<span class="command">write</span>(<span class="string">&quot;Process
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="script_overview.html">Automate tasks with scripting in CotEditor on Mac</a></li>
+	<li><a href="script_overview.html">Automate tasks with scripting</a></li>
 </ul>
 </section>
 

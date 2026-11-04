@@ -7,15 +7,15 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Define delimiters in CotEditor on Mac</title>
+	<title>Define delimiters</title>
 </head>
 
 <body>
 <a name="syntax_delimiter_settings"></a>
 
-<h1>Define delimiters in CotEditor on Mac</h1>
+<h1>Define delimiters</h1>
 
-<p>In CotEditor, you can configure delimiter-related settings for each syntax. These settings affect editor behavior while typing and regular-expression-based syntax highlighting.</p>
+<p>In Graupel, you can configure delimiter-related settings for each syntax. These settings affect editor behavior while typing and regular-expression-based syntax highlighting.</p>
 
 <p>To define delimiters for a syntax, select Delimiters in the list on the left side of the syntax editor, then configure options on the right. See <a href="syntax_definition.html">Define a syntax</a> for how to open the syntax editor.</p>
 
@@ -23,7 +23,7 @@
 <section>
 <h2>Define comment delimiters</h2>
 
-<p>Define comment delimiters so CotEditor can use Comment Out and Uncomment for this syntax. In regular-expression-based syntax definitions, they are also used for comment highlighting.</p>
+<p>Define comment delimiters so Graupel can use Comment Out and Uncomment for this syntax. In regular-expression-based syntax definitions, they are also used for comment highlighting.</p>
 
 <h3>Inline comment</h3>
 <p>Inline comments treat text from the Begin String to the end of the line as a comment.</p>
@@ -48,7 +48,7 @@
 	<tbody>
 		<tr><th>Begin String</th><td><p>Delimiter that starts a block comment. Text from this delimiter to the corresponding End String is treated as one comment range.</p></td></tr>
 		<tr><th>End String</th><td><p>Delimiter that ends a block comment.</p></td></tr>
-		<tr><th>Nest</th><td><p>When enabled, CotEditor resolves block comment ranges with nesting. When disabled, a block comment closes at the first matching end delimiter.</p></td></tr>
+		<tr><th>Nest</th><td><p>When enabled, Graupel resolves block comment ranges with nesting. When disabled, a block comment closes at the first matching end delimiter.</p></td></tr>
 	</tbody>
 </table>
 
@@ -115,14 +115,14 @@
 	</tbody>
 </table>
 
-<p>If both Begin String and End String are set and the End String is immediately after the insertion point, CotEditor inserts an extra blank line and keeps the closing line at the original indentation level.</p>
+<p>If both Begin String and End String are set and the End String is immediately after the insertion point, Graupel inserts an extra blank line and keeps the closing line at the original indentation level.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="syntax_definition.html">Define a syntax in CotEditor on Mac</a></li>
+	<li><a href="syntax_definition.html">Define a syntax</a></li>
 </ul>
 </section>
 

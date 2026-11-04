@@ -7,18 +7,18 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Run script on specific events in CotEditor on Mac</title>
+	<title>Run script on specific events</title>
 </head>
 
 <body>
 
-<h1>Run script on specific events in CotEditor on Mac</h1>
+<h1>Run script on specific events</h1>
 
-<p>With scripting hooks, you can automatically run CotEditor scripts in response to specific events.</p>
+<p>With scripting hooks, you can automatically run Graupel scripts in response to specific events.</p>
 
 <p>To support the scripting hooks, the script must be written in AppleScript or JavaScript for Automation (JXA), and stored in the form of a script bundle (.scptd).</p>
 
-<p>CotEditor supports hooks for the following events:</p>
+<p>Graupel supports hooks for the following events:</p>
 
 <table>
 	<thead>
@@ -37,7 +37,7 @@
 	</tbody>
 </table>
 
-<p>You can find this specification in Script Editor, which is built into macOS, under the CotEditor Event Handler Suite section of CotEditor’s AppleScript dictionary.</p>
+<p>You can find this specification in Script Editor, which is built into macOS, under the Graupel Event Handler Suite section of Graupel’s AppleScript dictionary.</p>
 
 
 <section>
@@ -77,10 +77,10 @@ HookingScript.scptd
 <span class="tag">&lt;/plist&gt;</span>
 </code></pre>
 
-<p>Store the events to subscribe to in the <code>CotEditorHandlers</code> key as an array of strings. For example, to run a script automatically when a document is opened or saved, write:</p>
+<p>Store the events to subscribe to in the <code>GraupelHandlers</code> key as an array of strings. For example, to run a script automatically when a document is opened or saved, write:</p>
 
 <pre class="source">
-<code><span class="tag">&lt;key&gt;</span>CotEditorHandlers<span class="tag">&lt;/key&gt;</span>
+<code><span class="tag">&lt;key&gt;</span>GraupelHandlers<span class="tag">&lt;/key&gt;</span>
 <span class="tag">&lt;array&gt;</span>
   <span class="tag">&lt;string&gt;</span>document opened<span class="tag">&lt;/string&gt;</span>
   <span class="tag">&lt;string&gt;</span>document saved<span class="tag">&lt;/string&gt;</span>
@@ -99,7 +99,7 @@ HookingScript.scptd
 <p>In AppleScript, handlers are written by combining a <code>using terms from</code> block with <code>on</code> handlers.</p>
 
 <pre class="source">
-<code><span class="keyword">using terms from</span> <span class="type">application</span> <span class="string">&quot;CotEditor&quot;</span>
+<code><span class="keyword">using terms from</span> <span class="type">application</span> <span class="string">&quot;Graupel&quot;</span>
 	<span class="keyword">on</span> <span class="command">document opened</span> <span class="variable">theDocument</span>
 		<span class="command">write to console</span> <span class="string">&quot;Opened &quot;</span> &amp; (<span class="variable">theDocument's</span> <span class="attribute">name</span>)
 	<span class="keyword">end</span> <span class="command">document opened</span>
@@ -115,15 +115,15 @@ HookingScript.scptd
 <p>In JavaScript for Automation, use global <code>function</code> declarations to create handlers.</p>
 
 <pre class="source">
-<code><span class="variable">CotEditor</span> = <span class="variable">Application</span>.<span class="command">currentApplication</span>()
-<span class="variable">CotEditor</span>.<span class="attribute">includeStandardAdditions</span> = <span class="value">true</span>
+<code><span class="variable">Graupel</span> = <span class="variable">Application</span>.<span class="command">currentApplication</span>()
+<span class="variable">Graupel</span>.<span class="attribute">includeStandardAdditions</span> = <span class="value">true</span>
 
 <span class="keyword">function</span> <span class="command">documentOpened</span>(<span class="variable">document</span>) {
-  <span class="variable">CotEditor</span>.<span class="command">writeToConsole</span>(<span class="string">&quot;Opened &quot;</span> + <span class="variable">document</span>.<span class="command">name</span>())
+  <span class="variable">Graupel</span>.<span class="command">writeToConsole</span>(<span class="string">&quot;Opened &quot;</span> + <span class="variable">document</span>.<span class="command">name</span>())
 }
 
 <span class="keyword">function</span> <span class="command">documentSaved</span>(<span class="variable">document</span>) {
-  <span class="variable">CotEditor</span>.<span class="command">writeToConsole</span>(<span class="string">&quot;Saved &quot;</span> + <span class="variable">document</span>.<span class="command">name</span>())
+  <span class="variable">Graupel</span>.<span class="command">writeToConsole</span>(<span class="string">&quot;Saved &quot;</span> + <span class="variable">document</span>.<span class="command">name</span>())
 }
 </code></pre>
 </section>
@@ -132,9 +132,9 @@ HookingScript.scptd
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="script_overview.html">Automate tasks with scripting in CotEditor on Mac</a></li>
-	<li><a href="script_menu.html">Customize the Script menu in CotEditor on Mac</a></li>
-	<li><a href="script_osascript.html">Automate tasks using AppleScript in CotEditor on Mac</a></li>
+	<li><a href="script_overview.html">Automate tasks with scripting</a></li>
+	<li><a href="script_menu.html">Customize the Script menu</a></li>
+	<li><a href="script_osascript.html">Automate tasks using AppleScript</a></li>
 </ul>
 </section>
 
