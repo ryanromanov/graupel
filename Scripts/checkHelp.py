@@ -22,7 +22,7 @@ PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleSc
 
 BANNED = [
     "seamless", "robust", "powerful", "effortless", "intuitive", "leverage", "utilize", "delve", "streamline",
-    "elevate", "enhance", "empower", "unlock", "harness", "crucial", "vital", "comprehensive",
+    "elevate", "enhance", "empower", "harness", "crucial", "vital", "comprehensive",
     "simply", "just", "easily", "quickly", "of course", "note that", "worth noting", "keep in mind",
     "whether you", "in this section", "let's", "in summary", "additionally", "moreover", "furthermore",
     "that said", "not only", "preferences",

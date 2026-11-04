@@ -3,84 +3,58 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="document, save, saving">
+	<meta name="keywords" content="document, save, saving, Auto Save, versions, revert, backup">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
-	
+
 	<title>Save documents</title>
 </head>
 
 <body>
+<a name="howto_save_document"></a>
 
 <h1>Save documents</h1>
 
-<p>In Graupel, documents you’re working on can be saved automatically.</p>
-
-
-<p><dfn>Auto Save with Versions</dfn> is a standard macOS feature that combines automatic saving of documents with the ability to browse and restore previous versions. It’s used in many Mac apps, such as TextEdit and Pages. When this feature is enabled, Graupel automatically overwrites the document as you edit it and also saves intermediate states as separate versions.</p>
-<p>In Graupel, you can turn Auto Save with Versions off so that files aren’t overwritten unless you explicitly save the document. In <a href="settings_general.html">General settings</a>, use the Auto Save with Versions option to choose how Graupel saves documents.</p>
+<p>Graupel saves your documents as you work, like TextEdit and Pages do. You can also turn that off, so that files change only when you save them.</p>
 
 
 <section>
 <h2>Save a document</h2>
 
-<p>To explicitly save a document in the Graupel app <img class="appicon" src="../../Shared/gfx/icon_32x32@2x.png" alt=""> on your Mac, choose <strong>File &gt; Save</strong>. When you save a newly created document for the first time, give it a name and choose a location in the Save dialog that appears, then click Save.</p>
+<p>Choose <strong>File &gt; Save</strong>. The first time you save a new document, type a name, choose a folder, then click <strong>Save</strong>.</p>
+
+<p>To save a copy under another name or in another place, hold down the Option key and choose <strong>File &gt; Save As</strong>.</p>
 </section>
 
 
 <section>
-<h2>Save documents automatically</h2>
+<h2>How Graupel saves as you work</h2>
 
-<p>To help prevent loss of data while you’re editing, Graupel saves documents automatically.</p>
+<p>Graupel uses the Mac’s Auto Save with Versions. It’s on unless you turn it off with <strong>Enable Auto Save with Versions</strong> in <a href="settings_general.html">General settings</a>.</p>
 
-
-<h3>Auto Save</h3>
-<p>When Auto Save with Versions is enabled, Graupel automatically overwrites the document as you edit it. If the document doesn’t yet have a defined save location, Graupel saves the document being edited in the Graupel folder in iCloud Drive when iCloud Drive is enabled, or in the Autosave Information folder<sup>1</sup> when it’s not.</p>
-
-
-<h3>Create backup files</h3>
-<p>When Auto Save with Versions is not selected, Graupel doesn’t modify the document’s original file while editing it, but instead creates a backup in the Autosave Information folder<sup>1</sup>. These backups are used if the app unexpectedly quits.</p>
-<p>The original file isn’t changed unless you choose Save.</p>
-<p><small><sup>1</sup> Backup files are created in the sandboxed folder: “Library/Containers/com.coteditor.Graupel/Data/Library/Autosave Information/”.</small></p>
+<ul>
+	<li><p><em>When it’s on</em>, Graupel saves your changes to the file as you edit, and keeps earlier versions you can go back to. A new document that you haven’t saved yet is kept in Graupel’s folder in iCloud Drive, or on your Mac if you don’t use iCloud Drive.</p></li>
+	<li><p><em>When it’s off</em>, the file changes only when you choose <strong>File &gt; Save</strong>. Graupel keeps a copy of your unsaved changes in <code>~/Library/Autosave Information</code>, so they aren’t lost if Graupel quits unexpectedly.</p></li>
+</ul>
 </section>
 
 
 <section>
-<h2>Revert a document to a previous version</h2>
+<h2>Go back to an earlier version</h2>
 
-<p>When Auto Save with Versions is enabled, each time you save a document in Graupel, a new version is created. This lets you view earlier versions, save copies of earlier versions, or revert a document to a previous version.</p>
+<p>With Auto Save with Versions on, each save keeps a version of the document.</p>
 
-<p>You can also copy and paste text from a previous version into the current version.</p>
-
-
-<h3>View previous versions</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>File &gt; Revert To &gt; Browse All Versions</strong>.</p></li>
-	<li><p>To view earlier versions, click tick marks along the timeline, or click the arrows next to the stack of document thumbnails, then click a thumbnail to view the version full size.</p></li>
-	<li><p>Do any of the following:</p><ul>
-		<li><p><em>Edit the current version</em>: Click the thumbnail on the left, make your changes, then click Done.</p></li>
-		<li><p><em>Restore a previous version</em>: Click Restore below its thumbnail. A restored version replaces the current version.</p></li>
-		<li><p><em>Save a copy of a previous version as a new document</em>: Hold down the Option key on the keyboard, then click Restore a Copy. Graupel opens the copy in a new window, where you can edit it and save it with a new name. The original version also remains open in its own window.</p></li>
-		<li><p><em>Close this view and return to your document</em>: Click Done.</p></li>
-	</ul></li>
-</ol>
-
-
-<h3>Explicitly save a version</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>File &gt; Save</strong>.</p>
-		<p>To save the document with a different filename, location, or format, press and hold the <kbd>Option</kbd> key, then choose <strong>File &gt; Save As</strong>.</p>
+<ul>
+	<li><p>To go back to the version you opened or last saved, choose <strong>File &gt; Revert To</strong>, then choose <strong>Last Opened</strong>, <strong>Last Saved</strong>, or <strong>Previous Save</strong>.</p></li>
+	<li><p>To look through all versions, choose <strong>File &gt; Revert To &gt; Browse All Versions</strong>. Click the tick marks along the timeline to move between versions, then do one of the following:</p>
+		<ul>
+			<li><p>To replace the document with a version, click <strong>Restore</strong> below it.</p></li>
+			<li><p>To open a version as a new document, hold down the Option key and click <strong>Restore a Copy</strong>.</p></li>
+			<li><p>To go back to the document without changing it, click <strong>Done</strong>.</p></li>
+		</ul>
+		<p>You can also copy text from an earlier version and paste it into the current one.</p>
 	</li>
-</ol>
-
-
-<h3>Revert to your last opened or last saved version</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>File &gt; Revert To</strong>, then choose Last Opened, Last Saved, or Previous Save.</p></li>
-</ol>
+</ul>
 </section>
 
 
