@@ -23,6 +23,7 @@ How Graupel's Help is written. Follow it for every page, and check a page agains
 - Say what happens, not how good it is. Graupel does things; it isn't "powerful", "seamless", or "intuitive".
 - When a behavior might surprise someone, give the reason in one sentence. Don't explain what's obvious.
 - Be exact. "After three letters" is better than "after a few letters".
+- Don't claim more than Graupel does. If it opens a PDF as raw text, say that, not that it "opens PDFs".
 - Mention CotEditor only on the "About Graupel" page and in the release notes, to credit it.
 
 
