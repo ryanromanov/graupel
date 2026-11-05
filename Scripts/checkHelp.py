@@ -24,7 +24,10 @@ PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleSc
                 "Mode", "Settings", "Markdown", "Python", "JavaScript", "Shift", "Japanese", "iCloud", "Apple"}
 
 # anchors the app names that have no page on purpose
-UNUSED_ANCHORS = {"about_donation"}  # the donation window can't be opened
+UNUSED_ANCHORS = {
+    "about_donation",     # the donation window can't be opened
+    "howto_edit_remote",  # remote editing is hidden (RemoteEditingController.isAvailable)
+}
 
 BANNED = [
     "seamless", "robust", "powerful", "effortless", "intuitive", "leverage", "utilize", "delve", "streamline",
@@ -57,14 +60,24 @@ def anchors_in(source):
 
 
 def app_anchors():
-    """The Help anchors the app opens, from HelpLink(anchor:) and helpAnchor: in the source."""
+    """The Help anchors the app opens: Help buttons, alerts, errors, and Help menu items."""
     found = set()
-    for folder in ("CotEditor/Sources", "Packages"):
+    for folder in ("CotEditor/Sources", "CotEditor/Storyboards", "Packages"):
         for directory, _, files in os.walk(os.path.join(REPO, folder)):
             for name in files:
+                path = os.path.join(directory, name)
                 if name.endswith(".swift"):
-                    source = open(os.path.join(directory, name), encoding="utf-8").read()
-                    found.update(re.findall(r'(?:helpAnchor|anchor): "([^"]+)"', source))
+                    source = open(path, encoding="utf-8").read()
+                    found.update(re.findall(r'(?:helpAnchor|anchor): "([^"]+)"', source))  # HelpLink, SubmitButtonGroup
+                    found.update(re.findall(r'helpAnchor = "([^"]+)"', source))  # alerts
+                    found.update(re.findall(r'openHelpAnchor\("([^"]+)"', source))
+                    for body in re.findall(r'var helpAnchor: String\? \{(.*?)\n    \}', source, flags=re.S):  # errors
+                        found.update(re.findall(r'"([^"]+)"', body))
+                elif name.endswith(".storyboard"):
+                    source = open(path, encoding="utf-8").read()
+                    for item in re.findall(r'<menuItem\b.*?</menuItem>', source, flags=re.S):
+                        if 'selector="openHelpAnchor:"' in item:
+                            found.update(re.findall(r'identifier="([^"]+)"', item))
     return found
 
 
