@@ -173,6 +173,46 @@ public extension String {
 
 public extension String {
     
+    /// The indent width most used in the string, for space indentation.
+    ///
+    /// Counts how much each space-indented line goes deeper than the line above it, and returns the most common
+    /// step from 2 to 8, preferring the smaller one on a tie. (Graupel)
+    var detectedIndentWidth: Int? {
+        
+        guard !self.isEmpty else { return nil }
+        
+        var steps: [Int: Int] = [:]
+        var previousIndent: Int?
+        var lineCount = 0
+        self.enumerateLines { line, stop in
+            guard !line.allSatisfy(\.isWhitespace) else { return }  // skip blank lines
+            
+            guard !line.starts(with: "\t") else {
+                previousIndent = nil
+                return
+            }
+            
+            let indent = line.prefix { $0 == " " }.count
+            if let previousIndent, (2...8).contains(indent - previousIndent) {
+                steps[indent - previousIndent, default: 0] += 1
+            }
+            previousIndent = indent
+            
+            lineCount += 1
+            if lineCount >= DetectionLines.max {
+                stop = true
+            }
+        }
+        
+        guard
+            let (width, count) = steps.max(by: { ($0.value, -$0.key) < ($1.value, -$1.key) }),
+            count >= DetectionLines.min
+        else { return nil }
+        
+        return width
+    }
+    
+    
     /// The predominant indentation style used in the string.
     var detectedIndentStyle: IndentStyle? {
         

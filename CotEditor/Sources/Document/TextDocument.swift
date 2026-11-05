@@ -90,6 +90,7 @@ extension NSTextView: EditorCounter.Source { }
     private(set) var lineEnding: LineEnding  { didSet { self.lineEndingScanner.baseLineEnding = lineEnding } }
     private(set) var syntaxName: String
     private(set) var mode: Mode
+    var detectedIndentation: DetectedIndentation?  // Graupel: set when the document's window opens
     
     /// The diagnostic marked at the cursor in the focused text view.
     private(set) var diagnosticAtCursor: DiagnosticMark?

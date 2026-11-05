@@ -25,6 +25,14 @@
 
 import SyntaxFormat
 
+/// The indentation found in a document when it was opened. (Graupel)
+struct DetectedIndentation: Equatable {
+    
+    var expandsTab: Bool
+    var width: Int?  // only for space indentation
+}
+
+
 struct ModeOptions: Equatable, Codable {
     
     struct IndentOptions: Equatable, Codable {

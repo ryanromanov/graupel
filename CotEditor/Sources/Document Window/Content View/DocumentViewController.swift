@@ -119,23 +119,25 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         self.splitView.isVertical = UserDefaults.standard[.splitViewVertical]
         self.splitState.isVertical = self.splitView.isVertical
         
+        // detect indent style
+        // -> Graupel: Store it on the document before the editors are set up, so that they apply it after the
+        //    default and mode settings, which used to overwrite it.
+        if UserDefaults.standard[.detectsIndentStyle],
+           let indentStyle = self.document.textStorage.string.detectedIndentStyle
+        {
+            self.document.detectedIndentation = switch indentStyle {
+                case .tab: DetectedIndentation(expandsTab: false)
+                case .space: DetectedIndentation(expandsTab: true, width: self.document.textStorage.string.detectedIndentWidth)
+            }
+        }
+
         // set first editor view
         self.addEditorView()
-        
+
         // set theme
         let isDark = NSApp.effectiveAppearance.isDark
         let themeName = ThemeManager.shared.userDefaultSettingName(inDarkMode: isDark)
         self.setTheme(name: themeName)
-        
-        // detect indent style
-        if UserDefaults.standard[.detectsIndentStyle],
-           let indentStyle = self.document.textStorage.string.detectedIndentStyle
-        {
-            self.isAutoTabExpandEnabled = switch indentStyle {
-                case .tab: false
-                case .space: true
-            }
-        }
         
         // start parsing
         self.document.syntaxController.setupParser()

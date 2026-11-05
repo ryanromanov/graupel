@@ -94,6 +94,7 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     var isAutomaticIndentEnabled = false
     var isAutomaticPeriodSubstitutionEnabled = false  { didSet { self.invalidateAutomaticPeriodSubstitution() } }
     var isAutomaticTabExpansionEnabled = false
+    var detectedIndentation: DetectedIndentation?  // Graupel: the indentation found in the document when it opened
     var isAutomaticWhitespaceTrimmingEnabled = false
     var isApprovedTextChange = false
     var trimsWhitespaceOnlyLines = true

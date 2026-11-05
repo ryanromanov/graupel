@@ -32,6 +32,47 @@ struct StringIndentationTests {
     
     // MARK: Indentation Style Detection Tests
     
+    @Test func detectIndentWidth() {
+        
+        #expect("".detectedIndentWidth == nil)
+        #expect("foo\nbar".detectedIndentWidth == nil)
+        
+        // the record and program in a Boreas example
+        #expect("""
+                record point
+                  real :: x
+                  real :: y
+                end record
+                
+                program demo
+                  do i = 1, 3
+                    print i
+                  end do
+                  if x then
+                    y = 1
+                  end if
+                end program
+                """.detectedIndentWidth == 2)
+        
+        #expect("""
+                def f():
+                    if x:
+                        return 1
+                    for i in y:
+                        pass
+                """.detectedIndentWidth == 4)
+        
+        // too few steps to tell
+        #expect("""
+                a
+                  b
+                """.detectedIndentWidth == nil)
+        
+        // tab-indented lines don't count
+        #expect("\tfoo\n\t\tbar\n\t\t\tbaz\n\t\t\t\tqux".detectedIndentWidth == nil)
+    }
+    
+    
     @Test func detectIndentStyle() {
         
         #expect("\t\tfoo\tbar".detectedIndentStyle == nil)

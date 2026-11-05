@@ -137,6 +137,8 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
         
         super.viewDidLoad()
         
+        self.textView.detectedIndentation = self.document.detectedIndentation
+        
         let defaults = UserDefaults.standard
         self.observers = [
             // apply user settings to the text view
@@ -144,11 +146,11 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
                 .assign(to: \.lineHeight, on: self.textView),
             defaults.publisher(for: .tabWidth, initial: true)
                 .filter { [document] _ in ModeManager.shared.setting(for: document.mode).indentOptions == nil }
-                .assign(to: \.tabWidth, on: self.textView),
+                .sink { [textView] _ in textView.applyIndentOptions(nil) },
             
             defaults.publisher(for: .autoExpandTab, initial: true)
                 .filter { [document] _ in ModeManager.shared.setting(for: document.mode).indentOptions == nil }
-                .assign(to: \.isAutomaticTabExpansionEnabled, on: self.textView),
+                .sink { [textView] _ in textView.applyIndentOptions(nil) },
             defaults.publisher(for: .modes, initial: true)
                 .map { [document] _ in ModeManager.shared.setting(for: document.mode).indentOptions }
                 .removeDuplicates()
@@ -637,6 +639,14 @@ private extension EditorTextView {
         } else {
             self.isAutomaticTabExpansionEnabled = UserDefaults.standard[.autoExpandTab]
             self.tabWidth = UserDefaults.standard[.tabWidth]
+        }
+        
+        // Graupel: the document's own indentation wins
+        if let detected = self.detectedIndentation {
+            self.isAutomaticTabExpansionEnabled = detected.expandsTab
+            if let width = detected.width {
+                self.tabWidth = width
+            }
         }
     }
 }
