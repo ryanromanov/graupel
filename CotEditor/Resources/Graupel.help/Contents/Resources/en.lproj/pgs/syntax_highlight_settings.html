@@ -3,113 +3,92 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="syntax, style">
+	<meta name="keywords" content="syntax, style, comment, comment-out, uncomment, string, character, indentation, escape, Word Completion, completion, completion list, possible completions, metadata">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Define syntax highlighting</title>
+	<title>Syntax editor panes</title>
 </head>
 
 <body>
 <a name="syntax_highlight_settings"></a>
 
-<h1>Define syntax highlighting</h1>
+<h1>Syntax editor panes</h1>
 
-<p>Syntax highlighting helps you distinguish different elements in a document by displaying them in different styles. In Graupel, you can define which parts of text are highlighted and how they appear by configuring syntax highlighting rules.</p>
-
-<p>Graupel already defines the element types used for syntax highlighting in each theme. These elements are:</p>
-
-<table>
-	<thead>
-		<tr><th>Element</th><th>Description</th><th>Examples</th></tr>
-	</thead>
-	
-	<tbody>
-	<tr><th>Keywords</th>
-	<td><p>Keywords in source code such as reserved words of programming languages.</p></td>
-	<td><code>for</code>, <code>while</code>, <code>if</code></td></tr>
-	
-	<tr><th>Commands</th>
-	<td><p>Functions or commands in source code.</p></td>
-	<td><code>print</code>, <code>filter</code>, <code>func()</code></td></tr>
-	
-	<tr><th>Types</th>
-	<td><p>Types in source code or headings in structured language.</p></td>
-	<td><code>int</code>, <code>bool</code>, <code>Object</code></td></tr>
-	
-	<tr><th>Attributes</th>
-	<td><p>Attributes in source code.</p></td>
-	<td><code>&lt;html <span style="color:-apple-system-blue">lang</span>=&quot;ja&quot;&gt;</code>, <code>@classmethod</code></td></tr>
-	
-	<tr><th>Variables</th>
-	<td><p>Variables in source code.</p></td>
-	<td><code>$foo</code>, <code>self</code></td></tr>
-	
-	<tr><th>Values</th>
-	<td><p>Value constants in source code.</p></td>
-	<td><code>Null</code>, <code>True</code>, <code>False</code></td></tr>
-	
-	<tr><th>Numbers</th>
-	<td><p>Numeric constants in source code.</p></td>
-	<td><code>Int i = <span style="color: -apple-system-blue;">0</span>;</code></td></tr>
-	
-	<tr><th>Strings</th>
-	<td><p>String constants in source code.</p></td>
-	<td><code>String s = <span style="color: -apple-system-blue">&quot;Hello World&quot;</span></code></td></tr>
-	
-	<tr><th>Characters</th>
-	<td><p>Character constants in source code.</p></td>
-	<td><code>Char c = <span style="color: -apple-system-blue">'a'</span></code></td></tr>
-	
-	<tr><th>Comments</th>
-	<td><p>Comments in source code.</p></td>
-	<td><code>/* 〜 */</code>, <code># 〜</code></td></tr>
-	</tbody>
-</table>
-
-<p>Graupel colors syntax elements from top to bottom in the list, such as Keywords, Commands, and Types. If a document contains text that matches multiple categories (for example, both a keyword and a command) the style of the element that appears later in the order overrides the earlier one. The names of the elements are provided for reference and can also be used for other grammatical purposes.</p>
+<p>This page describes the panes of the syntax editor, except <a href="syntax_file_mapping.html">File Mapping</a> and <a href="syntax_outline_settings.html">Outline</a>. To open the editor, see <a href="syntax_definition.html">Make or change a syntax</a>. For syntaxes that use tree-sitter, <strong>Outline</strong> is locked and the Highlighting section shows only a locked <strong>Built-in</strong> item, because those rules can’t be changed.</p>
 
 
 <section>
-<h2>Define a syntax highlighting rule</h2>
+<h2>Highlighting</h2>
 
-<p>To define highlighting rules for a syntax, select a syntax element from the list on the sidebar of the syntax editor, then add highlighting conditions to the list on the right. For instructions on opening the syntax editor, see <a href="syntax_definition.html">Make or change a syntax</a>.</p>
-
-<p>To define how text is highlighted, register one of the following as a highlighting condition for each element: a specific piece of text, a pair of start and end strings, or a regular expression pattern.</p>
-
-<p>Highlighting rules are determined by the following settings:</p>
+<p>The <strong>Highlighting</strong> section of the sidebar has a pane for each kind of text. The <a href="howto_customize_theme.html">theme</a> gives each kind its color.</p>
 
 <table>
 	<thead>
-		<tr><th>Field</th><th>Description</th></tr>
+		<tr><th>Pane</th><th>For</th><th>Examples</th></tr>
 	</thead>
 	<tbody>
-		<tr><th>RE</th><td><p>If selected, both the begin and end strings are treated as regular expression patterns (RE stands for Regular Expression).</p></td></tr>
-		<tr><th>IC</th><td><p>If selected, the search ignores case (IC stands for Ignore Case). For example, if you set “abc” as the begin string and turn on IC, occurrences such as “ABC,” “abc,” and “aBc” in your document all match.</p></td></tr>
-		<tr><th>Begin String</th><td><p>The text that marks the beginning of the search pattern. This field is required for defining a syntax element to highlight.</p></td></tr>
-		<tr><th>End String</th><td><p>The text that marks the end of the search pattern. This field may be left blank.</p></td></tr>
-		<tr><th>Multiline</th><td><p>If selected, the search allows matches spanning multiple lines.</p></td></tr>
-		<tr><th>Description</th><td><p>A note or comment for your reference. The description doesn’t affect syntax highlighting and may be left blank.</p></td></tr>
+		<tr><th>Keywords</th><td><p>Reserved words</p></td><td><code>if</code>, <code>for</code>, <code>while</code></td></tr>
+		<tr><th>Commands</th><td><p>Functions and commands</p></td><td><code>print</code>, <code>len()</code></td></tr>
+		<tr><th>Types</th><td><p>Types, or headings in markup</p></td><td><code>int</code>, <code>Object</code></td></tr>
+		<tr><th>Attributes</th><td><p>Attributes and decorators</p></td><td><code>lang="en"</code>, <code>@classmethod</code></td></tr>
+		<tr><th>Variables</th><td><p>Variables</p></td><td><code>$foo</code>, <code>self</code></td></tr>
+		<tr><th>Values</th><td><p>Named constants</p></td><td><code>true</code>, <code>null</code></td></tr>
+		<tr><th>Numbers</th><td><p>Numbers</p></td><td><code>42</code>, <code>0xFF</code></td></tr>
+		<tr><th>Strings</th><td><p>Text in quotes</p></td><td><code>"Hello"</code></td></tr>
+		<tr><th>Characters</th><td><p>Character literals</p></td><td><code>'a'</code></td></tr>
+		<tr><th>Comments</th><td><p>Comments</p></td><td><code>! note</code>, <code>/* … */</code></td></tr>
 	</tbody>
 </table>
 
-<p>By defining conditions:</p>
+<p>Graupel applies the panes from top to bottom, so when text matches two of them, the lower one wins. Strings and comments also come from the <strong>Delimiters</strong> pane.</p>
+
+<p>Each pane lists rules. Click the Add (+) button, then fill in:</p>
+
 <ul>
-	<li><p>A rule with an empty begin string is ignored.</p></li>
-	<li><p>When you use both Begin String and End String, they must both be regular expressions or both be plain text.</p></li>
+	<li><p><strong>Begin String</strong>: the word or pattern to match. A rule without one is skipped.</p></li>
+	<li><p><strong>End String</strong>: if set, everything from the begin string to the end string matches, such as a <code>&lt;!--</code> … <code>--&gt;</code> comment.</p></li>
+	<li><p><strong>RE</strong>: treats both strings as <a href="about_regex.html">regular expressions</a>. Both are patterns or both are plain text.</p></li>
+	<li><p><strong>IC</strong>: ignores case, so <code>abc</code> also matches <code>ABC</code>.</p></li>
+	<li><p><strong>Multiline</strong>: lets a match run across lines.</p></li>
+	<li><p><strong>Description</strong>: a note for yourself.</p></li>
 </ul>
 
-
-<p>A condition whose end string is blank and whose regular expression option is not selected is also used for completion candidates.</p>
+<p>Plain words, with no end string and <strong>RE</strong> off, are also offered as suggestions unless the <strong>Completion</strong> pane lists its own words.</p>
 </section>
 
 
-<section id="cf">
-<h2>See also</h2>
+<section>
+<a name="syntax_delimiter_settings"></a>
+<h2>Delimiters</h2>
+
+<p>Delimiters tell Graupel how the language marks comments, strings, and blocks. They’re used for highlighting, for <strong>Text &gt; Comment</strong>, for matching quotes and brackets, and for indenting as you type.</p>
+
 <ul>
-	<li><a href="syntax_definition.html">Make or change a syntax</a></li>
-	<li><a href="about_regex.html">Regular expressions</a></li>
+	<li><p><strong>Inline comment</strong>: what starts a comment that runs to the end of the line, such as <code>!</code> in Boreas or <code>//</code> in Swift. Select <strong>Line Start Only</strong> if it counts only at the start of a line, after any spaces.</p></li>
+	<li><p><strong>Block comment</strong>: the <strong>Begin String</strong> and <strong>End String</strong> of a comment that can span lines, such as <code>/*</code> and <code>*/</code>. Select <strong>Nest</strong> if the language allows comments inside comments.</p></li>
+	<li><p><strong>String delimiters</strong>: the quotes around strings. <strong>Multiline</strong> lets a string span lines, <strong>Escape Character</strong> is the character that lets a quote appear inside, usually <code>\</code>, and <strong>Prefixes</strong> lists letters that must come right before the quote, such as <code>r,f,b</code> for Python’s <code>r"…"</code>. Add more than one row for more than one quote style, such as <code>"…"</code> and <code>"""…"""</code>.</p></li>
+	<li><p><strong>Character delimiters</strong>: the same for character literals, such as <code>'a'</code>.</p></li>
+	<li><p><strong>Block delimiters</strong> (under Indentation): when a line ends with a <strong>Begin String</strong>, such as <code>{</code> or <code>then</code>, pressing Return indents the next line one more level. If the <strong>End String</strong>, such as <code>}</code>, is right after the insertion point, Graupel also puts it on its own line at the original indentation. Leave <strong>End String</strong> empty for languages like Python, where a block starts with <code>:</code> and has no closing word. Select <strong>IC</strong> for languages where case doesn’t matter.</p></li>
 </ul>
+
+<p>When a syntax has both inline and block comments, <strong>Toggle Comment</strong> uses the inline one. With several of either kind, it uses the first in the list.</p>
+</section>
+
+
+<section>
+<a name="syntax_completion_settings"></a>
+<h2>Completion</h2>
+
+<p>Words listed here are added to the suggestions in documents with this syntax. Fill in <strong>Completion</strong> with the word, and optionally a <strong>Type</strong>. If the list is empty, Graupel uses the plain words from the highlighting panes instead. Whether syntax words are suggested at all is set in <a href="settings_mode.html">Mode settings</a>. See <a href="howto_complete.html">Complete words</a>.</p>
+</section>
+
+
+<section>
+<a name="syntax_metadata_settings"></a>
+<h2>Information</h2>
+
+<p>Notes about the syntax itself, useful when you share it: <strong>Version</strong>, <strong>Last Modified</strong>, <strong>Distribution URL</strong>, <strong>Author</strong>, <strong>License</strong>, and <strong>Description</strong>. Every field is optional.</p>
 </section>
 
 </body>
