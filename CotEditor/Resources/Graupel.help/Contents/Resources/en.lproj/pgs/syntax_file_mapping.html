@@ -7,101 +7,50 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Map files to syntaxes</title>
+	<title>How Graupel picks a syntax</title>
 </head>
 
 <body>
 <a name="syntax_file_mapping"></a>
 
-<h1>Map files to syntaxes</h1>
+<h1>How Graupel picks a syntax</h1>
 
-<p>When you open a document, Graupel detects the document type and automatically applies the appropriate syntax.</p>
-
-
-<p>Graupel determines which syntax to apply based on the File Mapping rules defined in each syntax definition.</p>
-
-<p>Graupel detects the appropriate syntax in the following order:</p>
+<p>When you open or rename a document, Graupel checks these in order and uses the first syntax that matches:</p>
 
 <ol>
-	<li>
-		<p><em>Filename</em>:</p>
-		<p>Graupel first tries to determine the syntax from the entire filename. Filenames are case-sensitive.</p>
-		<ul>
-			<li><p>.htaccess → Apache</p></li>
-			<li><p>Makefile → Makefile</p></li>
-		</ul>
-	</li>
-	
-	<li>
-		<p><em>File extension</em>:</p>
-		<p>If no syntax is found from the filename, Graupel then tries to determine the syntax from the file extension. Extensions are case-insensitive.</p>
-		<p>For example:</p>
-		<ul>
-			<li><p>.html → HTML</p></li>
-			<li><p>.hTmL → HTML</p></li>
-			<li><p>.py → Python</p></li>
-		</ul>
-	</li>
-	
-	<li>
-		<p><em>The <code>#!</code> header of the document</em>:</p>
-		<p>If no syntax is found based on the file extension or filename, and the first line of the document starts with a <code>#!</code> (shebang) header, Graupel tries to determine the syntax from the interpreter specified in the header. The interpreter can be either the last path component following <code>#!</code> or the argument that follows the path when <code>env</code> is used.</p>
-		
-		<p>For example:</p>
-		<ul>
-			<li><p><code>#!/usr/bin/perl</code> → Perl (interpreter: <code>perl</code>)</p></li>
-			<li><p><code>#!/usr/bin/env python3</code> → Python (interpreter: <code>python3</code>)</p></li>
-		</ul>
-	</li>
-	
-	<li>
-		<p><em>XML declaration</em>:</p>
-		<p>If no corresponding syntax is found up to this point but the file content starts with an XML declaration, Graupel automatically applies the XML syntax.</p>
-		<p>For example:</p>
-		<ul>
-			<li><p><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</code> → XML</p></li>
-		</ul>
-	</li>
-	
-	<li>
-		<p><em>File type</em>:</p>
-		<p>If no corresponding syntax is found up to this point but the document has a file type that macOS identifies as a kind of JSON, Graupel automatically applies the JSON syntax.</p>
-		<p>For example:</p>
-		<ul>
-			<li><p>.geojson → JSON</p></li>
-		</ul>
-	</li>
-	
-	<li>
-		<p><em>None</em>:</p>
-		<p>If no appropriate syntax can be found, the “None” syntax is applied.</p>
-	</li>
+	<li><p><em>The whole file name.</em> <code>Makefile</code> gets Makefile and <code>.htaccess</code> gets Apache. Upper and lowercase must match.</p></li>
+	<li><p><em>The file extension.</em> <code>.py</code> gets Python and <code>.bor</code> gets Boreas. Case doesn’t matter, so <code>.HTML</code> works too.</p></li>
+	<li><p><em>A <code>#!</code> line.</em> If the first line starts with <code>#!</code>, Graupel uses the program it names. <code>#!/usr/bin/perl</code> gets Perl. With <code>env</code>, it uses the word after it, so <code>#!/usr/bin/env python3</code> gets Python.</p></li>
+	<li><p><em>An XML declaration.</em> A file that starts with <code>&lt;?xml</code> gets XML.</p></li>
+	<li><p><em>The file type.</em> A file the Mac knows as a kind of JSON, such as <code>.geojson</code>, gets JSON.</p></li>
 </ol>
 
-<p>If multiple syntaxes match at the same level, custom syntaxes take precedence over built-in syntaxes. If multiple matches still remain, Graupel uses the syntax that appears first at that priority.</p>
+<p>If nothing matches, the document gets <strong>None</strong>, with no highlighting.</p>
+
+<p>If two syntaxes match at the same step, one you made or changed wins over a built-in one.</p>
 
 
 <section>
-<h2>Modify file mapping</h2>
+<h2>Change which files use a syntax</h2>
 
-<p>To define rules for mapping files to a syntax, select File Mapping from the list on the left side of the syntax editor, then add file extensions, filenames, or interpreters to the lists on the right. See <a href="syntax_definition.html">Define a syntax</a> to learn how to open the syntax editor.</p>
+<p>Open the syntax in the <a href="syntax_definition.html">syntax editor</a>, click <strong>File Mapping</strong>, then add or remove extensions, file names, or interpreters.</p>
 </section>
 
 
 <section>
-<h2>Solve file mapping conflicts</h2>
+<h2>Conflicts</h2>
 
-<p>There are no conflicts among the built-in syntaxes. However, if you add custom syntaxes or modify built-in syntaxes, file mappings can conflict. You can check for mapping conflicts by choosing Show File Mapping Conflicts from the More menu in the available syntaxes list in Format settings. If the menu item is dimmed, there are no conflicts.</p>
+<p>If you give two syntaxes the same extension, Graupel lists it as a conflict. To see conflicts, go to <strong>Format</strong> settings, click the ••• button below <strong>Available syntaxes</strong>, then choose <strong>Show File Mapping Conflicts</strong>. If the item is dimmed, there are none.</p>
 
-<p>You can leave file mapping conflicts unresolved as long as documents open with the expected syntax. This doesn’t cause any issues.</p>
+<p>A conflict only matters if a document opens with the wrong syntax. If it does, remove the extension from the syntax you don’t want.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="syntax_definition.html">Define a syntax</a></li>
-	<li><a href="settings_format.html">Change Format settings</a></li>
+	<li><a href="syntax_definition.html">Make or change a syntax</a></li>
+	<li><a href="settings_format.html">Format settings</a></li>
 </ul>
 </section>
 

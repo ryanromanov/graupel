@@ -7,76 +7,40 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Inspect the outline of a document</title>
+	<title>See a document’s outline</title>
 </head>
 
 <body>
+<h1>See a document’s outline</h1>
 
-<h1>Inspect the outline of a document</h1>
-
-<p>The <dfn>Outline feature</dfn> in Graupel extracts specific parts of your document based on the syntax definition and generates a structured list.</p>
-
-<p>The generated outline appears in both the navigation bar and the inspector.</p>
+<p>The outline lists the landmarks in a document, such as the headings in Markdown or the functions and types in code. What counts as a landmark depends on the document’s <a href="syntax_overview.html">syntax</a>. Click an item to go to it.</p>
 
 
 <section>
-<h2>Show the Outline menu</h2>
+<h2>In the navigation bar</h2>
 
-<p>The Outline menu is a pop-up menu that appears in the navigation bar above the editor. It shows the nearest outline item before the insertion point. Selecting an item moves the insertion point to that location and scrolls the editor there.</p>
-
-
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>View &gt; Show Navigation Bar</strong>.</p></li>
-</ol>
+<p>Choose <strong>View &gt; Show Navigation Bar</strong>. The bar above the text shows the outline item you’re in. Click it to see the whole list, or choose <strong>Find &gt; Open Outline Menu</strong>. The arrows next to it go to the previous or next item.</p>
 </section>
 
 
 <section>
-<h2>Show the Outline inspector</h2>
+<h2>In the inspector</h2>
 
-<p>The Outline inspector is a table-of-contents-style list shown in the Outline pane of the inspector. It gives you an overview of the document’s outline and lets you jump to the corresponding part of the editor by clicking an item.</p>
-
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Do one of the following:</p><ul>
-		<li><p>Choose <strong>View &gt; Inspector &gt; Outline</strong>.</p></li>
-		<li><p>Select Inspector in the document toolbar, then select the Outline pane (list icon).</p></li>
-	</ul></li>
-</ol>
+<p>Choose <strong>View &gt; Inspector &gt; Outline</strong>. The inspector opens on the right with the full outline.</p>
 </section>
 
 
 <section>
-<h2>Move among outline items in the editor</h2>
+<h2>Go to the next item</h2>
 
-<p>To move to the position of an outline item in the editor, do one of the following:</p>
-
-<ol>
-	<li><p>Move to a specific outline item:</p><ul>
-		<li><p>Select the item in the navigation bar or in the Outline inspector.</p></li>
-	</ul></li>
-	<li><p>Move to the previous or next outline item from the current insertion point:</p><ul>
-		<li><p>Find &gt; Select Previous/Next Outline Item.</p></li>
-		<li><p>Click an arrow button next to the Outline menu in the navigation bar.</p></li>
-	</ul></li>
-</ol>
+<p>Choose <strong>Find &gt; Select Next Outline Item</strong> or <strong>Select Previous Outline Item</strong>.</p>
 </section>
 
 
 <section>
-<h2>Customize extraction rules</h2>
+<h2>Change what appears</h2>
 
-<p>The rules that determine which items appear in the outline and how their titles are extracted are defined per syntax. You can configure these rules in the <a href="syntax_definition.html">Syntax definition</a> &gt; <a href="syntax_outline_settings.html">Outline settings</a>.</p>
-</section>
-
-
-<section id="cf">
-<h2>See also</h2>
-<ul>
-	<li><a href="syntax_overview.html">Analyze the syntax of a document</a></li>
-	<li><a href="syntax_outline_settings.html">Define outline extraction rules</a></li>
-</ul>
+<p>The outline rules are part of each syntax. To change them, see <a href="syntax_outline_settings.html">Outline rules</a>. Syntaxes that use tree-sitter, such as Swift and Python, have fixed rules.</p>
 </section>
 
 </body>
