@@ -7,38 +7,23 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>If a document appears garbled</title>
+	<title>If a document looks garbled</title>
 </head>
 
 <body>
+<a name="faq_cannot_display"></a>
 
-<h1>If a document appears garbled</h1>
+<h1>If a document looks garbled</h1>
 
-<p>Garbled text usually appears when Graupel cannot detect the document’s text encoding correctly. To narrow down or solve the problem, try the following:</p>
+<p>Text full of odd symbols, such as “Ã©” where “é” should be, usually means Graupel read the file with the wrong text encoding. The file itself is fine as long as you don’t save it.</p>
 
 <ul>
-	<li><p>The document may appear correctly if you open it using a different text encoding.</p>
-	<p>See <a href="howto_interpret_encoding.html">Open a document in a different encoding</a>.</p></li>
-	
-	<li><p>Adjusting the encoding priorities used for automatic detection may help reduce garbled text.</p>
-	<p>See <a href="howto_customize_encoding_order.html">Change the encoding list</a>.</p></li>
-	
-	<li><p>If you select “Refer to encoding declaration in document” in Format settings, Graupel also refers to encoding declarations written in the document, such as “<code>encoding=</code>” or “<code>@charset</code>,” during auto-detection. If the document contains a misleading declaration, it can cause the wrong encoding to be chosen.</p>
-	<p>See <a href="howto_customize_encoding_order.html#about_autodetect_encoding">How Graupel detects encodings</a>.</p></li>
-	
-	<li><p>If the file is not plain text, such as binary data, Graupel cannot display it correctly as text. Open the file in an app that supports its file type.</p></li>
+	<li><p><em>Open it again with the right encoding.</em> Choose <strong>Format &gt; Text Encoding</strong>, choose the encoding, then click <strong>Reinterpret</strong>. If you don’t know which one, try Unicode (UTF-8), then Western (Windows Latin 1). See <a href="howto_interpret_encoding.html">Open a document in a different encoding</a>.</p></li>
+	<li><p><em>Help Graupel guess right next time.</em> Move the encodings you use toward the top of the encoding list. See <a href="howto_customize_encoding_order.html#howto_customize_encoding_order">Change the encoding list</a>.</p></li>
+	<li><p><em>Check the file’s own declaration.</em> If <strong>Refer to encoding declaration in document</strong> is on in Format settings, a wrong <code>charset=</code> or <code>coding:</code> line near the top of the file misleads Graupel. Fix the line, or turn the setting off. See <a href="howto_customize_encoding_order.html#about_autodetect_encoding">How Graupel detects encodings</a>.</p></li>
 </ul>
 
-
-<section id="cf">
-<h2>See also</h2>
-<ul>
-	<li><a href="howto_interpret_encoding.html">Open a document in a different encoding</a></li>
-	<li><a href="howto_customize_encoding_order.html">Change the encoding list</a></li>
-	<li><a href="howto_customize_encoding_order.html#about_autodetect_encoding">How Graupel detects encodings</a></li>
-	<li><a href="howto_customize_encoding_order.html#howto_customize_encoding_order">Shift JIS variants</a></li>
-</ul>
-</section>
+<p>If the file isn’t text at all, such as an image or a Word document, no encoding will make it readable. Open it in the app it belongs to.</p>
 
 </body>
 </html>
