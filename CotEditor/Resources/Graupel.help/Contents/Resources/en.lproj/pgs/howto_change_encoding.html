@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="encoding, text encoding">
+	<meta name="keywords" content="encoding, text encoding, Get Info, information, incompatible characters">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
@@ -37,9 +37,18 @@
 
 
 <section>
+<a name="howto_inspect_usedchar"></a>
 <h2>If some characters can’t be saved</h2>
 
-<p>Not every encoding has every character. If the document has characters the new encoding can’t store, Graupel warns you, because those characters would be replaced or removed when you save. Click <strong>Change Encoding</strong> to go ahead. The Warnings inspector then lists the characters, so you can change them. See <a href="howto_inspect_usedchar.html">Find characters the encoding can’t save</a>.</p>
+<p>Not every encoding has every character. If the document has characters the new encoding can’t store, Graupel warns you, because those characters would be replaced or removed when you save. Click <strong>Change Encoding</strong> to go ahead.</p>
+
+<p>If a document has characters its encoding can’t store, those characters are replaced or removed when you save. This happens most often with older encodings, such as Western (Mac OS Roman) or Japanese (Shift JIS), which hold far fewer characters than UTF-8.</p>
+
+<p>To see them, choose <strong>View &gt; Inspector &gt; Warnings</strong>. The Warnings inspector lists each character the encoding can’t store. Click one to go to it in the text.</p>
+
+<p>To close the inspector, choose <strong>View &gt; Inspector &gt; Hide Inspector</strong>.</p>
+
+<p>To keep every character, save the document in UTF-8 instead. See <a href="howto_change_encoding.html">Save a document in a different encoding</a>.</p>
 </section>
 
 

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="syntax highlighting, syntax, Outline, completion">
+	<meta name="keywords" content="syntax highlighting, syntax, Outline, completion, syntax menu, syntax menus, syntax selection, coloring, recoloring, recolor, syntax analysis">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
@@ -30,6 +30,22 @@
 <h2>Change a document’s syntax</h2>
 
 <p>Choose <strong>Format &gt; Syntax</strong>, then choose a syntax. Or use the <strong>Syntax</strong> menu in the toolbar. To see how Graupel picks one on its own, see <a href="syntax_file_mapping.html">How Graupel picks a syntax</a>.</p>
+</section>
+
+
+<section>
+<a name="howto_customize_syntax_menu"></a>
+<h2>Shorten the syntax menus</h2>
+
+<p>To hide syntaxes you don’t use from <strong>Format &gt; Syntax</strong> and the toolbar menu, choose <strong>Graupel &gt; Settings</strong>, click <strong>Format</strong>, click the ••• button below <strong>Available syntaxes</strong>, then choose <strong>Customize Syntax Menu</strong>. Deselect the syntaxes to hide, then click <strong>OK</strong>. Graupel still uses hidden syntaxes when it picks one for a document.</p>
+</section>
+
+
+<section>
+<a name="faq_re_coloring"></a>
+<h2>If highlighting looks wrong</h2>
+
+<p>Choose <strong>Format &gt; Reset Syntax Analysis</strong>. If the colors are still wrong, the code may have an error Graupel can’t parse, or the syntax’s rules may not cover it. You can <a href="syntax_definition.html">change the syntax</a>, or report it at <a href="https://github.com/ryanromanov/graupel/issues" rel="external">github.com/ryanromanov/graupel/issues</a>.</p>
 </section>
 
 

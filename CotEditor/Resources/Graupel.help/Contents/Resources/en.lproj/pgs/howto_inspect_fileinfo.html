@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="Get Info, information">
+	<meta name="keywords" content="Get Info, information, count, characters, advanced character count">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
@@ -37,11 +37,34 @@
 </section>
 
 
+<section>
+<a name="howto_count_characters"></a>
+<h2>Count characters</h2>
+
+<p>The status bar and the Document inspector show how many characters, lines, and words a document has, and how many are selected.</p>
+
+<p>Graupel counts characters the way you see them. An emoji such as 1️⃣ is made of three Unicode characters (<code>U+0031</code> <code>U+FE0F</code> <code>U+20E3</code>) but counts as one, the same as the letter A. Unicode calls these grapheme clusters.</p>
+
+
+<h3>Count another way</h3>
+
+<p>To count another way, such as in bytes of a text encoding, or without whitespace or line endings:</p>
+
+<ol>
+	<li><p>Choose <strong>Text &gt; Advanced Character Count</strong>.</p></li>
+	<li><p>Choose what to count, then click <strong>Start</strong>.</p></li>
+</ol>
+
+<p>A counter appears at the bottom of the editor and updates as you type. It counts the selection if there is one, or else the whole document. Drag it to move it. The options you choose apply to every document.</p>
+
+<p>Some options take time to count in long documents. To stop counting, choose <strong>Text &gt; Stop Advanced Character Count</strong>.</p>
+</section>
+
+
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="howto_count_characters.html">Count characters</a></li>
-	<li><a href="howto_inspect_character.html">Get information about a character</a></li>
+	<li><a href="howto_input_unicode.html">Unicode characters</a></li>
 </ul>
 </section>
 

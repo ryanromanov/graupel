@@ -3,23 +3,49 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="text encoding, detection">
+	<meta name="keywords" content="text encoding, detection, encoding, Shift JIS, japanese">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Change the encoding list</title>
+	<title>How Graupel detects encodings</title>
 </head>
 
 <body>
-<a name="howto_customize_encoding_order"></a>
+<a name="about_autodetect_encoding"></a>
 
-<h1>Change the encoding list</h1>
+<h1>How Graupel detects encodings</h1>
 
-<p>The encoding list sets which encodings appear in <strong>Format &gt; Text Encoding</strong> and the status bar, and in what order. Graupel also tries them in this order when it <a href="about_autodetect_encoding.html">detects a file’s encoding</a>, and it only considers encodings that are on the list.</p>
+<p>A file doesn’t say what encoding it’s in, so Graupel works it out when it opens the file. It checks these in order:</p>
+
+<ol>
+	<li><p><em>A byte order mark (BOM).</em> Some UTF-8 and UTF-16 files start with one.</p></li>
+	<li><p><em>The encoding saved with the file.</em> Some Mac apps, including TextEdit, record the encoding in the file’s extended attributes.</p></li>
+	<li><p><em>A declaration in the text,</em> if you turned that on (see below).</p></li>
+	<li><p><em>The encoding list.</em> Graupel tries each encoding on the list, from the top, and uses the first one that reads the whole file without errors. See <a href="#howto_customize_encoding_order">Change the encoding list</a>.</p></li>
+</ol>
+
+<p>If Graupel guesses wrong, choose the right one yourself. See <a href="howto_interpret_encoding.html">Open a document in a different encoding</a>.</p>
 
 
 <section>
-<h2>Change the list</h2>
+<h2>Use the encoding a file declares</h2>
+
+<p>HTML, CSS, XML, Python, and other files often name their encoding near the top, such as <code>&lt;meta charset="utf-8"&gt;</code> or <code># -*- coding: latin-1 -*-</code>. To have Graupel use these, choose <strong>Graupel &gt; Settings</strong>, click <strong>Format</strong>, then select <strong>Refer to encoding declaration in document</strong>.</p>
+
+<p>Graupel looks only at the first 1,024 bytes of the file. It recognizes <code>charset=</code> in HTML and XML, <code>@charset</code> at the start of a CSS file, and <code>encoding:</code>, <code>encoding=</code>, or <code>coding:</code> in the first two lines. It uses the first one it finds.</p>
+
+<p>If a file mentions an encoding that isn’t its own, for example in an example near the top, put the real declaration first or turn this setting off.</p>
+</section>
+
+
+<section>
+<a name="howto_customize_encoding_order"></a>
+<h2>Change the encoding list</h2>
+
+<p>The encoding list sets which encodings appear in <strong>Format &gt; Text Encoding</strong> and the status bar, and in what order. Graupel also tries them in this order when it <a href="howto_customize_encoding_order.html#about_autodetect_encoding">detects a file’s encoding</a>, and it only considers encodings that are on the list.</p>
+
+
+<h3>Change the list</h3>
 
 <ol>
 	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Format</strong>.</p></li>
@@ -34,16 +60,15 @@
 	</li>
 	<li><p>Click <strong>OK</strong>.</p></li>
 </ol>
-</section>
 
 
-<section>
-<h2>Tips</h2>
+<h3>Tips</h3>
 
 <ul>
 	<li><p>Keep encodings you might need to open, even if you never save in them. Graupel won’t detect an encoding that isn’t on the list.</p></li>
 	<li><p>Put Unicode (UTF-16) below the encodings you use. Almost any file can be read as UTF-16, so if it’s near the top, Graupel picks it when it shouldn’t.</p></li>
-	<li><p>Unicode (UTF-8) and Unicode (UTF-8) with BOM always stay together, and you can’t remove them. The encoding set as <strong>Default text encoding</strong> can’t be removed either.</p></li>
+	<li><p>For Japanese files, pick the Shift JIS variant you need. Japanese (Shift JIS) is the safest choice; Japanese (Shift JIS X0213), Japanese (Mac OS), and Japanese (Windows, DOS) each add characters, and they store the yen sign, backslash, and tilde differently.</p></li>
+		<li><p>Unicode (UTF-8) and Unicode (UTF-8) with BOM always stay together, and you can’t remove them. The encoding set as <strong>Default text encoding</strong> can’t be removed either.</p></li>
 </ul>
 </section>
 
@@ -51,7 +76,7 @@
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="about_autodetect_encoding.html">How Graupel detects encodings</a></li>
+	<li><a href="howto_interpret_encoding.html">Open a document in a different encoding</a></li>
 	<li><a href="settings_format.html">Format settings</a></li>
 </ul>
 </section>
