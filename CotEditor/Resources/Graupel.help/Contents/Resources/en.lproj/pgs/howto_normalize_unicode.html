@@ -11,65 +11,40 @@
 </head>
 
 <body>
-
 <h1>Normalize Unicode text</h1>
 
-<p>Unicode normalization lets you convert text into a consistent Unicode form. In Graupel, you can normalize the text in a document using various Unicode normalization methods.</p>
-
-<p>Unicode normalization is the process of converting text into a standardized Unicode representation. In Unicode text, characters that look the same can sometimes be represented by different Unicode sequences, and normalization helps eliminate those differences.</p>
-
-<p>Graupel supports the following Unicode normalization forms:</p>
-
-<table>
-	<thead>
-		<tr>
-			<th>Form</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th>NFD</th>
-			<td><p>Canonical decomposition.</p></td>
-		</tr>
-		<tr>
-			<th>NFC</th>
-			<td><p>Canonical decomposition, followed by canonical composition.</p></td>
-		</tr>
-		<tr>
-			<th>NFKD</th>
-			<td><p>Compatibility decomposition.</p></td>
-		</tr>
-		<tr>
-			<th>NFKC</th>
-			<td><p>Compatibility decomposition, followed by canonical composition.</p></td>
-		</tr>
-		<tr>
-			<th>NFKC Case-Fold</th>
-			<td><p>Applying NFKC, case folding, and removal of default-ignorable code points.</p></td>
-		</tr>
-		<tr>
-			<th>Modified NFD</th>
-			<td><p>Unofficial NFD-based normalization form used in HFS+.</p></td>
-		</tr>
-		<tr>
-			<th>Modified NFC</th>
-			<td><p>Unofficial NFC-based normalization form corresponding to Modified NFD.</p></td>
-		</tr>
-	</tbody>
-</table>
-
-<p><em class="note">Note:</em> Modified NFD and Modified NFC follow the modified Unicode normalization used by macOS file systems, such as HFS+, where file names are normalized using a variant of Unicode normalization. It is useful when working with text derived from macOS file names.</p>
+<p>Some characters can be stored more than one way. “é” can be a single character, or an “e” followed by a combining accent. They look the same, but a search for one won’t find the other, and tools that compare text treat them as different. Normalizing converts the text to one consistent form.</p>
 
 
 <section>
-<h2>Normalize Unicode text</h2>
+<h2>Normalize text</h2>
 
 <ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Select text to normalize.</p></li>
-	<li><p>Choose <strong>Text &gt; Unicode Normalizations</strong>, then choose a normalization form.</p></li>
+	<li><p>Select the text.</p></li>
+	<li><p>Choose <strong>Text &gt; Unicode Normalizations</strong>, then choose a form.</p></li>
 </ol>
+
+<p>If you’re not sure which form to use, choose NFC. It’s what most files and websites use.</p>
+</section>
+
+
+<section>
+<h2>Forms</h2>
+
+<table>
+	<thead>
+		<tr><th>Form</th><th>What it does</th></tr>
+	</thead>
+	<tbody>
+		<tr><th>NFC</th><td><p>Combines characters where possible, so “e” plus an accent becomes “é”.</p></td></tr>
+		<tr><th>NFD</th><td><p>Splits characters into a base letter and combining marks, so “é” becomes “e” plus an accent.</p></td></tr>
+		<tr><th>NFKC</th><td><p>Like NFC, and also replaces compatibility characters with their plain forms. For example, “ﬁ” becomes “fi” and full-width “Ａ” becomes “A”.</p></td></tr>
+		<tr><th>NFKD</th><td><p>Like NFD, and also replaces compatibility characters with their plain forms.</p></td></tr>
+		<tr><th>NFKC Case-Fold</th><td><p>Applies NFKC, makes letters lowercase for comparison, and removes characters that are normally invisible.</p></td></tr>
+		<tr><th>Modified NFD</th><td><p>The variant of NFD that the Mac’s older HFS+ file system uses for file names. It isn’t a Unicode standard.</p></td></tr>
+		<tr><th>Modified NFC</th><td><p>The matching variant of NFC. Use these two forms on text copied from Mac file names.</p></td></tr>
+	</tbody>
+</table>
 </section>
 
 </body>

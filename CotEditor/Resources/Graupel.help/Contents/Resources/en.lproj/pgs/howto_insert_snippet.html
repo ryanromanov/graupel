@@ -11,58 +11,40 @@
 </head>
 
 <body>
-
 <h1>Insert a snippet</h1>
 
-<p>You can register frequently used pieces of text (snippets) and insert them easily as needed.</p>
+<p>A snippet is text you save once and insert when you need it. Graupel has two kinds: command snippets, which you insert from a menu or with a keyboard shortcut, and file drop snippets, which go in when you drag a file into a document.</p>
 
-<p>Graupel provides two types of snippets: Command snippets and File Drop snippets, which differ in how they are inserted.</p>
-
-<p>To configure both types of snippet, choose <strong>Graupel &gt; Settings</strong>, then click <a href="settings_snippets.html">Snippets</a>.</p>
+<p>To make or change snippets, choose <strong>Graupel &gt; Settings</strong>, then click <a href="settings_snippets.html">Snippets</a>.</p>
 
 
 <section>
-<h2>Insert a snippet using a command</h2>
+<h2>Insert a command snippet</h2>
 
-<p>Command snippets are snippets that you insert from a menu or by using keyboard shortcuts. You can also insert text so that it surrounds the currently selected text, or specify the position of the insertion point after insertion.</p>
+<p>Choose <strong>Text &gt; Insert Snippet</strong>, then choose the snippet. Or press the shortcut you gave it.</p>
 
+<p>A snippet can wrap the selected text or put the insertion point at a set place inside it. See <a href="about_snippet.html">Snippet variables</a>.</p>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Do one of the following:</p>
-		<ul>
-			<li><p>Choose <strong>Text &gt; Insert Snippet</strong>, then choose the snippet you want to insert.</p></li>
-			<li><p>Press the keyboard shortcut assigned to the snippet.</p></li>
-		</ul>
-	</li>
-</ol>
-
-<p><em class="tip">Tip:</em> If a syntax is assigned to a snippet, the snippet appears in the menu and its keyboard shortcut is available only when the current document’s syntax matches the assigned syntax. You can use this to change which snippets are available depending on the document’s syntax.</p>
-
+<p>If you set a <strong>Syntax</strong> for a snippet, it appears in the menu, and its shortcut works, only in documents with that syntax.</p>
 </section>
 
 
 <section>
-<h2>Insert a snippet by dropping files</h2>
+<h2>Insert text by dropping a file</h2>
 
-<p>File Drop snippets are snippets that you insert by dropping files into the editor. Depending on the file type, predefined text is inserted at the drop location. For example, you can insert an <code>img</code> element tag by dropping an image file from the Finder into an HTML document.</p>
+<p>Drag a file from the Finder or another app to the place in the document where you want the text. Graupel inserts the text of the file drop snippet that matches the file’s extension and the document’s syntax. For example, dropping an image into an HTML document inserts an <code>&lt;img&gt;</code> tag that points to it.</p>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Drop a file from another app, such as Finder, onto the location in the editor where you want to insert the snippet.</p>
-		<p><em class="note">Note:</em> If there is no matching File Drop rule, the full path of the dropped file is inserted.</p>
-	</li>
-</ol>
+<p>If no snippet matches, Graupel inserts the file’s path.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings_snippets.html">Change Snippets settings</a></li>
-	<li><a href="about_snippet.html">Create insertion formats for command snippets</a></li>
-	<li><a href="about_filedrop.html">Create insertion formats for File Drop</a></li>
-	<li><a href="howto_customize_shortcut.html">Customize keyboard shortcuts</a></li>
+	<li><a href="settings_snippets.html">Snippets settings</a></li>
+	<li><a href="about_snippet.html">Snippet variables</a></li>
+	<li><a href="about_filedrop.html">File drop variables</a></li>
+	<li><a href="howto_customize_shortcut.html">Change keyboard shortcuts</a></li>
 </ul>
 </section>
 

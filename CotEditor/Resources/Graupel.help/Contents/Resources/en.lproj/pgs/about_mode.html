@@ -7,62 +7,41 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Switch editor modes</title>
+	<title>Editor modes</title>
 </head>
 
 <body>
+<h1>Editor modes</h1>
 
-<h1>Switch editor modes</h1>
+<p>Writing notes and writing code want different things from an editor. A mode is a set of editor settings that Graupel picks by the kind of document you open.</p>
 
-<p>With editor modes, you can switch fonts, indentation settings, and editing-assistance features together based on the type of document you’re working on. This lets you move smoothly between writing prose and editing code while keeping an editing environment that fits each task.</p>
-
-
-<p>Modes let you switch the following settings:</p>
-
+<p>A mode sets:</p>
 <ul>
-	<li><p>Editor fonts:</p><ul>
-		<li><p>The font used to view document (standard font or monospaced font)</p></li>
-	</ul></li>
-		<li><p>Editor behavior:</p><ul>
-		<li><p>Text substitutions (such as smart quotes and automatic text replacement)</p></li>
-		<li><p>Spell checking</p></li>
-		<li><p>Text completion</p></li>
-	</ul></li>
-	<li><p>Indentation:</p><ul>
-		<li><p>Whether to use spaces or tabs for indentation and the indent width</p></li>
-	</ul></li>
+	<li><p>Whether to use the standard font or the monospaced font</p></li>
+	<li><p>Substitutions, such as smart quotes and text replacement</p></li>
+	<li><p>Spelling and grammar checking</p></li>
+	<li><p>Which words to suggest, and whether to suggest them as you type (see <a href="howto_complete.html">Complete words</a>)</p></li>
+	<li><p>Indentation: tabs or spaces, and how wide</p></li>
 </ul>
 
-<p>Edit and manage modes in Mode settings. For details about what you can configure in a mode and how to add or remove modes, see <a href="settings_mode.html">Change Mode settings</a>.</p>
+<p>To change modes, see <a href="settings_mode.html">Mode settings</a>.</p>
 
 
 <section>
-<h2>Specify the font used by a mode</h2>
+<h2>How Graupel picks a mode</h2>
 
-<p>In Graupel’s mode settings, you can choose whether each mode uses the standard font or the monospaced font. For more information about how fonts are handled in Graupel, see <a href="howto_customize_font.html">Change fonts</a>.</p>
-</section>
+<p>Every syntax is either a general kind or a code kind. Plain text, Markdown, and LaTeX are general. Swift, Python, and Boreas are code. Graupel uses the <strong>General</strong> or <strong>Code</strong> mode to match.</p>
 
-
-<section>
-<h2>Assign a mode to a syntax</h2>
-
-<p>Graupel automatically switches the editor mode according to the syntax of the open document. This ensures that when you open a document written in a particular language or format, the same mode is always applied.</p>
-
-<p>Modes can be assigned both to syntax kinds and to individual syntaxes. If a syntax-specific mode exists, Graupel uses it. Otherwise, it uses the mode assigned to that syntax kind. By default, only syntax-kind modes are defined: General for writing and Code for programming. You can customize these default modes in Mode settings.</p>
-
-<p>You can also create a dedicated mode for a specific syntax. For example, the LaTeX syntax belongs to the General kind, but by creating a LaTeX-specific mode, you can use a proportional standard font while turning off smart quotes and other features that might get in the way of writing code.</p>
-
-<p>For more information about syntax, see <a href="syntax_overview.html">Analyze document syntax</a>.</p>
+<p>If one syntax needs something different, add a mode for that syntax in Mode settings. That mode wins over the kind’s mode. For example, Markdown is general, so it uses the standard font. A Markdown mode could switch to the monospaced font and keep spell checking on.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
+	<li><a href="settings_mode.html">Mode settings</a></li>
 	<li><a href="howto_customize_font.html">Change fonts</a></li>
-	<li><a href="howto_complete.html">Complete a word</a></li>
-	<li><a href="settings_mode.html">Change Mode settings</a></li>
-	<li><a href="syntax_overview.html">Analyze the syntax of a document</a></li>
+	<li><a href="syntax_overview.html">Syntaxes</a></li>
 </ul>
 </section>
 
