@@ -156,6 +156,8 @@ private extension Syntax.Error.Scope {
                 SyntaxType.strings.label
             case .characterDelimiter:
                 SyntaxType.characters.label
+            case .blockDelimiter:
+                SyntaxEditView.Pane.delimiters.label
         }
     }
 }

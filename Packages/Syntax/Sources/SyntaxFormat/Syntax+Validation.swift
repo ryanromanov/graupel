@@ -48,6 +48,7 @@ public extension Syntax {
             case blockComment
             case stringDelimiter
             case characterDelimiter
+            case blockDelimiter  // Graupel
         }
         
         
@@ -115,6 +116,14 @@ public extension Syntax {
                 _ = try NSRegularExpression(pattern: outline.pattern)
             } catch {
                 errors.append(Error(.regularExpression, scope: .outline, value: outline.pattern))
+            }
+        }
+        
+        for delimiter in self.indentation.blockDelimiters where delimiter.isRegularExpression {
+            do {
+                _ = try NSRegularExpression(pattern: delimiter.begin)
+            } catch {
+                errors.append(Error(.regularExpression, scope: .blockDelimiter, value: delimiter.begin))
             }
         }
         

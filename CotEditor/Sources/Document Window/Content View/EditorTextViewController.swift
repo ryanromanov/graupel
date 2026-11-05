@@ -593,7 +593,7 @@ private extension EditorTextView {
         
         self.commentDelimiters = syntax.commentDelimiters
         self.indentTokens = syntax.indentation.blockDelimiters.compactMap {
-            IndentToken(begin: $0.begin, end: $0.end, ignoreCase: $0.ignoreCase)
+            IndentToken(begin: $0.begin, end: $0.end, isRegularExpression: $0.isRegularExpression, ignoreCase: $0.ignoreCase)
         }
         self.quoteDelimiters = syntax.stringDelimiters + syntax.characterDelimiters
         self.syntaxCompletionWords = syntax.completionWords

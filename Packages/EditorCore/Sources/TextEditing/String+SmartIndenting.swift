@@ -32,15 +32,22 @@ public enum IndentToken: Equatable, Sendable {
     case tokenPair(Pair<String>, ignoreCase: Bool)
     case symbolPair(Pair<Character>)
     case beginToken(String, ignoreCase: Bool)
+    case linePattern(String, end: String?, ignoreCase: Bool)  // Graupel: a pattern matched against the line before the line break
     
     
-    public init?(begin: String, end: String?, ignoreCase: Bool = false) {
+    public init?(begin: String, end: String?, isRegularExpression: Bool = false, ignoreCase: Bool = false) {
         
-        let begin = begin.trimmingCharacters(in: .whitespacesAndNewlines)
+        let begin = isRegularExpression ? begin : begin.trimmingCharacters(in: .whitespacesAndNewlines)
         let end = end?.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if begin.isEmpty {
             return nil
+            
+        } else if isRegularExpression {
+            // skip invalid patterns
+            guard (try? NSRegularExpression(pattern: begin)) != nil else { return nil }
+            
+            self = .linePattern(begin, end: (end?.isEmpty == false) ? end : nil, ignoreCase: ignoreCase)
             
         } else if end?.isEmpty != false {
             self = .beginToken(begin, ignoreCase: ignoreCase)
@@ -63,6 +70,7 @@ public enum IndentToken: Equatable, Sendable {
             case .tokenPair: nil
             case .symbolPair(let pair): pair
             case .beginToken: nil
+            case .linePattern: nil
         }
     }
     
@@ -73,6 +81,7 @@ public enum IndentToken: Equatable, Sendable {
             case .tokenPair(let pair, _): pair.begin
             case .symbolPair(let pair): String(pair.begin)
             case .beginToken(let string, _): string
+            case .linePattern(let pattern, _, _): pattern
         }
     }
     
@@ -83,6 +92,7 @@ public enum IndentToken: Equatable, Sendable {
             case .tokenPair(let pair, _): pair.end
             case .symbolPair(let pair): String(pair.end)
             case .beginToken: nil
+            case .linePattern(_, let end, _): end
         }
     }
     
@@ -93,6 +103,7 @@ public enum IndentToken: Equatable, Sendable {
             case .tokenPair(_, let ignoreCase): ignoreCase
             case .symbolPair: false
             case .beginToken(_, let ignoreCase): ignoreCase
+            case .linePattern(_, _, let ignoreCase): ignoreCase
         }
     }
 }
@@ -137,7 +148,13 @@ public extension String {
             var cursorMove = baseIndent.count
             
             // smart indent
-            let candidates = tokens.filter { self.matches(token: $0.begin, before: lastLocation, ignoreCase: $0.ignoreCase) }
+            let candidates = tokens.filter {
+                if case .linePattern(let pattern, _, let ignoreCase) = $0 {
+                    self.matches(linePattern: pattern, before: lastLocation, ignoreCase: ignoreCase)
+                } else {
+                    self.matches(token: $0.begin, before: lastLocation, ignoreCase: $0.ignoreCase)
+                }
+            }
             if !candidates.isEmpty {
                 let tab = style.string(width: indentWidth)
                 
@@ -258,6 +275,25 @@ extension NSString {
         }
         
         return !foundRange.isNotFound
+    }
+    
+    
+    /// Returns whether the given pattern matches the line that ends at the location.
+    ///
+    /// - Parameters:
+    ///   - pattern: The regular expression pattern to match, anywhere in the line.
+    ///   - location: The UTF-16 location at the end of the line, just before its line ending.
+    ///   - ignoreCase: Whether to match the pattern case-insensitively.
+    /// - Returns: `true` if the pattern matches; otherwise `false`.
+    func matches(linePattern pattern: String, before location: Int, ignoreCase: Bool = false) -> Bool {
+        
+        let lineStart = self.lineRange(for: NSRange(location: location, length: 0)).location
+        let range = NSRange(lineStart..<location)
+        let options: NSRegularExpression.Options = ignoreCase ? [.caseInsensitive] : []
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: options) else { return false }
+        
+        return regex.firstMatch(in: self as String, range: range) != nil
     }
     
     

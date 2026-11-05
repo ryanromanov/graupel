@@ -266,6 +266,7 @@ struct SyntaxComponentCodingTests {
         
         #expect(delimiter.begin == "{")
         #expect(delimiter.end == "}")
+        #expect(!delimiter.isRegularExpression)
         #expect(!delimiter.ignoreCase)
         #expect(delimiter.description == nil)
     }
@@ -280,6 +281,19 @@ struct SyntaxComponentCodingTests {
         #expect(object["end"] as? String == "}")
         #expect(object["ignoreCase"] == nil)
         #expect(object["description"] as? String == "block")
+    }
+    
+    
+    @Test func delimiterRegularExpressionCoding() throws {
+        
+        let delimiter = Syntax.Delimiter(begin: "^\\s*do\\b", isRegularExpression: true, ignoreCase: true)
+        let object = try Self.object(from: delimiter)
+        
+        #expect(object["regularExpression"] as? Bool == true)
+        #expect(object["ignoreCase"] as? Bool == true)
+        
+        let decoded = try JSONDecoder().decode(Syntax.Delimiter.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(decoded == delimiter)
     }
     
     

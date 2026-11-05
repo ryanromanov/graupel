@@ -280,6 +280,7 @@ extension Syntax.Delimiter: Codable {
         
         case begin
         case end
+        case isRegularExpression = "regularExpression"
         case ignoreCase
         case description
     }
@@ -291,6 +292,7 @@ extension Syntax.Delimiter: Codable {
         
         self.begin = try container.decode(String.self, forKey: .begin)
         self.end = try container.decodeIfPresent(String.self, forKey: .end)
+        self.isRegularExpression = try container.decodeIfPresent(Bool.self, forKey: .isRegularExpression) ?? false
         self.ignoreCase = try container.decodeIfPresent(Bool.self, forKey: .ignoreCase) ?? false
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
     }
@@ -303,6 +305,9 @@ extension Syntax.Delimiter: Codable {
         try container.encode(self.begin, forKey: .begin)
         if let end = self.end, !end.isEmpty {
             try container.encode(end, forKey: .end)
+        }
+        if self.isRegularExpression {
+            try container.encode(true, forKey: .isRegularExpression)
         }
         if self.ignoreCase {
             try container.encode(true, forKey: .ignoreCase)

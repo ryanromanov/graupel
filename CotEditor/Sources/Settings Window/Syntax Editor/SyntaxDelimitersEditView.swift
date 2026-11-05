@@ -297,6 +297,14 @@ private struct BlockEditView: View {
     var body: some View {
         
         Table($items, selection: $selection) {
+            // Graupel: a pattern matched against the whole line, for blocks that start with a keyword
+            TableColumn(.init("RE", table: "SyntaxEditor", comment: "table column header (RE for Regular Expression)")) { $item in
+                Toggle(isOn: $items.selectionBinding(for: $item, selection: $selection, keyPath: \.value.isRegularExpression), label: EmptyView.init)
+                    .help(.init("Regular Expression", table: "SyntaxEditor", comment: "tooltip for RE checkbox"))
+                    .accessibilityLabel(.init("Regular Expression", table: "SyntaxEditor", comment: "tooltip for RE checkbox"))
+            }
+            .width(24)
+            .alignment(.center)
             TableColumn(.init("IC", table: "SyntaxEditor", comment: "table column header (IC for Ignore Case)")) { $item in
                 Toggle(isOn: $items.selectionBinding(for: $item, selection: $selection, keyPath: \.value.ignoreCase), label: EmptyView.init)
                     .help(.init("Ignore Case", table: "SyntaxEditor", comment: "tooltip for IC checkbox"))

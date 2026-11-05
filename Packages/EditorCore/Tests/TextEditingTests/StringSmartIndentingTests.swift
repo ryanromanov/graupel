@@ -149,6 +149,70 @@ struct StringSmartIndentingTests {
     }
     
     
+    @Test func linePatternInit() {
+
+        #expect(IndentToken(begin: "^\\s*do\\b", end: nil, isRegularExpression: true) == .linePattern("^\\s*do\\b", end: nil, ignoreCase: false))
+        #expect(IndentToken(begin: "^\\s*do\\b", end: "", isRegularExpression: true, ignoreCase: true) == .linePattern("^\\s*do\\b", end: nil, ignoreCase: true))
+        #expect(IndentToken(begin: "  then", end: nil, isRegularExpression: true) == .linePattern("  then", end: nil, ignoreCase: false))
+        #expect(IndentToken(begin: "(", end: nil, isRegularExpression: true) == nil)  // invalid pattern
+    }
+
+
+    @Test func smartIndentLinePattern() throws {
+
+        let tokens: [IndentToken] = [.linePattern("^\\s*do\\b", end: nil, ignoreCase: true)]
+
+        let string = "  DO i = 1, n\n"
+        let context = try #require(string.smartIndent(style: .space, indentWidth: 2, tokens: tokens, in: [NSRange(location: 14, length: 0)]))
+        #expect(context.strings == ["    "])
+        #expect(context.selectedRanges == [NSRange(location: 18, length: 0)])
+
+        // only the line before the line break counts
+        let nextLine = "do i = 1, n\n  x = 1\n"
+        let sameLevel = try #require(nextLine.smartIndent(style: .space, indentWidth: 2, tokens: tokens, in: [NSRange(location: 20, length: 0)]))
+        #expect(sameLevel.strings == ["  "])
+    }
+
+
+    @Test func smartIndentBoreas() {
+
+        // the patterns in Boreas.cotsyntax/Edit.json
+        let tokens: [IndentToken] = [
+            "^\\s*(?:public\\s+)?(?:program|module|record|function|subroutine)\\b",
+            "^\\s*(?:\\w+\\s*:\\s*)?do\\b",
+            "^\\s*select\\s+case\\b",
+            "^\\s*case\\b(?!.*->)",
+            "^[^!]*\\bthen\\s*(?:!.*)?$",
+            "^\\s*else\\s*(?:!.*)?$",
+        ].compactMap { IndentToken(begin: $0, end: nil, isRegularExpression: true, ignoreCase: true) }
+        #expect(tokens.count == 6)
+
+        let indented = [
+            "program demo", "module geometry", "record point", "public record point",
+            "function square(real :: x) -> real", "public function f() -> int", "subroutine swap(inout real :: a)",
+            "do i = 1, n", "do while (x < 3)", "outer: do i = 1, 10", "DO I = 1, N",
+            "select case (x)", "case 1, 3", "case default",
+            "if x then", "if x then  ! note", "else", "else if y then", "ELSE",
+        ]
+        let notIndented = [
+            "case 1, 3 -> \"small\"", "case default -> 2",
+            "end do", "end function", "end if", "end select",
+            "! do this", "print \"and then\"", "x = 1 ! then", "call do_it()", "done = .true.",
+        ]
+
+        for line in indented {
+            let string = line + "\n"
+            let context = string.smartIndent(style: .space, indentWidth: 2, tokens: tokens, in: [NSRange(location: string.utf16.count, length: 0)])
+            #expect(context?.strings == ["  "], "\(line)")
+        }
+        for line in notIndented {
+            let string = line + "\n"
+            let context = string.smartIndent(style: .space, indentWidth: 2, tokens: tokens, in: [NSRange(location: string.utf16.count, length: 0)])
+            #expect(context == nil, "\(line)")
+        }
+    }
+
+
     @Test func lineEndingStringBefore() {
         
         let lf = "a\nb".lineEndingString(before: 2)

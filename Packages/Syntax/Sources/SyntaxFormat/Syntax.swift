@@ -221,14 +221,16 @@ public struct Syntax: Equatable, Sendable {
         
         public var begin: String
         public var end: String?
+        public var isRegularExpression: Bool  // Graupel: `begin` is a pattern matched against the whole line
         public var ignoreCase: Bool
         public var description: String?
         
         
-        public init(begin: String = "", end: String? = nil, ignoreCase: Bool = false, description: String? = nil) {
+        public init(begin: String = "", end: String? = nil, isRegularExpression: Bool = false, ignoreCase: Bool = false, description: String? = nil) {
             
             self.begin = begin
             self.end = end
+            self.isRegularExpression = isRegularExpression
             self.ignoreCase = ignoreCase
             self.description = description
         }
