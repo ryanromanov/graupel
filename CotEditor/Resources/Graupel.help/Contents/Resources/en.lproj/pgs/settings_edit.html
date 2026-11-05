@@ -32,7 +32,7 @@
 	</tr>
 	<tr>
 		<th>Detect indent style on document opening</th>
-		<td><p>Looks at an opened document’s indented lines and uses spaces or tabs to match, and for spaces, the same width, such as 2. This wins over the settings here and in Mode settings. If too few lines are indented to tell, Graupel uses the settings.</p></td>
+		<td><p>Looks at an opened document’s indented lines and uses spaces or tabs to match, and for spaces, the same width, such as 2. If too few lines are indented to tell, Graupel goes on to the next source. See <a href="howto_indent.html#indent_width">where indentation comes from</a>.</p></td>
 	</tr>
 	<tr>
 		<th>Automatically indent while typing</th>
@@ -69,7 +69,7 @@
 </tbody>
 </table>
 
-<p>To use other indentation settings for code, or for one syntax such as Python, change them in <a href="settings_mode.html">Mode settings</a>.</p>
+<p>Graupel uses the indentation settings here only when nothing else sets them: the file, an <code>.editorconfig</code>, a mode, or the language. See <a href="howto_indent.html#indent_width">where indentation comes from</a>.</p>
 
 
 <section id="cf">

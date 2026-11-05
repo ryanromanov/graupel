@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="indent, outdent, shift, indentation">
+	<meta name="keywords" content="indent, outdent, shift, indentation, tab width, spaces, tabs, editorconfig, .editorconfig, indent_size">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
@@ -30,11 +30,40 @@
 
 
 <section>
-<h2>Choose tabs or spaces</h2>
+<a name="indent_width"></a>
+<h2>Choose tabs or spaces, and the width</h2>
 
-<p>Set the indent width and whether to indent with tabs or spaces in <a href="settings_edit.html">Edit settings</a>. To use different settings for one kind of document, such as Python or Boreas, change them in <a href="settings_mode.html">Mode settings</a>.</p>
+<p>For one document, choose <strong>Format &gt; Tab Width</strong> or <strong>Format &gt; Use Spaces for Indentation</strong>. Otherwise Graupel takes each setting from the first of these that has one:</p>
+
+<ol>
+	<li><p><em>The file’s own indentation,</em> when you open it, if <strong>Detect indent style on document opening</strong> is on in <a href="settings_edit.html">Edit settings</a>. A file indented with 2 spaces keeps 2 spaces.</p></li>
+	<li><p><em>An <code>.editorconfig</code> file</em> in the file’s folder or a folder above it (see below).</p></li>
+	<li><p><em>A mode you added for the syntax,</em> such as a Boreas mode, in <a href="settings_mode.html">Mode settings</a>.</p></li>
+	<li><p><em>The language’s default.</em> Boreas uses 2 spaces, the same as <code>boreas convert</code> writes.</p></li>
+	<li><p><em>The <strong>General</strong> or <strong>Code</strong> mode,</em> if you set its indentation.</p></li>
+	<li><p><em><a href="settings_edit.html">Edit settings</a>.</em></p></li>
+</ol>
+
+<p>Graupel checks again when you save a document for the first time, save it somewhere else, or rename it, but keeps a choice you made in the Format menu.</p>
 
 <p>To change the indentation already in a document, choose <strong>Text &gt; Indentation &gt; Convert Indentation to Spaces</strong> or <strong>Convert Indentation to Tabs</strong>.</p>
+</section>
+
+
+<section>
+<a name="editorconfig"></a>
+<h2>Share settings with an .editorconfig file</h2>
+
+<p>An <code>.editorconfig</code> file lets everyone working on a project, and tools such as formatters, use the same indentation. Graupel reads three of its settings: <code>indent_style</code> (<code>space</code> or <code>tab</code>), <code>indent_size</code>, and <code>tab_width</code>. It ignores the others, such as <code>end_of_line</code> and <code>charset</code>. For example:</p>
+
+<pre class="source"><code>root = true
+
+[*.bor]
+indent_style = space
+indent_size = 2
+</code></pre>
+
+<p>Graupel reads the <code>.editorconfig</code> in the file’s folder and in each folder above it, stopping at one that says <code>root = true</code>. The file closest to the document wins. For the format, see <a href="https://editorconfig.org" rel="external">editorconfig.org</a>.</p>
 </section>
 
 
