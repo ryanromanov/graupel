@@ -11,69 +11,40 @@
 </head>
 
 <body>
+<a name="howto_customize_font"></a>
 
 <h1>Change fonts</h1>
 
-<p>Change the editor’s font and text size to adjust the appearance of text in your documents.</p>
-
-<p>Graupel handles diverse types of documents and switches between a standard font and a monospaced font depending on the document type automatically. By default, the standard font is used when the syntax kind is “General,” and the monospaced font is used when the syntax kind is “Code.”</p>
+<p>Graupel has two fonts: a standard font and a monospaced font. Code uses the monospaced one and other documents use the standard one, unless you change that in <a href="settings_mode.html">Mode settings</a>.</p>
 
 
 <section>
-<h2>Temporarily change the editor font</h2>
+<h2>Choose the fonts</h2>
 
-<p>You can temporarily change the font used to view the current document from the Format &gt; Font submenu.</p>
-
-<p><em class="note">Note:</em> Changes made here apply only to the current document. Moreover, because plain text, the text format handled by Graupel, does not include style information, font settings are not saved in the document. When you close and reopen the document, the default font is applied again.</p>
-
-<h3>Change the font</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>Format &gt; Font &gt; Show Fonts</strong>.</p></li>
-	<li><p>Select the font you want to use in the Fonts window.</p></li>
-</ol>
-
-<p>You can also quickly switch to the standard or monospaced font specified in Appearance settings by choosing Format &gt; Font &gt; Standard or Monospaced.</p>
-
-<h3>Change the text size</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Do one of the following:</p><ul>
-		<li><p>Choose <strong>Format &gt; Font &gt; Bigger</strong> or Smaller.</p></li>
-		<li><p>Click the Text Size button in the toolbar (you can add it by customizing the toolbar).</p></li>
-		<li><p>Use the pinch gesture in the editor.</p></li>
-	</ul></li>
-</ol>
-
-
-<h3>Adjust font options</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>Format &gt; Font</strong>, then choose Show Ligatures or Antialiasing.</p></li>
-</ol>
-
-<p>Ligatures take effect only when supported by the selected font.</p>
-
-<h3>Restore the default font</h3>
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>Format &gt; Font &gt; Reset to Default</strong>.</p></li>
-</ol>
-<p>You can also double-tap with two fingers in the editor to restore the text size to the default.</p>
+<p>Choose <strong>Graupel &gt; Settings</strong>, click <strong>Appearance</strong>, then click <strong>Select</strong> next to <strong>Standard font</strong> or <strong>Monospaced font</strong>. The same pane sets <strong>Line height</strong>, <strong>Ligatures</strong>, and <strong>Antialias</strong>.</p>
 </section>
 
 
 <section>
-<h2>Change the default font settings</h2>
+<h2>Change the font in one document</h2>
 
-<p>Set the default fonts used when opening documents in the Settings window. Choose which fonts to use for standard and monospaced fonts in <a href="settings_appearance.html">Appearance settings</a>, and control which type of font is used per document type in <a href="settings_mode.html">Mode settings</a>.</p>
+<p>These changes last until you close the document. A plain text file can’t store a font, so the next time you open it, it uses the font from Settings again.</p>
+
+<ul>
+	<li><p><em>Bigger or smaller text:</em> Choose <strong>Format &gt; Font &gt; Bigger</strong> or <strong>Smaller</strong>, pinch on the trackpad, or use the <strong>Text Size</strong> item in the toolbar. To go back to the usual size, double-tap with two fingers.</p></li>
+	<li><p><em>The other font:</em> Choose <strong>Format &gt; Font &gt; Font Type &gt; Standard</strong> or <strong>Monospaced</strong>.</p></li>
+	<li><p><em>Any font:</em> Choose <strong>Format &gt; Font &gt; Show Fonts</strong>, then choose a font in the Fonts window.</p></li>
+	<li><p><em>Ligatures and smoothing:</em> Choose <strong>Format &gt; Font &gt; Ligatures</strong> or <strong>Antialias</strong>. Ligatures appear only with fonts that have them.</p></li>
+</ul>
+
+<p>To undo all of these, choose <strong>Format &gt; Font &gt; Reset to Default</strong>.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings_appearance.html">Change Appearance settings</a></li>
+	<li><a href="settings_appearance.html">Appearance settings</a></li>
 	<li><a href="about_mode.html">Editor modes</a></li>
 </ul>
 </section>

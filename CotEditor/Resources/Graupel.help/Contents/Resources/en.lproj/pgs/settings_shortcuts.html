@@ -3,46 +3,52 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="Shortcuts settings, key bindings, keyboard shortcut, shortcut">
+	<meta name="keywords" content="Shortcuts settings, key bindings, keyboard shortcut, shortcut, key binding">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Change Shortcuts settings</title>
+	<title>Change keyboard shortcuts</title>
 </head>
 
 <body>
 <a name="settings_shortcuts"></a>
 
-<h1>Change Shortcuts settings</h1>
+<h1>Change keyboard shortcuts</h1>
 
-<p>Use Shortcuts settings to change keyboard shortcuts for menu commands.</p>
+<p>You can change the shortcut for any menu command.</p>
 
-<p>To change these settings, choose <strong>Graupel &gt; Settings</strong>, then click <strong>Shortcuts</strong>.</p>
+<ol>
+	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Shortcuts</strong>.</p></li>
+	<li><p>Find the command, click its <strong>Key</strong> column, then press the new keys. Press Delete to remove a shortcut.</p></li>
+</ol>
+
+<p>If the shortcut is already used by another command, or can’t be used, Graupel says so and keeps the old one. To undo all your changes, click <strong>Restore Defaults</strong>.</p>
 
 
-<table class="settings">
-<thead>
-	<tr><th>Option</th><th>Description</th></tr>
-</thead>
+<section>
+<a name="howto_customize_shortcut"></a>
+<h2>Shortcuts that are set elsewhere</h2>
 
-<tbody>
-	<tr>
-		<th>Key</th>
-		<td><p>To change a shortcut, click the key column for the command, then press the new key combination. If the shortcut is already in use or otherwise unavailable, Graupel keeps the current setting and shows an error. For details, see <a href="howto_customize_shortcut.html">Customize keyboard shortcuts</a>.</p></td>
-	</tr>
+<ul>
+	<li><p><em>Snippets:</em> Set a snippet’s shortcut in <a href="settings_snippets.html">Snippets settings</a>.</p></li>
+	<li><p><em>Scripts:</em> Add the shortcut to the script’s file name. See <a href="script_menu.html">Customize Script menu</a>.</p></li>
+	<li><p><em>Some commands macOS provides,</em> such as the Services menu: Change these in System Settings. See <a href="https://support.apple.com/guide/mac-help/create-keyboard-shortcuts-for-apps-mchlp2271/mac" rel="external">Create keyboard shortcuts for apps on Mac</a>.</p></li>
+</ul>
+</section>
 
-	<tr>
-		<th>Restore Defaults</th>
-		<td><p>Restore all customized keyboard shortcuts to their default settings.</p></td>
-	</tr>
-</tbody>
-</table>
+
+<section>
+<a name="faq_shortcut"></a>
+<h2>If a shortcut doesn’t work</h2>
+
+<p>Graupel can’t catch every conflict. A script or snippet might use the same shortcut as a menu command, and then only one of them runs. Some keys with Option or Shift also type a character, and typing wins. Try a shortcut that includes Command or Control.</p>
+</section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings.html">Change settings</a></li>
+	<li><a href="howto_quick_action.html">Run a command by typing</a></li>
 </ul>
 </section>
 

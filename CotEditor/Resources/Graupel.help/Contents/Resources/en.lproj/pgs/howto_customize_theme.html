@@ -7,139 +7,57 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Customize a theme</title>
+	<title>Change the colors</title>
 </head>
 
 <body>
+<a name="howto_customize_theme"></a>
 
-<h1>Customize a theme</h1>
+<h1>Change the colors</h1>
 
-<p>A Graupel <dfn>theme</dfn> is a collection of settings that define the editor’s color appearance. You can choose your preferred color scheme, switch themes based on the window appearance, and export them as portable settings.</p>
-
-
-
-<p>Graupel themes let you configure the colors used for elements that compose the editor view.</p>
-
-<table>
-	<thead>
-		<tr><th>Item</th><th>System Color</th><th>Opacity</th><th>Description</th></tr>
-	</thead>
-	<tbody>
-		<tr><th>Text</th>
-			<td></td>
-			<td></td>
-			<td><p>The basic text color used for non-highlighted text. Line numbers also use this color.</p></td>
-		</tr>
-		<tr><th>Invisibles</th>
-			<td></td>
-			<td class="center">✔︎</td>
-			<td><p>The color of <a href="howto_display_invisibles.html">invisible characters</a> that can be enabled in <a href="settings_window.html">Window settings</a>.</p></td>
-		</tr>
-		<tr><th>Cursor</th>
-			<td class="center">✔︎</td>
-			<td class="center">✔︎</td>
-			<td><p>The color of the cursor displayed at the insertion point.</p></td>
-		</tr>
-		<tr><th>Background</th>
-			<td></td>
-			<td></td>
-			<td><p>The background color of the editor.</p></td>
-		</tr>
-		<tr><th>Current Line</th>
-			<td></td>
-			<td class="center">✔︎</td>
-			<td><p>The background color of the current line when the option to show the current line is enabled in <a href="settings_window.html">Window settings</a>.</p></td>
-		</tr>
-		<tr><th>Selection</th>
-			<td class="center">✔︎</td>
-			<td></td>
-			<td><p>The background color of selected text.</p></td>
-		</tr>
-		<tr><th>Highlight</th>
-			<td class="center">✔︎</td>
-			<td></td>
-			<td><p>The highlight color used, for example, when “Highlight instances of selected text” is turned on in <a href="settings_edit.html">Edit settings</a>. A version of this color with reduced opacity is used as the base highlight background.</p></td>
-		</tr>
-		<tr><th>Syntax</th>
-			<td></td>
-			<td class="center">✔︎</td>
-			<td><p>The text color for each <a href="syntax_highlight_settings.html">syntax highlighting</a> element defined in the syntax.</p></td>
-		</tr>
-	</tbody>
-</table>
-
-
-<p>Some editor components, such as the cursor and selection, use system colors determined by macOS Appearance settings. When “Use system colors” is enabled for an element, the system’s highlight color (System Settings &gt; Appearance) is used instead of the theme’s own color.</p>
-
-<p>Invisible characters, the cursor, the current line, and syntax highlighting can be assigned colors with opacity. However, opacity can’t be set for the basic text color or certain other elements. These components may adjust their opacity automatically based on the editor’s opacity and other conditions.</p>
+<p>A theme sets the editor’s colors: the text, the background, the selection, and a color for each kind of highlighted text, such as keywords and comments. Graupel comes with several themes, and you can change them or make your own.</p>
 
 
 <section>
-<h2>Customize a theme</h2>
+<h2>Choose a theme</h2>
 
-<ol>
-	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Appearance</strong>.</p></li>
-	<li><p>Select the theme you want to customize from the Theme list.</p>
-		<p>To create a new theme, click the Add + button.</p>
-		<p>To create your own theme based on an existing one, click <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/ellipsis.circle.svg">the More button</object>, then choose Duplicate.</p>
-	</li>
-	<li><p>Click a color well in the theme editor.</p></li>
-	<li><p>Select a color in the Colors window.</p>
-		<p>Your changes are saved automatically and applied immediately.</p>
-	</li>
-</ol>
+<p>Choose <strong>Graupel &gt; Settings</strong>, click <strong>Appearance</strong>, then select a theme in the <strong>Theme</strong> list.</p>
+
+<p>Some themes come in pairs, such as Anura and Anura (Dark). If you choose either one, Graupel switches between them when your Mac switches between Light and Dark appearance. To make your own pair, give the dark theme the same name as the light one followed by a space and “(Dark)”. The light one can also end in “(Light)”. If you choose a theme that has no pair, Graupel keeps it in both appearances.</p>
 </section>
 
 
 <section>
-<h2>Switch theme based on the appearance</h2>
+<h2>Change or make a theme</h2>
 
-<p>A pair of themes with the same name, where one ends with “ (Dark)” (note the space), automatically switches depending on the window’s appearance. The light-mode theme can be named either only with the base name or with “ (Light)” at the end. For example, the built-in “Anura” and “Anura (Dark)” themes form such a pair. “Anura” is used in light appearance, and “Anura (Dark)” is used in Dark Mode.</p>
+<ol>
+	<li><p>In the <strong>Theme</strong> list, select the theme to change. To start from a copy, Control-click it and choose <strong>Duplicate</strong>. To start from scratch, click the Add (+) button.</p></li>
+	<li><p>Click a color, then choose the new color in the Colors window. The editor changes as you go, and the theme is saved as you change it.</p></li>
+</ol>
 
-<p>However, if you manually choose a theme that doesn’t match the appearance, that selection takes precedence regardless of the appearance.</p>
+<p>For the cursor, the selection, and the highlight, you can select <strong>Use system color</strong> to use the accent and highlight colors from System Settings instead.</p>
+
+<p>Changing a built-in theme saves your own copy of it. To go back to the original, Control-click it and choose <strong>Restore</strong>.</p>
 </section>
 
 
 <section>
-<h2>Export a custom theme</h2>
+<h2>Share a theme</h2>
 
-<ol>
-	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Appearance</strong>.</p></li>
-	<li><p>Select the theme to export in the Theme list.</p></li>
-	<li><p>Do one of the following:</p><ul>
-		<li><p>Click <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/ellipsis.circle.svg">the More button</object> or open the contextual menu for the selected item, then choose Export.</p></li>
-		<li><p>Click <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/ellipsis.circle.svg">the More button</object> or open the contextual menu for the selected item, choose Share, then choose how to share it.</p></li>
-		<li><p>Drag the selected item into the Finder.</p></li>
-	</ul></li>
-</ol>
+<p>A theme is saved as a Graupel Theme file (<code>.cottheme</code>), which is JSON with colors written as hexadecimal values in the Generic RGB color space.</p>
 
-<p><em class="note">Note:</em> Custom themes and customized built-in themes can be exported. Unmodified built-in themes can’t be exported.</p>
-
-<p><em class="tip">Tip:</em> You can export all custom themes at once as a Graupel Settings Archive. For details, see <a href="howto_port_settings.html">Export and import settings</a>.</p>
-</section>
-
-
-<section>
-<h2>Import a custom theme</h2>
-
-<ol>
-	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Appearance</strong>.</p></li>
-	<li><p>Do one of the following:</p><ul>
-		<li><p>Click <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/ellipsis.circle.svg">the More button</object>, choose Import, then choose a Graupel Theme file to import.</p></li>
-		<li><p>Drag the Graupel Theme file into the Theme list.</p></li>
-	</ul></li>
-</ol>
-
-<p>A Graupel Theme file must have the .cottheme extension. Its format is based on JSON and uses hexadecimal color values with a <code>#</code> symbol.</p>
-
-<p><em class="note">Note:</em> Color values in Graupel Theme files use the Generic RGB color space. The same hexadecimal values may look different in apps that use a different color space.</p>
+<ul>
+	<li><p><em>To export</em>, Control-click your theme and choose <strong>Export…</strong>, or drag it to the Finder. Built-in themes you haven’t changed can’t be exported.</p></li>
+	<li><p><em>To import</em>, drag a <code>.cottheme</code> file into the list, or click the ••• button below the list and choose <strong>Import…</strong>.</p></li>
+</ul>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings_appearance.html">Change Appearance settings</a></li>
+	<li><a href="settings_appearance.html">Appearance settings</a></li>
+	<li><a href="syntax_overview.html">Syntaxes</a></li>
 </ul>
 </section>
 
