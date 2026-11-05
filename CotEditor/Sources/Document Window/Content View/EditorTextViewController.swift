@@ -30,6 +30,7 @@ import SwiftUI
 import ControlUI
 import CharacterInfo
 import Defaults
+import DocumentFile
 import Invisible
 import LineEnding
 import StringUtils
@@ -137,24 +138,18 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
         
         super.viewDidLoad()
         
-        self.textView.detectedIndentation = self.document.detectedIndentation
-        
         let defaults = UserDefaults.standard
         self.observers = [
             // apply user settings to the text view
             defaults.publisher(for: .lineHeight, initial: true)
                 .assign(to: \.lineHeight, on: self.textView),
             defaults.publisher(for: .tabWidth, initial: true)
-                .filter { [document] _ in ModeManager.shared.setting(for: document.mode).indentOptions == nil }
-                .sink { [textView] _ in textView.applyIndentOptions(nil) },
+                .sink { [weak self] _ in self?.updateIndentation() },
             
             defaults.publisher(for: .autoExpandTab, initial: true)
-                .filter { [document] _ in ModeManager.shared.setting(for: document.mode).indentOptions == nil }
-                .sink { [textView] _ in textView.applyIndentOptions(nil) },
+                .sink { [weak self] _ in self?.updateIndentation() },
             defaults.publisher(for: .modes, initial: true)
-                .map { [document] _ in ModeManager.shared.setting(for: document.mode).indentOptions }
-                .removeDuplicates()
-                .sink { [textView] options in textView.applyIndentOptions(options) },
+                .sink { [weak self] _ in self?.updateIndentation() },
             defaults.publisher(for: .autoIndent, initial: true)
                 .assign(to: \.isAutomaticIndentEnabled, on: self.textView),
             defaults.publisher(for: .trimsWhitespaceOnlyLines, initial: true)
@@ -211,6 +206,7 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
         self.textView.applySyntax(self.document.syntaxController.syntax)
         self.textView.lineEnding = self.document.lineEnding
         self.textView.applyMode(ModeManager.shared.setting(for: self.document.mode))
+        self.updateIndentation()
         
         // observe document setting changes
         self.documentObservers = [
@@ -219,14 +215,22 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
                     textView.applySyntax(document.syntaxController.syntax)
                 }
             },
+            Task { [weak self, document] in
+                // Graupel: the syntax's default indentation, the file's .editorconfig, and indentation chosen for
+                //   the document
+                for await _ in Observations({ (document.syntaxName, document.editorConfig, document.manualIndentation) }) {
+                    self?.updateIndentation()
+                }
+            },
             Task { [textView, document] in
                 for await lineEnding in Observations({ document.lineEnding }) {
                     textView.lineEnding = lineEnding
                 }
             },
-            Task { [textView, document] in
+            Task { [weak self, textView, document] in
                 for await modeName in Observations({ document.mode }) {
                     textView.applyMode(ModeManager.shared.setting(for: modeName))
+                    self?.updateIndentation()  // also covers a syntax change, which changes the mode
                 }
             },
         ]
@@ -429,7 +433,37 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
     
     
     // MARK: Private Methods
-    
+
+    /// Applies the indentation resolved from the document, its `.editorconfig`, its syntax, the modes, and Settings.
+    /// (Graupel)
+    private func updateIndentation() {
+
+        let document = self.document
+        let mode = document.mode
+        let modeIndent = ModeManager.shared.setting(for: mode).indentOptions
+            .map { IndentationSetting(expandsTab: $0.expandsTab, width: $0.width) }
+        let isSyntaxMode = if case .syntax = mode { true } else { false }
+        let syntaxIndentation = document.syntaxController.syntax.indentation
+
+        let indentation = IndentationSetting.resolve(
+            manual: document.manualIndentation,
+            detected: document.detectedIndentation,
+            editorConfig: IndentationSetting(expandsTab: document.editorConfig.expandsTab, width: document.editorConfig.width),
+            syntaxMode: isSyntaxMode ? modeIndent : nil,
+            syntaxDefault: IndentationSetting(expandsTab: syntaxIndentation.expandsTab, width: syntaxIndentation.width),
+            kindMode: isSyntaxMode ? nil : modeIndent,
+            defaults: (UserDefaults.standard[.autoExpandTab], UserDefaults.standard[.tabWidth])
+        )
+
+        if self.textView.isAutomaticTabExpansionEnabled != indentation.expandsTab {
+            self.textView.isAutomaticTabExpansionEnabled = indentation.expandsTab
+        }
+        if self.textView.tabWidth != indentation.width {
+            self.textView.tabWidth = indentation.width
+        }
+    }
+
+
     /// The accessibility help text for the editor text view.
     private var editorAccessibilityHelp: String? {
         
@@ -610,8 +644,6 @@ private extension EditorTextView {
         self.defaultFontType = mode.fontType
         self.setFont(type: mode.fontType)
         
-        self.applyIndentOptions(mode.indentOptions)
-        
         self.smartInsertDeleteEnabled = mode.smartInsertDelete
         self.isAutomaticDashSubstitutionEnabled = mode.automaticDashSubstitution
         self.isAutomaticQuoteSubstitutionEnabled = mode.automaticQuoteSubstitution
@@ -628,27 +660,6 @@ private extension EditorTextView {
     }
     
     
-    /// Applies the given indentation settings, falling back to the default settings.
-    ///
-    /// - Parameter options: The indentation settings to apply.
-    func applyIndentOptions(_ options: ModeOptions.IndentOptions?) {
-        
-        if let options {
-            self.isAutomaticTabExpansionEnabled = options.expandsTab
-            self.tabWidth = options.width
-        } else {
-            self.isAutomaticTabExpansionEnabled = UserDefaults.standard[.autoExpandTab]
-            self.tabWidth = UserDefaults.standard[.tabWidth]
-        }
-        
-        // Graupel: the document's own indentation wins
-        if let detected = self.detectedIndentation {
-            self.isAutomaticTabExpansionEnabled = detected.expandsTab
-            if let width = detected.width {
-                self.tabWidth = width
-            }
-        }
-    }
 }
 
 

@@ -90,7 +90,10 @@ extension NSTextView: EditorCounter.Source { }
     private(set) var lineEnding: LineEnding  { didSet { self.lineEndingScanner.baseLineEnding = lineEnding } }
     private(set) var syntaxName: String
     private(set) var mode: Mode
-    var detectedIndentation: DetectedIndentation?  // Graupel: set when the document's window opens
+    // Graupel: sources of the document's indentation (see IndentationSetting.resolve)
+    var detectedIndentation: IndentationSetting?  // set when the document's window opens
+    var manualIndentation = IndentationSetting()  // set from the Format menu or a script
+    var editorConfig = EditorConfig()
     
     /// The diagnostic marked at the cursor in the focused text view.
     private(set) var diagnosticAtCursor: DiagnosticMark?
@@ -244,6 +247,7 @@ extension NSTextView: EditorCounter.Source { }
         
         didSet {
             Task { @MainActor in
+                self.editorConfig = self.fileURL.map(EditorConfig.init(for:)) ?? EditorConfig()  // Graupel
                 self.synchronizeFileType()
                 self.invalidateLanguageServer()
                 NotificationCenter.default.post(NSDocument.DidChangeFileURLMessage(), subject: self)

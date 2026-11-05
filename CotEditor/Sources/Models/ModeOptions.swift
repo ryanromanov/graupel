@@ -25,11 +25,26 @@
 
 import SyntaxFormat
 
-/// The indentation found in a document when it was opened. (Graupel)
-struct DetectedIndentation: Equatable {
+/// One source of indentation settings, either of which may be unset. (Graupel)
+struct IndentationSetting: Equatable {
     
-    var expandsTab: Bool
-    var width: Int?  // only for space indentation
+    var expandsTab: Bool?
+    var width: Int?
+    
+    
+    /// Resolves the indentation to use from the sources, each setting taken separately from the first source
+    /// that has it.
+    ///
+    /// The order, first to last: a choice made for the document (Format menu or a script), the document's own
+    /// indentation, its `.editorconfig`, the user's mode for its syntax, the syntax's default, the user's mode
+    /// for its kind (General or Code), then Edit settings.
+    static func resolve(manual: Self, detected: Self?, editorConfig: Self, syntaxMode: Self?, syntaxDefault: Self, kindMode: Self?, defaults: (expandsTab: Bool, width: Int)) -> (expandsTab: Bool, width: Int) {
+        
+        let layers = [manual, detected, editorConfig, syntaxMode, syntaxDefault, kindMode].compactMap(\.self)
+        
+        return (expandsTab: layers.lazy.compactMap(\.expandsTab).first ?? defaults.expandsTab,
+                width: layers.lazy.compactMap(\.width).first ?? defaults.width)
+    }
 }
 
 

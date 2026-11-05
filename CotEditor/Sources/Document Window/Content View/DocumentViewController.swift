@@ -29,6 +29,7 @@ import Combine
 import SwiftUI
 import ControlUI
 import Defaults
+import DocumentFile
 import StringUtils
 import TextEditing
 
@@ -126,10 +127,11 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
            let indentStyle = self.document.textStorage.string.detectedIndentStyle
         {
             self.document.detectedIndentation = switch indentStyle {
-                case .tab: DetectedIndentation(expandsTab: false)
-                case .space: DetectedIndentation(expandsTab: true, width: self.document.textStorage.string.detectedIndentWidth)
+                case .tab: IndentationSetting(expandsTab: false)
+                case .space: IndentationSetting(expandsTab: true, width: self.document.textStorage.string.detectedIndentWidth)
             }
         }
+        self.document.editorConfig = self.document.fileURL.map(EditorConfig.init(for:)) ?? EditorConfig()
 
         // set first editor view
         self.addEditorView()
@@ -555,6 +557,7 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         }
         
         set {
+            self.document.manualIndentation.width = newValue  // Graupel: a choice for this document wins
             for textView in self.textViews {
                 textView.tabWidth = newValue
             }
@@ -570,6 +573,7 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         }
         
         set {
+            self.document.manualIndentation.expandsTab = newValue  // Graupel: a choice for this document wins
             for textView in self.textViews {
                 textView.isAutomaticTabExpansionEnabled = newValue
             }
