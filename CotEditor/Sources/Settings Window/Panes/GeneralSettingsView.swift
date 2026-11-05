@@ -120,7 +120,7 @@ struct GeneralSettingsView: View {
                         self.enablesAutosaveInPlace.toggle()
                     }
                 } message: {
-                    Text(.init("NextSessionApplicationConfirmation.message", defaultValue: "Do you want to restart CotEditor now?", table: "GeneralSettings"))
+                    Text(.init("NextSessionApplicationConfirmation.message", defaultValue: "Do you want to restart Graupel now?", table: "GeneralSettings"))
                 }
             }
             
@@ -481,7 +481,7 @@ private extension DocumentConflictOption {
         switch self {
             case .ignore:
                 .init("DocumentConflictOption.ignore.label",
-                      defaultValue: "Keep CotEditor’s version",
+                      defaultValue: "Keep Graupel’s version",
                       table: "GeneralSettings",
                       comment: "verb; button; version refers to the document’s contents")
             case .notify:

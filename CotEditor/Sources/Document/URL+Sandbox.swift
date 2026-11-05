@@ -58,7 +58,7 @@ extension URL {
         openPanel.canChooseDirectories = isDirectory
         openPanel.directoryURL = self
         openPanel.message = String(localized: "GrantAccessPanel.message",
-                                   defaultValue: "Open the original location to grant CotEditor access.",
+                                   defaultValue: "Open the original location to grant Graupel access.",
                                    comment: "message in the Open dialog to grant the access permission to open an alias location.")
         
         let delegate = GrantAccessDelegate(validURL: self)

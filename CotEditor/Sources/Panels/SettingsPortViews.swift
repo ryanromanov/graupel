@@ -240,7 +240,7 @@ extension PortableSettingsDocument.Error: LocalizedError {
         switch self {
             case .versionMismatch(let version):
                 String(localized: "Error.versionMismatch.description",
-                       defaultValue: "This settings archive was created by a different version of CotEditor (\(version, format: .version)).",
+                       defaultValue: "This settings archive was created by a different version of Graupel (\(version, format: .version)).",
                        table: "SettingsPorting")
         }
     }
