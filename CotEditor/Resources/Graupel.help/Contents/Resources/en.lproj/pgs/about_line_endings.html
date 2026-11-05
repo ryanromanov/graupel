@@ -3,17 +3,17 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="line ending, newline, line break, LF, CR, CRLF, NEL, LS, PS">
+	<meta name="keywords" content="line ending, newline, line break, LF, CR, CRLF, NEL, LS, PS, paste, paste exactly, clipboard, search, replace">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Handle various types of line endings</title>
+	<title>Line endings</title>
 </head>
 
 <body>
 <a name="about_line_endings"></a>
 
-<h1>Handle various types of line endings</h1>
+<h1>Line endings</h1>
 
 <p>Different systems end lines with different characters. Graupel uses one kind of line ending throughout a document, and you can change which.</p>
 
@@ -41,34 +41,52 @@
 
 <p>To change it, choose a different line ending from the menu in the status bar or from <strong>Format &gt; Line Endings</strong>. Graupel converts every line ending in the document. To choose NEL, LS, or PS, hold down the Option key while the menu is open.</p>
 
-<p>If a document mixes kinds of line endings, Graupel tells you; see <a href="howto_find_inconsistent_line_endings.html">Find inconsistent line endings</a>.</p>
+<p>For new documents, choose <strong>Graupel &gt; Settings</strong>, click <strong>Format</strong>, then choose from <strong>Default line endings</strong>. Graupel also uses it for documents that have only one line.</p>
 </section>
 
 
 <section>
-<h2>Set the line ending for new documents</h2>
+<a name="inconsistent_line_endings"></a>
+<a name="howto_find_inconsistent_line_endings"></a>
+<h2>Mixed line endings</h2>
 
-<p>Choose <strong>Graupel &gt; Settings</strong>, click <strong>Format</strong>, then choose from <strong>Default line endings</strong>. Graupel also uses it for documents that have only one line.</p>
+<p>A document that mixes kinds of line endings, such as LF and CRLF, can break scripts and other tools. Graupel checks for this when it opens a document. It uses the most common line ending and asks what to do with the others: convert them all to that one, or leave them so you can look first.</p>
+
+<p>To stop being asked about one document, select <strong>Don’t ask again for this document</strong>. To stop being asked about any document, choose <strong>Graupel &gt; Settings</strong>, click <strong>General</strong>, click <strong>Manage Warnings</strong>, and select <strong>Inconsistent line endings</strong>.</p>
+
+<p>To see where they are, choose <strong>View &gt; Inspector &gt; Warnings</strong>, which lists every line ending that differs from the document’s. Or <a href="howto_display_invisibles.html">show invisible characters</a>: line endings that differ are drawn in another color.</p>
+
+<p>To make them all the same, choose the line ending you want from <strong>Format &gt; Line Endings</strong> or the menu in the status bar, even if it’s already selected.</p>
 </section>
 
 
 <section>
-<h2>Insert a different line ending</h2>
+<a name="howto_paste"></a>
+<h2>Paste text</h2>
 
-<p>Text you type, paste, or replace gets the document’s line ending, whatever line endings it had. To insert a different one on purpose:</p>
+<p>When you paste with <strong>Edit &gt; Paste</strong> (Command-V), Graupel changes the line endings in the pasted text to match the document’s. To paste text exactly as it is on the clipboard, press Command-Option-V, or hold down the Option key and choose <strong>Edit &gt; Paste Exactly</strong>. This can leave the document with mixed line endings.</p>
+</section>
 
-<ul>
-	<li><p>Type it by its code point. See <a href="howto_input_unicode.html">Type a character by its code point</a>.</p></li>
-	<li><p>Paste text with <strong>Edit &gt; Paste Exactly</strong>, which keeps its line endings. See <a href="howto_paste.html">Paste text</a>.</p></li>
-</ul>
+
+<section>
+<a name="howto_find_newline"></a>
+<h2>Find and replace line endings</h2>
+
+<p>A line break you type in the <strong>Find</strong> field with Option-Return stands for the document’s own line ending. If the document uses LF, it won’t match a stray CRLF. This is true with or without <strong>Regular Expression</strong>.</p>
+
+<p>With <strong>Regular Expression</strong> on, you can name a line ending exactly instead: <code>\n</code> for LF, <code>\r</code> for CR, <code>\r\n</code> for CRLF, or <code>\R</code> for any line ending, including <code>U+000B</code>, <code>U+000C</code>, <code>U+0085</code>, <code>U+2028</code>, and <code>U+2029</code>. In an LF document, <code>\r\n|\r</code> finds every line ending that doesn’t match.</p>
+
+<p>Every line ending that a replacement puts in becomes the document’s line ending. That includes <code>\r</code> or <code>\n</code> in the <strong>Replace with</strong> field and line endings inside captured text. For example, in an LF document, replacing <code>dog\Rcow</code> with <code>$0\r</code> turns “dog<span class="invisible">\r\n</span>cow” into “dog<span class="invisible">\n</span>cow<span class="invisible">\n</span>”.</p>
+
+<p>To put in a line ending of another kind on purpose, type it by its code point (see <a href="howto_input_unicode.html">Unicode characters</a>) or use <strong>Paste Exactly</strong>.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="howto_find_newline.html">Find and replace line endings</a></li>
-	<li><a href="settings_format.html">Change Format settings</a></li>
+	<li><a href="howto_find.html">Find and replace text</a></li>
+	<li><a href="settings_format.html">Format settings</a></li>
 </ul>
 </section>
 

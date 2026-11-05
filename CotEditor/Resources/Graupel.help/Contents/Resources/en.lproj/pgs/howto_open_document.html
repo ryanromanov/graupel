@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="new document, open, create, plain text, drag and drop, iCloud Drive">
+	<meta name="keywords" content="new document, open, create, plain text, drag and drop, iCloud Drive, invisible, file, hidden, symlink, symbolic link, alias, readonly, read-only, prevent editing, allow editing, lock, unlock">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 
@@ -35,13 +35,54 @@
 </ul>
 
 <p>Graupel edits only plain text. It will open other files, such as PDFs, images, or Word documents, but shows their raw contents, which are mostly unreadable. Open those in the app made for them.</p>
+
+<p>To open a folder and switch between its files in one window, see <a href="howto_open_folder.html">Open folders</a>.</p>
 </section>
 
 
 <section>
-<h2>Open a folder</h2>
+<a name="howto_open_hidden_file"></a>
+<h2>Open hidden files</h2>
 
-<p>Open a folder the same way as a document. Its files appear in a sidebar, and you can switch between them in one window. See <a href="howto_open_folder.html">Open folders</a>.</p>
+<p>Some files, such as <code>.gitignore</code> or <code>.zshrc</code>, are hidden in the Finder. Graupel can show them so you can open them.</p>
+
+<ul>
+	<li><p><em>In the Open dialog:</em> Choose <strong>File &gt; Open</strong>, then select <strong>Show invisible files</strong>.</p></li>
+	<li><p><em>In a folder’s sidebar:</em> Control-click in the sidebar and choose <strong>Show Hidden Files</strong>. Choose it again to hide them.</p></li>
+</ul>
+</section>
+
+
+<section>
+<a name="howto_open_alias"></a>
+<h2>Open aliases and symbolic links</h2>
+
+<p>An alias or a symbolic link points to a file or folder somewhere else. Graupel opens what it points to, called the original.</p>
+
+<ul>
+	<li><p><em>From the Finder or the Open dialog:</em> Open the alias or link like any document. Graupel opens the original.</p></li>
+	<li><p><em>In a folder’s sidebar, for a file:</em> Click the alias or link. Graupel opens the original in the window. If the original isn’t text, Graupel shows a preview; click <strong>Open Original</strong> to open it anyway.</p></li>
+	<li><p><em>In a folder’s sidebar, for a folder:</em> Click the alias or link, then click <strong>Open in New Window</strong>. The sidebar can’t show the original folder’s files in place.</p></li>
+</ul>
+
+<p>To see where the original is, click <strong>Show in Finder</strong> in the preview.</p>
+</section>
+
+
+<section>
+<a name="howto_readonly"></a>
+<h2>Open a document without changing it</h2>
+
+<p>You can stop a document from being edited while you read it. This lasts until you close the document; the file itself doesn’t change.</p>
+
+<ul>
+	<li><p>Choose <strong>Format &gt; Prevent Editing</strong>. To edit again, choose <strong>Format &gt; Allow Editing</strong>.</p></li>
+	<li><p>To open a document this way, choose <strong>File &gt; Open</strong> and select <strong>Open as read-only</strong>, or use the <code>--readonly</code> option of the <a href="about_command_line_tool.html"><code>graupel</code> command</a>.</p></li>
+</ul>
+
+<p>While editing is prevented, a pencil with a slash <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/pencil.slash.svg" height="13">(pencil with slash)</object> appears in the status bar.</p>
+
+<p>To lock the file itself, so that no app can change it, move the pointer to the right of the document’s name in the title bar, click the arrow that appears, then select <strong>Locked</strong>.</p>
 </section>
 
 
@@ -49,8 +90,7 @@
 <h2>See also</h2>
 <ul>
 	<li><a href="howto_save_document.html">Save documents</a></li>
-	<li><a href="howto_open_hidden_file.html">Open hidden files</a></li>
-	<li><a href="howto_readonly.html">Make a document read-only</a></li>
+	<li><a href="howto_open_folder.html">Open folders</a></li>
 </ul>
 </section>
 
