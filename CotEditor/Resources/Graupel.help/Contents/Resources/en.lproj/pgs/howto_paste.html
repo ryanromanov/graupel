@@ -14,24 +14,23 @@
 
 <h1>Paste text</h1>
 
-<p>You can paste text from the clipboard into the current editor by choosing Edit &gt; Paste or pressing <kbd>Command</kbd>-<kbd>V</kbd>.</p>
-<p>When pasting, Graupel automatically normalizes the line endings in the pasted text to match the current document’s line endings so that you don’t need to care about the difference in the line endings types.</p>
+<p>Choose <strong>Edit &gt; Paste</strong> or press Command-V. Graupel changes the line endings in the pasted text to match the document’s, so a document doesn’t end up with a mix of line endings.</p>
 
 
 <section>
-<h2>Paste exactly</h2>
+<h2>Paste without changing line endings</h2>
 
-<p>Unlike the normal Paste command, Paste Exactly inserts the text from the clipboard without any implicit normalization.</p>
+<p>Press Command-Option-V, or hold down the Option key and choose <strong>Edit &gt; Paste Exactly</strong>. The text goes in as it is on the clipboard.</p>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Do one of the following:</p><ul>
-		<li><p>Choose <strong>Edit &gt; Paste Exactly</strong> while holding the Option key.</p></li>
-		<li><p>Press <kbd>Command</kbd>-<kbd>Option</kbd>-<kbd>V</kbd>.</p></li>
-	</ul></li>
-</ol>
+<p>This can leave the document with more than one kind of line ending. To find them, see <a href="howto_find_inconsistent_line_endings.html">Find inconsistent line endings</a>.</p>
+</section>
 
-<p><em class="note">Note:</em> Paste Exactly can introduce inconsistent line endings into the document.</p>
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="about_line_endings.html">Line endings</a></li>
+</ul>
 </section>
 
 </body>

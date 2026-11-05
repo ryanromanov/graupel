@@ -14,57 +14,35 @@
 
 <h1>Indent text</h1>
 
-<p>Using the indentation commands, you can add or remove tabs or spaces at the beginning of lines in a batch. This is useful when working with code or structured text.</p>
-
-<p>You can change the default indent width and preferred indentation style in <a href="settings_edit.html">Edit settings</a>. To use different settings for a mode or syntax, customize the indentation options in <a href="settings_mode.html">Mode settings</a>.</p>
+<p>Graupel can add or remove one level of indentation at the start of each selected line.</p>
 
 
 <section>
-<h2>Change the indent level</h2>
+<h2>Change the indentation</h2>
 
 <ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Select the lines you want to indent, or move the insertion point there.</p></li>
-	<li><p>Choose <strong>Text &gt; Indentation &gt; Shift Right</strong> or Shift Left, or click the Indentation button in the toolbar.</p></li>
+	<li><p>Select the lines, or click in a single line.</p></li>
+	<li><p>Choose <strong>Text &gt; Indentation &gt; Shift Right</strong> (Command-]) to indent, or <strong>Shift Left</strong> (Command-[) to outdent. You can also use the <strong>Indent</strong> button in the toolbar.</p></li>
 </ol>
 
-<p>The actual action of those commands whether increase or decrease the indent level depends on the writing direction of the document.</p>
+<p>In right-to-left text, the two commands swap: <strong>Shift Left</strong> indents and <strong>Shift Right</strong> outdents.</p>
+</section>
 
-<table>
-	<thead>
-		<tr>
-			<th>Writing direction</th>
-			<th>Shift left</th>
-			<th>Shift right</th>
-		</tr>
-	</thead>
-	
-	<tbody>
-		<tr>
-			<th>Left to Right</th>
-			<td>Decrease</td>
-			<td>Increase</td>
-		</tr>
-		<tr>
-			<th>Right to left</th>
-			<td>Increase</td>
-			<td>Decrease</td>
-		</tr>
-		<tr>
-			<th>Vertical orientation</th>
-			<td>Decrease</td>
-			<td>Increase</td>
-		</tr>
-	</tbody>
-</table>
+
+<section>
+<h2>Choose tabs or spaces</h2>
+
+<p>Set the indent width and whether to indent with tabs or spaces in <a href="settings_edit.html">Edit settings</a>. To use different settings for one kind of document, such as Python or Boreas, change them in <a href="settings_mode.html">Mode settings</a>.</p>
+
+<p>To change the indentation already in a document, choose <strong>Text &gt; Indentation &gt; Convert Indentation to Spaces</strong> or <strong>Convert Indentation to Tabs</strong>.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings_edit.html">Change Edit settings</a></li>
-	<li><a href="settings_mode.html">Change Mode settings</a></li>
+	<li><a href="settings_edit.html">Edit settings</a></li>
+	<li><a href="settings_mode.html">Mode settings</a></li>
 </ul>
 </section>
 

@@ -7,41 +7,43 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Edit multiple points</title>
+	<title>Type in several places at once</title>
 </head>
 
 <body>
 
-<h1>Edit multiple points</h1>
+<h1>Type in several places at once</h1>
 
-<p>In multi-cursor editing, the same text is entered at multiple points at once.</p>
-
+<p>With more than one insertion point, what you type goes in at every one of them.</p>
 
 
 <section>
-<h2>Add or remove insertion points</h2>
+<h2>Add insertion points</h2>
 
-<p>To add insertion points (cursors/selections) to the editor, do any of the following:</p>
 <ul>
-	<li><p><em>Add an insertion point at a location:</em> Click or drag the point while pressing the <kbd>Command</kbd> key.</p></li>
-	<li><p><em>Add insertion points at the same column in multiple continuous lines:</em> Drag the area while pressing the <kbd>Option</kbd> key (rectangular selection).</p></li>
-	<li><p><em>Add an insertion point just above or below the current insertion point:</em> Press <kbd>Control</kbd>-<kbd>Shift</kbd>-<kbd>↑</kbd> or <kbd>Control</kbd>-<kbd>Shift</kbd>-<kbd>↓</kbd>.</p></li>
+	<li><p><em>At any place:</em> Hold down the Command key and click. Command-drag to add a selection.</p></li>
+	<li><p><em>In the same column on several lines:</em> Hold down the Option key and drag across the lines. This makes a rectangular selection.</p></li>
+	<li><p><em>On the line above or below:</em> Press Control-Shift-Up Arrow or Control-Shift-Down Arrow, or choose <strong>Edit &gt; Select &gt; Select Column Up</strong> or <strong>Select Column Down</strong>.</p></li>
 </ul>
 
+<p>To remove one insertion point, Command-click it.</p>
+</section>
 
-<p>To remove one of the multiple insertion points:</p>
+
+<section>
+<h2>Go back to one insertion point</h2>
+
 <ul>
-	<li><p><kbd>Command</kbd>-click the insertion point to remove.</p></li>
+	<li><p>Click anywhere in the text without holding a key.</p></li>
+	<li><p>Press Esc. Graupel keeps only the first insertion point.</p></li>
 </ul>
+</section>
 
 
-<p>To end the multi-cursor editing mode, do one of the following:</p>
-<ul>
-	<li><p>Click or drag somewhere in the editor without modifier keys by setting a single insertion point at the location.</p></li>
-	<li><p>Press the <kbd>Escape</kbd> key and all insertion points except the top one are discarded.</p></li>
-</ul>
+<section>
+<h2>Languages that use an input method</h2>
 
-<p><em class="note">Note:</em> Multi-cursor editing currently doesn’t work with text entry that requires user selection after typing, such as Japanese. In such cases, multi-cursor editing ends automatically after you type, and the text is entered only at a single insertion point.</p>
+<p>When you type with an input method that has you pick from candidates, such as Japanese or Chinese, Graupel goes back to one insertion point after you type. The text goes in at that point only.</p>
 </section>
 
 </body>

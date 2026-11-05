@@ -7,125 +7,64 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Replace text using multiple rules</title>
+	<title>Make several replacements at once</title>
 </head>
 
 <body>
 <a name="howto_multiple_replace"></a>
 
-<h1>Replace text using multiple rules</h1>
+<h1>Make several replacements at once</h1>
 
-<p>The <dfn>Multiple Replace</dfn> feature applies multiple text replacements sequentially. You can save each set of replacement rules as a named definition and reuse it whenever needed.</p>
+<p>Multiple Replace runs a list of find-and-replace rules on a document, in order from top to bottom. Each list is saved as a <dfn>replace definition</dfn> that you can run again.</p>
 
 
 <section>
-<h2>Open the Multiple Replace window</h2>
+<h2>Run a replace definition</h2>
 
-<p>Use the Multiple Replace window to manage and perform text replacements in your document.</p>
+<ul>
+	<li><p>Choose <strong>Find &gt; Multiple Replace</strong>, then choose the definition.</p></li>
+	<li><p>Or choose <strong>Find &gt; Multiple Replace &gt; Manage Multiple Replace</strong>, select the definition in the sidebar, then click <strong>Replace All</strong>. To limit it to the selected text, select <strong>In Selection</strong> first.</p></li>
+</ul>
+
+<p>To see what the rules match before replacing, click <strong>Highlight All</strong> instead. The highlights can differ from the result of <strong>Replace All</strong>, because each rule there runs on the text the earlier rules left.</p>
+</section>
+
+
+<section>
+<h2>Make or change a definition</h2>
 
 <ol>
 	<li><p>Choose <strong>Find &gt; Multiple Replace &gt; Manage Multiple Replace</strong>.</p></li>
-</ol>
-
-</section>
-
-
-<section>
-<h2>Manage replace definitions</h2>
-
-<p>Stored replace definitions appear in the list in the sidebar.</p>
-
-<p>In the sidebar, do any of the following:</p>
-<ul>
-	<li><p><em>Create a definition</em>: Click the Add + button at the bottom of the list.</p></li>
-	<li><p><em>Delete a definition</em>: Select a definition, then click the Delete - button at the bottom of the list.</p></li>
-	<li><p><em>Rename a definition</em>: Select a definition, then click it again.</p></li>
-	<li><p><em>More actions</em>: Click <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/ellipsis.circle.svg">the More button</object> at the bottom of the list.</p></li>
-</ul>
-
-
-<h3>Export and import replace definitions</h3>
-
-<p>You can export replace definitions to transfer them to another computer. Each definition is saved as a <dfn>Graupel Replace Definition</dfn> file with the .cotrpl extension. The file format is JSON.</p>
-
-<ul>
-	<li><p><em>Export</em>: Select a definition, then choose Export or Share from the Action menu.</p></li>
-	<li><p><em>Import</em>: Drag replace definition files into the list, or choose Import from the Action menu and select the files to import.</p></li>
-</ul>
-
-
-<h3>Import TSV data as replace definitions</h3>
-
-<p>You can also create a replace definition from a UTF-8–encoded TSV file. Each line must contain a pair of search and replacement text separated by a tab. To import this format, choose a file with the .tsv extension using the Import command. This format doesn’t support options such as case sensitivity or regular expressions. After importing a TSV file, configure any required options manually.</p>
-</section>
-
-
-<section>
-<h2>Edit a replace definition</h2>
-
-<p>To edit a replace definition in the editor on the right side of the Multiple Replace window, do any of the following:</p>
-
-<ul>
-	<li><p><em>Add a replacement rule:</em> Click the Add + button, then enter the replacement rule in the new row.</p></li>
-	<li><p><em>Delete replacement rules:</em> Select the rules to remove, then click the Delete - button.</p></li>
-	<li><p><em>Change advanced find options:</em> Click <object type="image/svg+xml" class="symbol" data="../../Shared/gfx/ellipsis.circle.svg">the More button</object>, then select the options you want. These settings apply to all replacement rules in the definition. For details about each option, see <a href="howto_find.html">Find and replace text</a>.</p></li>
-</ul>
-
-<p>Changes save automatically as you work.</p>
-
-<p>For each replacement rule, you can configure the following options:</p>
-
-<table>
-	<thead>
-		<tr><th>Option</th><th>Description</th></tr>
-	</thead>
-	<tbody>
-		<tr><th>(checkbox)</th><td><p>If the checkbox is deselected, the rule is skipped. Use this option to temporarily disable a rule without removing it from the definition.</p></td></tr>
-		<tr><th>Find</th><td><p>The text to search for. This field can’t be left empty. Empty rules are considered invalid and skipped.</p></td></tr>
-		<tr><th>Replace With</th><td><p>The replacement text. If left empty, the matched text is removed.</p></td></tr>
-		<tr><th>RE</th><td><p>Search using regular expressions (abbreviation of <u>R</u>egular <u>E</u>xpression).</p></td></tr>
-		<tr><th>IC</th><td><p>Search ignoring case (abbreviation of <u>I</u>gnore <u>C</u>ase).</p></td></tr>
-		<tr><th>Description</th><td><p>Add a note for your reference. The description doesn’t affect replacement and can be left blank.</p></td></tr>
-	</tbody>
-</table>
-
-<p>Replacement rules are applied sequentially from top to bottom.</p>
-
-<p><em class="note">Note:</em> If a rule is invalid, it is skipped when replacements are performed.</p>
-</section>
-
-
-<section>
-<h2>Perform multiple replacements</h2>
-
-<p>To perform multiple replacements using a replace definition, do the following:</p>
-
-<ol>
-	<li><p>Open a document.</p></li>
-		<li><p>Choose <strong>Find &gt; Multiple Replace</strong>.</p></li>
-	<li><p>Do one of the following:</p>
-		<ul>
-			<li><p>Choose the replace definition in the Multiple Replace submenu.</p></li>
-			<li><p>Choose Manage Multiple Replace, select the replace definition to use in the sidebar, then click Replace All.</p></li>
-		</ul>
+	<li><p>To make a definition, click the Add (+) button below the sidebar. To change one, select it.</p></li>
+	<li><p>Click the Add (+) button below the rules to add a rule, then fill in its columns:</p>
+		<table>
+			<thead>
+				<tr><th>Column</th><th>What it’s for</th></tr>
+			</thead>
+			<tbody>
+				<tr><th>(checkbox)</th><td><p>Deselect it to skip the rule without deleting it.</p></td></tr>
+				<tr><th>Find</th><td><p>The text to find. A rule with an empty <strong>Find</strong> or an invalid regular expression is skipped.</p></td></tr>
+				<tr><th>Replace With</th><td><p>The new text. Leave it empty to delete the matches.</p></td></tr>
+				<tr><th>RE</th><td><p>Treats <strong>Find</strong> as a regular expression.</p></td></tr>
+				<tr><th>IC</th><td><p>Ignores case.</p></td></tr>
+				<tr><th>Description</th><td><p>A note for yourself. It doesn’t change anything.</p></td></tr>
+			</tbody>
+		</table>
 	</li>
 </ol>
+
+<p>To change the advanced find options for every rule in the definition, click the ••• button. The options are described in <a href="howto_find.html">Find and replace text</a>.</p>
+
+<p>Changes are saved as you make them. To rename, duplicate, or delete a definition, Control-click it in the sidebar.</p>
 </section>
 
 
 <section>
-<h2>Highlight matches using a multiple replace definition</h2>
+<h2>Share definitions</h2>
 
-<p>You can also highlight all matches in the current document using a multiple replace definition.</p>
+<p>Each definition is a Graupel Replace Definition file (<code>.cotrpl</code>), which is JSON. Control-click a definition and choose <strong>Export…</strong> to save a copy. To add one, drag the file into the sidebar, or click the ••• button below the sidebar and choose <strong>Import…</strong>.</p>
 
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>Find &gt; Multiple Replace &gt; Manage Multiple Replace</strong>.</p></li>
-	<li><p>Select the replace definition to use in the sidebar.</p></li>
-	<li><p>Click Highlight.</p></li>
-</ol>
-
-<p><em class="note">Note:</em> Highlighted matches may differ from the actual replacement results. This is because Replace All applies rules sequentially, and each rule is applied after the previous rules have already taken effect.</p>
+<p>You can also import a UTF-8 <code>.tsv</code> file with one rule per line: the text to find, a tab, then the replacement. TSV can’t store options such as <strong>RE</strong> or <strong>IC</strong>, so set those after importing.</p>
 </section>
 
 
@@ -133,7 +72,7 @@
 <h2>See also</h2>
 <ul>
 	<li><a href="howto_find.html">Find and replace text</a></li>
-	<li><a href="about_regex.html">Use regular expressions</a></li>
+	<li><a href="about_regex.html">Regular expressions</a></li>
 </ul>
 </section>
 

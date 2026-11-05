@@ -7,62 +7,54 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Find and replace a line ending</title>
+	<title>Find and replace line endings</title>
 </head>
 
 <body>
+<h1>Find and replace line endings</h1>
 
-<h1>Find and replace a line ending</h1>
-
-<p>Graupel’s search treats line endings strictly. While it allows you to search for specific line ending types, using an incorrect specification may prevent matches with the line endings you intend to find.</p>
-
-<p><em class="tip">Tip:</em> Typing <kbd>Option</kbd>-<kbd>Return</kbd> in a text field in the Find window breaks a line.</p>
+<p>Line endings can be LF, CR, or CRLF (see <a href="about_line_endings.html">Line endings</a>). How a search matches them depends on how you typed them.</p>
 
 
 <section>
 <h2>Find line endings</h2>
 
-<h3>Textual search</h3>
+<p>A line break you type in the <strong>Find</strong> field with Option-Return stands for the document’s own line ending. If the document uses LF, it won’t match a stray CRLF. This is true with or without <strong>Regular Expression</strong>.</p>
 
-<p>In normal textual search, line endings typed into the search field are treated as the current line ending of the document being searched. They therefore don’t match line endings in the document that use a different line ending character.</p>
+<p>With <strong>Regular Expression</strong> on, you can name a line ending exactly instead:</p>
 
-
-<h3>Regular expression search</h3>
-
-<p>As in textual search, regular newline characters typed directly into the pattern are treated as the current line ending of the document being searched. By contrast, line endings specified with metacharacters or Unicode code points in the regular expression pattern are interpreted exactly as written, regardless of the document’s line ending type.</p>
-
-<p>The following metacharacters indicate a line ending in regular expression patterns:</p>
 <table>
 	<thead>
-		<tr><th>Metacharacter</th><th>Description</th></tr>
+		<tr><th>Pattern</th><th>Matches</th></tr>
 	</thead>
 	<tbody>
-		<tr><td>\n</td><td><p><code>U+000A</code>, the line ending character for LF</p></td></tr>
-		<tr><td>\r</td><td><p><code>U+000D</code>, the line ending character for CR</p></td></tr>
-		<tr><td>\r\n</td><td><p>The sequence of <code>U+000D</code> and <code>U+000A</code>, the line ending character for CRLF</p></td></tr>
-		<tr><td>\R</td><td><p>Any kind of line endings from <code>U+000A</code> (LF), <code>U+000B</code>, <code>U+000C</code>, <code>U+000D</code> (CR), <code>U+0085</code>, <code>U+2028</code>, <code>U+2029</code>, or the sequence of <code>U+000D</code> <code>U+000A</code> (CRLF).</p></td></tr>
+		<tr><td><code>\n</code></td><td><p>LF (<code>U+000A</code>)</p></td></tr>
+		<tr><td><code>\r</code></td><td><p>CR (<code>U+000D</code>)</p></td></tr>
+		<tr><td><code>\r\n</code></td><td><p>CRLF</p></td></tr>
+		<tr><td><code>\R</code></td><td><p>Any line ending: LF, CR, CRLF, and the less common <code>U+000B</code>, <code>U+000C</code>, <code>U+0085</code>, <code>U+2028</code>, and <code>U+2029</code>.</p></td></tr>
 	</tbody>
 </table>
+
+<p>To find every line ending that doesn’t match the document’s, search for <code>\r\n|\r</code> in an LF document. Or use <a href="howto_find_inconsistent_line_endings.html">Find inconsistent line endings</a>.</p>
 </section>
 
 
 <section>
 <h2>Replace with line endings</h2>
 
-<p>In replacement text, every line ending inserted by the replacement is normalized to the document’s line ending, even when it comes from a metacharacter such as <code>\n</code> or from captured text.</p>
+<p>Every line ending that a replacement puts in becomes the document’s line ending. That includes <code>\r</code> or <code>\n</code> in the <strong>Replace with</strong> field and line endings inside captured text.</p>
 
-<p>For example, when replacing the find text “dog\Rcow” with the replacement text “$0\r” using regular expressions in a document whose line ending type is LF (<code>\n</code>), the text “dog<span class="invisible">\r\n</span>cow” in the document also matches. Theoretically, the regular expression would replace it with “dog<span class="invisible">\r\n</span>cow<span class="invisible">\r</span>”. However, Graupel actually replaces it with “dog<span class="invisible">\n</span>cow<span class="invisible">\n</span>”.</p>
+<p>For example, in an LF document, replacing <code>dog\Rcow</code> with <code>$0\r</code> turns “dog<span class="invisible">\r\n</span>cow” into “dog<span class="invisible">\n</span>cow<span class="invisible">\n</span>”, not “dog<span class="invisible">\r\n</span>cow<span class="invisible">\r</span>”.</p>
 
-<p>There is currently no way to replace them with line endings other than the document line ending.</p>
+<p>Find and replace can’t insert a line ending of another kind. To change all of a document’s line endings, use <strong>Format &gt; Line Endings</strong>.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="about_line_endings.html">Handle various types of line endings</a></li>
-	<li><a href="howto_find.html">Find and replace text</a></li>
-	<li><a href="about_regex.html">Use regular expressions</a></li>
+	<li><a href="about_line_endings.html">Line endings</a></li>
+	<li><a href="about_regex.html">Regular expressions</a></li>
 </ul>
 </section>
 
