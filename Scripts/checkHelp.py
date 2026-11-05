@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-"""Checks Graupel's Help: links that lead nowhere, and writing that breaks docs/HELP_STYLE.md.
+"""Checks Graupel's Help: links that lead nowhere, anchors the app opens that are missing, and writing that breaks
+docs/HELP_STYLE.md.
 
     python3 Scripts/checkHelp.py [page.html ...]
 
-With no pages, checks every page. Link errors fail the check; style findings are listed for review.
+With no pages, checks every page and the anchors. Link and anchor errors fail the check; style findings are listed
+for review.
 """
 import html
 import os
 import re
 import sys
 
-ROOT = os.path.join(os.path.dirname(__file__), "..", "CotEditor", "Resources", "Graupel.help", "Contents", "Resources")
+REPO = os.path.join(os.path.dirname(__file__), "..")
+ROOT = os.path.join(REPO, "CotEditor", "Resources", "Graupel.help", "Contents", "Resources")
 BOOK = os.path.join(ROOT, "en.lproj")
 
 # pages allowed to name CotEditor (see docs/HELP_STYLE.md)
@@ -19,6 +22,9 @@ CREDIT_PAGES = {"about_sourcecode.html", "releasenotes.html"}
 # names that keep their capitals in sentence-case headings
 PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleScript", "Unicode", "Finder", "Terminal",
                 "Mode", "Settings", "Markdown", "Python", "JavaScript", "Shift", "Japanese", "iCloud", "Apple"}
+
+# anchors the app names that have no page on purpose
+UNUSED_ANCHORS = {"about_donation"}  # the donation window can't be opened
 
 BANNED = [
     "seamless", "robust", "powerful", "effortless", "intuitive", "leverage", "utilize", "delve", "streamline",
@@ -46,14 +52,49 @@ def text_of(source):
     return html.unescape(source)
 
 
+def anchors_in(source):
+    return re.findall(r'<a name="([^"]+)"', source) + re.findall(r'\bid="([^"]+)"', source)
+
+
+def app_anchors():
+    """The Help anchors the app opens, from HelpLink(anchor:) and helpAnchor: in the source."""
+    found = set()
+    for folder in ("CotEditor/Sources", "Packages"):
+        for directory, _, files in os.walk(os.path.join(REPO, folder)):
+            for name in files:
+                if name.endswith(".swift"):
+                    source = open(os.path.join(directory, name), encoding="utf-8").read()
+                    found.update(re.findall(r'(?:helpAnchor|anchor): "([^"]+)"', source))
+    return found
+
+
+def check_anchors(paths):
+    """Each anchor the app opens is on exactly one page, and no anchor name is used twice."""
+    errors = []
+    owners = {}
+    for path in paths:
+        for name in re.findall(r'<a name="([^"]+)"', open(path, encoding="utf-8").read()):
+            owners.setdefault(name, []).append(os.path.relpath(path, BOOK))
+    for name, where in sorted(owners.items()):
+        if len(where) > 1:
+            errors.append(f"anchor {name} is on {len(where)} pages: {', '.join(where)}")
+    for name in sorted(app_anchors() - UNUSED_ANCHORS):
+        if name not in owners:
+            errors.append(f"the app opens anchor {name}, but no page has it")
+    return errors
+
+
 def check(path):
     errors, findings = [], []
     source = open(path, encoding="utf-8").read()
     folder = os.path.dirname(path)
 
-    for target in re.findall(r'(?:href|src)="([^"#:]+)(?:#[^"]*)?"', source):
-        if not os.path.exists(os.path.normpath(os.path.join(folder, target))):
+    for target, fragment in re.findall(r'(?:href|src)="([^"#:]+)(?:#([^"]*))?"', source):
+        target_path = os.path.normpath(os.path.join(folder, target))
+        if not os.path.exists(target_path):
             errors.append(f"broken link: {target}")
+        elif fragment and fragment not in anchors_in(open(target_path, encoding="utf-8").read()):
+            errors.append(f"broken link: {target}#{fragment}")
 
     text = text_of(source)
     lowered = text.lower()
@@ -79,6 +120,10 @@ def check(path):
 
 def main():
     failed = False
+    if not sys.argv[1:]:
+        for line in check_anchors(pages([])):
+            print("  ERROR", line)
+            failed = True
     for path in pages(sys.argv[1:]):
         errors, findings = check(path)
         if errors or findings:
