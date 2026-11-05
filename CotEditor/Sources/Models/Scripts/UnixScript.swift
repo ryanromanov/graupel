@@ -95,7 +95,7 @@ struct UnixScript: Script {
         case currentLine = "CurrentLine"
         case allText = "AllText"
         
-        static let token = "CotEditorXInput"
+        static let tokens = ["GraupelXInput", "CotEditorXInput"]
     }
     
     
@@ -109,7 +109,7 @@ struct UnixScript: Script {
         case newDocument = "NewDocument"
         case pasteboard = "Pasteboard"
         
-        static let token = "CotEditorXOutput"
+        static let tokens = ["GraupelXOutput", "CotEditorXOutput"]
     }
     
     
@@ -194,7 +194,7 @@ private extension UnixScript.OutputType {
             case .replaceAllText:
                 string.range
             case .insertAfterSelection:
-                NSRange(location: selectedRange.location, length: 0)
+                NSRange(location: selectedRange.upperBound, length: 0)
             case .appendToAllText:
                 NSRange(location: string.length, length: 0)
             case .newDocument, .pasteboard:
@@ -208,7 +208,9 @@ private extension UnixScript.OutputType {
 
 private protocol ScriptToken {
     
-    static var token: String { get }
+    /// The marker names to look for, the preferred one first.
+    /// (Graupel: CotEditor's names are still read so that scripts written for CotEditor keep working.)
+    static var tokens: [String] { get }
 }
 
 
@@ -219,7 +221,8 @@ private extension ScriptToken where Self: RawRepresentable, Self.RawValue == Str
     /// - Parameter script: The script source.
     init?(scanning script: String) {
         
-        let regex = try! Regex("%%%\\{\(Self.token)=(?<value>\\w+)\\}%%%", as: (Substring, value: Substring).self)
+        let names = Self.tokens.joined(separator: "|")
+        let regex = try! Regex("%%%\\{(?:\(names))=(?<value>\\w+)\\}%%%", as: (Substring, value: Substring).self)
         
         guard let result = script.firstMatch(of: regex) else { return nil }
         

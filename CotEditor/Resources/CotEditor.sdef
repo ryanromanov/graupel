@@ -4,7 +4,7 @@
 <dictionary title="Dictionary" xmlns:xi="http://www.w3.org/2003/XInclude">
     <xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
     
-    <suite name="CotEditor Suite" code="cEd1" description="CotEditor-specific classes.">
+    <suite name="Graupel Suite" code="cEd1" description="Graupel-specific classes.">
         <enumeration name="saveable file format" code="savf">
             <enumerator name="Text" code="TXT " description="The plain text.">
                 <cocoa string-value="public.data"/>
@@ -41,7 +41,7 @@
             <enumerator name="half" code="rWhf"/>
         </enumeration>
         
-        <class-extension extends="document" description="A CotEditor document.">
+        <class-extension extends="document" description="A Graupel document.">
             <cocoa class="CotEditor.TextDocument"/>
             <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
             <contents name="text" code="ctxt" type="attribute run" access="rw" description="The whole text of the document.">
@@ -104,7 +104,7 @@
             </responds-to>
         </class-extension>
         
-        <class name="folder document" plural="folder documents" code="dDoc" inherits="document" description="A CotEditor folder document.">
+        <class name="folder document" plural="folder documents" code="dDoc" inherits="document" description="A Graupel folder document.">
             <cocoa class="CotEditor.DirectoryDocument"/>
             <property name="current document" code="cDoc" type="document" access="r" optional="yes" description="The current document in the folder document.">
                 <cocoa key="scriptCurrentDocument"/>
@@ -366,14 +366,14 @@
     </suite>
     
     
-    <suite name="CotEditor Event Handler Suite" code="cEd1" description="Commands that are executed as CotEditor event handlers.">
+    <suite name="Graupel Event Handler Suite" code="cEd1" description="Commands that are executed as Graupel event handlers.">
         <!-- handle [e]vent [d]ocument [o]pene[d] -->
-        <event name="document opened" code="cEd1edod" description="Called after CotEditor opened a document.">
+        <event name="document opened" code="cEd1edod" description="Called after Graupel opened a document.">
             <direct-parameter type="document" description="The document that was opened."/>
         </event>
         
         <!-- handle [e]vent [d]ocument [s]ave[d] -->
-        <event name="document saved" code="cEd1edsd" description="Called after CotEditor saved a document.">
+        <event name="document saved" code="cEd1edsd" description="Called after Graupel saved a document.">
             <direct-parameter type="document" description="The document that was saved."/>
         </event>
     </suite>

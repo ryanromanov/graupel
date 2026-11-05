@@ -79,12 +79,27 @@ private struct ScriptInfo: Decodable {
     
     
     private enum CodingKeys: String, CodingKey {
-        
-        case executionModel = "CotEditorExecutionModel"
-        case eventType = "CotEditorHandlers"
+
+        case executionModel = "GraupelExecutionModel"
+        case eventType = "GraupelHandlers"
+
+        // Graupel: CotEditor's keys are still read so that script bundles written for CotEditor keep working
+        case legacyExecutionModel = "CotEditorExecutionModel"
+        case legacyEventType = "CotEditorHandlers"
     }
-    
-    
+
+
+    init(from decoder: any Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.executionModel = try container.decodeIfPresent(ScriptingExecutionModel.self, forKey: .executionModel)
+            ?? container.decodeIfPresent(ScriptingExecutionModel.self, forKey: .legacyExecutionModel)
+        self.eventType = try container.decodeIfPresent([ScriptingEventType].self, forKey: .eventType)
+            ?? container.decodeIfPresent([ScriptingEventType].self, forKey: .legacyEventType)
+    }
+
+
     /// Loads from Info.plist in the script bundle.
     ///
     /// - Parameter bundleURL: The URL to the script bundle.
