@@ -18,6 +18,15 @@
       {
         "begin" : "{",
         "end" : "}"
+      },
+      {
+        "begin" : "do"
+      },
+      {
+        "begin" : "of"
+      },
+      {
+        "begin" : "where"
       }
     ]
   },

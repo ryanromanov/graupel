@@ -25,6 +25,21 @@
       {
         "begin" : "then",
         "end" : "end"
+      },
+      {
+        "begin" : "^\\s*(?!end\\b)(?:def|class|module|if|unless|while|until|case|for|begin)\\b(?!.*\\bend\\s*$)(?!\\s+[\\w.?!]+(?:\\(.*\\))?\\s*=[^=~])",
+        "description" : "blocks that start with a keyword, not one-line or endless forms",
+        "regularExpression" : true
+      },
+      {
+        "begin" : "\\bdo(?:\\s*\\|[^|]*\\|)?\\s*(?:#.*)?$",
+        "description" : "do blocks",
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:else|elsif\\b.*|when\\b(?!.*\\bthen\\b).*|in\\b.*|rescue\\b.*|ensure)\\s*(?:#.*)?$",
+        "description" : "else, elsif, when, in, rescue, ensure",
+        "regularExpression" : true
       }
     ]
   },

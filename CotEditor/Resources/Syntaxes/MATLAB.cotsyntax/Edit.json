@@ -33,6 +33,11 @@
       {
         "begin" : "enumeration",
         "end" : "end"
+      },
+      {
+        "begin" : "^\\s*(?:function|if|for|parfor|while|switch|case|otherwise|else|elseif|try|catch|classdef|spmd)\\b(?!.*[,;]\\s*end\\s*;?\\s*(?:%.*)?$)",
+        "description" : "blocks, not one-line forms ending in end",
+        "regularExpression" : true
       }
     ]
   },

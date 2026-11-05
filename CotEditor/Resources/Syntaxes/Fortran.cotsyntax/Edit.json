@@ -17,9 +17,52 @@
         "ignoreCase" : true
       },
       {
-        "begin" : "do",
-        "end" : "end",
-        "ignoreCase" : true
+        "begin" : "^\\s*(?!end\\b)[\\w*(),=:\\s]*\\b(?:function|subroutine)\\s+\\w",
+        "description" : "function and subroutine, with any prefix",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?!end\\b)(?:program|submodule|module(?!\\s+procedure\\b)|interface|abstract\\s+interface|block\\s*data|associate|critical)\\b",
+        "description" : "program units and other blocks",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?!end\\b)type(?!\\s*\\()\\b",
+        "description" : "derived type definitions, not type(...) declarations",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:\\w+\\s*:\\s*)?(?:do|select\\s+(?:case|type|rank))\\b",
+        "description" : "do loops and select blocks, labeled or not",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:case|class\\s+is|type\\s+is|class\\s+default|rank)\\b",
+        "description" : "case blocks",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:where|forall)\\s*\\(.*\\)\\s*(?:!.*)?$",
+        "description" : "where and forall blocks, not the one-line forms",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:else|else\\s*where|contains)\\b(?!.*\\bif\\b)\\s*(?:\\(.*\\))?\\s*(?:!.*)?$",
+        "description" : "else, elsewhere, contains",
+        "ignoreCase" : true,
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:\\w+\\s*:\\s*)?block\\s*(?:!.*)?$",
+        "description" : "block constructs",
+        "ignoreCase" : true,
+        "regularExpression" : true
       }
     ]
   },

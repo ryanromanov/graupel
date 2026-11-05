@@ -29,6 +29,21 @@
       {
         "begin" : "try",
         "end" : "end"
+      },
+      {
+        "begin" : "^\\s*(?!end\\b)(?:@\\w+\\s+)*(?:function|macro|module|baremodule|struct|mutable\\s+struct|abstract\\s+type|quote|let|if|for|while)\\b(?!.*\\bend\\s*$)",
+        "description" : "blocks that start with a keyword, not one-line forms ending in end",
+        "regularExpression" : true
+      },
+      {
+        "begin" : "\\bdo(?:\\s+[\\w, ()]*)?\\s*(?:#.*)?$",
+        "description" : "do blocks",
+        "regularExpression" : true
+      },
+      {
+        "begin" : "^\\s*(?:else|elseif\\b.*|catch\\b.*|finally)\\s*(?:#.*)?$",
+        "description" : "else, elseif, catch, finally",
+        "regularExpression" : true
       }
     ]
   },

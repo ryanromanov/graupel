@@ -27,6 +27,19 @@
         "begin" : "repeat",
         "end" : "until",
         "ignoreCase" : true
+      },
+      {
+        "begin" : "of",
+        "end" : "end",
+        "ignoreCase" : true
+      },
+      {
+        "begin" : "do",
+        "ignoreCase" : true
+      },
+      {
+        "begin" : "else",
+        "ignoreCase" : true
       }
     ]
   },

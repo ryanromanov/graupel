@@ -41,6 +41,9 @@
       {
         "begin" : "repeat",
         "end" : "until"
+      },
+      {
+        "begin" : "else"
       }
     ]
   },

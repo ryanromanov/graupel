@@ -40,6 +40,15 @@
         "begin" : "then",
         "end" : "end",
         "ignoreCase" : true
+      },
+      {
+        "begin" : "is",
+        "end" : "end",
+        "ignoreCase" : true
+      },
+      {
+        "begin" : "else",
+        "ignoreCase" : true
       }
     ]
   },
