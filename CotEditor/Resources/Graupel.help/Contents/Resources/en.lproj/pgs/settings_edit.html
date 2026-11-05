@@ -15,128 +15,68 @@
 
 <h1>Edit settings</h1>
 
-<p>Use Edit settings to choose how the editor behaves while editing.</p>
-
-<p>To change these settings, choose <strong>Graupel &gt; Settings</strong>, then click <strong>Edit</strong>.</p>
-
+<p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Edit</strong>.</p>
 
 <table class="settings">
-<caption>Indentation</caption>
 <thead>
-	<tr><th>Option</th><th>Description</th></tr>
+	<tr><th>Setting</th><th>What it does</th></tr>
 </thead>
-
 <tbody>
 	<tr>
-		<th>Prefer using spaces/tabs</th>
-		<td><p>Set the character used for indentation and for the Tab key. Choose one of the following:</p>
-			<ul>
-				<li><em>Spaces</em>: Insert multiple space characters based on the indent width.</li>
-				<li><em>Tabs</em>: Insert a single tab character.</li>
-			</ul>
-		</td>
+		<th>Prefer using</th>
+		<td><p>Whether the Tab key and indentation put in <strong>Spaces</strong> or <strong>Tabs</strong>.</p></td>
 	</tr>
-
 	<tr>
 		<th>Indent width</th>
-		<td><p>Set the number of spaces that a tab character represents.</p></td>
+		<td><p>How many spaces one level of indentation is, and how wide a tab looks.</p></td>
 	</tr>
-
 	<tr>
 		<th>Detect indent style on document opening</th>
-		<td><p>Detect whether the opened document uses spaces or tabs for indentation. If the style can be detected, Graupel automatically adjusts whether typing the Tab key expands to spaces. If there are not enough indented lines to detect the style, the document’s default indentation character setting is used.</p></td>
+		<td><p>Looks at an opened document’s indented lines and uses spaces or tabs to match. If too few lines are indented to tell, Graupel uses <strong>Prefer using</strong>.</p></td>
 	</tr>
-
 	<tr>
 		<th>Automatically indent while typing</th>
-		<td><p>Automatically indent new lines when you press the <kbd>Return</kbd> key or the <kbd>Enter</kbd> key. The new line begins at the same indentation level as the previous line.</p></td>
+		<td><p>Starts each new line at the same indentation as the line above.</p></td>
 	</tr>
-
 	<tr>
 		<th>Indent selection with Tab key</th>
-		<td><p>When you press the <kbd>Tab</kbd> key while text is selected, the selected lines are indented instead of being replaced with whitespace. When you press <kbd>Tab</kbd>-<kbd>Shift</kbd> keys, the selected lines are outdented.</p></td>
+		<td><p>With text selected, Tab indents the selected lines and Shift-Tab outdents them, instead of replacing the selection.</p></td>
 	</tr>
-</tbody>
-</table>
-
-<p><em class="tip">Tip:</em> In <a href="settings_mode.html">Mode settings</a>, you can set a custom indentation character and indent width for specific modes or syntaxes.</p>
-
-
-<table class="settings">
-<caption>Whitespace</caption>
-<thead>
-	<tr><th>Option</th><th>Description</th></tr>
-</thead>
-
-<tbody>
 	<tr>
 		<th>Automatically trim trailing whitespace</th>
-		<td><p>When enabled, Graupel automatically removes whitespace at the end of lines while you edit.</p></td>
+		<td><p>Removes spaces and tabs at the ends of lines 3 seconds after you stop typing, except on the lines where you’re typing, and from every line when you save. <strong>Including whitespace-only lines</strong> also empties lines that hold only spaces or tabs.</p></td>
 	</tr>
-
-	<tr>
-		<th>Including whitespace-only lines</th>
-		<td><p>Also apply trailing-whitespace trimming to lines that contain only whitespace.</p></td>
-	</tr>
-</tbody>
-</table>
-
-
-<table class="settings">
-<caption>Comment</caption>
-<thead>
-	<tr><th>Option</th><th>Description</th></tr>
-</thead>
-
-<tbody>
 	<tr>
 		<th>Insert comment delimiters after indent</th>
-		<td><p>When commenting out text, place the comment delimiter after the lowest indentation level within the selection.</p></td>
+		<td><p>When you comment out lines, puts the comment characters after the indentation instead of at the start of the line.</p></td>
 	</tr>
-
 	<tr>
 		<th>Add a space to comment delimiters</th>
-		<td><p>When commenting out text, insert a space between the comment delimiter and the commented text.</p></td>
+		<td><p>Puts a space between the comment characters and the code, as in <code>// code</code>.</p></td>
 	</tr>
-</tbody>
-</table>
-
-
-<table class="settings">
-<caption>Content parse</caption>
-<thead>
-	<tr><th>Option</th><th>Description</th></tr>
-</thead>
-
-<tbody>
 	<tr>
 		<th>Link URLs in document</th>
-		<td><p>Highlight URLs in the document and make them clickable.</p></td>
+		<td><p>Makes web addresses in the text clickable.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Highlight matching braces</th>
-		<td><p>Briefly highlight the matching brace when the insertion point moves across one of a pair of braces such as “()”, “[]”, or “{}”.</p></td>
+		<td><p>Briefly highlights the matching bracket when the insertion point moves past <code>(</code>, <code>[</code>, <code>{</code>, or their closing partners.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Highlight instances of selected text</th>
-		<td><p>Highlight all instances of the selected text in the editor after the specified delay. Highlighting occurs only when the selected text is a complete word.</p></td>
-	</tr>
-
-	<tr>
-		<th>Delay</th>
-		<td><p>Set the delay, in seconds, before matching words are highlighted when Highlight instances of selected text is enabled.</p></td>
+		<td><p>When you select a whole word, highlights everywhere else it appears, after the <strong>Delay</strong> you set in seconds.</p></td>
 	</tr>
 </tbody>
 </table>
+
+<p>To use other indentation settings for code, or for one syntax such as Python, change them in <a href="settings_mode.html">Mode settings</a>.</p>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
+	<li><a href="howto_indent.html">Indent text</a></li>
 	<li><a href="settings_mode.html">Mode settings</a></li>
-	<li><a href="settings.html">Change settings</a></li>
 </ul>
 </section>
 
