@@ -15,81 +15,44 @@
 
 <h1>Window settings</h1>
 
-<p>Use Window settings to control how document windows look and behave.</p>
-
-<p>To change these settings, choose <strong>Graupel &gt; Settings</strong>, then click <strong>Window</strong>.</p>
-
+<p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Window</strong>.</p>
 
 <table class="settings">
 <thead>
-	<tr><th>Option</th><th>Description</th></tr>
+	<tr><th>Setting</th><th>What it does</th></tr>
 </thead>
-
 <tbody>
 	<tr>
 		<th>Open documents in tabs</th>
-		<td><p>Select how documents are opened in tabs instead of new windows:</p>
-			<ul>
-				<li><em>Respect System Setting</em>: Use the “Prefer tabs when opening documents” option in the Windows section of the Desktop &amp; Dock settings in System Settings.</li>
-				<li><em>Never</em>: Open documents in tabs only when you explicitly choose to do so.</li>
-				<li><em>Automatically</em>: Open documents in tabs when appropriate, such as in full screen or when multiple documents are opened at once.</li>
-				<li><em>Always</em>: Always open documents in tabs whenever possible.</li>
-			</ul></td>
+		<td><p>When a document opens as a tab instead of a new window: <strong>Always</strong>, <strong>Automatically</strong> (in full screen, or when you open several at once), <strong>Never</strong>, or <strong>Respect System Setting</strong>, which uses <strong>Prefer tabs when opening documents</strong> in System Settings &gt; Desktop &amp; Dock.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Window size</th>
-		<td><p>Set the default window width and height in pixels. When fields are left blank, Graupel uses the size of the last opened window.</p></td>
+		<td><p>The width and height of new windows, in pixels. Leave a field empty (<strong>Auto</strong>) to use the size of the last window.</p></td>
 	</tr>
-	
 	<tr>
-		<th>Line numbers</th>
-		<td><p>Show line numbers at the leading side of editors.</p></td>
+		<th>Show</th>
+		<td><p><strong>Line numbers</strong> in the margin, <strong>Invisible characters</strong> (you choose which: <strong>Line ending</strong>, <strong>Tab</strong>, <strong>Space</strong>, <strong>Other whitespace</strong>, and <strong>Other control characters</strong>; see <a href="howto_display_invisibles.html">Show invisible characters</a>), <strong>Indent guides</strong> at each indent level, and a <strong>Page guide at column</strong>, a line after the column you choose.</p></td>
 	</tr>
-	
 	<tr>
-		<th>Invisible characters</th>
-		<td><p>Show invisible characters such as line endings, whitespace, and control characters using alternative symbols so they are visible. See <a href="howto_display_invisibles.html">Show invisible characters</a> for the available types of invisible characters.</p></td>
+		<th>Current line</th>
+		<td><p><strong>Change background color</strong> highlights the line with the insertion point, using the theme’s Current Line color.</p></td>
 	</tr>
-	
 	<tr>
-		<th>Indent guides</th>
-		<td><p>Show indent guide lines for each indent width in editors.</p></td>
+		<th>Line wrapping</th>
+		<td><p><strong>Wrap lines to editor width</strong> wraps long lines instead of scrolling sideways. <strong>Indent wrapped lines by</strong> indents the continued part of a line by the number of spaces you choose, on top of the line’s own indentation.</p></td>
 	</tr>
-	
-	<tr>
-		<th>Page guide</th>
-		<td><p>Show a page guide line at a specific column in the editor. The drawing position varies depending on the text font. The default font can be changed in <a href="settings_appearance.html">Appearance settings</a>.</p></td>
-	</tr>
-	
-	<tr>
-		<th>Change background color</th>
-		<td><p>Highlight the lines containing insertion points using a different background color. The Current Line color in the selected theme is used for this highlight.</p></td>
-	</tr>
-	
-	<tr>
-		<th>Wrap lines to editor width</th>
-		<td><p>Soft-wrap long lines to fit the window so they remain fully visible. If this option is off, a horizontal scroll bar appears instead of wrapping text.</p></td>
-	</tr>
-
-	<tr>
-		<th>Indent wrapped lines</th>
-		<td><p>Automatically indent wrapped lines. You can also set additional indent width for them.</p></td>
-	</tr>
-	
 	<tr>
 		<th>Writing direction</th>
-		<td><p>Select the default writing direction in editors.</p></td>
+		<td><p><strong>Left to right</strong>, <strong>Right to left</strong>, or <strong>Vertical</strong>, for new documents.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Overscroll</th>
-		<td><p>Set the amount of extra space at the bottom of editors so you can scroll past the end of a document. At 0%, scrolling stops at the end of the document. At 100%, scrolling continues until only the last line remains visible.</p></td>
+		<td><p>How far you can scroll past the last line. At 0%, scrolling stops at the end; at 100%, you can scroll until only the last line is showing.</p></td>
 	</tr>
-	
 	<tr>
 		<th>Status bar shows</th>
-		<td><p>Select the information shown in the status bar at the bottom of the window.</p></td>
+		<td><p>What the status bar at the bottom of the window shows: <strong>Line count</strong>, <strong>Character count</strong>, <strong>Word count</strong>, <strong>Location</strong>, <strong>Current line</strong>, and <strong>Current column</strong>. It always shows the file size, the text encoding, and the line endings, and the problem under the insertion point when a <a href="about_language_servers.html">language server</a> reports one.</p></td>
 	</tr>
 </tbody>
 </table>
