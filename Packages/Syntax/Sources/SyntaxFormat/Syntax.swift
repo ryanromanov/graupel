@@ -207,12 +207,19 @@ public struct Syntax: Equatable, Sendable {
         
         public var blockDelimiters: [Delimiter] = []
         
-        public var isEmpty: Bool { self.blockDelimiters.isEmpty }
+        // Graupel: the language's own default indentation, such as 2 spaces, used unless the file, an
+        // .editorconfig, or the user's mode for the syntax says otherwise
+        public var expandsTab: Bool?
+        public var width: Int?
+        
+        public var isEmpty: Bool { self.blockDelimiters.isEmpty && self.expandsTab == nil && self.width == nil }
         
         
-        public init(blockDelimiters: [Delimiter] = []) {
+        public init(blockDelimiters: [Delimiter] = [], expandsTab: Bool? = nil, width: Int? = nil) {
             
             self.blockDelimiters = blockDelimiters
+            self.expandsTab = expandsTab
+            self.width = width
         }
     }
     

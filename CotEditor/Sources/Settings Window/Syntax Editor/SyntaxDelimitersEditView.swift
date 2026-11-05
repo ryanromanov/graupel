@@ -33,6 +33,8 @@ struct SyntaxDelimitersEditView: View {
     @Binding var stringDelimiters: [SyntaxObject.PairDelimiter]
     @Binding var characterDelimiters: [SyntaxObject.PairDelimiter]
     @Binding var indentations: [SyntaxObject.BlockIndent]
+    @Binding var indentExpandsTab: Bool?  // Graupel: the language's default indentation
+    @Binding var indentWidth: Int?
     
     var canCustomizeHighlight: Bool = true
     
@@ -89,6 +91,30 @@ struct SyntaxDelimitersEditView: View {
                 Text("Indentation", tableName: "SyntaxEditor")
                     .fontWeight(.semibold)
                     .padding(.bottom, 2)
+                
+                // Graupel: the language's default indentation
+                HStack(alignment: .firstTextBaseline) {
+                    Picker(String(localized: "Default indentation:", table: "SyntaxEditor"), selection: $indentExpandsTab) {
+                        Text("Not set", tableName: "SyntaxEditor", comment: "menu item for no default indentation")
+                            .tag(Bool?.none)
+                        Text("Spaces", tableName: "SyntaxEditor", comment: "menu item")
+                            .tag(Bool?.some(true))
+                        Text("Tabs", tableName: "SyntaxEditor", comment: "menu item")
+                            .tag(Bool?.some(false))
+                    }
+                    .fixedSize()
+                    .onChange(of: self.indentExpandsTab) { _, newValue in
+                        self.indentWidth = (newValue == nil) ? nil : (self.indentWidth ?? 4)
+                    }
+                    
+                    if self.indentExpandsTab != nil {
+                        Text("Width:", tableName: "SyntaxEditor", comment: "label for the default indent width")
+                        StepperNumberField(value: Binding(get: { self.indentWidth ?? 4 }, set: { self.indentWidth = $0 }), default: 4, in: 1...99)
+                    }
+                }
+                Text("Used for new documents in this syntax, unless the user’s settings or an .editorconfig file say otherwise.", tableName: "SyntaxEditor")
+                    .controlSize(.small)
+                    .padding(.bottom, 8)
                 
                 Text("Block delimiters:", tableName: "SyntaxEditor", comment: "noun; delimiters indicating block")
                     .accessibilityAddTraits(.isHeader)
@@ -342,13 +368,17 @@ private struct BlockEditView: View {
     @Previewable @State var stringDelimiters: [SyntaxObject.PairDelimiter] = [.init(value: .init(begin: "\"", end: "\""))]
     @Previewable @State var characterDelimiters: [SyntaxObject.PairDelimiter] = [.init(value: .init(begin: "'", end: "'"))]
     @Previewable @State var indentations: [SyntaxObject.BlockIndent] = [.init(value: .init(begin: "{", end: "}"))]
+    @Previewable @State var indentExpandsTab: Bool? = true
+    @Previewable @State var indentWidth: Int? = 2
     
     SyntaxDelimitersEditView(
         inlineComments: $inlineComments,
         blockComments: $blockComments,
         stringDelimiters: $stringDelimiters,
         characterDelimiters: $characterDelimiters,
-        indentations: $indentations
+        indentations: $indentations,
+        indentExpandsTab: $indentExpandsTab,
+        indentWidth: $indentWidth
     )
     .scenePadding()
 }

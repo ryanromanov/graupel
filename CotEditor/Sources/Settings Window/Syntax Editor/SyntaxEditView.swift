@@ -235,6 +235,8 @@ struct SyntaxEditView: View {
                         stringDelimiters: $syntax.stringDelimiters,
                         characterDelimiters: $syntax.characterDelimiters,
                         indentations: $syntax.indentations,
+                        indentExpandsTab: $syntax.indentExpandsTab,
+                        indentWidth: $syntax.indentWidth,
                         canCustomizeHighlight: self.customizableFeatures.contains(.highlight)
                     )
                     .padding(.vertical)

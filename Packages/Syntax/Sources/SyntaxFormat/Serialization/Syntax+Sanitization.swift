@@ -78,6 +78,10 @@ extension Syntax.Indentation {
             self.blockDelimiters[index].end = nil
         }
         self.blockDelimiters.removeAll(where: \.begin.isEmpty)
+        
+        if let width = self.width, !(1...99).contains(width) {
+            self.width = nil
+        }
     }
 }
 

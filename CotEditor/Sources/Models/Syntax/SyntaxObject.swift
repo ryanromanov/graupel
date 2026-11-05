@@ -91,6 +91,8 @@ import SyntaxFormat
     var stringDelimiters: [PairDelimiter] = []
     var characterDelimiters: [PairDelimiter] = []
     var indentations: [BlockIndent] = []
+    var indentExpandsTab: Bool?  // Graupel: the language's default indentation
+    var indentWidth: Int?
     
     var outlines: [Outline] = []
     var completions: [CompletionWord] = []
@@ -143,7 +145,7 @@ extension SyntaxObject {
               ),
               stringDelimiters: self.stringDelimiters.map(\.value),
               characterDelimiters: self.characterDelimiters.map(\.value),
-              indentation: .init(blockDelimiters: self.indentations.map(\.value)),
+              indentation: .init(blockDelimiters: self.indentations.map(\.value), expandsTab: self.indentExpandsTab, width: self.indentWidth),
               
               completions: self.completions.map(\.value),
               
@@ -167,6 +169,8 @@ extension SyntaxObject {
         self.stringDelimiters = value.stringDelimiters.map { .init(value: $0) }
         self.characterDelimiters = value.characterDelimiters.map { .init(value: $0) }
         self.indentations = value.indentation.blockDelimiters.map { .init(value: $0) }
+        self.indentExpandsTab = value.indentation.expandsTab
+        self.indentWidth = value.indentation.width
         
         self.completions = value.completions.map { .init(value: $0) }
         

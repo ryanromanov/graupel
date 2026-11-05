@@ -284,6 +284,28 @@ struct SyntaxComponentCodingTests {
     }
     
     
+    @Test func indentationDefaultCoding() throws {
+        
+        // old files without a default decode as before
+        let old = try JSONDecoder().decode(Syntax.Indentation.self, from: JSONSerialization.data(withJSONObject: [
+            "blockDelimiters": [["begin": "{", "end": "}"]],
+        ]))
+        #expect(old.expandsTab == nil)
+        #expect(old.width == nil)
+        #expect(try Self.object(from: old)["width"] == nil)
+        
+        let indentation = Syntax.Indentation(expandsTab: true, width: 2)
+        #expect(!indentation.isEmpty)
+        
+        let object = try Self.object(from: indentation)
+        #expect(object["expandsTab"] as? Bool == true)
+        #expect(object["width"] as? Int == 2)
+        
+        let decoded = try JSONDecoder().decode(Syntax.Indentation.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(decoded == indentation)
+    }
+    
+    
     @Test func delimiterRegularExpressionCoding() throws {
         
         let delimiter = Syntax.Delimiter(begin: "^\\s*do\\b", isRegularExpression: true, ignoreCase: true)
