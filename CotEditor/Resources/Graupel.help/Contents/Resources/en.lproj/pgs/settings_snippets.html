@@ -15,75 +15,62 @@
 
 <h1>Snippets settings</h1>
 
-<p>Use Snippets settings to manage text that you can insert using commands or by dropping files onto the editor.</p>
-
-<p>To change these settings, choose <strong>Graupel &gt; Settings</strong>, then click <strong>Snippets</strong>.</p>
+<p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Snippets</strong>. The pane has two tabs: <strong>Command</strong> for snippets you insert from the menu or with a shortcut, and <strong>File Drop</strong> for text inserted when you drag a file into a document. See <a href="howto_insert_snippet.html">Insert a snippet</a>.</p>
 
 
-<table class="settings">
-<caption>Command</caption>
-<thead>
-	<tr><th>Option</th><th>Description</th></tr>
-</thead>
+<section>
+<a name="about_snippet"></a>
+<h2>Command snippets</h2>
 
-<tbody>
-	<tr>
-		<th>Command definitions</th>
-		<td><p>Define commands for inserting snippets. These commands appear in the Text &gt; Insert Snippet menu. Use the Add (+) and Delete (-) buttons below the list to manage definitions.</p><ul>
-			<li><em>Syntax</em>: The snippet is available only in documents using this syntax. If this field is empty (All), the snippet can be used in any document.</li>
-			<li><em>Name</em>: The name of the command as it appears in the menu.</li>
-			<li><em>Key</em>: A keyboard shortcut to insert this snippet. A shortcut is optional and can be left blank.</li>
-			</ul></td>
-	</tr>
-	<tr>
-		<th>Insertion format</th>
-		<td><p>Set the text to insert when the selected command is applied.</p>
-			<p>You can use variables in the insertion format. These variables specify the relationship between the insertion point and the inserted text. See <a href="about_snippet.html">Snippet variables</a> for details about each variable.</p>
-			</td>
-	</tr>
-</tbody>
-</table>
+<p>Click the Add (+) button to add a snippet, then fill in its columns:</p>
 
-
-<table class="settings">
-<caption>File Drop</caption>
-<thead>
-	<tr><th>Option</th><th>Description</th></tr>
-</thead>
-
-<tbody>
-	<tr>
-		<th>File drop definitions</th>
-		<td><p>Define how File Drop inserts text when files are dropped into the editor. When files are dropped into the editor and the defined conditions are met, Graupel inserts the corresponding text at the drop location. Use the Add (+) and Delete (-) buttons below the list to manage definitions.</p><ul>
-			<li><em>Syntax</em>: The rule applies only when a file is dropped into a document using this syntax. Leave this field empty (All) to apply the rule to all documents.</li>
-			<li><em>Extensions</em>: The rule applies only to files with the listed extensions. Leave this field empty (All) to apply the rule to all files. Enter extensions without a leading period, separated by commas.</li>
-			<li><em>Description</em>: Optional field for leaving a note about the rule. This field doesn’t affect File Drop behavior.</li>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<th>Insertion format</th>
-		<td><p>Set the text to insert when the selected File Drop rule is applied.</p>
-			<p>You can use variables in the insertion format. These variables are replaced with information from the dropped file. See <a href="about_filedrop.html">File drop variables</a> for details about each variable.</p>
-		</td>
-	</tr>
-
-	<tr>
-		<th>Restore Defaults</th>
-		<td><p>Restore the File Drop definitions list to its default settings.</p></td>
-	</tr>
-</tbody>
-</table>
-
-
-<section id="cf">
-<h2>See also</h2>
 <ul>
-	<li><a href="howto_insert_snippet.html">Insert a snippet</a></li>
-	<li><a href="about_snippet.html">Snippet variables</a></li>
-	<li><a href="about_filedrop.html">File drop variables</a></li>
-	<li><a href="settings.html">Change settings</a></li>
+	<li><p><strong>Syntax</strong>: the syntax the snippet works in. <strong>All</strong> means every document.</p></li>
+	<li><p><strong>Name</strong>: the name in <strong>Text &gt; Insert Snippet</strong>.</p></li>
+	<li><p><strong>Key</strong>: a keyboard shortcut, if you want one. Click the column and press the keys.</p></li>
 </ul>
+
+<p>Type the text to insert in the field below the list. Lines after the first get the indentation of the line you insert into. Two variables, which you can type or add with <strong>Insert Variable</strong>, are replaced when the snippet goes in:</p>
+
+<table>
+	<thead>
+		<tr><th>Variable</th><th>Becomes</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>&lt;&lt;&lt;SELECTION&gt;&gt;&gt;</code></td><td><p>The selected text, so a snippet can wrap it.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;CURSOR&gt;&gt;&gt;</code></td><td><p>Where the insertion point goes afterward. Use it more than once for several insertion points.</p></td></tr>
+	</tbody>
+</table>
+
+<p>For example, <code>if &lt;&lt;&lt;CURSOR&gt;&gt;&gt; then</code>, then a new line with <code>&lt;&lt;&lt;SELECTION&gt;&gt;&gt;</code>, then <code>end if</code> wraps the selected Boreas code in an <code>if</code> block and puts the insertion point where the condition goes.</p>
+</section>
+
+
+<section>
+<a name="about_filedrop"></a>
+<h2>File drop snippets</h2>
+
+<p>When you drop a file into a document, Graupel checks this list from the top and uses the first item whose <strong>Syntax</strong> and <strong>Extensions</strong> match. Type extensions without periods, separated by commas; leave the column empty to match every file. <strong>Description</strong> is a note for yourself. If nothing matches, Graupel inserts the file’s path. To go back to the original list, click <strong>Restore Defaults</strong>.</p>
+
+<p>These variables are replaced with details of the dropped file:</p>
+
+<table>
+	<thead>
+		<tr><th>Variable</th><th>Becomes</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>&lt;&lt;&lt;ABSOLUTE-PATH&gt;&gt;&gt;</code></td><td><p>The file’s full path.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;RELATIVE-PATH&gt;&gt;&gt;</code></td><td><p>The path from the document to the file, or the full path if the document hasn’t been saved.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;FILENAME&gt;&gt;&gt;</code></td><td><p>The file name, such as <code>photo.jpg</code>.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;FILENAME-NOSUFFIX&gt;&gt;&gt;</code></td><td><p>The name without its extension, such as <code>photo</code>.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;FILEEXTENSION&gt;&gt;&gt;</code></td><td><p>The extension as written. <code>&lt;&lt;&lt;FILEEXTENSION-LOWER&gt;&gt;&gt;</code> and <code>&lt;&lt;&lt;FILEEXTENSION-UPPER&gt;&gt;&gt;</code> give it in lowercase or uppercase.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;DIRECTORY&gt;&gt;&gt;</code></td><td><p>The name of the folder the file is in.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;FILECONTENT&gt;&gt;&gt;</code></td><td><p>The file’s text, if it’s a UTF-8 text file.</p></td></tr>
+		<tr><td><code>&lt;&lt;&lt;IMAGEWIDTH&gt;&gt;&gt;</code>, <code>&lt;&lt;&lt;IMAGEHEIGHT&gt;&gt;&gt;</code></td><td><p>An image’s width and height in pixels.</p></td></tr>
+	</tbody>
+</table>
+
+<p>For example, <code>&lt;img src=&quot;&lt;&lt;&lt;RELATIVE-PATH&gt;&gt;&gt;&quot; width=&quot;&lt;&lt;&lt;IMAGEWIDTH&gt;&gt;&gt;&quot;&gt;</code> inserts <code>&lt;img src=&quot;photo.jpg&quot; width=&quot;160&quot;&gt;</code> when you drop a 160-pixel-wide <code>photo.jpg</code> from the document’s folder.</p>
 </section>
 
 </body>
