@@ -7,61 +7,49 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Open a document with a specified encoding</title>
+	<title>Open a document in a different encoding</title>
 </head>
 
 <body>
 <a name="howto_interpret_encoding"></a>
 
-<h1>Open a document with a specified encoding</h1>
+<h1>Open a document in a different encoding</h1>
 
-<p>You can open a document by interpreting it with a specified text encoding. This is useful when a document doesn’t appear correctly or appears garbled.</p>
-
-
-<p><em class="tip">Tip:</em> If you don’t see the encoding you want in the Text Encoding menu, you may be able to add it by customizing the list. For details, see <a href="howto_customize_encoding_order.html">Change the priority of text encodings</a>.</p>
+<p>A text encoding is the rule that turns a file’s bytes into characters. Most files today are UTF-8, but older files, and files from Windows, often use another encoding. If Graupel reads a file with the wrong one, the text shows up as nonsense characters. Opening it with the right encoding fixes that.</p>
 
 
 <section>
-<h2>Specify the encoding when opening a document</h2>
+<h2>Choose the encoding when you open a document</h2>
 
 <ol>
-	<li><p>Choose <strong>File &gt; Open</strong>.</p></li>
-	<li><p>Select the document you want to open.</p></li>
-	<li><p>Open the Text Encoding pop-up menu, then select the encoding you want to use.</p></li>
-	<li><p>Click Open.</p></li>
+	<li><p>Choose <strong>File &gt; Open</strong>, then select the document.</p></li>
+	<li><p>Choose an encoding from the <strong>Text encoding</strong> menu.</p></li>
+	<li><p>Click <strong>Open</strong>.</p></li>
 </ol>
 
-<p>The default setting is Automatic. When Automatic is selected, Graupel chooses the most appropriate encoding based on the document’s content. For details, see <a href="about_autodetect_encoding.html">Detect a document’s text encoding</a>.</p>
-
-<p>If you open a document by dragging it to the Graupel’s app icon, Graupel uses an automatically detected encoding. If you need to open a document with a specific encoding, use the Open dialog.</p>
+<p>The menu starts at <strong>Automatic</strong>, which lets Graupel work out the encoding (see <a href="about_autodetect_encoding.html">How Graupel detects encodings</a>). Documents you open any other way, such as by double-clicking or dragging, also use <strong>Automatic</strong>.</p>
 </section>
 
 
 <section>
-<h2>Reinterpret a document using a different encoding</h2>
-
-<p>If a document doesn’t appear correctly, you may be able to fix the issue by reinterpreting it using a different encoding.</p>
-
-<p>To reinterpret an open document using another encoding, do the following:</p>
+<h2>Reopen an open document in another encoding</h2>
 
 <ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Click the Text Encoding button in the status bar, or choose <strong>Format &gt; Text Encoding</strong>.</p></li>
-	<li><p>From the list, select the encoding you want to use.</p></li>
-	<li><p>In the “Text encoding change” dialog that appears, click Reinterpret.</p></li>
+	<li><p>Choose <strong>Format &gt; Text Encoding</strong>, or click the encoding in the status bar, then choose an encoding.</p></li>
+	<li><p>Click <strong>Reinterpret</strong>.</p></li>
 </ol>
 
-<p><em class="note">Note:</em> When reinterpreting a document using a different encoding, any unsaved changes are lost. To preserve the content, save a copy beforehand.</p>
+<p>Graupel reads the file again from disk, so any changes you haven’t saved are lost. If there are some, Graupel asks first.</p>
+
+<p>If an encoding isn’t in the menu, add it to the list. See <a href="howto_customize_encoding_order.html">Change the encoding list</a>.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
+	<li><a href="howto_change_encoding.html">Save a document in a different encoding</a></li>
 	<li><a href="faq_cannot_display.html">If a document appears garbled</a></li>
-	<li><a href="howto_inspect_usedchar.html">Find characters incompatible with the document encoding</a></li>
-	<li><a href="howto_customize_encoding_order.html">Customize text encoding priorities</a></li>
-	<li><a href="howto_open_document.html">Create or open documents</a></li>
 </ul>
 </section>
 

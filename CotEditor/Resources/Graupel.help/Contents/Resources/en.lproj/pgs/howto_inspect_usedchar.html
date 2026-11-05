@@ -7,38 +7,26 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Find characters incompatible with the document encoding</title>
+	<title>Find characters the encoding can’t save</title>
 </head>
 
 <body>
+<h1>Find characters the encoding can’t save</h1>
 
-<h1>Find characters incompatible with the document encoding</h1>
+<p>If a document has characters its encoding can’t store, those characters are replaced or removed when you save. This happens most often with older encodings, such as Western (Mac OS Roman) or Japanese (Shift JIS), which hold far fewer characters than UTF-8.</p>
 
-<p>If you enter a character that’s incompatible with the document’s current encoding, it may appear garbled when you reopen the document. The Warnings inspector lists characters that can’t be represented in the current encoding, making it easy to check whether the document contains any incompatible characters.</p>
+<p>To see them, choose <strong>View &gt; Inspector &gt; Warnings</strong>. The Warnings inspector lists each character the encoding can’t store. Click one to go to it in the text.</p>
 
-<p>This feature is also useful when converting between encodings with different character repertoires—for example, from Japanese (Mac OS) to Japanese (Windows, DOS), or from Unicode to a local encoding.</p>
+<p>To close the inspector, choose <strong>View &gt; Inspector &gt; Hide Inspector</strong>.</p>
 
-
-<section>
-<h2>Open the Warnings inspector</h2>
-
-<ol>
-	<li><p>Open a document.</p></li>
-	<li><p>Choose <strong>View &gt; Inspector &gt; Warnings</strong>.</p></li>
-</ol>
-
-<p>To close the list, do one of the following:</p>
-<ul>
-	<li><p>Choose <strong>View &gt; Inspector &gt; Hide Inspector</strong>.</p></li>
-	<li><p>Drag the inspector’s separator to the edge of the window.</p></li>
-</ul>
-</section>
+<p>To keep every character, save the document in UTF-8 instead. See <a href="howto_change_encoding.html">Save a document in a different encoding</a>.</p>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="about_shiftjis.html">Use four kinds of Shift JIS properly</a></li>
+	<li><a href="howto_change_encoding.html">Save a document in a different encoding</a></li>
+	<li><a href="about_shiftjis.html">Shift JIS variants</a></li>
 </ul>
 </section>
 

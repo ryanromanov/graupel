@@ -7,43 +7,40 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Detect a document’s text encoding</title>
+	<title>How Graupel detects encodings</title>
 </head>
 
 <body>
+<h1>How Graupel detects encodings</h1>
 
-<h1>Detect a document’s text encoding</h1>
+<p>A file doesn’t say what encoding it’s in, so Graupel works it out when it opens the file. It checks these in order:</p>
 
-<p>Graupel reliably detects a document’s text encoding when you open it. You can also fine-tune how the detection works, depending on your needs.</p>
+<ol>
+	<li><p><em>A byte order mark (BOM).</em> Some UTF-8 and UTF-16 files start with one.</p></li>
+	<li><p><em>The encoding saved with the file.</em> Some Mac apps, including TextEdit, record the encoding in the file’s extended attributes.</p></li>
+	<li><p><em>A declaration in the text,</em> if you turned that on (see below).</p></li>
+	<li><p><em>The encoding list.</em> Graupel tries each encoding on the list, from the top, and uses the first one that reads the whole file without errors. See <a href="howto_customize_encoding_order.html">Change the encoding list</a>.</p></li>
+</ol>
 
-
-<section>
-<h2>Detect the text encoding of a document</h2>
-
-<p>When you open a document, Graupel automatically determines its text encoding by checking, in order, BOMs (byte order marks), encoding information stored in the file’s extended attributes, the encoding declaration in the document if enabled, and the text encoding priorities you have configured.</p>
-
-<p>In most cases, you don’t need to take any action, as Graupel automatically detects a document’s text encoding. If the detected encoding doesn’t match your expectations, you can <a href="howto_interpret_encoding.html">open the document by specifying a text encoding</a>. Depending on your use case, adjusting settings related to text encoding detection may improve the detection result. For details, see <a href="howto_customize_encoding_order.html">Customize text encoding priorities</a> and “Refer to the encoding declaration in a document” in the next section.</p>
-
-</section>
+<p>If Graupel guesses wrong, choose the right one yourself. See <a href="howto_interpret_encoding.html">Open a document in a different encoding</a>.</p>
 
 
 <section>
-<h2>Refer to the encoding declaration in a document</h2>
+<h2>Use the encoding a file declares</h2>
 
-<p>During text encoding detection, Graupel can refer to encoding declarations written in a document. This helps when the document explicitly specifies its encoding. To turn on this feature, select the “Refer to encoding declaration in document” option in <a href="settings_format.html">Format settings</a>.</p>
+<p>HTML, CSS, XML, Python, and other files often name their encoding near the top, such as <code>&lt;meta charset="utf-8"&gt;</code> or <code># -*- coding: latin-1 -*-</code>. To have Graupel use these, choose <strong>Graupel &gt; Settings</strong>, click <strong>Format</strong>, then select <strong>Refer to encoding declaration in document</strong>.</p>
 
-<p>When this feature is enabled, Graupel scans only the beginning of the document and uses the first encoding declaration it finds there. Comment-style declarations are checked only in the first two lines. For example, Graupel recognizes forms such as “<code>charset=</code>,” “<code>encoding=</code>,” “<code>@charset</code>,” “<code>encoding:</code>,” and “<code>coding:</code>.”</p>
+<p>Graupel looks only at the first 1,024 bytes of the file. It recognizes <code>charset=</code> in HTML and XML, <code>@charset</code> at the start of a CSS file, and <code>encoding:</code>, <code>encoding=</code>, or <code>coding:</code> in the first two lines. It uses the first one it finds.</p>
 
-<p><em class="note">Note:</em> If you need to include wording that looks like an encoding declaration, even though it does not reflect the document’s actual text encoding, either place the correct encoding declaration before that phrase or turn off the “Refer to encoding declaration in document” option.</p>
+<p>If a file mentions an encoding that isn’t its own, for example in an example near the top, put the real declaration first or turn this setting off.</p>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="settings_format.html">Change Format settings</a></li>
-	<li><a href="howto_customize_encoding_order.html">Customize text encoding priorities</a></li>
-	<li><a href="about_shiftjis.html">Use four kinds of Shift JIS properly</a></li>
+	<li><a href="howto_customize_encoding_order.html">Change the encoding list</a></li>
+	<li><a href="settings_format.html">Format settings</a></li>
 </ul>
 </section>
 

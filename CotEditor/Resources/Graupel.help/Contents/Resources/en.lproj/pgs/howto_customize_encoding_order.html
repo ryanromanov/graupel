@@ -7,50 +7,52 @@
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Customize text encoding priorities</title>
+	<title>Change the encoding list</title>
 </head>
 
 <body>
 <a name="howto_customize_encoding_order"></a>
 
-<h1>Customize text encoding priorities</h1>
+<h1>Change the encoding list</h1>
 
-<p>Graupel supports all text encodings available on macOS. However, the priority of text encodings can vary depending on the language and use case. By customizing the text encoding priority list, you can give higher priority to the encodings you use most often.</p>
-
-<p>Graupel has a powerful <a href="about_autodetect_encoding.html">automatic detection feature</a> that determines the text encoding of a document when you open it. During automatic detection, Graupel tries encodings in order from the top of the customizable priority list. By rearranging the list, you can prioritize specific encodings during automatic detection. You can also insert separators, add special encodings, or remove encodings that you don’t want to use for automatic detection.</p>
-
-<p>The text encoding priority list is also used to determine the order of items displayed in the Text Encoding menus in the Format menu and the status bar.</p>
-
+<p>The encoding list sets which encodings appear in <strong>Format &gt; Text Encoding</strong> and the status bar, and in what order. Graupel also tries them in this order when it <a href="about_autodetect_encoding.html">detects a file’s encoding</a>, and it only considers encodings that are on the list.</p>
 
 
 <section>
-<h2>Customize the text encoding priority list</h2>
+<h2>Change the list</h2>
 
 <ol>
 	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Format</strong>.</p></li>
-	<li><p>Click the Edit List button in the “Encoding priorities” section.</p></li>
-	<li><p>Do any of the following:</p><ul>
-		<li><p><em>Change priority:</em> Move up the encodings you use frequently.</p></li>
-		<li><p><em>Add a text encoding or a separator:</em> Select the item at the location to insert, click the Add + button, then choose the item to add.</p></li>
-		<li><p><em>Remove items in the list:</em> Select the items to remove, then click the Delete - button.</p></li>
-		<li><p><em>Restore the list to the default:</em> Click Restore Defaults.</p></li>
-	</ul></li>
-	<li><p>Click OK.</p></li>
+	<li><p>Next to <strong>Encoding priorities</strong>, click <strong>Edit List</strong>.</p></li>
+	<li><p>Do any of the following:</p>
+		<ul>
+			<li><p>Drag encodings up or down. Put the ones you use most near the top.</p></li>
+			<li><p>To add an encoding or a separator line, select where it should go, click the Add (+) button, then choose it.</p></li>
+			<li><p>To remove encodings, select them, then click the Delete (−) button.</p></li>
+			<li><p>To go back to the original list, click <strong>Restore Defaults</strong>.</p></li>
+		</ul>
+	</li>
+	<li><p>Click <strong>OK</strong>.</p></li>
 </ol>
+</section>
 
-<p>Encodings not on this list aren’t considered candidates for the automatic encoding detection when opening documents. Keep encodings on the list that you want to use as candidates for encoding detection, even if you don’t use them directly.</p>
 
-<p>“Unicode (UTF-8)” and “Unicode (UTF-8) with BOM” can’t be removed from the list and are always handled as a set. Because the BOM (byte order mark) is taken into account when interpreting data as UTF-8, there is no effect on the detection precision that the order of these two encodings is fixed.</p>
+<section>
+<h2>Tips</h2>
 
-<p>Place “Unicode (UTF-16)” after other commonly used encodings, because UTF-16 can represent a wide range of characters and may match text more easily than expected.</p>
+<ul>
+	<li><p>Keep encodings you might need to open, even if you never save in them. Graupel won’t detect an encoding that isn’t on the list.</p></li>
+	<li><p>Put Unicode (UTF-16) below the encodings you use. Almost any file can be read as UTF-16, so if it’s near the top, Graupel picks it when it shouldn’t.</p></li>
+	<li><p>Unicode (UTF-8) and Unicode (UTF-8) with BOM always stay together, and you can’t remove them. The encoding set as <strong>Default text encoding</strong> can’t be removed either.</p></li>
+</ul>
 </section>
 
 
 <section id="cf">
 <h2>See also</h2>
 <ul>
-	<li><a href="about_shiftjis.html">Use four kinds of Shift JIS properly</a></li>
-	<li><a href="settings_format.html">Change Format settings</a></li>
+	<li><a href="about_autodetect_encoding.html">How Graupel detects encodings</a></li>
+	<li><a href="settings_format.html">Format settings</a></li>
 </ul>
 </section>
 
