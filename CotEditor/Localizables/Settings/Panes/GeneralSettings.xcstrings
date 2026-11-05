@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "A system feature that automatically overwrites your files while editing. Even if turned off, Graupel covertly creates a backup in case it unexpectedly quits." : {
+    "A system feature that automatically overwrites your files while editing. Even if turned off, Graupel still keeps a backup in case it unexpectedly quits." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {

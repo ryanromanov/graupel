@@ -98,7 +98,7 @@ struct GeneralSettingsView: View {
                 
                 Toggle(isOn: $enablesAutosaveInPlace) {
                     Text("Enable Auto Save with Versions", tableName: "GeneralSettings", comment: "verb; checkbox")
-                    Text("A system feature that automatically overwrites your files while editing. Even if turned off, Graupel covertly creates a backup in case it unexpectedly quits.", tableName: "GeneralSettings")
+                    Text("A system feature that automatically overwrites your files while editing. Even if turned off, Graupel still keeps a backup in case it unexpectedly quits.", tableName: "GeneralSettings")
                 }
                 .onChange(of: self.enablesAutosaveInPlace) { _, newValue in
                     if newValue != self.initialEnablesAutosaveInPlace {
