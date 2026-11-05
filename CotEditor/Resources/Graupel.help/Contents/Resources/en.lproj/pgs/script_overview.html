@@ -3,67 +3,181 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="Script menu, script, scripting, macro">
+	<meta name="keywords" content="Script menu, script, scripting, macro, AppleScript, JXA, JavaScript, osascript, script bundle, hook">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 	
-	<title>Automate tasks with scripting</title>
+	<title>Automate tasks with scripts</title>
 </head>
 
 <body>
 <a name="script_overview"></a>
 
-<h1>Automate tasks with scripting</h1>
+<h1>Automate tasks with scripts</h1>
 
-<p>Run your own scripts in Graupel to modify documents or launch external tools. Your scripts appear in the Script menu, represented by the <object type="image/svg+xml" data="../../Shared/gfx/script.svg" height="16">script icon</object>.</p>
+<p>You can add your own scripts to the Script menu <object type="image/svg+xml" data="../../Shared/gfx/script.svg" height="16">(script icon)</object> in the menu bar. A script can be any of these:</p>
 
+<ul>
+	<li><p><em>A UNIX script</em> in a language such as Python, Ruby, or shell. It reads text from the front document and can put its output back. See <a href="#script_unixscript">UNIX scripts</a>.</p></li>
+	<li><p><em>An AppleScript or JavaScript for Automation (JXA) script.</em> It can control documents, selections, and many of Graupel’s commands. See <a href="#script_osascript">AppleScript and JXA</a>.</p></li>
+</ul>
 
-
-<p>In Graupel, you can write scripts in two main ways:</p>
-<dl>
-	<dt>AppleScript</dt>
-	<dd>AppleScript and JavaScript for Automation (JXA) can control documents in Graupel with a high level of flexibility.</dd>
-	
-	<dt>UNIX script</dt>
-	<dd>UNIX scripts primarily operate on the frontmost document, but you can write them in various languages such as Python, Ruby, and Swift.</dd>
-</dl>
-
-<p>Choose the scripting type that suits your needs. For details about how to write your scripts, see <a href="script_osascript.html">Automate tasks using AppleScript</a> or <a href="script_unixscript.html">Automate tasks using UNIX scripts</a>.</p>
+<p>Scripts written for CotEditor work in Graupel without changes.</p>
 
 
 <section>
-<h2>Add scripts to or remove scripts from the Script menu</h2>
+<h2>Add a script</h2>
 
 <ol>
-	<li><p>Choose Script menu <object type="image/svg+xml" data="../../Shared/gfx/script.svg" height="16"></object> &gt; Open Scripts Folder.</p>
-		<p>The Finder opens the folder for Graupel scripts at:<br>
-		~/Library/Application Scripts/com.coteditor.Graupel/</p></li>
-	<li><p>Add your script files to this folder, or remove any you no longer need.</p>
-		<p>Graupel automatically applies changes in this folder to the Script menu.</p></li>
+	<li><p>Choose <strong>Open Scripts Folder</strong> from the Script menu. The Finder opens <code>~/Library/Application Scripts/com.ryanromanov.Graupel</code>.</p></li>
+	<li><p>Put your script in the folder. The Script menu updates on its own.</p></li>
 </ol>
-
-<p>You can also change the order of scripts or assign keyboard shortcuts by modifying the names of your script files. See <a href="script_menu.html">Customize the Script menu</a> for the details.</p>
 </section>
 
 
 <section>
-<h2>Get existing Graupel scripts</h2>
+<a name="script_menu"></a>
+<h2>Arrange the Script menu</h2>
 
-<p>The Graupel project provides sample scripts. You can download them from:<br>
-<a href="https://github.com/coteditor/SampleScripts" rel="external">coteditor/SampleScripts -GitHub</a></p>
+<p>The menu follows the files and folders in the Scripts folder, sorted by name. You change it by renaming them:</p>
 
-<p>Some users also distribute their own scripts for Graupel. A selection of these scripts is listed at:<br>
-<a href="https://github.com/coteditor/Graupel/wiki/Graupel-Scripts" rel="external">Graupel Scripts -Graupel Wiki</a></p>
+<ul>
+	<li><p><em>Order:</em> Start the name with a number and a closing parenthesis, such as <code>01)Open File.scpt</code>. The number sorts the menu but doesn’t appear in it.</p></li>
+	<li><p><em>Submenus:</em> Folders become submenus.</p></li>
+	<li><p><em>Separators:</em> A file or folder named <code>-</code> becomes a separator line. Number it, such as <code>02)-</code>, to place it.</p></li>
+	<li><p><em>Hidden files:</em> Names that start with <code>_</code> don’t appear, so you can keep libraries and settings files next to your scripts.</p></li>
+</ul>
+
+<h3>Give a script a keyboard shortcut</h3>
+
+<p>Before the extension, add a period, the modifier keys, and a key: <code>^</code> for Control, <code>~</code> for Option, <code>$</code> for Shift, and <code>@</code> for Command. An uppercase letter adds Shift.</p>
+
+<table>
+	<thead>
+		<tr><th>File name</th><th>In the menu</th><th>Shortcut</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>Insert Text.@e.scpt</code></td><td>Insert Text</td><td>Command-E</td></tr>
+		<tr><td><code>03)Insert Date.@~Y.scpt</code></td><td>Insert Date</td><td>Option-Shift-Command-Y</td></tr>
+	</tbody>
+</table>
+
+<p>The key must be a single character, so keys like F1 or Delete can’t be used. A shortcut that a menu command already uses is ignored. If two scripts share a shortcut, the one in a folder named after the front document’s syntax, such as <code>Python</code>, wins.</p>
 </section>
 
 
-<section id="cf">
-<h2>See also</h2>
+<section>
+<a name="script_unixscript"></a>
+<h2>UNIX scripts</h2>
+
+<p>A UNIX script must be executable (<code>chmod +x</code>) and end in <code>.sh</code>, <code>.pl</code>, <code>.php</code>, <code>.rb</code>, <code>.py</code>, <code>.js</code>, <code>.awk</code>, or <code>.swift</code>. Its first line names the interpreter, such as <code>#!/usr/bin/env python3</code>. Graupel’s <code>PATH</code> can differ from your shell’s, so if <code>env</code> finds the wrong version, give the interpreter’s full path instead.</p>
+
+<p>If the document has been saved, its path is the script’s first argument (<code>$1</code> in a shell script, <code>sys.argv[1]</code> in Python). Text written to standard error appears in the Console window (<strong>Window &gt; Console</strong>).</p>
+
+<h3>Input and output</h3>
+
+<p>To have Graupel send text to the script’s standard input, put <code>%%%{GraupelXInput=<var>value</var>}%%%</code> in a comment near the top. To have it use what the script prints, put <code>%%%{GraupelXOutput=<var>value</var>}%%%</code>. Text goes both ways as UTF-8, whatever the document’s encoding. Without these lines, the script gets no input and its output is ignored.</p>
+
+<table>
+	<thead>
+		<tr><th>Input value</th><th>Sends</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>Selection</code></td><td><p>The selected text.</p></td></tr>
+		<tr><td><code>CurrentLine</code></td><td><p>The line with the insertion point.</p></td></tr>
+		<tr><td><code>AllText</code></td><td><p>The whole document.</p></td></tr>
+	</tbody>
+</table>
+
+<table>
+	<thead>
+		<tr><th>Output value</th><th>Does this with the output</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>ReplaceSelection</code></td><td><p>Replaces the selection.</p></td></tr>
+		<tr><td><code>ReplaceCurrentLine</code></td><td><p>Replaces the line with the insertion point.</p></td></tr>
+		<tr><td><code>ReplaceAllText</code></td><td><p>Replaces the whole document.</p></td></tr>
+		<tr><td><code>InsertAfterSelection</code></td><td><p>Inserts it after the selection.</p></td></tr>
+		<tr><td><code>AppendToAllText</code></td><td><p>Adds it at the end of the document.</p></td></tr>
+		<tr><td><code>NewDocument</code></td><td><p>Opens it in a new document.</p></td></tr>
+		<tr><td><code>Pasteboard</code></td><td><p>Copies it to the clipboard.</p></td></tr>
+	</tbody>
+</table>
+
+<p>This Python script quotes the selected lines with “&gt;” and reports how many it changed:</p>
+
+<pre class="source"><code>#!/usr/bin/env python3
+# %%%{GraupelXInput=Selection}%%%
+# %%%{GraupelXOutput=ReplaceSelection}%%%
+import sys
+
+count = 0
+for line in sys.stdin:
+    count += 1
+    print("&gt;" + line.rstrip())
+sys.stderr.write(f"Quoted {count} lines.")
+</code></pre>
+</section>
+
+
+<section>
+<a name="script_osascript"></a>
+<h2>AppleScript and JXA</h2>
+
+<p>Save AppleScript or JXA scripts as <code>.scpt</code>, <code>.scptd</code>, or <code>.applescript</code> files in the Scripts folder, or run them from Script Editor. Graupel’s scripting dictionary lists everything a script can use. To open it, choose <strong>Help &gt; Graupel Scripting Guide &gt; AppleScript Dictionary</strong>.</p>
+
+<p>The main things a script works with:</p>
+
 <ul>
-	<li><a href="script_menu.html">Customize the Script menu</a></li>
-	<li><a href="script_osascript.html">Automate tasks using AppleScript</a></li>
-	<li><a href="script_unixscript.html">Automate tasks using UNIX scripts</a></li>
+	<li><p><em><code>document</code></em> has the text (<code>contents</code>), its <code>selection</code>, and settings such as <code>encoding</code>, <code>line ending</code>, <code>tab width</code>, <code>coloring style</code> (the syntax), and <code>editable</code>.</p></li>
+	<li><p><em><code>selection</code></em> has <code>contents</code>, <code>range</code>, and <code>line range</code>. A range is <code>{location, length}</code>. The location counts from 0 and counts characters as you see them, so <code>{0, 3}</code> is the first three characters. A negative location counts back from the end of the document.</p></li>
+	<li><p><em><code>folder document</code></em> is a window opened on a folder. Its <code>current document</code> is the file shown, and commands sent to the folder document go to that file.</p></li>
 </ul>
+
+<p>Commands include <code>find</code>, <code>replace</code>, <code>convert</code> and <code>reinterpret</code> (encodings), <code>shift left</code> and <code>shift right</code>, <code>comment out</code>, <code>sort lines</code>, <code>change case</code>, <code>normalize unicode</code>, <code>jump</code>, and <code>write to console</code>. Changing the selection doesn’t scroll; use <code>scroll to caret</code> to bring it into view.</p>
+
+<p>This script fixes a spelling throughout the front document, then replaces its first three characters:</p>
+
+<pre class="source"><code>tell application "Graupel"
+	tell front document
+		replace for "colour" to "color" with all and ignore case
+		set range of selection to {0, 3}
+		set contents of selection to "A"
+		write to console "Done."
+	end tell
+end tell
+</code></pre>
+
+<p>Setting a document’s <code>contents</code> leaves all of the text selected, so set the selection’s range before you change <code>contents of selection</code>.</p>
+</section>
+
+
+<section>
+<a name="script_hook"></a>
+<h2>Run a script when a document opens or is saved</h2>
+
+<p>An AppleScript or JXA script saved as a script bundle (<code>.scptd</code>) can run on its own when a document is opened or saved. In Script Editor, save the script as a bundle, then add a <code>GraupelHandlers</code> key to the bundle’s <code>Contents/Info.plist</code> with the events it handles:</p>
+
+<pre class="source"><code>&lt;key&gt;GraupelHandlers&lt;/key&gt;
+&lt;array&gt;
+	&lt;string&gt;document opened&lt;/string&gt;
+	&lt;string&gt;document saved&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<p>Then write a handler for each event. In AppleScript:</p>
+
+<pre class="source"><code>using terms from application "Graupel"
+	on document opened theDocument
+		write to console "Opened " &amp; (theDocument's name)
+	end document opened
+	on document saved theDocument
+		write to console "Saved " &amp; (theDocument's name)
+	end document saved
+end using terms from
+</code></pre>
+
+<p>In JXA, use functions named <code>documentOpened</code> and <code>documentSaved</code>, each taking the document.</p>
 </section>
 
 </body>

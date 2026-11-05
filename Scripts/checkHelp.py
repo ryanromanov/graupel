@@ -16,8 +16,8 @@ REPO = os.path.join(os.path.dirname(__file__), "..")
 ROOT = os.path.join(REPO, "CotEditor", "Resources", "Graupel.help", "Contents", "Resources")
 BOOK = os.path.join(ROOT, "en.lproj")
 
-# pages allowed to name CotEditor (see docs/HELP_STYLE.md)
-CREDIT_PAGES = {"about_sourcecode.html", "releasenotes.html"}
+# pages allowed to name CotEditor (see docs/HELP_STYLE.md): credit, and where compatibility with it matters
+CREDIT_PAGES = {"about_sourcecode.html", "releasenotes.html", "script_overview.html"}
 
 # names that keep their capitals in sentence-case headings
 PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleScript", "Unicode", "Finder", "Terminal",
