@@ -11,6 +11,9 @@ How Graupel's Help is written. Follow it for every page, and check a page agains
 - Use numbered steps for anything done in order. One action per step. If a step has a result worth knowing,
   say it in the same step ("A list of suggestions appears.").
 - End with "See also" links only when the linked page is a likely next step.
+- Prefer one fuller page to several short ones. A page that only makes sense next to another becomes a section
+  of it. When you merge a page, move its `<a name>` to the top of the new section, since the app's Help
+  buttons find pages by anchor. `Scripts/checkHelp.py` checks this.
 - English only for now.
 - Screenshots only when words can't do the job, taken from the real app in light mode. They go stale with
   every interface change.
