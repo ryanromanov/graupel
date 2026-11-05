@@ -15,106 +15,44 @@
 
 <h1>Outline rules</h1>
 
-<p>The <a href="howto_show_outlinemenu.html">Outline feature</a> in Graupel lets you quickly navigate a document by listing its structural elements. You can define outline extraction rules that determine which parts of text appear in the Outline menu and how they are displayed.</p>
+<p>Each syntax has rules that pick the lines that appear in the <a href="howto_show_outlinemenu.html">outline</a>. To change them, open the syntax in the <a href="syntax_definition.html">syntax editor</a> and click <strong>Outline</strong>. Syntaxes that use tree-sitter have fixed rules, so the pane is locked.</p>
 
 
 <section>
-<h2>Outline rules</h2>
+<h2>Rules</h2>
 
-<p>To define the rules to extract the outline for a syntax, select Outline from the list on the left of the syntax editor, then add conditions to the list on the right side. See <a href="syntax_definition.html">Make or change a syntax</a> for how to open the syntax editor.</p>
+<p>Click the Add (+) button to add a rule, then fill in:</p>
 
-<p>The options for the Outline settings are as follows:</p>
+<ul>
+	<li><p><strong>Regular Expression Pattern</strong>: a <a href="about_regex.html">regular expression</a>. Each match becomes an outline item.</p></li>
+	<li><p><strong>Display Pattern</strong>: how the item is titled. Leave it empty to show the whole match, or use <code>$0</code> for the whole match and <code>$1</code> to <code>$9</code> for the captured groups. To show a literal <code>$1</code>, type <code>\$1</code>. Graupel trims leading indentation and extra spaces from the result.</p></li>
+	<li><p><strong>Kind</strong>: the icon next to the item (see below).</p></li>
+	<li><p><strong>IC</strong>: ignores case when matching.</p></li>
+	<li><p><strong>Description</strong>: a note for yourself.</p></li>
+</ul>
 
-<table>
-	<thead>
-		<tr><th>Field</th><th>Description</th></tr>
-	</thead>
-	<tbody>
-		<tr><th>IC</th><td><p>If selected, the case is ignored for searching. For example, the expression “abc” matches “ABC” or “abc” or “Abc” in your document (IC stands for Ignore Case).</p></td></tr>
-		<tr><th>Kind</th><td><p>The kind of the outline item. Used for the icon displayed in front of the title.</p></td></tr>
-		<tr><th>Regular Expression Pattern</th><td><p>The strings in the document matched by the regular expressions you set here appear in the outline menu. This setting is required to search the items to be listed.</p></td></tr>
-		<tr><th>Display Pattern</th><td><p>Here, you can format the titles of the Outline items. Both the Regular Expression Pattern setting and the setting here determine how the corresponding item is titled in the list.</p></td></tr>
-		<tr><th>Description</th><td><p>A note or comment for your reference. The description doesn’t affect the extraction and may be left blank.</p></td></tr>
-	</tbody>
-</table>
+<p>For example, Boreas lists functions and subroutines with this pattern, with <strong>Kind</strong> set to Function and <strong>IC</strong> on:</p>
 
-<p>The metacharacters you can use in the display pattern are as follows:</p>
-
-<table>
-	<thead>
-		<tr><th>Metacharacter</th><th>Description</th></tr>
-	</thead>
-	<tbody>
-		<tr><th>(blank)</th><td><p>The whole string matched by your regular expression pattern.</p></td></tr>
-		<tr><th><code>$0</code></th><td><p>The whole string matched by your regular expression pattern.</p></td></tr>
-		<tr><th><code>$1</code> ... <code>$9</code></th><td><p>The string matched by the first through ninth parenthesized subexpression in your regular expression pattern.</p></td></tr>
-	</tbody>
-</table>
-
-<p>To show a metacharacter such as “$0” in the menu, you need to put a backslash (&#x005C;) in front of it. You won’t see that backslash (&#x005C;) in the menu.</p>
-
-<p>After the display pattern is applied, leading indentation and redundant whitespace in the title are normalized for readability.</p>
+<pre class="source"><code>^[\t ]*(function|subroutine)[\t ]+[a-z_][a-z0-9_]*</code></pre>
 </section>
 
 
 <section>
-<h2>Add an icon to an outline item</h2>
-
-<p>You can assign an icon to display next to an outline title by selecting one for a rule.</p>
+<h2>Kinds</h2>
 
 <table>
-	<col/>
-	<col/>
-	<col style="width:25%;">
 	<thead>
-		<tr>
-			<th>Kind</th>
-			<th>Description</th>
-			<th>Examples</th>
-		</tr>
+		<tr><th>Kind</th><th>For</th><th>Examples</th></tr>
 	</thead>
-	
 	<tbody>
-		<tr>
-			<th>Container</th>
-			<td>A named structural block that can contain other items.</td>
-			<td><code>class</code>, <code>struct</code>, <code>enum</code>, <code>protocol</code>, <code>extension</code>, <code>namespace</code></td>
-		</tr>
-		<tr>
-			<th>Value</th>
-			<td>A value-like symbol such as a property, field, variable, constant, or comparable entry.</td>
-			<td><code>property</code>, <code>enum case</code>, <code>const</code></td>
-		</tr>
-		<tr>
-			<th>Function</th>
-			<td>A callable symbol such as a function, method, or similar invocable member.</td>
-			<td>function, method, <code>def</code>, <code>init</code></td>
-		</tr>
-		<tr>
-			<th>Title</th>
-			<td>A title that names the document, a figure, or content.</td>
-			<td><code>title</code>, <code>figcaption</code></td>
-		</tr>
-		<tr>
-			<th>Heading</th>
-			<td>A document heading that defines the hierarchy of sections. You can optionally specify the heading level (1–7) to create a hierarchical outline with collapsible sections.</td>
-			<td><code>h1</code>–<code>h6</code>, <code>section{}</code>/<code>subsection{}</code> (LaTeX)</td>
-		</tr>
-		<tr>
-			<th>Mark</th>
-			<td>A human-authored marker used to visually group or annotate sections without being a formal heading.</td>
-			<td><code>MARK:</code>, <code>#pragma mark</code>, <code>region</code>/<code>endregion</code></td>
-		</tr>
-		<tr>
-			<th>Separator</th>
-			<td>A separator is a non-selectable divider that visually groups outline items.</td>
-			<td><code>&lt;hr&gt;</code>, <code>---</code>, <code>MARK: -</code></td>
-		</tr>
-		<tr>
-			<th><span class="na">None</span></th>
-			<td>Unclassified item with no semantic kind assigned.</td>
-			<td></td>
-		</tr>
+		<tr><th>Container</th><td><p>Something that holds other items</p></td><td><code>class</code>, <code>struct</code>, <code>module</code></td></tr>
+		<tr><th>Value</th><td><p>Properties, fields, constants</p></td><td><code>let</code>, <code>const</code>, enum cases</td></tr>
+		<tr><th>Function</th><td><p>Functions and methods</p></td><td><code>func</code>, <code>def</code>, <code>subroutine</code></td></tr>
+		<tr><th>Title</th><td><p>The title of a document or figure</p></td><td><code>&lt;title&gt;</code>, <code>&lt;figcaption&gt;</code></td></tr>
+		<tr><th>Heading</th><td><p>Section headings. Give a level from 1 to 7 to nest items under each other, so you can collapse them.</p></td><td><code>&lt;h1&gt;</code>, <code>\section{}</code></td></tr>
+		<tr><th>Mark</th><td><p>Markers you write to group code</p></td><td><code>MARK:</code>, <code>#pragma mark</code></td></tr>
+		<tr><th>Separator</th><td><p>A divider line that can’t be selected</p></td><td><code>&lt;hr&gt;</code>, <code>MARK: -</code></td></tr>
+		<tr><th>None</th><td><p>No icon</p></td><td></td></tr>
 	</tbody>
 </table>
 </section>
@@ -124,8 +62,7 @@
 <h2>See also</h2>
 <ul>
 	<li><a href="howto_show_outlinemenu.html">See a document’s outline</a></li>
-	<li><a href="syntax_definition.html">Make or change a syntax</a></li>
-	<li><a href="about_regex.html">Regular expressions</a></li>
+	<li><a href="syntax_highlight_settings.html">Syntax editor panes</a></li>
 </ul>
 </section>
 
