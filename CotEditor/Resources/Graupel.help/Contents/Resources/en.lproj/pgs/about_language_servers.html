@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="language server, LSP, problems, errors, suggestions, completion, checking">
+	<meta name="keywords" content="format, format document, formatter, language server, LSP, problems, errors, suggestions, completion, checking">
 	<link rel="stylesheet" href="../../Shared/sty/standard.css">
 	<script defer src="../../Shared/js/toc.js"></script>
 
@@ -46,6 +46,18 @@
 <p>Graupel runs one server for each language, shared by all your open documents in that language. The server starts when you open the first document in the language and stops when you close the last one.</p>
 
 <p>If a server isn’t installed, or stops because of an error, the status bar at the bottom of the window says so, for example “Boreas server not installed”. Hold the pointer over the message to see why, or click it to open Language Servers settings.</p>
+</section>
+
+
+<section>
+<a name="format_document"></a>
+<h2>Format a document</h2>
+
+<p>If the language server has a formatter, choose <strong>Text &gt; Format Document</strong> (Option-Shift-Command-F) to have it tidy the whole document: indentation, spacing, and whatever else the language’s style sets. You can undo it with <strong>Edit &gt; Undo</strong>.</p>
+
+<p>Graupel tells the server the indentation to use, worked out the same way as when you type, so an <code>.editorconfig</code> file applies. See <a href="howto_indent.html#indent_width">where indentation comes from</a>.</p>
+
+<p>The command is dimmed when the document has no language server running. If the server has no formatter, Graupel says so. The Boreas server doesn’t have one yet.</p>
 </section>
 
 
