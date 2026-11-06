@@ -105,7 +105,7 @@ struct IntegrationSettingsView: View {
                             .replacingAttributes(AttributeContainer.inlinePresentationIntent(.code),
                                                  with: AttributeContainer
                                 .inlinePresentationIntent(.code)
-                                .link(URL(string: "help:anchor=howto_edit_remote%20bookID=com.coteditor.CotEditor.help")!))
+                                .link(URL(string: "help:anchor=howto_edit_remote%20bookID=com.ryanromanov.Graupel.help")!))
                         Text(description)
                             .foregroundStyle(.secondary)
                             .tint(.accentColor)

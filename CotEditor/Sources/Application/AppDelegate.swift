@@ -35,7 +35,7 @@ import StringUtils
 
 extension Logger {
     
-    static let app = Logger(subsystem: "com.coteditor.CotEditor", category: "application")
+    static let app = Logger(subsystem: "com.ryanromanov.Graupel", category: "application")
 }
 
 

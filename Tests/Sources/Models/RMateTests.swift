@@ -42,7 +42,7 @@ struct RMateTests {
         for type in TextDocument.writableTypes {
             #expect(RemoteDocument.isNativeType(type) == TextDocument.isNativeType(type))
         }
-        #expect(!RemoteDocument.isNativeType("com.coteditor.unsupported"))
+        #expect(!RemoteDocument.isNativeType("com.ryanromanov.Graupel.unsupported"))
     }
     
     

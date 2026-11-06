@@ -43,7 +43,7 @@
         
         <class-extension extends="document" description="A Graupel document.">
             <cocoa class="CotEditor.TextDocument"/>
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <contents name="text" code="ctxt" type="attribute run" access="rw" description="The whole text of the document.">
                 <cocoa key="scriptTextStorage"/>
             </contents>
@@ -113,7 +113,7 @@
         
         <class name="text selection" plural="text selections" code="tSel" description="A way to refer to the state of the current selection.">
             <cocoa class="CotEditor.TextSelection"/>
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <contents code="PCnt" type="attribute run" name="contents" access="rw" description="The contents of the selection."/>
             <property name="line range" code="lRng" access="rw" description="The range of lines of the selection. The format is “{location, length}”. The length can be omitted, and one line is selected when the length is 0 or 1.">
                 <cocoa key="lineRange"/>
@@ -183,7 +183,7 @@
         </command>
         
         <command name="change case" code="cEd1CGcs" description="Change the case of the selection.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to change case."/>
             <parameter name="to" code="cStp" type="case type" description="The case type to change.">
                 <cocoa key="caseType"/>
@@ -191,7 +191,7 @@
         </command>
         
         <command name="change roman width" code="cEd1GWrm" description="Change width of Japanese roman characters in the selection.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to change width."/>
             <parameter name="to" code="rWtp" type="character width type" description="The text width to change.">
                 <cocoa key="widthType"/>
@@ -199,7 +199,7 @@
         </command>
         
         <command name="convert" code="cEd1CVrt" description="Convert the document text to a new encoding.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="document" description="The document to convert encoding."/>
             <parameter name="lossy" code="lOsy" type="boolean" description="Is lossy conversion allowed?" optional="yes">
                 <cocoa key="lossy"/>
@@ -214,7 +214,7 @@
         </command>
         
         <command name="find" code="cEd1SRch" description="Search text.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="document" description="The document to search text."/>
             <parameter name="for" code="tRgt" type="text" description="The text to search.">
                 <cocoa key="targetString"/>
@@ -235,7 +235,7 @@
         </command>
         
         <command name="reinterpret" code="cEd1RIpt" description="Reinterpret the document text as new encoding.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="document" description="The document to reinterpret encoding."/>
             <parameter name="as" code="rEcd" type="text" description="The new encoding, either in localized encoding name or an IANA charset name.">
                 <cocoa key="newEncoding"/>
@@ -244,7 +244,7 @@
         </command>
         
         <command name="replace" code="cEd1RPlc" description="Replace text.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="document" description="The document to replace text."/>
             <parameter name="for" code="tRgt" type="text" description="The text to be replaced.">
                 <cocoa key="targetString"/>
@@ -271,7 +271,7 @@
         </command>
         
         <command name="scroll to caret" code="cEd1SCrl" description="Scroll document to caret or selected text.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="document" description="The document to scroll its caret."/>
         </command>
         
@@ -287,52 +287,52 @@
         </command>
         
         <command name="shift left" code="cEd1SLef" description="Shift selected lines to left.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to shift."/>
         </command>
         
         <command name="shift right" code="cEd1SRit" description="Shift selected lines to right.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to shift."/>
         </command>
         
         <command name="move line up" code="cEd1SLup" description="Swap selected lines with the line just above.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to move."/>
         </command>
         
         <command name="move line down" code="cEd1SLdw" description="Swap selected lines with the line just below.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to move."/>
         </command>
         
         <command name="sort lines" code="cEd1Sort" description="Sort selected lines in ascending order.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to sort."/>
         </command>
         
         <command name="reverse lines" code="cEd1Revl" description="Reverse selected lines.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to reverse."/>
         </command>
         
         <command name="delete duplicate line" code="cEd1Dldp" description="Delete duplicate lines in the selection.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to check duplication."/>
         </command>
         
         <command name="comment out" code="cEd1Cout" description="Append comment delimiters to the selected text.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to comment out."/>
         </command>
         
         <command name="uncomment" code="cEd1Uncm" description="Remove comment delimiters from the selected text.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to uncomment."/>
         </command>
         
         <command name="string" code="cEd1STrg" description="Get text in desired range.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="document" description="The document to get string."/>
             <parameter name="in" code="rAng" description="The range in the document. The format is “{location, length}”.">
                 <cocoa key="range"/>
@@ -342,22 +342,22 @@
         </command>
         
         <command name="smarten quotes" code="cEd1SmQt" description="Convert straight quotes to typographical quotes.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to normalize."/>
         </command>
         
         <command name="straighten quotes" code="cEd1StQt" description="Convert typographical quotes to straight quotes.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to normalize."/>
         </command>
         
         <command name="smarten dashes" code="cEd1SmDa" description="Convert double hyphens to dashes.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to normalize."/>
         </command>
         
         <command name="normalize unicode" code="cEd1UNml" description="Normalize Unicode.">
-            <access-group identifier="com.coteditor.CotEditor.edit" access="rw"/>
+            <access-group identifier="com.ryanromanov.Graupel.edit" access="rw"/>
             <direct-parameter type="text selection" description="The selection to normalize."/>
             <parameter name="to" code="uNft" type="UNF type" description="The normalized forms of Unicode text.">
                 <cocoa key="unfType"/>

@@ -86,7 +86,7 @@ enum CloudSettingsError: LocalizedError {
     
     // MARK: Private Properties
     
-    private nonisolated static let ubiquityContainerIdentifier = "iCloud.com.coteditor.CotEditor"
+    private nonisolated static let ubiquityContainerIdentifier = "iCloud.com.ryanromanov.Graupel"
     
     private let containerURL: URL?
     private let defaults: UserDefaults

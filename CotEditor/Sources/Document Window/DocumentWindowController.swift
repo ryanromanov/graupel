@@ -559,7 +559,7 @@ private extension NSToolbar.Identifier {
 
 private extension NSToolbarItem.Identifier {
     
-    private static let prefix = "com.coteditor.CotEditor.ToolbarItem."
+    private static let prefix = "com.ryanromanov.Graupel.ToolbarItem."
     
     
     static let documentHistory = Self(Self.prefix + "documentHistory")

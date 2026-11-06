@@ -37,8 +37,8 @@ public enum ExtendedFileAttributeName {
     
     public static let encoding = "com.apple.TextEncoding"
     public static let userTags = "com.apple.metadata:_kMDItemUserTags"
-    public static let verticalText = "com.coteditor.VerticalText"
-    public static let allowLineEndingInconsistency = "com.coteditor.AllowLineEndingInconsistency"
+    public static let verticalText = "com.ryanromanov.Graupel.VerticalText"
+    public static let allowLineEndingInconsistency = "com.ryanromanov.Graupel.AllowLineEndingInconsistency"
 }
 
 

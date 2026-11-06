@@ -62,7 +62,7 @@ extension Logger {
     private let errorPipe = Pipe()
     
     /// The queue to write to the server, so that a slow reader doesn't block the main thread.
-    private let writeQueue = DispatchQueue(label: "com.coteditor.CotEditor.languageServer.write")
+    private let writeQueue = DispatchQueue(label: "com.ryanromanov.Graupel.languageServer.write")
     
     private var framer = LanguageServerMessageFramer()
     private var nextID = 1

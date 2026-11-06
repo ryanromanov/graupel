@@ -28,16 +28,16 @@ import ControlUI
 
 private extension NSTouchBar.CustomizationIdentifier {
     
-    static let documentView = NSTouchBar.CustomizationIdentifier("com.coteditor.CotEditor.touchBar.documentView")
+    static let documentView = NSTouchBar.CustomizationIdentifier("com.ryanromanov.Graupel.touchBar.documentView")
 }
 
 
 extension NSTouchBarItem.Identifier {
     
-    static let invisibles = NSTouchBarItem.Identifier("com.coteditor.CotEditor.TouchBarItem.invisibles")
-    static let indentGuides = NSTouchBarItem.Identifier("com.coteditor.CotEditor.TouchBarItem.indentGuides")
-    static let wrapLines = NSTouchBarItem.Identifier("com.coteditor.CotEditor.TouchBarItem.wrapLines")
-    static let share = NSTouchBarItem.Identifier("com.coteditor.CotEditor.TouchBarItem.share")
+    static let invisibles = NSTouchBarItem.Identifier("com.ryanromanov.Graupel.TouchBarItem.invisibles")
+    static let indentGuides = NSTouchBarItem.Identifier("com.ryanromanov.Graupel.TouchBarItem.indentGuides")
+    static let wrapLines = NSTouchBarItem.Identifier("com.ryanromanov.Graupel.TouchBarItem.wrapLines")
+    static let share = NSTouchBarItem.Identifier("com.ryanromanov.Graupel.TouchBarItem.share")
 }
 
 

@@ -27,7 +27,7 @@ import OSLog
 
 private extension Logger {
     
-    static let moof = Logger(subsystem: "com.coteditor.CotEditor", category: "moof")
+    static let moof = Logger(subsystem: "com.ryanromanov.Graupel", category: "moof")
 }
 
 

@@ -486,7 +486,7 @@ private extension NSUserInterfaceItemIdentifier {
 
 private extension NSPasteboard.PasteboardType {
     
-    static let row = NSPasteboard.PasteboardType("com.coteditor.row")
+    static let row = NSPasteboard.PasteboardType("com.ryanromanov.Graupel.row")
 }
 
 

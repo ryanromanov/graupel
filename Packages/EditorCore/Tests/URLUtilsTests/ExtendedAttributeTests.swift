@@ -35,7 +35,7 @@ actor ExtendedAttributeTests {
         let file = try TemporaryFile()
         defer { file.cleanup() }
         
-        let name = "com.coteditor.test." + UUID().uuidString
+        let name = "com.ryanromanov.Graupel.test." + UUID().uuidString
         let data = Data([0x01, 0x02, 0x03])
         
         try file.url.setExtendedAttribute(data: data, for: name)
@@ -50,7 +50,7 @@ actor ExtendedAttributeTests {
         let file = try TemporaryFile()
         defer { file.cleanup() }
         
-        let name = "com.coteditor.test." + UUID().uuidString
+        let name = "com.ryanromanov.Graupel.test." + UUID().uuidString
         let data = Data([0x0A])
         
         try file.url.setExtendedAttribute(data: data, for: name)
@@ -67,7 +67,7 @@ actor ExtendedAttributeTests {
         let file = try TemporaryFile()
         defer { file.cleanup() }
         
-        let name = "com.coteditor.test." + UUID().uuidString
+        let name = "com.ryanromanov.Graupel.test." + UUID().uuidString
         
         #expect(throws: POSIXError.self) {
             try file.url.extendedAttribute(for: name)
@@ -84,7 +84,7 @@ actor ExtendedAttributeTests {
         let missingURL = file.url.appendingPathExtension("missing")
         
         #expect(throws: POSIXError(.ENOENT)) {
-            try missingURL.setExtendedAttribute(data: data, for: "com.coteditor.test")
+            try missingURL.setExtendedAttribute(data: data, for: "com.ryanromanov.Graupel.test")
         }
     }
 }

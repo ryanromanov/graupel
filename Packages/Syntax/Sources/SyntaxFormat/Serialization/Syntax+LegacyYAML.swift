@@ -111,7 +111,7 @@ public extension Syntax {
 
 private extension Logger {
     
-    static let syntaxFormat = Logger(subsystem: "com.coteditor.CotEditor", category: "syntax-format")
+    static let syntaxFormat = Logger(subsystem: "com.ryanromanov.Graupel", category: "syntax-format")
 }
 
 

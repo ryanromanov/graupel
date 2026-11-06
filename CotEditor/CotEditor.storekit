@@ -95,7 +95,7 @@
           "locale" : "pl"
         }
       ],
-      "productID" : "com.coteditor.CotEditor.donation.onetime",
+      "productID" : "com.ryanromanov.Graupel.donation.onetime",
       "referenceName" : "One-time donation",
       "type" : "Consumable"
     }
@@ -462,7 +462,7 @@
               "locale" : "it"
             }
           ],
-          "productID" : "com.coteditor.CotEditor.donation.subscription.yearly",
+          "productID" : "com.ryanromanov.Graupel.donation.subscription.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Continuous support",
           "subscriptionGroupID" : "21481959",
