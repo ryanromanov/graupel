@@ -152,10 +152,6 @@
 	</array>
 	<key>OSAScriptingDefinition</key>
 	<string>$(PRODUCT_MODULE_NAME).sdef</string>
-	<key>SUEnableInstallerLauncherService</key>
-	<true/>
-	<key>SUPublicEDKey</key>
-	<string>BouLWwqNvz1a8USmfRPmtooMFjc27w3JPrT/VTuZQaI=</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

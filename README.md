@@ -4,24 +4,44 @@ Graupel is a free, native text editor for the Mac that understands code. It talk
 programs that power error checking and completion in larger editors, so it can underline mistakes as you type and
 suggest names that fit where the cursor is.
 
-Graupel was made first for [Boreas](https://github.com/ryanromanov/boreas), a Fortran-inspired language, and
-supports it out of the box. It works with any language that has a language server.
+Graupel was made first for [Boreas](https://github.com/ryanromanov/boreas), a Fortran-inspired language, and comes
+with its syntax. It works with any language that has a language server.
 
-- __Requirement__: macOS Tahoe 26 or later
-- __Status__: early development (0.1). There is no signed release yet; build it from source.
+- __Requirement__: macOS Tahoe 26 or later, on Apple Silicon or Intel
+- __Status__: early development (0.1)
+
+
+## Install
+
+With [Homebrew](https://brew.sh):
+
+```sh
+brew install --cask ryanromanov/tap/graupel
+```
+
+`brew upgrade` keeps it current. Or get the latest `Graupel-x.y.z.zip` from
+[Releases](https://github.com/ryanromanov/graupel/releases). Graupel doesn't update itself, so if you install it this
+way, download new versions from there.
+
+Language servers are installed separately. For Boreas, install `boreas` as its
+[README](https://github.com/ryanromanov/boreas#install-and-run) describes, and Graupel finds it by itself.
 
 
 ## Features
 
-- Everything CotEditor offers: syntax highlighting, themes, find and replace with regular expressions, outline,
-  split editor, scripting, and much more.
-- __Problems as you type__: errors from the language server are underlined, and the one at the cursor is shown in
-  the status bar.
+- Syntax highlighting, themes, find and replace with regular expressions, outline, split editor, scripting, and much
+  more.
+- __Problems as you type__: errors from the language server are marked in the text, and the one at the cursor is
+  shown in the status bar. What's found depends on the server: `boreas lsp` reports syntax and link errors, but not yet
+  names that were never declared.
 - __Completion__: suggestions from the language server as you type; with Boreas, the names in your file, record
   fields after a dot, built-ins, and keywords. Press Esc to show the list at any time.
 - __Language Servers settings__: Graupel finds the servers of the languages it comes with by itself; use a
   different command, or add a server for another language, in Settings > Language Servers. If a server is
   missing or stops, the status bar says so.
+- __Format Document__: Text > Format Document asks the language server to format the file, if the server can.
+- __Indentation that fits the file__: Graupel follows `.editorconfig` files, detects the indentation a file already
+  uses, indents after a block opens, and lets each syntax set a default width.
 
 
 ## Building
@@ -36,6 +56,9 @@ xcodebuild -project CotEditor.xcodeproj -scheme CotEditor -configuration Debug -
 The app is built as `build/Build/Products/Debug/Graupel.app`. (The project, scheme, and code still use
 CotEditor's names, which keeps the code close to CotEditor's.)
 
+Builds from source are signed ad hoc, so no certificate is needed. `Scripts/release.sh` makes a signed and notarized
+release, which needs a Developer ID certificate.
+
 
 ## Based on CotEditor
 
@@ -44,10 +67,9 @@ Project, and owes nearly all of its editing features to it. Graupel is independe
 endorsed by the CotEditor Project, so please don't report Graupel's issues to CotEditor.
 
 Graupel's own changes include language server support, the removal of the App Sandbox (so that language servers can
-run without the menu bar showing each one as a running script), and its own name, icon, and settings.
+run without the menu bar showing each one as a running script), and its own name, icon, settings, and Help.
+It leaves out CotEditor's settings copies in iCloud, remote editing, and automatic updates for now.
 The full history of changes is in this repository's commit log.
-
-Graupel's Help is being rewritten; some pages still read like CotEditor's.
 
 
 ## License
