@@ -67,6 +67,9 @@ import OSLog
     /// The characters after which the server suggests completions, or `nil` if it can't complete.
     private(set) var completionTriggerCharacters: [String]?
     
+    /// Whether the server can format a whole document (`textDocument/formatting`).
+    private(set) var supportsFormatting = false
+    
     private(set) var status: Status = .launching {
         
         didSet {
@@ -260,6 +263,7 @@ import OSLog
                     "synchronization": ["dynamicRegistration": false],
                     "publishDiagnostics": ["versionSupport": true],
                     "completion": ["completionItem": ["snippetSupport": false]],
+                    "formatting": ["dynamicRegistration": false],
                 ],
             ],
         ]
@@ -276,6 +280,12 @@ import OSLog
             let capabilities = (result as? [String: Any])?["capabilities"] as? [String: Any]
             if let completionProvider = capabilities?["completionProvider"] as? [String: Any] {
                 self.completionTriggerCharacters = completionProvider["triggerCharacters"] as? [String] ?? []
+            }
+            // -> `documentFormattingProvider` is either `true` or an options object.
+            switch capabilities?["documentFormattingProvider"] {
+                case let isSupported as Bool: self.supportsFormatting = isSupported
+                case is [String: Any]: self.supportsFormatting = true
+                default: self.supportsFormatting = false
             }
             
             connection.notify("initialized", params: [:])

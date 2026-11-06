@@ -166,6 +166,60 @@ import AppKit
     }
     
     
+    /// Whether the server can format the document now.
+    var canFormat: Bool {
+        
+        guard self.isOpen, case .running = self.server.status else { return false }
+        
+        return self.server.supportsFormatting
+    }
+    
+    
+    /// Asks the server to format the whole document.
+    ///
+    /// - Parameters:
+    ///   - tabSize: The indent width.
+    ///   - insertSpaces: Whether to indent with spaces rather than tabs.
+    ///   - handler: The handler called with the edits for the document as it was when asked, or `nil` if the server
+    ///     failed or the document changed before it answered. It isn't called if the server doesn't answer.
+    /// - Returns: Whether the server was asked; it isn't if it can't format.
+    func requestFormatting(tabSize: Int, insertSpaces: Bool, handler: @escaping (Result<[LanguageServerTextEdit], FormattingError>) -> Void) -> Bool {
+        
+        guard self.canFormat, let textStorage = self.textStorage else { return false }
+        
+        // let the server format the current text
+        self.changeDebouncer?.fire()
+        
+        let string = textStorage.string as NSString
+        let snapshot = string.copy() as! NSString
+        self.server.request("textDocument/formatting", params: [
+            "textDocument": ["uri": self.uri],
+            "options": ["tabSize": tabSize, "insertSpaces": insertSpaces],
+        ]) { [weak textStorage] result, error in
+            if let error {
+                return handler(.failure(.server(error["message"] as? String)))
+            }
+            guard textStorage?.string == snapshot as String else {
+                return handler(.failure(.documentChanged))
+            }
+            guard let edits = LanguageServerTextEdit.edits(result: result, in: snapshot) else {
+                return handler(.failure(.invalidResult))
+            }
+            handler(.success(edits))
+        }
+        
+        return true
+    }
+    
+    
+    enum FormattingError: Error, Equatable {
+        
+        case server(String?)
+        case documentChanged
+        case invalidResult
+    }
+    
+    
     /// Called by the server when its status changed.
     func serverStatusDidChange() {
         

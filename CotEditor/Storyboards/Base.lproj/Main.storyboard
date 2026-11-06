@@ -844,6 +844,12 @@ Gw
                                                 </items>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="Format Document" secondaryImage="text.alignleft" catalog="system" keyEquivalent="F" id="GfD-fm-Doc">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="formatDocument:" target="Ady-hI-5gd" id="GfD-fm-Act"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Surround Selection With" secondaryImage="ellipsis.curlybraces" catalog="system" id="9dv-Zb-W60">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Surround Selection With" id="AUq-CT-rPl">

@@ -305,3 +305,60 @@ struct LanguageServerCommandTests {
         #expect(!LanguageServer.Status.running(URL(filePath: "/bin/sh")).isProblem)
     }
 }
+
+
+struct LanguageServerFormattingTests {
+    
+    private func edit(_ startLine: Int, _ startCharacter: Int, _ endLine: Int, _ endCharacter: Int, _ newText: String) -> [String: Any] {
+        
+        ["range": ["start": ["line": startLine, "character": startCharacter],
+                   "end": ["line": endLine, "character": endCharacter]],
+         "newText": newText]
+    }
+    
+    
+    @Test func noChanges() {
+        
+        #expect(LanguageServerTextEdit.edits(result: nil, in: "a") == [])
+        #expect(LanguageServerTextEdit.edits(result: NSNull(), in: "a") == [])
+        #expect(LanguageServerTextEdit.edits(result: [] as [Any], in: "a") == [])
+    }
+    
+    
+    @Test func editsAreSortedRanges() throws {
+        
+        // "record point\n    real :: x\nend record\n" reindented to 2 spaces, given out of order
+        let string = "record point\n    real :: x\nend record\n" as NSString
+        let edits = try #require(LanguageServerTextEdit.edits(result: [
+            self.edit(2, 10, 2, 10, "\n"),
+            self.edit(1, 0, 1, 4, "  "),
+        ], in: string))
+        
+        #expect(edits == [
+            LanguageServerTextEdit(range: NSRange(location: 13, length: 4), newText: "  "),
+            LanguageServerTextEdit(range: NSRange(location: 37, length: 0), newText: "\n"),
+        ])
+    }
+    
+    
+    @Test func invalidResults() {
+        
+        let string = "abc\ndef" as NSString
+        
+        #expect(LanguageServerTextEdit.edits(result: "text", in: string) == nil)
+        #expect(LanguageServerTextEdit.edits(result: [["newText": "x"]], in: string) == nil)
+        #expect(LanguageServerTextEdit.edits(result: [self.edit(1, 2, 0, 1, "x")], in: string) == nil)  // backward
+        #expect(LanguageServerTextEdit.edits(result: [self.edit(0, 0, 0, 2, "x"), self.edit(0, 1, 0, 3, "y")], in: string) == nil)  // overlapping
+    }
+    
+    
+    @Test func locationAfterEdits() {
+        
+        // "    real" -> "  real": two characters fewer before the cursor
+        let edits = [LanguageServerTextEdit(range: NSRange(location: 13, length: 4), newText: "  ")]
+        
+        #expect(LanguageServerTextEdit.location(5, after: edits) == 5)  // before the edit
+        #expect(LanguageServerTextEdit.location(20, after: edits) == 18)  // after it
+        #expect(LanguageServerTextEdit.location(15, after: edits) == 15)  // inside it: the end of the new text
+    }
+}

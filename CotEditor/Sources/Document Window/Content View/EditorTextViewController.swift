@@ -352,6 +352,55 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
     // MARK: Action Messages
     
     /// Shows the Go To sheet.
+    /// Asks the language server to format the whole document. (Graupel)
+    @IBAction func formatDocument(_ sender: Any?) {
+
+        let document = self.document
+
+        guard document.canFormat else {
+            let alert = NSAlert()
+            alert.messageText = String(localized: "The \(document.syntaxName) language server can’t format documents.", table: "LanguageServer")
+            alert.informativeText = String(localized: "Format Document uses the formatter of the document’s language server. This server doesn’t offer one.", table: "LanguageServer")
+            alert.beginSheetModal(for: self.view.window!)
+            return
+        }
+
+        let textView = self.textView
+        _ = document.requestFormatting(tabSize: textView.tabWidth, insertSpaces: textView.isAutomaticTabExpansionEnabled) { [weak self, weak textView] result in
+            guard let textView else { return }
+
+            switch result {
+                case .success(let edits):
+                    guard !edits.isEmpty else { return }
+
+                    // keep the selection on the same text
+                    let selectedRanges = textView.selectedRanges.map(\.rangeValue).map { range in
+                        let lower = LanguageServerTextEdit.location(range.lowerBound, after: edits)
+                        let upper = LanguageServerTextEdit.location(range.upperBound, after: edits)
+                        return NSRange(lower..<max(lower, upper))
+                    }
+                    textView.replace(with: edits.map(\.newText), ranges: edits.map(\.range), selectedRanges: selectedRanges,
+                                     actionName: String(localized: "Format Document", table: "LanguageServer", comment: "undo action name"))
+                    textView.scrollRangeToVisible(textView.selectedRange)
+
+                case .failure(.documentChanged):
+                    // the text was edited while the server was formatting
+                    NSSound.beep()
+
+                case .failure(let error):
+                    guard let window = self?.view.window else { return }
+                    let alert = NSAlert()
+                    alert.messageText = String(localized: "The document couldn’t be formatted.", table: "LanguageServer")
+                    alert.informativeText = switch error {
+                        case .server(let message?): message
+                        default: String(localized: "The language server’s answer couldn’t be used.", table: "LanguageServer")
+                    }
+                    alert.beginSheetModal(for: window)
+            }
+        }
+    }
+
+
     @IBAction func gotoLocation(_ sender: Any?) {
         
         let textView = self.textView
@@ -671,5 +720,22 @@ private extension MultiCursorEditing {
     var selectsSingleCharacter: Bool {
         
         !self.hasMultipleInsertions && self.selectedString.compareCount(with: 1) == .equal
+    }
+}
+
+
+// MARK: - Menu Validation
+
+extension EditorTextViewController: NSMenuItemValidation {
+    
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        
+        switch menuItem.action {
+            case #selector(formatDocument):
+                // Graupel: enabled with a running language server, which may still say it can't format
+                return self.document.hasLanguageServer && self.textView.isEditable
+            default:
+                return true
+        }
     }
 }

@@ -1279,6 +1279,35 @@ extension NSTextView: EditorCounter.Source { }
     }
     
     
+    /// Whether the document has a language server, which may or may not be able to format it.
+    var hasLanguageServer: Bool {
+        
+        guard let status = self.languageServerSession?.serverStatus, case .running = status else { return false }
+        
+        return true
+    }
+    
+    
+    /// Whether the language server can format the document.
+    var canFormat: Bool {
+        
+        self.languageServerSession?.canFormat ?? false
+    }
+    
+    
+    /// Asks the language server to format the whole document.
+    ///
+    /// - Parameters:
+    ///   - tabSize: The indent width.
+    ///   - insertSpaces: Whether to indent with spaces rather than tabs.
+    ///   - handler: The handler called with the edits, or the reason there are none.
+    /// - Returns: Whether a server was asked.
+    func requestFormatting(tabSize: Int, insertSpaces: Bool, handler: @escaping (Result<[LanguageServerTextEdit], LanguageServerSession.FormattingError>) -> Void) -> Bool {
+        
+        self.languageServerSession?.requestFormatting(tabSize: tabSize, insertSpaces: insertSpaces, handler: handler) ?? false
+    }
+    
+    
     /// Updates `diagnosticAtCursor` for the cursor in the focused text view.
     func invalidateDiagnosticAtCursor() {
         
