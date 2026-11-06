@@ -137,6 +137,8 @@ class LayoutManager: NSLayoutManager, InvisibleDrawing, ValidationIgnorable {
         
         super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
         
+        self.drawDiagnosticMarks(forGlyphRange: glyphsToShow, at: origin)
+        
         NSGraphicsContext.restoreGraphicsState()
     }
     

@@ -23,6 +23,7 @@
 //  limitations under the License.
 //
 
+import AppKit
 import Foundation
 import Testing
 @testable import CotEditor
@@ -360,5 +361,78 @@ struct LanguageServerFormattingTests {
         #expect(LanguageServerTextEdit.location(5, after: edits) == 5)  // before the edit
         #expect(LanguageServerTextEdit.location(20, after: edits) == 18)  // after it
         #expect(LanguageServerTextEdit.location(15, after: edits) == 15)  // inside it: the end of the new text
+    }
+}
+
+
+private final class MarkTestLayoutManager: NSLayoutManager, ValidationIgnorable {
+    
+    var ignoresDisplayValidation = false
+}
+
+
+struct LanguageServerDiagnosticMarkTests {
+    
+    /// Draws the text with a diagnostic on its fourth character, and counts the red pixels.
+    @MainActor private func markedPixels(in text: String, font: NSFont) throws -> Int {
+        
+        let textStorage = NSTextStorage(string: text, attributes: [.font: font, .foregroundColor: NSColor.black])
+        let layoutManager = MarkTestLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        let container = NSTextContainer(size: NSSize(width: 300, height: 100))
+        layoutManager.addTextContainer(container)
+        
+        let json: [String: Any] = [
+            "range": ["start": ["line": 0, "character": 3], "end": ["line": 0, "character": 4]],
+            "severity": 1,
+            "message": "error",
+        ]
+        textStorage.apply(diagnostics: [try #require(LanguageServerDiagnostic(json: json))])
+        
+        let bitmap = try #require(NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 600, pixelsHigh: 200,
+                                                   bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
+                                                   colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0))
+        bitmap.size = NSSize(width: 300, height: 100)
+        
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
+        NSColor.white.setFill()
+        NSRect(x: 0, y: 0, width: 300, height: 100).fill()
+        let flip = NSAffineTransform()
+        flip.translateX(by: 0, yBy: 100)
+        flip.scaleX(by: 1, yBy: -1)
+        flip.concat()
+        let glyphRange = layoutManager.glyphRange(for: container)
+        layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: .zero)
+        layoutManager.drawDiagnosticMarks(forGlyphRange: glyphRange, at: .zero)
+        NSGraphicsContext.restoreGraphicsState()
+        
+        var count = 0
+        for x in 0..<bitmap.pixelsWide {
+            for y in 0..<bitmap.pixelsHigh {
+                guard let color = bitmap.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB) else { continue }
+                if color.redComponent > 0.7, color.greenComponent < 0.4, color.blueComponent < 0.4 {
+                    count += 1
+                }
+            }
+        }
+        return count
+    }
+    
+    
+    @MainActor @Test(arguments: ["{", "}", "(", "[", "g", "y", "j", "p", "q", "@", ",", "+", "x"])
+    func markIsVisibleOnAnyCharacter(character: String) throws {
+        
+        for font in [NSFont.monospacedSystemFont(ofSize: 13, weight: .regular), .systemFont(ofSize: 13), .systemFont(ofSize: 12)] {
+            #expect(try self.markedPixels(in: "ab \(character) cd", font: font) >= 8, "\(font)")
+        }
+    }
+    
+    
+    @Test func dotPositions() {
+        
+        #expect(DiagnosticDots.positions(from: 10, width: 0) == [10, 13.5])  // never a lone dot
+        #expect(DiagnosticDots.positions(from: 10, width: 8).count == 2)
+        #expect(DiagnosticDots.positions(from: 10, width: 72).count == 21)
     }
 }

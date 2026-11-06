@@ -28,7 +28,7 @@ import StringUtils
 
 extension NSAttributedString.Key {
     
-    /// Marks the ranges underlined for diagnostics, so that they can be removed without touching other attributes.
+    /// Marks the ranges of diagnostics, so that they can be found and removed without touching other attributes.
     static let diagnosticSeverity = NSAttributedString.Key("CotEditor.diagnosticSeverity")
 }
 
@@ -81,12 +81,75 @@ extension NSLayoutManager {
         
         return nil
     }
+    
+    
+    /// Draws a row of dots under the diagnostics in the given glyphs.
+    ///
+    /// The dots aren't an underline attribute, because AppKit leaves underlines out where glyphs cross them,
+    /// and so can draw nothing at all under a single character such as `g` or `{`.
+    ///
+    /// - Parameters:
+    ///   - glyphsToShow: The range of glyphs being drawn.
+    ///   - origin: The position of the text container in the coordinate system of the focused view.
+    final func drawDiagnosticMarks(forGlyphRange glyphsToShow: NSRange, at origin: NSPoint) {
+        
+        let characterRange = self.characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+        
+        guard self.hasTemporaryAttribute(.diagnosticSeverity, in: characterRange) else { return }
+        
+        self.enumerateTemporaryAttribute(.diagnosticSeverity, type: Int.self, in: characterRange) { rawValue, range, _ in
+            guard
+                let severity = LanguageServerDiagnostic.Severity(rawValue: rawValue),
+                let range = range.intersection(characterRange)
+            else { return }
+            
+            let font = self.textStorage?.attribute(.font, at: range.location, effectiveRange: nil) as? NSFont
+            let descent = abs(font?.descender ?? 0)
+            let glyphRange = self.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            
+            severity.color.setFill()
+            self.enumerateLineFragments(forGlyphRange: glyphRange) { lineRect, _, container, lineGlyphRange, _ in
+                guard let markedRange = glyphRange.intersection(lineGlyphRange) else { return }
+                
+                let glyphsRect = self.boundingRect(forGlyphRange: markedRange, in: container)
+                let baseline = lineRect.minY + self.location(forGlyphAt: markedRange.location).y
+                let y = min(baseline + descent, lineRect.maxY - DiagnosticDots.diameter)
+                
+                for x in DiagnosticDots.positions(from: glyphsRect.minX, width: glyphsRect.width) {
+                    NSBezierPath(ovalIn: NSRect(x: x + origin.x, y: y + origin.y,
+                                                width: DiagnosticDots.diameter, height: DiagnosticDots.diameter)).fill()
+                }
+            }
+        }
+    }
+}
+
+
+/// The row of dots marking a diagnostic.
+enum DiagnosticDots {
+    
+    static let diameter: CGFloat = 2
+    private static let spacing: CGFloat = 3.5
+    
+    
+    /// Returns the left sides of the dots to fill the given width, with at least two dots.
+    ///
+    /// - Parameters:
+    ///   - minX: The left side of the marked text.
+    ///   - width: The width of the marked text.
+    /// - Returns: The horizontal positions of the dots.
+    static func positions(from minX: CGFloat, width: CGFloat) -> [CGFloat] {
+        
+        let count = max(Int((width - self.diameter) / self.spacing) + 1, 2)
+        
+        return (0..<count).map { minX + CGFloat($0) * self.spacing }
+    }
 }
 
 
 private extension NSLayoutManager {
     
-    /// Replaces the diagnostic underlines and tooltips.
+    /// Replaces the diagnostic marks and tooltips.
     @MainActor final func apply(diagnosticMarks marks: [(range: NSRange, diagnostic: LanguageServerDiagnostic)]) {
         
         let wholeRange = self.attributedString().range
@@ -100,8 +163,6 @@ private extension NSLayoutManager {
             }
             for range in markedRanges {
                 self.removeTemporaryAttribute(.diagnosticSeverity, forCharacterRange: range)
-                self.removeTemporaryAttribute(.underlineStyle, forCharacterRange: range)
-                self.removeTemporaryAttribute(.underlineColor, forCharacterRange: range)
                 self.removeTemporaryAttribute(.toolTip, forCharacterRange: range)
             }
             
@@ -109,8 +170,6 @@ private extension NSLayoutManager {
             for mark in marks.sorted(using: KeyPathComparator(\.diagnostic.severity.rawValue, order: .reverse)) {
                 self.addTemporaryAttributes([
                     .diagnosticSeverity: mark.diagnostic.severity.rawValue,
-                    .underlineStyle: NSUnderlineStyle([.thick, .patternDot]).rawValue,
-                    .underlineColor: mark.diagnostic.severity.color,
                     .toolTip: mark.diagnostic.message,
                 ], forCharacterRange: mark.range)
             }
