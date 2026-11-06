@@ -57,9 +57,9 @@ struct IndentationSettingTests {
         
         #expect(self.resolve(syntaxDefault: spaces2, kindMode: tabs8) == (true, 2))  // a new Boreas document
         #expect(self.resolve(syntaxMode: tabs8, syntaxDefault: spaces2) == (false, 8))  // the user's Boreas mode
-        #expect(self.resolve(editorConfig: tabs8, syntaxMode: spaces2) == (false, 8))
-        #expect(self.resolve(detected: spaces2, editorConfig: tabs8) == (true, 2))
-        #expect(self.resolve(manual: tabs8, detected: spaces2) == (false, 8))
+        #expect(self.resolve(detected: tabs8, syntaxMode: spaces2) == (false, 8))
+        #expect(self.resolve(detected: spaces2, editorConfig: tabs8) == (false, 8))  // .editorconfig beats the file
+        #expect(self.resolve(manual: spaces2, editorConfig: tabs8) == (true, 2))
     }
     
     
@@ -67,6 +67,9 @@ struct IndentationSettingTests {
         
         // .editorconfig sets only the style, the syntax only the width
         #expect(self.resolve(editorConfig: .init(expandsTab: true), syntaxDefault: .init(width: 2)) == (true, 2))
+        
+        // .editorconfig sets only the style; the detected width still counts
+        #expect(self.resolve(detected: .init(expandsTab: false, width: 3), editorConfig: .init(expandsTab: true)) == (true, 3))
         
         // a detected tab file keeps the width from below
         #expect(self.resolve(detected: .init(expandsTab: false), syntaxDefault: .init(expandsTab: true, width: 2)) == (false, 2))

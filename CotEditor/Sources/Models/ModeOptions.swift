@@ -35,12 +35,13 @@ struct IndentationSetting: Equatable {
     /// Resolves the indentation to use from the sources, each setting taken separately from the first source
     /// that has it.
     ///
-    /// The order, first to last: a choice made for the document (Format menu or a script), the document's own
-    /// indentation, its `.editorconfig`, the user's mode for its syntax, the syntax's default, the user's mode
-    /// for its kind (General or Code), then Edit settings.
+    /// The order, first to last: a choice made for the document (Format menu or a script), its `.editorconfig`,
+    /// the document's own indentation, the user's mode for its syntax, the syntax's default, the user's mode
+    /// for its kind (General or Code), then Edit settings. `.editorconfig` comes before the detected indentation,
+    /// as EditorConfig intends and other editors do.
     static func resolve(manual: Self, detected: Self?, editorConfig: Self, syntaxMode: Self?, syntaxDefault: Self, kindMode: Self?, defaults: (expandsTab: Bool, width: Int)) -> (expandsTab: Bool, width: Int) {
         
-        let layers = [manual, detected, editorConfig, syntaxMode, syntaxDefault, kindMode].compactMap(\.self)
+        let layers = [manual, editorConfig, detected, syntaxMode, syntaxDefault, kindMode].compactMap(\.self)
         
         return (expandsTab: layers.lazy.compactMap(\.expandsTab).first ?? defaults.expandsTab,
                 width: layers.lazy.compactMap(\.width).first ?? defaults.width)
