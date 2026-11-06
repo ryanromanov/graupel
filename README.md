@@ -46,15 +46,15 @@ Language servers are installed separately. For Boreas, install `boreas` as its
 
 ## Building
 
-Open `CotEditor.xcodeproj` in Xcode and build the `CotEditor` scheme, or run:
+Open `Graupel.xcodeproj` in Xcode and build the `Graupel` scheme, or run:
 
 ```sh
-xcodebuild -project CotEditor.xcodeproj -scheme CotEditor -configuration Debug -derivedDataPath build \
+xcodebuild -project Graupel.xcodeproj -scheme Graupel -configuration Debug -derivedDataPath build \
     -skipPackagePluginValidation -skipMacroValidation build
 ```
 
-The app is built as `build/Build/Products/Debug/Graupel.app`. (The project, scheme, and code still use
-CotEditor's names, which keeps the code close to CotEditor's.)
+The app is built as `build/Build/Products/Debug/Graupel.app`. (The source folder, targets, and Swift module still
+use CotEditor's names, which keeps the code close to CotEditor's.)
 
 Builds from source are signed ad hoc, so no certificate is needed. `Scripts/release.sh` makes a signed and notarized
 release, which needs a Developer ID certificate.

@@ -44,7 +44,7 @@ mkdir -p "$output"
 
 echo "==> Archiving (log: $output/archive.log)"
 xcodebuild archive \
-    -project CotEditor.xcodeproj -scheme CotEditor -configuration Release \
+    -project Graupel.xcodeproj -scheme Graupel -configuration Release \
     -archivePath "$archive" -derivedDataPath "$output/derived" \
     -skipPackagePluginValidation -skipMacroValidation \
     CODE_SIGN_IDENTITY="Developer ID Application" CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$team" \
@@ -101,4 +101,6 @@ xcrun stapler validate "$app"
 spctl --assess --type execute --verbose "$app"
 
 ditto -c -k --keepParent "$app" "$zip"
-echo "Done: $zip"
+# The Homebrew tap's update workflow checks the zip against this file, so attach both to the release.
+(cd "$output" && shasum -a 256 "$(basename "$zip")" > "$(basename "$zip").sha256")
+echo "Done: $zip and $zip.sha256"

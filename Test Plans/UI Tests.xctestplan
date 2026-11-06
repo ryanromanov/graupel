@@ -14,7 +14,7 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:CotEditor.xcodeproj",
+        "containerPath" : "container:Graupel.xcodeproj",
         "identifier" : "2A3F18F6203270BE002F1CA7",
         "name" : "UI Tests"
       }

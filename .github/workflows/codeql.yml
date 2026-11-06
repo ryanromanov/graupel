@@ -33,8 +33,8 @@ jobs:
       - name: Build Graupel app
         run: |
           xcodebuild \
-            -project CotEditor.xcodeproj \
-            -scheme CotEditor \
+            -project Graupel.xcodeproj \
+            -scheme Graupel \
             -configuration Debug \
             ARCH=arm64 \
             CODE_SIGN_IDENTITY="" \

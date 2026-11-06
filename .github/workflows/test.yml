@@ -58,13 +58,13 @@ jobs:
       uses: actions/checkout@v7
     - name: Unit Test for Graupel
       run: |
-        xcodebuild test -scheme CotEditor CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= CODE_SIGN_ENTITLEMENTS_SUFFIX=-AdHoc -skipPackagePluginValidation
+        xcodebuild test -scheme Graupel CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= CODE_SIGN_ENTITLEMENTS_SUFFIX=-AdHoc -skipPackagePluginValidation
     - name: Release Build Smoke Test
       run: |
         set -euo pipefail
         app_binary="/tmp/GraupelInstall/Applications/Graupel.app/Contents/MacOS/Graupel"
         rm -rf /tmp/GraupelInstall
-        xcodebuild install -scheme CotEditor -configuration Release DSTROOT=/tmp/GraupelInstall CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= CODE_SIGN_ENTITLEMENTS_SUFFIX=-AdHoc -skipPackagePluginValidation
+        xcodebuild install -scheme Graupel -configuration Release DSTROOT=/tmp/GraupelInstall CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= CODE_SIGN_ENTITLEMENTS_SUFFIX=-AdHoc -skipPackagePluginValidation
         "${app_binary}" >/dev/null 2>&1 &
         app_pid=$!
         sleep 5
