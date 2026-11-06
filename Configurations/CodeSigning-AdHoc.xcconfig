@@ -26,7 +26,9 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-CODE_SIGN_ENTITLEMENTS = CotEditor/$(PRODUCT_MODULE_NAME)-AdHoc.entitlements
+// Scripts/release.sh sets this to DeveloperID. Set here, not as CODE_SIGN_ENTITLEMENTS, so Swift packages aren't affected.
+ENTITLEMENTS_VARIANT = AdHoc
+CODE_SIGN_ENTITLEMENTS = CotEditor/$(PRODUCT_MODULE_NAME)-$(ENTITLEMENTS_VARIANT).entitlements
 CODE_SIGN_IDENTITY = -
 CODE_SIGN_STYLE = Manual
 DEVELOPMENT_TEAM =

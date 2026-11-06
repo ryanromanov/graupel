@@ -170,18 +170,20 @@ struct GeneralSettingsView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Toggle(isOn: $syncsSettings) {
-                        Text("Keep a copy in iCloud", tableName: "GeneralSettings",
-                             comment: "verb; checkbox; refer to the expression for “Keep a copy” by Apple")
-                        Text("Store a copy of these settings for other devices to import.", tableName: "GeneralSettings")
-                    }
-                    if let error = CloudSettingsManager.shared.error {
-                        Label(error.localizedDescription, systemImage: "exclamationmark.triangle")
-                            .symbolVariant(.fill)
-                            .symbolRenderingMode(.multicolor)
-                            .foregroundStyle(.secondary)
-                            .controlSize(.small)
-                            .padding(.leading, 20)
+                    if CloudSettingsManager.isAvailable {
+                        Toggle(isOn: $syncsSettings) {
+                            Text("Keep a copy in iCloud", tableName: "GeneralSettings",
+                                 comment: "verb; checkbox; refer to the expression for “Keep a copy” by Apple")
+                            Text("Store a copy of these settings for other devices to import.", tableName: "GeneralSettings")
+                        }
+                        if let error = CloudSettingsManager.shared.error {
+                            Label(error.localizedDescription, systemImage: "exclamationmark.triangle")
+                                .symbolVariant(.fill)
+                                .symbolRenderingMode(.multicolor)
+                                .foregroundStyle(.secondary)
+                                .controlSize(.small)
+                                .padding(.leading, 20)
+                        }
                     }
                     
                     HStack {
@@ -253,51 +255,57 @@ private struct SettingsImportMenu: View {
     var body: some View {
         
         HStack {
-            Menu(.init("Action.import.ellipsis.label", defaultValue: "Import…")) {
-                if let cloudArchivesError {
-                    Text(cloudArchivesError.localizedDescription)
-                } else if let cloudArchives {
-                    if cloudArchives.isEmpty {
-                        Text("No Settings Copies in iCloud", tableName: "GeneralSettings", comment: "message; menu item")
-                    }
-                    ForEach(cloudArchives.sortedBySource) { archive in
-                        Button {
-                            self.importingCloudArchiveURL = archive.url
-                        } label: {
-                            let secondaryLabel = if let info = archive.info {
-                                "\(info.date.formatted(date: .abbreviated, time: .omitted)) (iCloud)"
-                            } else {
-                                "(iCloud)"
+            if CloudSettingsManager.isAvailable {
+                Menu(.init("Action.import.ellipsis.label", defaultValue: "Import…")) {
+                    if let cloudArchivesError {
+                        Text(cloudArchivesError.localizedDescription)
+                    } else if let cloudArchives {
+                        if cloudArchives.isEmpty {
+                            Text("No Settings Copies in iCloud", tableName: "GeneralSettings", comment: "message; menu item")
+                        }
+                        ForEach(cloudArchives.sortedBySource) { archive in
+                            Button {
+                                self.importingCloudArchiveURL = archive.url
+                            } label: {
+                                let secondaryLabel = if let info = archive.info {
+                                    "\(info.date.formatted(date: .abbreviated, time: .omitted)) (iCloud)"
+                                } else {
+                                    "(iCloud)"
+                                }
+                                Text(AttributedString(archive.displayName + " ") +
+                                     AttributedString(secondaryLabel, attributes: .init().foregroundColor(.secondary)))
                             }
-                            Text(AttributedString(archive.displayName + " ") +
-                                 AttributedString(secondaryLabel, attributes: .init().foregroundColor(.secondary)))
+                        }
+                    } else {
+                        Text("Loading Settings Copies from iCloud…", tableName: "GeneralSettings", comment: "message; menu item")
+                    }
+                
+                    Divider()
+                
+                    if self.cloudArchives?.isEmpty == false {
+                        Button(.init("Manage Copies on iCloud…", table: "GeneralSettings", comment: "verb; menu item")) {
+                            self.isCopiesManagerPresented = true
                         }
                     }
-                } else {
-                    Text("Loading Settings Copies from iCloud…", tableName: "GeneralSettings", comment: "message; menu item")
-                }
-                
-                Divider()
-                
-                if self.cloudArchives?.isEmpty == false {
-                    Button(.init("Manage Copies on iCloud…", table: "GeneralSettings", comment: "verb; menu item")) {
-                        self.isCopiesManagerPresented = true
+                    Button(.init("Choose Settings Archive…", table: "GeneralSettings", comment: "verb; menu item")) {
+                        self.isImporterPresented = true
                     }
+                } primaryAction: {
+                    self.isImporterPresented.toggle()
                 }
-                Button(.init("Choose Settings Archive…", table: "GeneralSettings", comment: "verb; menu item")) {
-                    self.isImporterPresented = true
+                .menuStyle(.button)
+                .menuOrder(.fixed)
+                .disabled(self.importingCloudArchiveURL != nil)
+                .task(id: CloudSettingsManager.shared.ubiquityIdentityToken as? NSObject) {
+                    await self.observeCloudArchives()
                 }
-            } primaryAction: {
-                self.isImporterPresented.toggle()
-            }
-            .menuStyle(.button)
-            .menuOrder(.fixed)
-            .disabled(self.importingCloudArchiveURL != nil)
-            .task(id: CloudSettingsManager.shared.ubiquityIdentityToken as? NSObject) {
-                await self.observeCloudArchives()
-            }
-            .task(id: self.importingCloudArchiveURL) {
-                await self.loadCloudArchive()
+                .task(id: self.importingCloudArchiveURL) {
+                    await self.loadCloudArchive()
+                }
+            } else {
+                Button(.init("Action.import.ellipsis.label", defaultValue: "Import…")) {
+                    self.isImporterPresented.toggle()
+                }
             }
             
             if self.importingCloudArchiveURL != nil {

@@ -27,6 +27,7 @@ PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleSc
 UNUSED_ANCHORS = {
     "about_donation",     # the donation window can't be opened
     "howto_edit_remote",  # remote editing is hidden (RemoteEditingController.isAvailable)
+    "howto_store_settings_in_icloud",  # iCloud copies are hidden (CloudSettingsManager.isAvailable)
 }
 
 BANNED = [

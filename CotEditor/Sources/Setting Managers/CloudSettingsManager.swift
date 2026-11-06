@@ -72,6 +72,9 @@ enum CloudSettingsError: LocalizedError {
     
     static let shared = CloudSettingsManager()
     
+    /// Whether Graupel offers settings copies in iCloud. It's off because the Developer ID build has no iCloud entitlements (ARCHITECTURE.md, entry 35).
+    static let isAvailable = false
+    
     private(set) var error: any Error?
     
     /// The current iCloud identity, or `nil` when iCloud Drive is unavailable.

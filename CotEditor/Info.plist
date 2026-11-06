@@ -150,18 +150,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>NSUbiquitousContainers</key>
-	<dict>
-		<key>iCloud.com.coteditor.CotEditor</key>
-		<dict>
-			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
-			<true/>
-			<key>NSUbiquitousContainerName</key>
-			<string>CotEditor</string>
-			<key>NSUbiquitousContainerSupportedFolderLevels</key>
-			<string>Any</string>
-		</dict>
-	</dict>
 	<key>OSAScriptingDefinition</key>
 	<string>$(PRODUCT_MODULE_NAME).sdef</string>
 	<key>SUEnableInstallerLauncherService</key>

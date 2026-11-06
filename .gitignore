@@ -12,3 +12,4 @@ default.profraw
 .build
 .swiftpm
 Packages/*/Package.resolved
+build-release/
