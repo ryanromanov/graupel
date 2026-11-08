@@ -1,5 +1,14 @@
 # Change Log
 
+Unreleased
+--------------------------
+
+### Improvements
+
+- Add a Run/Stop button for the toolbar.
+- Underline file locations in the Run panel's output, such as `tour.bor:12:5`; click one to go to that line.
+
+
 0.2.0 (2026-11-08)
 --------------------------
 

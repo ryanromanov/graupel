@@ -32,6 +32,7 @@ struct RunPanel: View {
     let controller: RunController
     var run: () -> Void
     var hide: () -> Void
+    var open: (RunOutputLink) -> Void
     
     @State private var input = ""
     
@@ -83,7 +84,8 @@ struct RunPanel: View {
             } else if let session {
                 RunOutputView(session: session,
                               chunkCount: session.droppedChunkCount + session.chunks.count,
-                              clearCount: session.clearCount)
+                              clearCount: session.clearCount,
+                              open: self.open)
             } else {
                 Text("Press Command-R to save and run the document. Its output appears here.", tableName: "Run")
                     .foregroundStyle(.secondary)
@@ -166,16 +168,35 @@ private struct RunOutputView: NSViewRepresentable {
     /// The number of chunks the session has produced, so that the view updates when output arrives.
     let chunkCount: Int
     let clearCount: Int
+    var open: (RunOutputLink) -> Void
     
     
-    final class Coordinator {
+    final class Coordinator: NSObject, NSTextViewDelegate {
         
         var sessionID: UUID?
         var clearCount = 0
         
         /// The number of the session's chunks that the text view shows, counting the dropped ones.
         var shownChunkCount = 0
+        
+        /// Where the text that hasn't been checked for links starts; only complete lines are checked.
+        var uncheckedLocation = 0
+        
+        var open: (RunOutputLink) -> Void = { _ in }
+        
+        
+        func textView(_ textView: NSTextView, clickedOnLink link: Any, at charIndex: Int) -> Bool {
+            
+            guard let url = link as? URL, let location = RunOutputLink(url: url) else { return false }
+            
+            self.open(location)
+            return true
+        }
     }
+    
+    
+    /// The stream a run of output text came from.
+    fileprivate static let streamKey = NSAttributedString.Key("GraupelRunStream")
     
     
     func makeCoordinator() -> Coordinator {
@@ -194,6 +215,9 @@ private struct RunOutputView: NSViewRepresentable {
         textView.font = .monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
         textView.textContainerInset = NSSize(width: 6, height: 6)
         textView.setAccessibilityLabel(String(localized: "Output", table: "Run", comment: "accessibility label"))
+        // links keep the color of their text, so that a location in an error stays red
+        textView.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .cursor: NSCursor.pointingHand]
+        textView.delegate = context.coordinator
         
         return scrollView
     }
@@ -206,6 +230,7 @@ private struct RunOutputView: NSViewRepresentable {
         else { return }
         
         let coordinator = context.coordinator
+        coordinator.open = self.open
         
         // start over for another run, after Clear, or when output was dropped before it was shown
         if coordinator.sessionID != self.session.id || coordinator.clearCount != self.clearCount
@@ -215,6 +240,7 @@ private struct RunOutputView: NSViewRepresentable {
             coordinator.sessionID = self.session.id
             coordinator.clearCount = self.clearCount
             coordinator.shownChunkCount = self.session.droppedChunkCount
+            coordinator.uncheckedLocation = 0
         }
         
         let newChunks = self.session.chunks.dropFirst(coordinator.shownChunkCount - self.session.droppedChunkCount)
@@ -231,13 +257,16 @@ private struct RunOutputView: NSViewRepresentable {
                 case .error: .systemRed
                 case .input: .controlAccentColor
             }
-            textStorage.append(NSAttributedString(string: chunk.text, attributes: [.font: font, .foregroundColor: color]))
+            textStorage.append(NSAttributedString(string: chunk.text, attributes: [.font: font, .foregroundColor: color,
+                                                                                    Self.streamKey: chunk.stream == .error]))
         }
         // keep about as much as the session does
         let excess = textStorage.length - RunSession.outputLimit
         if excess > 0 {
             textStorage.deleteCharacters(in: NSRange(location: 0, length: excess))
+            coordinator.uncheckedLocation = max(coordinator.uncheckedLocation - excess, 0)
         }
+        self.addLinks(to: textStorage, coordinator: coordinator)
         textStorage.endEditing()
         
         coordinator.shownChunkCount = self.session.droppedChunkCount + self.session.chunks.count
@@ -245,5 +274,29 @@ private struct RunOutputView: NSViewRepresentable {
         if isAtEnd {
             textView.scrollToEndOfDocument(nil)
         }
+    }
+    
+    
+    /// Makes the file locations in the complete lines that arrived into links.
+    private func addLinks(to textStorage: NSTextStorage, coordinator: Coordinator) {
+        
+        let string = textStorage.string as NSString
+        let lastNewline = string.range(of: "\n", options: .backwards)
+        
+        guard lastNewline.location != NSNotFound, lastNewline.location >= coordinator.uncheckedLocation else { return }
+        
+        let checkedRange = NSRange(coordinator.uncheckedLocation..<lastNewline.upperBound)
+        let directory = self.session.fileURL.deletingLastPathComponent()
+        
+        string.enumerateSubstrings(in: checkedRange, options: [.byLines, .substringNotRequired]) { _, lineRange, _, _ in
+            let line = string.substring(with: lineRange)
+            let isError = (textStorage.attribute(Self.streamKey, at: lineRange.location, effectiveRange: nil) as? Bool) ?? false
+            
+            for (range, link) in RunOutputLink.links(in: line, isError: isError, directory: directory, runFileURL: self.session.fileURL) {
+                textStorage.addAttribute(.link, value: link.url, range: NSRange(location: lineRange.location + range.location, length: range.length))
+            }
+        }
+        
+        coordinator.uncheckedLocation = lastNewline.upperBound
     }
 }

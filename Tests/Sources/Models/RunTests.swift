@@ -223,6 +223,61 @@ struct IncrementalUTF8DecoderTests {
 }
 
 
+struct RunOutputLinkTests {
+    
+    private let directory = URL(filePath: "/work")
+    private let runFile = URL(filePath: "/work/tour.bor")
+    
+    
+    private func links(_ text: String, isError: Bool = true, existing: Set<String> = ["/work/tour.bor", "/work/lib/util.py", "/abs/main.c"]) -> [String] {
+        
+        RunOutputLink.links(in: text, isError: isError, directory: self.directory, runFileURL: self.runFile,
+                            fileExists: { existing.contains($0.path) })
+            .map { range, link in
+                (text as NSString).substring(with: range) + " -> " + link.fileURL.path + ":\(link.line)" + (link.column.map { ":\($0)" } ?? "")
+            }
+    }
+    
+    
+    @Test func pathWithLineAndColumn() {
+        
+        #expect(self.links("tour.bor:12:5: 'y' is not declared") == ["tour.bor:12:5 -> /work/tour.bor:12:5"])
+        #expect(self.links("/abs/main.c:3: warning", isError: false) == ["/abs/main.c:3 -> /abs/main.c:3"])
+        #expect(self.links("see lib/util.py:7") == ["lib/util.py:7 -> /work/lib/util.py:7"])
+    }
+    
+    
+    @Test func pythonTraceback() {
+        
+        #expect(self.links(#"  File "lib/util.py", line 40, in helper"#) == [#"File "lib/util.py", line 40 -> /work/lib/util.py:40"#])
+    }
+    
+    
+    @Test func lineInAnErrorMeansTheRunFile() {
+        
+        #expect(self.links("error: line 5: expected an expression (at '/')") == ["line 5 -> /work/tour.bor:5"])
+        #expect(self.links("result on line 5", isError: false).isEmpty)
+    }
+    
+    
+    @Test func missingFilesAndOtherNumbersAreNotLinks() {
+        
+        #expect(self.links("gone.bor:3: error").isEmpty)
+        #expect(self.links("time 12:30, ratio 1.5:2", isError: false).isEmpty)
+        #expect(self.links("http://example.com:8080/a.html:4", isError: false).isEmpty)
+    }
+    
+    
+    @Test func urlRoundTrip() throws {
+        
+        let link = RunOutputLink(fileURL: URL(filePath: "/a b/c.bor"), line: 3, column: 9)
+        
+        #expect(RunOutputLink(url: link.url) == link)
+        #expect(RunOutputLink(url: URL(string: "https://example.com")!) == nil)
+    }
+}
+
+
 @MainActor struct RunControllerTests {
     
     @Test func overlappingRunsLeaveOneProgramRunning() async throws {

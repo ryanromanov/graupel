@@ -596,6 +596,7 @@ private extension NSToolbarItem.Identifier {
     static let fonts = Self(Self.prefix + "fonts")
     static let find = Self(Self.prefix + "find")
     static let share = Self(Self.prefix + "share")
+    static let run = Self(Self.prefix + "run")
 }
 
 
@@ -634,6 +635,7 @@ extension DocumentWindowController: NSToolbarDelegate {
         
         return directoryIdentifiers + [
             .syntax,
+            .run,
             .inspectorTrackingSeparator,
             .flexibleSpace,
             .toggleInspector,
@@ -647,6 +649,7 @@ extension DocumentWindowController: NSToolbarDelegate {
         
         var identifiers = directoryIdentifiers + [
             .syntax,
+            .run,
             .toggleInspector,
             .textSize,
             .writingDirection,
@@ -948,6 +951,16 @@ extension DocumentWindowController: NSToolbarDelegate {
                 item.stateImages[.off] = NSImage(resource: .textIndentguides)
                 item.action = #selector(DocumentViewController.toggleIndentGuides)
                 item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
+                return item
+                
+            case .run:
+                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
+                item.label = String(localized: "Toolbar.run.label", defaultValue: "Run", table: "Document", comment: "verb")
+                item.paletteLabel = String(localized: "Toolbar.run.paletteLabel", defaultValue: "Run/Stop", table: "Document")
+                item.toolTip = String(localized: "Toolbar.run.tooltip", defaultValue: "Save and run the document", table: "Document")
+                item.stateImages[.on] = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: nil)
+                item.stateImages[.off] = NSImage(systemSymbolName: "play.fill", accessibilityDescription: nil)
+                item.action = #selector(ContentViewController.toggleRun)
                 return item
                 
             case .keepOnTop:

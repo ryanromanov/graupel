@@ -21,7 +21,7 @@
 <section>
 <h2>Run a document</h2>
 
-<p>Choose <strong>Run &gt; Run</strong> (Command-R), or click the Run button (▶) in the Run panel.</p>
+<p>Choose <strong>Run &gt; Run</strong> (Command-R), or click the Run button (▶) in the Run panel or the toolbar. While a program runs, the toolbar button becomes Stop (■). If the button isn’t in your toolbar, choose <strong>View &gt; Customize Toolbar</strong> and drag <strong>Run/Stop</strong> into it.</p>
 
 <p>Graupel saves the document, then runs the saved file from the folder it’s in, so a program that opens files by a relative path finds them there. If the document has never been saved, Graupel asks where to save it first; if you cancel, nothing runs.</p>
 
@@ -49,6 +49,8 @@
 	<tr><th>Couldn’t start</th><td><p>The command couldn’t be started. The message gives the reason.</p></td></tr>
 </tbody>
 </table>
+
+<p>A place in a file that the output names, such as <code>tour.bor:12:5</code>, <code>File "util.py", line 40</code>, or <code>line 12</code> in an error, is underlined. Click it to open the file and go to that line. A <code>line</code> number in an error without a file name refers to the document you ran.</p>
 
 <p>The panel keeps the last million or so characters of output. To empty it, click the Clear button (trash can); a program that’s still running keeps running.</p>
 </section>
