@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.2.0</string>
+	<string>0.3.0</string>
 	<key>CFBundleSignature</key>
 	<string>hbwr</string>
 	<key>CFBundleVersion</key>
-	<string>23</string>
+	<string>24</string>
 	<key>HPDBookAccessPath</key>
 	<string>Graupel.html</string>
 	<key>HPDBookCSIndexPath</key>
