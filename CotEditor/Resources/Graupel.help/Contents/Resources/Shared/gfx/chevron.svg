@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-     width="12" height="12" viewBox="0 0 12 12">
+<!-- Graupel Help: disclosure chevron for <summary>, light appearance (dark uses chevron-dark.svg) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
 <style>
-    polyline {
-        fill: none;
-        stroke: black;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-width: 1.6;
-    }
-    @media (prefers-color-scheme: dark) {
-        polyline { stroke: white }
-    }
+    path { fill: none; stroke: black; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    @media (prefers-color-scheme: dark) { path { stroke: white } }
 </style>
-
-<polyline points="6.2,1.5 11,6 6.2,10.5"/>
+<path d="M4.25 2.25 L8.25 6 L4.25 9.75"/>
 </svg>

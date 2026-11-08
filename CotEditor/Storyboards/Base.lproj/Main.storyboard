@@ -1221,7 +1221,7 @@ CA
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Script" image="applescript.fill" catalog="system" id="617">
+                            <menuItem title="Script" image="scroll.script" id="617">
                                 <menu key="submenu" title="Script" id="616"/>
                             </menuItem>
                             <menuItem title="Help" id="103">
@@ -1322,7 +1322,7 @@ CA
     </scenes>
     <resources>
         <image name="apple.terminal" catalog="system" width="18" height="14"/>
-        <image name="applescript.fill" catalog="system" width="14" height="18"/>
+        <image name="scroll.script" width="9" height="12"/>
         <image name="arrow.2.squarepath" catalog="system" width="19" height="14"/>
         <image name="arrow.clockwise" catalog="system" width="14" height="16"/>
         <image name="arrow.down.to.line" catalog="system" width="13" height="16"/>

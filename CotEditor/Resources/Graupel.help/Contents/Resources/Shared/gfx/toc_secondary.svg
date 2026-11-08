@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-                     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 13" width="15" height="13">
-
-<style type="text/css">
-	* { fill: transparent; stroke: -apple-system-secondary-label; }
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Graupel Help: "Contents" link at the top of each page, light appearance (dark uses toc_secondary-dark.svg). A table of contents: titles, dotted leaders, page numbers. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="13" viewBox="0 0 15 13">
+<style>
+    rect, line { fill: none; stroke: -apple-system-secondary-label; stroke-linecap: round;  }
+    .leader { stroke-dasharray: 0.01 1.1; }
 </style>
-
-<rect x="0.5" y="0.5" width="14" height="12" rx="1.5"/>
-<line x1="3" x2="11" y1="3.5" y2="3.5"/>
-<line x1="5" x2="11" y1="5.5" y2="5.5"/>
-<line x1="5" x2="11" y1="7.5" y2="7.5"/>
-<line x1="3" x2="11" y1="9.5" y2="9.5"/>
-
+<rect x="0.5" y="0.5" width="14" height="12" rx="2"/>
+<line x1="2.5" y1="3.75" x2="6.5" y2="3.75"/>
+<line class="leader" x1="8" y1="3.75" x2="10.25" y2="3.75"/>
+<line x1="11.75" y1="3.75" x2="12.5" y2="3.75"/>
+<line x1="3.75" y1="6.5" x2="7" y2="6.5"/>
+<line class="leader" x1="8.5" y1="6.5" x2="10.25" y2="6.5"/>
+<line x1="11.75" y1="6.5" x2="12.5" y2="6.5"/>
+<line x1="3.75" y1="9.25" x2="6" y2="9.25"/>
+<line class="leader" x1="7.5" y1="9.25" x2="10.25" y2="9.25"/>
+<line x1="11.75" y1="9.25" x2="12.5" y2="9.25"/>
 </svg>

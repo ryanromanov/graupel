@@ -179,7 +179,7 @@ private struct ActionCommandView: View {
     var body: some View {
         
         HStack {
-            Image(systemName: self.command.kind.systemImage)
+            self.command.kind.image
                 .resizable()
                 .scaledToFit()
                 .font(.system(size: 23))
@@ -270,11 +270,11 @@ private struct ActionCommandView: View {
 
 private extension ActionCommand.Kind {
     
-    var systemImage: String {
+    var image: Image {
         
         switch self {
-            case .command: "filemenu.and.selection"
-            case .script: "applescript.fill"
+            case .command: Image(systemName: "filemenu.and.selection")
+            case .script: Image(.scrollScript)  // Graupel's own symbol, also the Script menu's icon
         }
     }
     

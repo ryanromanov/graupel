@@ -526,6 +526,16 @@ extension Logger {
         
         SnippetManager.shared.menu = self.snippetMenu!
         ScriptManager.shared.menu = self.scriptMenu!
+        // The Script menu's icon is Graupel's own symbol. The menu bar shows a custom symbol as a blank space, whether it
+        // comes from the storyboard or is set as is, so it gets a plain template image that draws the symbol.
+        let scroll = NSImage(resource: .scrollScript)
+        let scriptIcon = NSImage(size: scroll.size, flipped: false) { rect in
+            scroll.draw(in: rect)
+            return true
+        }
+        scriptIcon.isTemplate = true
+        scriptIcon.accessibilityDescription = scroll.accessibilityDescription
+        NSApp.mainMenu?.items.first { $0.submenu === self.scriptMenu }?.image = scriptIcon
         
         // build Unicode normalization menu items
         self.normalizationMenu?.items = (UnicodeNormalizationForm.standardForms + [nil] +
