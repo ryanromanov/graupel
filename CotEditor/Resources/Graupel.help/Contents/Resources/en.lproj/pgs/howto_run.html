@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="run, run a program, Run panel, output, input, stop, Command-R, run command">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Run your program</title>
+</head>
+
+<body>
+<a name="howto_run"></a>
+
+<h1>Run your program</h1>
+
+<p>Graupel can run the document you’re editing and show what the program prints in the Run panel, below the editor. Boreas files run with the <code>boreas</code> command. For another language, set a run command first; see <a href="#run_command">Set the command for a language</a>.</p>
+
+
+<section>
+<h2>Run a document</h2>
+
+<p>Choose <strong>Run &gt; Run</strong> (Command-R), or click the Run button (▶) in the Run panel.</p>
+
+<p>Graupel saves the document, then runs the saved file from the folder it’s in, so a program that opens files by a relative path finds them there. If the document has never been saved, Graupel asks where to save it first; if you cancel, nothing runs.</p>
+
+<p>Each window runs one program at a time. If you run again while a program is still running, Graupel stops it first.</p>
+</section>
+
+
+<section>
+<h2>Read the output</h2>
+
+<p>The Run panel shows the output as the program prints it. Errors the program reports are red, and text you send to the program is in your accent color.</p>
+
+<p>The top of the panel shows the command that ran and how the program is doing:</p>
+
+<table class="settings">
+<thead>
+	<tr><th>Message</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+	<tr><th>Running</th><td><p>The program hasn’t ended yet.</p></td></tr>
+	<tr><th>Finished in</th><td><p>The program ended without an error. The time is how long it ran.</p></td></tr>
+	<tr><th>Ended with status</th><td><p>The program ended with an exit status other than 0, which usually means an error.</p></td></tr>
+	<tr><th>Stopped after</th><td><p>You stopped the program.</p></td></tr>
+	<tr><th>Ended by signal</th><td><p>Something other than Stop ended the program, such as a crash.</p></td></tr>
+	<tr><th>Couldn’t start</th><td><p>The command couldn’t be started. The message gives the reason.</p></td></tr>
+</tbody>
+</table>
+
+<p>The panel keeps the last million or so characters of output. To empty it, click the Clear button (trash can); a program that’s still running keeps running.</p>
+</section>
+
+
+<section>
+<h2>Type input for the program</h2>
+
+<p>While a program runs, the bottom of the Run panel has an input field. When the program asks for input, such as with <code>read_line</code> in Boreas, type a line in the field and press Return to send it.</p>
+</section>
+
+
+<section>
+<h2>Stop a program</h2>
+
+<p>Choose <strong>Run &gt; Stop</strong> (Command-Period), or click the Stop button (■) in the Run panel. Graupel interrupts the program, as Control-C does in Terminal, and if it’s still running after 2 seconds, Graupel forces it to quit.</p>
+
+<p>Closing the window or quitting Graupel also stops a running program.</p>
+</section>
+
+
+<section>
+<h2>Show or hide the Run panel</h2>
+
+<p>Choose <strong>Run &gt; Show Run Panel</strong> or <strong>Hide Run Panel</strong> (Shift-Command-R), or click the Hide button (⌄) in the panel. Running a document shows the panel. To change the panel’s height, drag the line above it.</p>
+</section>
+
+
+<section>
+<a name="run_command"></a>
+<h2>Set the command for a language</h2>
+
+<p>Graupel runs a document with the command for its syntax. Boreas’s command is <code>boreas</code>. To run another language, or to change how Boreas files run:</p>
+
+<ol>
+	<li><p>Choose <strong>Graupel &gt; Settings</strong>, then click <strong>Language Servers</strong>.</p></li>
+	<li><p>Select the language in the list. If it isn’t listed, click <strong>Add</strong> (+) below the list and choose it.</p></li>
+	<li><p>In <strong>Run</strong>, type the command, the way you would type it in Terminal, then press Return. For example, type <code>python3</code> for Python.</p></li>
+</ol>
+
+<p>Graupel adds the file’s path at the end of the command and runs it with <code>/bin/sh</code>, so quotes, <code>~</code>, and paths with spaces work as they do in Terminal. To go back to the command Graupel uses by itself, delete the command.</p>
+
+<p>If a language needs more than one command to run, put them in a shell script. Name it after the language, such as <code>Python.sh</code>, make it executable, and put it in <code>~/Library/Application Scripts/com.ryanromanov.Graupel/_Run/</code>. The script gets the file’s path as its first argument. When <strong>Run</strong> is empty, Graupel uses the script.</p>
+
+<p>If a language has no run command, the Run panel says so. If Graupel can’t find the command, install it, or type its full path in <strong>Run</strong>.</p>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="about_boreas.html">Write Boreas</a></li>
+	<li><a href="howto_set_up_language_server.html">Set up a language server</a></li>
+	<li><a href="script_overview.html">Automate tasks with scripts</a></li>
+</ul>
+</section>
+
+</body>
+</html>

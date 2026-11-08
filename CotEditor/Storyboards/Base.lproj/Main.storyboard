@@ -1184,6 +1184,29 @@ CA
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Run" id="j5O-2L-B8C">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Run" id="zn1-Nb-TLO">
+                                    <items>
+                                        <menuItem title="Run" keyEquivalent="r" id="Ywi-Ep-YWg">
+                                            <connections>
+                                                <action selector="runDocument:" target="Ady-hI-5gd" id="xwA-hX-PHl"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Stop" keyEquivalent="." id="yct-8d-EtO">
+                                            <connections>
+                                                <action selector="stopRun:" target="Ady-hI-5gd" id="9ZQ-YZ-iMZ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="qHB-su-TKN"/>
+                                        <menuItem title="Show Run Panel" keyEquivalent="R" id="wU2-eZ-rOA">
+                                            <connections>
+                                                <action selector="toggleRunPanel:" target="Ady-hI-5gd" id="aRL-eE-oqY"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Window" id="19">
                                 <menu key="submenu" title="Window" systemMenu="window" id="24">
                                     <items>

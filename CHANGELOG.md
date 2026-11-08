@@ -1,5 +1,19 @@
 # Change Log
 
+Unreleased
+--------------------------
+
+### New Features
+
+- Run the document with Run > Run (Command-R): Graupel saves it and shows the program's output in a Run panel below
+  the editor, with a field for input and a Stop command. Set the command for each language in Settings > Language
+  Servers.
+
+### Improvements
+
+- Draw Graupel's own Help graphics, and use its own scroll icon for the Script menu.
+
+
 0.1.0 (2026-11-06)
 --------------------------
 

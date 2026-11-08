@@ -53,10 +53,10 @@ struct LanguageServerSettingsView: View {
                     }
                 }
             }
-            .frame(height: 240)
+            .frame(height: 300)
             
             HStack(alignment: .firstTextBaseline) {
-                Text("A language server checks your code as you type and marks the problems it finds. Graupel finds the servers of the languages it comes with by itself.", tableName: "LanguageServerSettings")
+                Text("A language server checks your code as you type and marks the problems it finds. Graupel finds the servers of the languages it comes with by itself. The run command is what Run (Command-R) uses.", tableName: "LanguageServerSettings")
                     .foregroundStyle(.secondary)
                     .controlSize(.small)
                     .fixedSize(horizontal: false, vertical: true)
@@ -77,7 +77,8 @@ struct LanguageServerSettingsView: View {
     /// The syntaxes that have a server by default or in the settings.
     static var listedSyntaxNames: [String] {
         
-        (LanguageServerCommand.defaultSyntaxNames + UserDefaults.standard[.languageServers].keys)
+        (LanguageServerCommand.defaultSyntaxNames + UserDefaults.standard[.languageServers].keys
+         + RunCommand.defaults.keys + UserDefaults.standard[.runCommands].keys)
             .uniqued
             .sorted(using: .localizedStandard)
     }
@@ -145,6 +146,7 @@ private struct LanguageServerListView: View {
                 
                 UserDefaults.standard[.languageServers][syntaxName] = nil
                 UserDefaults.standard[.disabledLanguageServers].removeAll { $0 == syntaxName }
+                UserDefaults.standard[.runCommands][syntaxName] = nil
                 TextDocument.restartLanguageServer(syntaxName: syntaxName)
                 withAnimation {
                     self.syntaxNames = LanguageServerSettingsView.listedSyntaxNames
@@ -174,7 +176,9 @@ private struct LanguageServerOptionsView: View {
     @State private var isEnabled = true
     @State private var commandLine = ""
     @State private var isInstalled: Bool?
+    @State private var runCommandLine = ""
     @FocusState private var isCommandFocused: Bool
+    @FocusState private var isRunCommandFocused: Bool
     
     private var store: LanguageServerStatusStore = .shared
     
@@ -256,13 +260,43 @@ private struct LanguageServerOptionsView: View {
                     .disabled(!self.isEnabled)
                 }
             }
+            
+            Divider()
+                .gridCellUnsizedAxes(.horizontal)
+            
+            GridRow {
+                Text("Run:", tableName: "LanguageServerSettings")
+                
+                let defaultRunCommand = RunCommand.defaultCommand(syntaxName: self.syntaxName,
+                                                                  scriptsDirectoryURL: try? URL(for: .applicationScriptsDirectory, in: .userDomainMask))
+                VStack(alignment: .leading) {
+                    TextField(.init("Run:", table: "LanguageServerSettings"), text: $runCommandLine,
+                              prompt: Text(defaultRunCommand?.commandLine ?? ""))
+                    .labelsVisibility(.hidden)
+                    .font(.body.monospaced())
+                    .focused($isRunCommandFocused)
+                    .onSubmit { self.saveRunCommandLine() }
+                    .onChange(of: self.isRunCommandFocused) { _, isFocused in
+                        if !isFocused {
+                            self.saveRunCommandLine()
+                        }
+                    }
+                    
+                    Text(self.runCommandDescription(defaultCommand: defaultRunCommand))
+                        .foregroundStyle(.secondary)
+                        .controlSize(.small)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
         }
         .onAppear {
             self.isEnabled = !UserDefaults.standard[.disabledLanguageServers].contains(self.syntaxName)
             self.commandLine = UserDefaults.standard[.languageServers][self.syntaxName] ?? ""
+            self.runCommandLine = UserDefaults.standard[.runCommands][self.syntaxName] ?? ""
         }
         .onDisappear {
             self.saveCommandLine()
+            self.saveRunCommandLine()
         }
         .task(id: self.store.statuses[self.syntaxName]) {
             // check whether the server is installed while no document uses it
@@ -296,6 +330,28 @@ private struct LanguageServerOptionsView: View {
             UserDefaults.standard[.languageServers][self.syntaxName] = commandLine
         }
         TextDocument.restartLanguageServer(syntaxName: self.syntaxName)
+    }
+    
+    
+    /// Saves the edited run command.
+    private func saveRunCommandLine() {
+        
+        let commandLine = self.runCommandLine.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        UserDefaults.standard[.runCommands][self.syntaxName] = commandLine.isEmpty ? nil : commandLine
+    }
+    
+    
+    private func runCommandDescription(defaultCommand: RunCommand?) -> String {
+        
+        switch defaultCommand?.source {
+            case .builtIn:
+                String(localized: "Command-R saves a \(self.syntaxName) file and runs it with this command. Leave empty to use “\(defaultCommand?.commandLine ?? "")”.", table: "LanguageServerSettings")
+            case .script:
+                String(localized: "Command-R saves a \(self.syntaxName) file and runs it with this command. Leave empty to use your script in the Application Scripts folder.", table: "LanguageServerSettings")
+            case .settings, nil:
+                String(localized: "The command that Command-R runs a saved \(self.syntaxName) file with, such as “python3”. The file is added at the end.", table: "LanguageServerSettings")
+        }
     }
     
     

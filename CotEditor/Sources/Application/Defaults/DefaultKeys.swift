@@ -102,6 +102,7 @@ extension DefaultKeys {
     // Graupel: language servers
     static let languageServers = DefaultKey<[String: String]>("languageServers")
     static let disabledLanguageServers = DefaultKey<[String]>("disabledLanguageServers")
+    static let runCommands = DefaultKey<[String: String]>("runCommands")
     
     // Format
     static let lineEndCharCode = DefaultKey<Int>("defaultLineEndCharCode")

@@ -105,6 +105,7 @@ struct DefaultSettings {
             // Graupel: language servers (not portable, as commands depend on the Mac)
             .languageServers: [:],
             .disabledLanguageServers: [],
+            .runCommands: [:],
             
             // Format
             .lineEndCharCode: 0,

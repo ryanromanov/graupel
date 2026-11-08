@@ -36,6 +36,9 @@ Language servers are installed separately. For Boreas, install `boreas` as its
   that were never declared.
 - __Completion__: suggestions from the language server as you type; with Boreas, the names in your file, record
   fields after a dot, built-ins, and keywords. Press Esc to show the list at any time.
+- __Run__: Run > Run (Command-R) saves the document and runs it, with the output in a panel below the editor, a field
+  for typing input, and Stop. Boreas files run with `boreas`; set the command for another language in
+  Settings > Language Servers.
 - __Language Servers settings__: Graupel finds the servers of the languages it comes with by itself; use a
   different command, or add a server for another language, in Settings > Language Servers. If a server is
   missing or stops, the status bar says so.
