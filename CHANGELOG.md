@@ -1,6 +1,6 @@
 # Change Log
 
-Unreleased
+0.2.0 (2026-11-08)
 --------------------------
 
 ### New Features
