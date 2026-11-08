@@ -67,7 +67,7 @@ Project, and owes nearly all of its editing features to it. Graupel is independe
 endorsed by the CotEditor Project, so please don't report Graupel's issues to CotEditor.
 
 Graupel's own changes include language server support, the removal of the App Sandbox (so that language servers can
-run without the menu bar showing each one as a running script), and its own name, icon, settings, and Help.
+run without the menu bar showing each one as a running script), and its own name, icons, settings, and Help.
 It leaves out CotEditor's settings copies in iCloud, remote editing, and automatic updates for now.
 The full history of changes is in this repository's commit log.
 
@@ -75,6 +75,7 @@ The full history of changes is in this repository's commit log.
 ## License
 
 The source code is licensed under the __Apache License, Version 2.0__, both CotEditor's code and Graupel's changes.
-Image resources from CotEditor are © CotEditor Project and licensed under the
-[__Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License__](https://creativecommons.org/licenses/by-nc-nd/4.0/);
-Graupel uses them unmodified. The Graupel app icon is © Ryan Romanosky. See [LICENSE](LICENSE) for details.
+Graupel's images, from the app icon to the Help book's graphics, were made for Graupel and are © Ryan Romanosky.
+CotEditor's own images, which are in this repository's history, are © CotEditor Project and licensed under the
+[__Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License__](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+See [LICENSE](LICENSE) for details.
