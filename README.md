@@ -32,8 +32,8 @@ Language servers are installed separately. For Boreas, install `boreas` as its
 - Syntax highlighting, themes, find and replace with regular expressions, outline, split editor, scripting, and much
   more.
 - __Problems as you type__: errors from the language server are marked in the text, and the one at the cursor is
-  shown in the status bar. What's found depends on the server: `boreas lsp` reports syntax and link errors, but not yet
-  names that were never declared.
+  shown in the status bar. What's found depends on the server: `boreas lsp` reports syntax and link errors, and names
+  that were never declared.
 - __Completion__: suggestions from the language server as you type; with Boreas, the names in your file, record
   fields after a dot, built-ins, and keywords. Press Esc to show the list at any time.
 - __Language Servers settings__: Graupel finds the servers of the languages it comes with by itself; use a
