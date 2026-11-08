@@ -212,6 +212,71 @@ import AppKit
     }
     
     
+    /// Whether the server can find where names are declared now.
+    var canJumpToDefinition: Bool {
+        
+        guard self.isOpen, case .running = self.server.status else { return false }
+        
+        return self.server.supportsDefinition
+    }
+    
+    
+    /// Asks the server where the name at a location is declared.
+    ///
+    /// - Parameters:
+    ///   - location: The character location in the name.
+    ///   - handler: The handler called with the places, which may be empty. It isn't called if the server doesn't answer.
+    /// - Returns: Whether the server was asked; it isn't if it can't find definitions.
+    func requestDefinition(at location: Int, handler: @escaping ([LanguageServerLocation]) -> Void) -> Bool {
+        
+        guard self.isOpen, case .running = self.server.status, self.server.supportsDefinition,
+              let textStorage = self.textStorage
+        else { return false }
+        
+        self.changeDebouncer?.fire()
+        
+        let position = LanguageServerPositionConverter(string: textStorage.string as NSString).position(at: location)
+        self.server.request("textDocument/definition", params: [
+            "textDocument": ["uri": self.uri],
+            "position": ["line": position.line, "character": position.character],
+        ]) { result, error in
+            handler((error == nil) ? LanguageServerLocation.locations(result: result) : [])
+        }
+        
+        return true
+    }
+    
+    
+    /// Asks the server what to show for the name at a location.
+    ///
+    /// - Parameters:
+    ///   - location: The character location under the pointer.
+    ///   - handler: The handler called with the hover, or `nil` if the server has nothing to show or the text changed
+    ///     before it answered. It isn't called if the server doesn't answer.
+    /// - Returns: Whether the server was asked; it isn't if it can't describe names.
+    func requestHover(at location: Int, handler: @escaping (LanguageServerHover?) -> Void) -> Bool {
+        
+        guard self.isOpen, case .running = self.server.status, self.server.supportsHover,
+              let textStorage = self.textStorage
+        else { return false }
+        
+        self.changeDebouncer?.fire()
+        
+        let snapshot = (textStorage.string as NSString).copy() as! NSString
+        let position = LanguageServerPositionConverter(string: snapshot).position(at: location)
+        self.server.request("textDocument/hover", params: [
+            "textDocument": ["uri": self.uri],
+            "position": ["line": position.line, "character": position.character],
+        ]) { [weak textStorage] result, error in
+            guard error == nil, textStorage?.string == snapshot as String else { return handler(nil) }
+            
+            handler(LanguageServerHover.hover(result: result, in: snapshot))
+        }
+        
+        return true
+    }
+    
+    
     enum FormattingError: Error, Equatable {
         
         case server(String?)

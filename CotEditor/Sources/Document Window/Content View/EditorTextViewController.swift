@@ -115,6 +115,10 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
             self?.document.requestCompletions(at: location, handler: handler) ?? false
         }
         textView.completionTriggerCharactersProvider = { [weak self] in self?.document.completionTriggerCharacters ?? [] }
+        textView.definitionJumper = { [weak self] location in self?.jumpToDefinition(at: location) ?? false }
+        textView.hoverProvider = { [weak self] location, handler in
+            self?.document.requestHover(at: location, handler: handler) ?? false
+        }
         
         let scrollView = BidiScrollView()
         scrollView.hasVerticalScroller = true
@@ -352,6 +356,45 @@ final class EditorTextViewController: NSViewController, NSServicesMenuRequestor,
     // MARK: Action Messages
     
     /// Shows the Go To sheet.
+    /// Goes to where the name at the insertion point is declared. (Graupel)
+    @IBAction func jumpToDefinition(_ sender: Any?) {
+        
+        if !self.jumpToDefinition(at: self.textView.selectedRange.location) {
+            NSSound.beep()
+        }
+    }
+    
+    
+    /// Asks the language server where the name at a location is declared and goes there.
+    ///
+    /// - Parameter location: A character location in the name.
+    /// - Returns: Whether the server was asked; it isn't if it can't find definitions.
+    private func jumpToDefinition(at location: Int) -> Bool {
+        
+        let document = self.document
+        
+        return document.requestDefinition(at: location) { [weak self, weak document] locations in
+            guard let location = locations.first else { return NSSound.beep() }
+            
+            let range: (NSString) -> NSRange = { string in
+                let converter = LanguageServerPositionConverter(string: string)
+                let lower = converter.location(of: location.start)
+                return NSRange(lower..<max(lower, converter.location(of: location.end)))
+            }
+            
+            // the server names an untitled document by the made-up URI it was given
+            let isThisDocument = location.fileURL.absoluteString == document?.languageServerURI
+                || location.fileURL.standardizedFileURL == document?.fileURL?.standardizedFileURL
+            
+            if let textView = self?.textView, isThisDocument {
+                textView.select(range: range(textView.string as NSString))
+            } else {
+                NSDocumentController.shared.openTextDocument(at: location.fileURL, selecting: range)
+            }
+        }
+    }
+    
+    
     /// Asks the language server to format the whole document. (Graupel)
     @IBAction func formatDocument(_ sender: Any?) {
 
@@ -731,6 +774,9 @@ extension EditorTextViewController: NSMenuItemValidation {
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         
         switch menuItem.action {
+            case #selector(jumpToDefinition(_:)):
+                return self.document.canJumpToDefinition
+                
             case #selector(formatDocument):
                 // Graupel: enabled with a running language server, which may still say it can't format
                 return self.document.hasLanguageServer && self.textView.isEditable

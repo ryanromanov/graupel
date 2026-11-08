@@ -1111,6 +1111,12 @@ CA
                                                 <action selector="centerSelectionInVisibleArea:" target="Ady-hI-5gd" id="Weu-Fm-VgW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Jump to Definition" keyEquivalent="j" id="KBY-8H-rqZ">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="jumpToDefinition:" target="Ady-hI-5gd" id="OhQ-9i-vQV"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RmP-uk-9Kf"/>
                                         <menuItem title="Replace" secondaryImage="text.page.badge.magnifyingglass" catalog="system" tag="5" id="bnD-BP-sPi">
                                             <modifierMask key="keyEquivalentModifierMask"/>

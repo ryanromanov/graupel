@@ -3,6 +3,15 @@
 Unreleased
 --------------------------
 
+### New Features
+
+- Go to where a name is declared with Command-click or Find > Jump to Definition (Control-Command-J), and see what a
+  name is by resting the pointer on it, when the language server supports it. The Boreas server does.
+
+### Changes
+
+- Add or remove an insertion point with Control-Shift-click; Command-click now goes to a definition.
+
 ### Improvements
 
 - Add a Run/Stop button for the toolbar.

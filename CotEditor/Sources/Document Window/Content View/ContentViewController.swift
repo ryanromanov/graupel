@@ -227,27 +227,15 @@ final class ContentViewController: NSViewController {
     /// Opens the file that a link in the output points to and selects the line, or the column if it's given.
     private func open(_ link: RunOutputLink) {
         
-        Task {
-            guard
-                let (document, _) = try? await NSDocumentController.shared.openDocument(withContentsOf: link.fileURL, display: true),
-                let document = document as? TextDocument,
-                let textView = document.windowControllers
-                    .compactMap({ ($0.window?.contentViewController as? WindowContentViewController)?.documentViewController })
-                    .first(where: { $0.document == document })?.focusedTextView
-            else { return }
+        NSDocumentController.shared.openTextDocument(at: link.fileURL) { string in
+            guard let lineRange = (string as String).rangeForLine(in: FuzzyRange(location: link.line, length: 1),
+                                                                   includingLineEnding: false)
+            else { return nil }
             
-            let string = textView.string
-            guard let lineRange = string.rangeForLine(in: FuzzyRange(location: link.line, length: 1), includingLineEnding: false) else { return }
-            
-            let range = if let column = link.column, column > 0 {
-                NSRange(location: min(lineRange.location + column - 1, lineRange.upperBound), length: 0)
-            } else {
-                lineRange
+            if let column = link.column, column > 0 {
+                return NSRange(location: min(lineRange.location + column - 1, lineRange.upperBound), length: 0)
             }
-            
-            textView.window?.makeKeyAndOrderFront(nil)
-            textView.window?.makeFirstResponder(textView)
-            textView.select(range: range)
+            return lineRange
         }
     }
     

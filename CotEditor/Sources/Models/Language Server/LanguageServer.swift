@@ -70,6 +70,12 @@ import OSLog
     /// Whether the server can format a whole document (`textDocument/formatting`).
     private(set) var supportsFormatting = false
     
+    /// Whether the server finds where a name is declared (`textDocument/definition`).
+    private(set) var supportsDefinition = false
+    
+    /// Whether the server describes the name under the pointer (`textDocument/hover`).
+    private(set) var supportsHover = false
+    
     private(set) var status: Status = .launching {
         
         didSet {
@@ -282,11 +288,9 @@ import OSLog
                 self.completionTriggerCharacters = completionProvider["triggerCharacters"] as? [String] ?? []
             }
             // -> `documentFormattingProvider` is either `true` or an options object.
-            switch capabilities?["documentFormattingProvider"] {
-                case let isSupported as Bool: self.supportsFormatting = isSupported
-                case is [String: Any]: self.supportsFormatting = true
-                default: self.supportsFormatting = false
-            }
+            self.supportsFormatting = Self.isSupported(capabilities?["documentFormattingProvider"])
+            self.supportsDefinition = Self.isSupported(capabilities?["definitionProvider"])
+            self.supportsHover = Self.isSupported(capabilities?["hoverProvider"])
             
             connection.notify("initialized", params: [:])
             self.isInitialized = true
@@ -327,4 +331,18 @@ import OSLog
     
     
     private init() { }
+}
+
+
+extension LanguageServer {
+    
+    /// Whether a capability in the server's `initialize` result is on: it's either `true` or an options object.
+    nonisolated static func isSupported(_ capability: Any?) -> Bool {
+        
+        switch capability {
+            case let isSupported as Bool: isSupported
+            case is [String: Any]: true
+            default: false
+        }
+    }
 }

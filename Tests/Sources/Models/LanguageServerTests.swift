@@ -436,3 +436,57 @@ struct LanguageServerDiagnosticMarkTests {
         #expect(DiagnosticDots.positions(from: 10, width: 72).count == 21)
     }
 }
+
+
+struct LanguageServerNavigationTests {
+    
+    @Test func capabilityIsTrueOrAnOptionsObject() {
+        
+        #expect(LanguageServer.isSupported(true))
+        #expect(LanguageServer.isSupported(["workDoneProgress": false]))
+        #expect(!LanguageServer.isSupported(false))
+        #expect(!LanguageServer.isSupported(nil))
+    }
+    
+    
+    @Test func locationLocationLinkAndArrays() {
+        
+        let range: [String: Any] = ["start": ["line": 3, "character": 2], "end": ["line": 3, "character": 7]]
+        let location: [String: Any] = ["uri": "file:///tmp/a%20b.bor", "range": range]
+        let link: [String: Any] = ["targetUri": "file:///tmp/c.bor", "targetRange": ["start": ["line": 0, "character": 0], "end": ["line": 9, "character": 0]],
+                                   "targetSelectionRange": range]
+        
+        let expected = LanguageServerLocation(fileURL: URL(filePath: "/tmp/a b.bor"), start: .init(line: 3, character: 2), end: .init(line: 3, character: 7))
+        #expect(LanguageServerLocation.locations(result: location) == [expected])
+        #expect(LanguageServerLocation.locations(result: [location]) == [expected])
+        #expect(LanguageServerLocation.locations(result: [link]).first?.start == .init(line: 3, character: 2))  // the name, not the whole declaration
+        #expect(LanguageServerLocation.locations(result: nil).isEmpty)
+        #expect(LanguageServerLocation.locations(result: ["uri": "https://example.com", "range": range]).isEmpty)
+    }
+    
+    
+    @Test func hoverContents() throws {
+        
+        let string = "program t\n  real :: total\nend program\n" as NSString
+        
+        let markup = try #require(LanguageServerHover.hover(result: [
+            "contents": ["kind": "markdown", "value": "```boreas\nreal :: total\n```"],
+            "range": ["start": ["line": 1, "character": 10], "end": ["line": 1, "character": 15]],
+        ], in: string))
+        #expect(markup.isMarkdown)
+        #expect(markup.range == NSRange(location: 20, length: 5))
+        #expect(markup.parts.map(\.text) == ["real :: total"])
+        #expect(markup.parts.map(\.isCode) == [true])
+        
+        let plain = try #require(LanguageServerHover.hover(result: ["contents": ["kind": "plaintext", "value": "a *b*"]], in: string))
+        #expect(!plain.isMarkdown)
+        #expect(plain.parts.map(\.text) == ["a *b*"])
+        
+        let marked = try #require(LanguageServerHover.hover(result: ["contents": [["language": "python", "value": "x = 1"], "A *note*."]], in: string))
+        #expect(marked.parts.map(\.text) == ["x = 1", "A *note*."])
+        #expect(marked.parts.map(\.isCode) == [true, false])
+        
+        #expect(LanguageServerHover.hover(result: ["contents": ""], in: string) == nil)
+        #expect(LanguageServerHover.hover(result: nil, in: string) == nil)
+    }
+}

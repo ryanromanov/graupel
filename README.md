@@ -36,6 +36,9 @@ Language servers are installed separately. For Boreas, install `boreas` as its
   that were never declared.
 - __Completion__: suggestions from the language server as you type; with Boreas, the names in your file, record
   fields after a dot, built-ins, and keywords. Press Esc to show the list at any time.
+- __Go to definition and hover__: Command-click a name (or Find > Jump to Definition, Control-Command-J) to go to its
+  declaration, and rest the pointer on it to see what it is, when the language server supports it, as `boreas lsp`
+  does.
 - __Run__: Run > Run (Command-R) saves the document and runs it, with the output in a panel below the editor, a field
   for typing input, and Stop. Boreas files run with `boreas`; set the command for another language in
   Settings > Language Servers.

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="go to definition, jump to definition, declaration, hover, Command-click, language server, quick help">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Go to a definition</title>
+</head>
+
+<body>
+<a name="howto_go_to_definition"></a>
+
+<h1>Go to a definition</h1>
+
+<p>When a language server supports it, Graupel can take you to where a name is declared and show what the name is when you hold the pointer over it. Both come from the document’s language server; see <a href="about_language_servers.html">Language servers</a>.</p>
+
+
+<section>
+<h2>Go to where a name is declared</h2>
+
+<ul>
+	<li><p>Command-click the name.</p></li>
+	<li><p>Or put the insertion point in the name and choose <strong>Find &gt; Jump to Definition</strong> (Control-Command-J).</p></li>
+</ul>
+
+<p>Graupel selects the name where it’s declared. If that’s in another file, Graupel opens the file. If the server can’t find a declaration, Graupel beeps. If the document’s language server doesn’t support going to definitions, <strong>Jump to Definition</strong> is dimmed and Command-click beeps.</p>
+
+<p>To add an insertion point with the mouse instead, Control-Shift-click. See <a href="howto_edit_multiple_points.html">Type in several places at once</a>.</p>
+</section>
+
+
+<section>
+<h2>See what a name is</h2>
+
+<p>Rest the pointer on a name for about half a second. A small window shows what the language server says about the name, such as how it’s declared. Moving the pointer off the name, typing, scrolling, or clicking closes it.</p>
+
+<p>On a problem’s dotted underline, the problem’s message shows instead. See <a href="howto_see_problems.html">See problems in your code</a>.</p>
+</section>
+
+
+<section>
+<h2>In Boreas</h2>
+
+<p>The Boreas server finds the names declared in the same file: variables, parameters, functions and subroutines, records, record fields after a dot, and modules and the names imported from them. Holding the pointer over a name shows its declaration; over a built-in function, it says so.</p>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="about_language_servers.html">Language servers</a></li>
+	<li><a href="about_boreas.html">Write Boreas</a></li>
+</ul>
+</section>
+
+</body>
+</html>

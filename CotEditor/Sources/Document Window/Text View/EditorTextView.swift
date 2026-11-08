@@ -145,6 +145,15 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     /// Returns the characters after which the language server suggests completions.
     var completionTriggerCharactersProvider: (() -> [String])?
     
+    /// Asks a language server where the name at a location is declared and goes there, and returns whether it was asked.
+    var definitionJumper: ((_ location: Int) -> Bool)?
+    
+    /// Asks a language server what to show for the name at a location, and returns whether it was asked.
+    var hoverProvider: ((_ location: Int, _ handler: @escaping (LanguageServerHover?) -> Void) -> Bool)?
+    
+    /// Shows what the language server says about the name under the pointer.
+    private(set) lazy var hoverController = TextViewHoverController(textView: self)
+    
     
     // MARK: Private Properties
     
@@ -330,6 +339,46 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     }
     
     
+    override func updateTrackingAreas() {
+        
+        super.updateTrackingAreas()
+        
+        self.hoverController.updateTrackingArea()
+    }
+    
+    
+    override func keyDown(with event: NSEvent) {
+        
+        self.hoverController.close()
+        
+        super.keyDown(with: event)
+    }
+    
+    
+    override func mouseMoved(with event: NSEvent) {
+        
+        super.mouseMoved(with: event)
+        
+        self.hoverController.mouseMoved(to: self.convert(event.locationInWindow, from: nil))
+    }
+    
+    
+    override func mouseExited(with event: NSEvent) {
+        
+        super.mouseExited(with: event)
+        
+        self.hoverController.mouseExited()
+    }
+    
+    
+    override func scrollWheel(with event: NSEvent) {
+        
+        self.hoverController.close()
+        
+        super.scrollWheel(with: event)
+    }
+    
+    
     override func viewDidMoveToWindow() {
         
         super.viewDidMoveToWindow()
@@ -429,6 +478,44 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     
     override func mouseDown(with event: NSEvent) {
         
+        self.hoverController.close()
+        
+        let modifiers = event.modifierFlags.intersection([.command, .shift, .option, .control])
+        
+        // Control-Shift-click adds or removes an insertion point, as Command-click does in CotEditor
+        if modifiers == [.control, .shift],
+           let commandEvent = NSEvent.mouseEvent(with: event.type, location: event.locationInWindow,
+                                                 modifierFlags: event.modifierFlags.subtracting([.control, .shift]).union(.command),
+                                                 timestamp: event.timestamp, windowNumber: event.windowNumber, context: nil,
+                                                 eventNumber: event.eventNumber, clickCount: event.clickCount, pressure: event.pressure)
+        {
+            return self.trackMouseDown(with: commandEvent)
+        }
+        
+        // Command-click goes to the definition of the clicked name; Command-drag still adds a selection
+        if modifiers == .command, event.clickCount == 1, let definitionJumper = self.definitionJumper, let window = self.window,
+           let next = window.nextEvent(matching: [.leftMouseUp, .leftMouseDragged])
+        {
+            guard next.type == .leftMouseUp else {
+                window.postEvent(next, atStart: true)
+                return self.trackMouseDown(with: event)
+            }
+            
+            let location = self.characterIndexForInsertion(at: self.convert(event.locationInWindow, from: nil))
+            self.setSelectedRange(NSRange(location: location, length: 0))
+            if !definitionJumper(location) {
+                NSSound.beep()
+            }
+            return
+        }
+        
+        self.trackMouseDown(with: event)
+    }
+    
+    
+    /// Selects with the mouse: the click and drag that NSTextView handles, plus adding insertion points.
+    private func trackMouseDown(with event: NSEvent) {
+        
         self.mouseDownPoint = self.convert(event.locationInWindow, from: nil)
         self.isPerformingRectangularSelection = event.modifierFlags.contains(.option)
         self.needsUpdateInsertionIndicators = true  // to draw dummy indicator for proper one while selecting
@@ -485,6 +572,8 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     override func didChangeText() {
         
         super.didChangeText()
+        
+        self.hoverController.close()
         
         self.invalidateNonContiguousLayout()
         
@@ -859,6 +948,11 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
     
     
     override func menu(for event: NSEvent) -> NSMenu? {
+        
+        // Control-Shift-click adds an insertion point instead of showing the menu
+        if event.type == .leftMouseDown, event.modifierFlags.intersection([.command, .shift, .option, .control]) == [.control, .shift] {
+            return nil
+        }
         
         guard let menu = super.menu(for: event) else { return nil }
         

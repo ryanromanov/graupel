@@ -1308,6 +1308,38 @@ extension NSTextView: EditorCounter.Source { }
     }
     
     
+    /// The URI the language server knows the document by; an untitled document has a made-up one.
+    var languageServerURI: String? {
+        
+        self.languageServerSession?.uri
+    }
+    
+    
+    /// Whether the language server can find where names are declared.
+    var canJumpToDefinition: Bool {
+        
+        self.languageServerSession?.canJumpToDefinition ?? false
+    }
+    
+    
+    /// Asks the language server where the name at a location is declared.
+    ///
+    /// - Returns: Whether a server was asked.
+    func requestDefinition(at location: Int, handler: @escaping ([LanguageServerLocation]) -> Void) -> Bool {
+        
+        self.languageServerSession?.requestDefinition(at: location, handler: handler) ?? false
+    }
+    
+    
+    /// Asks the language server what to show for the name at a location.
+    ///
+    /// - Returns: Whether a server was asked.
+    func requestHover(at location: Int, handler: @escaping (LanguageServerHover?) -> Void) -> Bool {
+        
+        self.languageServerSession?.requestHover(at: location, handler: handler) ?? false
+    }
+    
+    
     /// Updates `diagnosticAtCursor` for the cursor in the focused text view.
     func invalidateDiagnosticAtCursor() {
         
