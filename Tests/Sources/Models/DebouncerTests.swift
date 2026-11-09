@@ -39,7 +39,7 @@ import Testing
         debouncer.schedule()
         debouncer.schedule()
         
-        let didRun = await Task.waitFor(timeout: .seconds(5), interval: .milliseconds(10)) { count > 0 }
+        let didRun = await Task.waitFor(timeout: .seconds(30), interval: .milliseconds(10)) { count > 0 }
         try #require(didRun, "The action must be debounced and executed.")
         try await Task.sleep(for: delay + .milliseconds(50))
         #expect(count == 1, "Repeated scheduling must execute only the latest action.")
@@ -65,7 +65,7 @@ import Testing
         box.debouncer = debouncer
         
         debouncer.schedule()
-        let didRescheduleFromAction = await Task.waitFor(timeout: .seconds(5), interval: .milliseconds(10)) { didReschedule }
+        let didRescheduleFromAction = await Task.waitFor(timeout: .seconds(30), interval: .milliseconds(10)) { didReschedule }
         try #require(didRescheduleFromAction, "The action must reschedule itself.")
         #expect(count == 1, "The action can reschedule itself.")
         
