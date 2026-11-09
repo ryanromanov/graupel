@@ -46,12 +46,15 @@ jobs:
           sw_vers
           xcodebuild -version
       # The default build signs ad hoc (Configurations/CodeSigning-AdHoc.xcconfig), so no certificate is needed.
+      # The tests run without entitlements: the test targets have no entitlements file, and under the app's
+      # hardened-heap entitlement the test host runs out of allocation space with many tests in parallel.
       - name: Test
         run: |
           xcodebuild test \
             -project Graupel.xcodeproj -scheme Graupel -configuration Debug \
             -testPlan Tests -derivedDataPath build \
-            -skipPackagePluginValidation -skipMacroValidation
+            -skipPackagePluginValidation -skipMacroValidation \
+            CODE_SIGN_ENTITLEMENTS=
       - name: Build and launch a Release build
         run: |
           set -eu
