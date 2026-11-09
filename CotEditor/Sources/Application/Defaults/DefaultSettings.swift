@@ -136,9 +136,6 @@ struct DefaultSettings {
                              scope: "CSS"),
             ].map(\.dictionary),
             
-            // Donation
-            .donationBadgeType: BadgeType.mug.rawValue,
-            
             // print
             .printFontSize: NSFont.systemFontSize,
             .printBackground: false,

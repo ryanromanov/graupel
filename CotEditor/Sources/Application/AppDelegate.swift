@@ -97,8 +97,6 @@ extension Logger {
     
     private lazy var settingsWindowController = SettingsWindowController<SettingsPane>()
     private weak var aboutPanel: NSPanel?
-    private weak var whatsNewPanel: NSPanel?
-    private weak var donationPanel: NSPanel?
     
     @IBOutlet private weak var encodingsMenu: NSMenu?
     @IBOutlet private weak var syntaxesMenu: NSMenu?
@@ -177,8 +175,6 @@ extension Logger {
         NSTouchBar.isAutomaticCustomizeTouchBarMenuItemEnabled = true
         
         let lastVersion = UserDefaults.standard[.lastVersion].flatMap(Int.init)
-        
-        // Graupel: don't show What's New, which describes CotEditor releases
         
         // store the latest version
         // -> Migration processes should be completed up to this point.
@@ -323,40 +319,10 @@ extension Logger {
     }
     
     
-    /// Shows the What's New panel.
-    @IBAction func showWhatsNew(_ sender: Any?) {
-        
-        let panel = self.whatsNewPanel ?? NSPanel(view: WhatsNewView())
-        self.whatsNewPanel = panel
-        
-        panel.makeKeyAndOrderFront(sender)
-    }
-    
-    
     /// Shows the Settings window.
     @IBAction func showSettingsWindow(_ sender: Any?) {
         
         self.settingsWindowController.showWindow(sender)
-    }
-    
-    
-    /// Shows the Donation window.
-    @IBAction func showDonationWindow(_ sender: Any?) {
-        
-        let panel: NSPanel
-        if let donationPanel {
-            panel = donationPanel
-        } else {
-            let viewController = NSHostingController(rootView: DonationView().scenePadding())
-            panel = NSPanel(contentViewController: viewController)
-            panel.title = String(localized: "Donation", table: "Donation", comment: "window title")
-            panel.hidesOnDeactivate = false
-            panel.setContentSize(viewController.view.intrinsicContentSize)  // needs for window centering
-            panel.center()
-        }
-        self.donationPanel = panel
-        
-        panel.makeKeyAndOrderFront(nil)
     }
     
     

@@ -509,7 +509,7 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
     }
     
     
-    /// Opens the selected items in new CotEditor windows.
+    /// Opens the selected items in new Graupel windows.
     @IBAction func openInNewWindow(_ sender: Any?) {
         
         let nodes = self.targetNodes(for: sender)

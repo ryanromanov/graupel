@@ -111,7 +111,7 @@ enum CloudSettingsError: LocalizedError {
     /// Creates a manager for an iCloud container or a local container used for testing.
     ///
     /// - Parameters:
-    ///   - containerURL: A local container URL, or `nil` to use CotEditor's iCloud container.
+    ///   - containerURL: A local container URL, or `nil` to use the app's iCloud container.
     ///   - defaults: The user defaults store to observe and export.
     init(containerURL: URL? = nil, defaults: UserDefaults = .standard) {
         
@@ -534,7 +534,7 @@ enum CloudSettingsError: LocalizedError {
     
     /// Resolves the settings directory in the currently available container.
     ///
-    /// - Parameter containerURL: A local container URL, or `nil` to resolve CotEditor's iCloud container.
+    /// - Parameter containerURL: A local container URL, or `nil` to resolve the app's iCloud container.
     /// - Returns: The settings directory's URL.
     /// - Throws: An error if iCloud is unavailable.
     @concurrent private static func settingsDirectoryURL(containerURL: URL?) async throws(CloudSettingsError) -> URL {

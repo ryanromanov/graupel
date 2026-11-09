@@ -24,7 +24,6 @@
 //
 
 import SwiftUI
-import StoreKit
 import Combine
 import ControlUI
 import Defaults
@@ -53,9 +52,6 @@ struct StatusBar: View {
     
     @AppStorage(.prefersOpaqueBarBackground) private var prefersOpaqueBarBackground
     @AppStorage(.showStatusBar) private var showsStatusBar
-    @AppStorage(.donationBadgeType) private var badgeType
-    
-    @State private var hasDonated: Bool = false
     
     
     var body: some View {
@@ -74,10 +70,6 @@ struct StatusBar: View {
     @ContentBuilder private var contentView: some View {
         
         HStack {
-            if self.hasDonated, self.badgeType != .invisible {
-                CoffeeBadge(type: self.badgeType)
-            }
-            
             if let document = self.model.document as? TextDocument {
                 if !document.isEditable {
                     NotEditableBadge()
@@ -125,10 +117,6 @@ struct StatusBar: View {
                 self.model.onDisappear()
             }
         }
-        .subscriptionStatusTask(for: Donation.groupID) { taskState in
-            self.hasDonated = taskState.value?.map(\.state)
-                .contains { [.subscribed, .inGracePeriod].contains($0) } == true
-        }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(.init("Status Bar", table: "Document", comment: "accessibility label"))
         .buttonStyle(.borderless)
@@ -148,8 +136,6 @@ struct StatusBar: View {
         }
         .background(.windowBackground.opacity(self.prefersOpaqueBarBackground ? 1 : 0))
         .animation(.default, value: self.prefersOpaqueBarBackground)
-        .animation(.default, value: self.hasDonated)
-        .animation(.default, value: self.badgeType)
     }
 }
 
@@ -201,30 +187,6 @@ private extension StatusBar.Model {
         if let document = document as? TextDocument, self.isActive {
             document.counter.statusBarRequirements = UserDefaults.standard.statusBarEditorInfo
         }
-    }
-}
-
-
-private struct CoffeeBadge: View {
-    
-    var type: BadgeType
-    
-    @State private var isMessagePresented = false
-    
-    
-    var body: some View {
-        
-        Toggle(self.type.label, systemImage: self.type.symbolName, isOn: $isMessagePresented)
-            .toggleStyle(.button)
-            .fontWeight(.semibold)
-            .labelStyle(.iconOnly)
-            .fixedSize()
-            .popover(isPresented: $isMessagePresented) {
-                Text("Thank you for your kind support!", tableName: "Document", comment: "message for users who made a donation")
-                    .padding(.vertical, 8)
-                    .padding(.horizontal)
-            }
-            .padding(.trailing, 8)
     }
 }
 

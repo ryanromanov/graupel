@@ -441,7 +441,7 @@ extension TextDocument {
     /// those setters are invoked while `self.viewController` is still `nil`.
     /// Therefore, to avoid ignoring initialization, this method asynchronously waits for the DocumentViewController is available, and then sets the value.
     ///
-    ///     tell application "CotEditor"
+    ///     tell application "Graupel"
     ///         make new document with properties { name: "Untitled.txt", tab width: 16 }
     ///     end tell
     ///

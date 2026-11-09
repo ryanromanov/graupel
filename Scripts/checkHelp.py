@@ -25,7 +25,6 @@ PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleSc
 
 # anchors the app names that have no page on purpose
 UNUSED_ANCHORS = {
-    "about_donation",     # the donation window can't be opened
     "howto_edit_remote",  # remote editing is hidden (RemoteEditingController.isAvailable)
     "howto_store_settings_in_icloud",  # iCloud copies are hidden (CloudSettingsManager.isAvailable)
 }

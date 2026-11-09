@@ -81,7 +81,6 @@
         {
           "target": "CotEditor",
           "exclusions": [
-            "CotEditor.storekit",
             "Info.plist",
             "Resources/graupel",
           ],
@@ -264,7 +263,7 @@
         "compile-sources",
       ],
       "build-settings": {
-        "PRODUCT_BUNDLE_IDENTIFIER": "com.wolfrosch.CotEditorUITests",
+        "PRODUCT_BUNDLE_IDENTIFIER": "com.ryanromanov.GraupelUITests",
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "TEST_TARGET_NAME": "CotEditor",
       },
