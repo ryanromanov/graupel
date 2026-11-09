@@ -470,6 +470,8 @@ struct RMateTests {
     /// - Throws: An error if creating or saving the document fails.
     @Test(.timeLimit(.minutes(1))) @MainActor func closingSavesEditsDuringTransmission() async throws {
         
+        // With "Ask to keep changes when closing documents" on in System Settings, AppKit would ask instead of saving.
+        // The Tests test plan turns it off with the launch argument `-NSCloseAlwaysConfirmsChanges NO`.
         let (document, url) = try self.makeDisconnectedDocument()
         defer { self.remove(document, url: url) }
         

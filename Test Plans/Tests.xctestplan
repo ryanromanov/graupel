@@ -10,6 +10,11 @@
   ],
   "defaultOptions" : {
     "codeCoverage" : true,
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-NSCloseAlwaysConfirmsChanges NO"
+      }
+    ],
     "testLanguage" : "en"
   },
   "testTargets" : [
