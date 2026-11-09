@@ -1,75 +1,80 @@
 name: Test
 
-# Graupel: run by hand for now; `xcode-27` is a runner label of CotEditor's setup, which this repository doesn't have
-on: workflow_dispatch
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
-  XCODE_VERSION: "27.0"
+  # GitHub's Xcode 27 image (in preview); match the Xcode used for releases.
+  DEVELOPER_DIR: /Applications/Xcode_27.2.app
 
 jobs:
   packages:
-    name: Unit Test for ${{ matrix.package }}
+    name: ${{ matrix.package }} tests
     runs-on: xcode-27
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        package:
-          - EditorCore
-          - MacUI
-          - Syntax
-
+        package: [EditorCore, MacUI, Syntax]
     steps:
-    - name: Set Xcode version
-      run: echo "DEVELOPER_DIR=/Applications/Xcode_${XCODE_VERSION}.app" >> "$GITHUB_ENV"
-    - name: Show environments
-      run: |
-        sw_vers
-        xcodebuild -version
-        swift --version
-    - name: Checkout
-      uses: actions/checkout@v7
-    - name: Cache SwiftPM build products
-      uses: actions/cache@v6
-      with:
-        path: Packages/${{ matrix.package }}/.build
-        key: ${{ runner.os }}-${{ runner.arch }}-xcode-${{ env.XCODE_VERSION }}-spm-${{ matrix.package }}-${{ hashFiles(format('Packages/{0}/Package.swift', matrix.package), format('Packages/{0}/Package.resolved', matrix.package)) }}
-        restore-keys: |
-          ${{ runner.os }}-${{ runner.arch }}-xcode-${{ env.XCODE_VERSION }}-spm-${{ matrix.package }}-
-    - name: Unit Test for ${{ matrix.package }}
-      run: |
-        swift test --package-path "Packages/${{ matrix.package }}"
+      - uses: actions/checkout@v7
+      - name: Show versions
+        run: |
+          sw_vers
+          xcodebuild -version
+      - name: Test
+        run: swift test --package-path Packages/${{ matrix.package }}
 
-  macOS:
-    name: Tests for Graupel
+  app:
+    name: App tests
     runs-on: xcode-27
-
+    timeout-minutes: 45
     steps:
-    - name: Set Xcode version
-      run: echo "DEVELOPER_DIR=/Applications/Xcode_${XCODE_VERSION}.app" >> "$GITHUB_ENV"
-    - name: Show environments
-      run: |
-        sw_vers
-        xcodebuild -version
-        swift --version
-    - name: Checkout
-      uses: actions/checkout@v7
-    - name: Unit Test for Graupel
-      run: |
-        xcodebuild test -scheme Graupel CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= CODE_SIGN_ENTITLEMENTS_SUFFIX=-AdHoc -skipPackagePluginValidation
-    - name: Release Build Smoke Test
-      run: |
-        set -euo pipefail
-        app_binary="/tmp/GraupelInstall/Applications/Graupel.app/Contents/MacOS/Graupel"
-        rm -rf /tmp/GraupelInstall
-        xcodebuild install -scheme Graupel -configuration Release DSTROOT=/tmp/GraupelInstall CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= CODE_SIGN_ENTITLEMENTS_SUFFIX=-AdHoc -skipPackagePluginValidation
-        "${app_binary}" >/dev/null 2>&1 &
-        app_pid=$!
-        sleep 5
-        if ! kill -0 "${app_pid}" 2>/dev/null; then
-          echo "Graupel terminated unexpectedly during launch smoke test."
-          exit 1
-        fi
-        kill "${app_pid}" 2>/dev/null || true
+      - uses: actions/checkout@v7
+      - name: Show versions
+        run: |
+          sw_vers
+          xcodebuild -version
+      # The default build signs ad hoc (Configurations/CodeSigning-AdHoc.xcconfig), so no certificate is needed.
+      - name: Test
+        run: |
+          xcodebuild test \
+            -project Graupel.xcodeproj -scheme Graupel -configuration Debug \
+            -testPlan Tests -derivedDataPath build \
+            -skipPackagePluginValidation -skipMacroValidation
+      - name: Build and launch a Release build
+        run: |
+          set -eu
+          xcodebuild build \
+            -project Graupel.xcodeproj -scheme Graupel -configuration Release \
+            -derivedDataPath build \
+            -skipPackagePluginValidation -skipMacroValidation \
+            > release-build.log 2>&1 || { tail -40 release-build.log; exit 1; }
+          app=build/Build/Products/Release/Graupel.app
+          "$app/Contents/MacOS/Graupel" > /dev/null 2>&1 &
+          pid=$!
+          sleep 10
+          if ! kill -0 "$pid" 2> /dev/null; then
+            echo "Graupel quit within 10 seconds of launching" >&2
+            exit 1
+          fi
+          kill "$pid"
+
+  help:
+    name: Help check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check the Help book
+        run: python3 Scripts/checkHelp.py
