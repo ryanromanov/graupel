@@ -1,5 +1,18 @@
 # Change Log
 
+0.4.0 (2026-11-09)
+--------------------------
+
+### New Features
+
+- Graupel now updates itself. It checks for a new version once a day, or when you choose Graupel > Check for Updates,
+  and shows what changed before installing. Change this under Updates in General settings.
+
+### Notes
+
+- Graupel 0.3.1 and earlier can't update themselves, so this version has to be installed by hand or with Homebrew.
+
+
 0.3.1 (2026-11-09)
 --------------------------
 
