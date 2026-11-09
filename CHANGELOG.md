@@ -1,5 +1,13 @@
 # Change Log
 
+0.4.1 (2026-11-09)
+--------------------------
+
+### Notes
+
+- This release checks that Graupel 0.4.0 can update itself. Nothing else changed.
+
+
 0.4.0 (2026-11-09)
 --------------------------
 
