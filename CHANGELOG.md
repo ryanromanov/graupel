@@ -1,5 +1,18 @@
 # Change Log
 
+0.3.1 (2026-11-09)
+--------------------------
+
+### Improvements
+
+- Boreas: highlight the new built-in function `cshift`.
+
+### Fixes
+
+- Document windows no longer ask the App Store about a donation subscription, which was left over from CotEditor.
+- Help: correct what the source code page says about images.
+
+
 0.3.0 (2026-11-08)
 --------------------------
 
