@@ -28,7 +28,10 @@
 
 CODE_SIGN_ENTITLEMENTS = CotEditor/$(PRODUCT_MODULE_NAME)$(CODE_SIGN_ENTITLEMENTS_SUFFIX).entitlements
 
-EXCLUDED_SOURCE_FILE_NAMES = $(inherited) Sparkle*
+// Sparkle reads these from Info.plist. The feed is the appcast.xml attached to the latest GitHub release;
+// Scripts/release.sh makes it. The key is the public half of the EdDSA pair kept in the release Mac's keychain.
+GRAUPEL_UPDATE_FEED_URL = https:/$()/github.com/ryanromanov/graupel/releases/latest/download/appcast.xml
+GRAUPEL_UPDATE_PUBLIC_KEY = kQyzbChUxbHXLGwUEwmXPURx3kqedjGcAD2xF5TdcRk=
 
 // Code signing may need to override any predefined values.
 // Therefore, it should be included at the end.

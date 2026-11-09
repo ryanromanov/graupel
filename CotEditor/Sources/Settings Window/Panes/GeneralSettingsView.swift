@@ -25,15 +25,8 @@
 
 import SwiftUI
 import Defaults
-import SemanticVersioning
 
 struct GeneralSettingsView: View {
-    
-#if SPARKLE
-    var showsUpdaterSettings = true
-#else
-    var showsUpdaterSettings = false
-#endif
     
     @Environment(\.locale) private var locale
     
@@ -217,10 +210,9 @@ struct GeneralSettingsView: View {
                 }
             }
             
-            if self.showsUpdaterSettings {
-                Divider()
-                UpdaterView()
-            }
+            Divider()
+            
+            UpdatesSettingView()
             
             HStack {
                 Spacer()
@@ -397,32 +389,23 @@ private struct SettingsImportMenu: View {
 }
 
 
-private struct UpdaterView: View {
+private struct UpdatesSettingView: View {
     
-    @AppStorage("SUEnableAutomaticChecks") private var enableAutomaticUpdateChecks: Bool = true
-    @AppStorage(.checksUpdatesForBeta) private var checksUpdatesForBeta: Bool
+    @ObservedObject private var updater = SoftwareUpdater.shared
     
     
     var body: some View {
         
         GridRow {
-            Text("Software update:", tableName: "GeneralSettings")
+            Text("Updates:", tableName: "GeneralSettings")
                 .gridColumnAlignment(.trailing)
             
             VStack(alignment: .leading) {
-                Toggle(.init("Check for updates automatically", table: "GeneralSettings", comment: "verb; checkbox"), isOn: $enableAutomaticUpdateChecks)
+                Toggle(String(localized: "Look for new versions automatically", table: "GeneralSettings", comment: "checkbox"), isOn: $updater.checksAutomatically)
                 
-                VStack(alignment: .leading, spacing: 2) {
-                    Toggle(.init("Update to prereleases when available", table: "GeneralSettings", comment: "verb; checkbox"), isOn: $checksUpdatesForBeta)
-                    
-                    if Bundle.main.version!.isPrerelease {
-                        Text("Regardless of this setting, new prereleases are always included while using a prerelease.", tableName: "GeneralSettings")
-                            .foregroundStyle(.secondary)
-                            .controlSize(.small)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.leading, 20)
-                    }
-                }
+                Toggle(String(localized: "Download and install them without asking", table: "GeneralSettings", comment: "checkbox; them refers to new versions of the app"), isOn: $updater.installsAutomatically)
+                    .disabled(!self.updater.checksAutomatically)
+                    .padding(.leading, 20)
             }
         }
     }
@@ -510,12 +493,7 @@ private extension DocumentConflictOption {
 // MARK: - Preview
 
 #Preview {
-    GeneralSettingsView(showsUpdaterSettings: false)
-        .scenePadding()
-}
-
-#Preview("with Sparkle") {
-    GeneralSettingsView(showsUpdaterSettings: true)
+    GeneralSettingsView()
         .scenePadding()
 }
 

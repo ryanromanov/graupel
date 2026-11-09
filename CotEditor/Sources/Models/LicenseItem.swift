@@ -34,11 +34,7 @@ struct LicenseItem {
     var description: LocalizedStringResource?
     
     
-#if SPARKLE
     static let items = Self.commonItems + [.sparkle]
-#else
-    static let items = Self.commonItems
-#endif
     
     private static let commonItems = [
         Self(name: "swift-tree-sitter",
@@ -163,9 +159,7 @@ struct LicenseItem {
                    © 2014 Big Nerd Ranch.
                    All rights reserved.
                    """,
-        license: .custom("Sparkle"),
-        description: .init("only on non-AppStore version", table: "About",
-                           comment: "annotation for the Sparkle framework license")
+        license: .custom("Sparkle")
     )
 }
 

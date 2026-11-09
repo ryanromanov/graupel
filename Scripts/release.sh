@@ -1,7 +1,8 @@
 #!/bin/sh
 #
 # Builds a release of Graupel: signs it with the Developer ID certificate, has Apple notarize it,
-# and zips the result. Nothing is uploaded anywhere except to Apple's notary service.
+# zips the result, and makes the signed update feed (appcast.xml) for Sparkle. Nothing is uploaded
+# anywhere except to Apple's notary service.
 #
 #   Scripts/release.sh               sign, notarize, staple, and zip
 #   Scripts/release.sh --sign-only   stop after signing and checking, without contacting Apple
@@ -11,12 +12,18 @@
 #   xcrun notarytool store-credentials graupel-notary --apple-id <email> --team-id KL362RST7H
 #
 # NOTARY_PROFILE names a different keychain profile.
+#
+# The update feed is signed with the EdDSA key stored in the keychain under the account "graupel",
+# made once with Sparkle's generate_keys. Its public half is GRAUPEL_UPDATE_PUBLIC_KEY in
+# Configurations/CotEditor.xcconfig. If the private key is lost, no installed copy can update again.
 
 set -eu
 
 cd "$(dirname "$0")/.."
 
 team=KL362RST7H
+key_account=graupel
+repo=https://github.com/ryanromanov/graupel
 profile=${NOTARY_PROFILE:-graupel-notary}
 output=build-release
 archive="$output/Graupel.xcarchive"
@@ -50,6 +57,14 @@ xcodebuild archive \
     CODE_SIGN_IDENTITY="Developer ID Application" CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$team" \
     ENTITLEMENTS_VARIANT=DeveloperID \
     > "$output/archive.log" 2>&1 || { tail -30 "$output/archive.log" >&2; exit 1; }
+
+sparkle_bin="$output/derived/SourcePackages/artifacts/sparkle/Sparkle/bin"
+public_key=$(sed -n 's/^GRAUPEL_UPDATE_PUBLIC_KEY = *//p' Configurations/CotEditor.xcconfig)
+keychain_key=$("$sparkle_bin/generate_keys" --account "$key_account" -p 2>/dev/null || true)
+if [ -z "$public_key" ] || [ "$public_key" != "$keychain_key" ]; then
+    echo "error: GRAUPEL_UPDATE_PUBLIC_KEY doesn't match the update key in the keychain (account \"$key_account\")" >&2
+    exit 1
+fi
 
 echo "==> Signing (log: $output/export.log)"
 xcodebuild -exportArchive \
@@ -103,4 +118,22 @@ spctl --assess --type execute --verbose "$app"
 ditto -c -k --keepParent "$app" "$zip"
 # The Homebrew tap's update workflow checks the zip against this file, so attach both to the release.
 (cd "$output" && shasum -a 256 "$(basename "$zip")" > "$(basename "$zip").sha256")
-echo "Done: $zip and $zip.sha256"
+
+echo "==> Making the update feed"
+# The feed lists only this version: Sparkle reads it from the latest release, and older entries would never be offered.
+feed_dir="$output/appcast"
+rm -rf "$feed_dir" "$output/appcast.xml"
+mkdir -p "$feed_dir"
+cp "$zip" "$feed_dir/"
+python3 Scripts/releaseNotes.py "$version" < CHANGELOG.md > "$feed_dir/Graupel-$version.html"
+"$sparkle_bin/generate_appcast" "$feed_dir" \
+    --account "$key_account" \
+    --download-url-prefix "$repo/releases/download/v$version/" \
+    --embed-release-notes \
+    --full-release-notes-url "$repo/releases/tag/v$version" \
+    --link "$repo" \
+    --maximum-deltas 0 \
+    -o "$output/appcast.xml"
+rm -rf "$feed_dir"
+
+echo "Done: attach $zip, $zip.sha256, and $output/appcast.xml to the release"

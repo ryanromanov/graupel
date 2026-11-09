@@ -19,6 +19,12 @@
                                                 <action selector="showAboutPanel:" target="Ady-hI-5gd" id="u8D-Wn-gmq"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Check for Updates…" id="gRp-up-d8C">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="checkForUpdates:" target="Ady-hI-5gd" id="gRp-up-a7N"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="202"/>
                                         <menuItem title="Settings…" image="gear" catalog="system" keyEquivalent="," id="129">
                                             <connections>

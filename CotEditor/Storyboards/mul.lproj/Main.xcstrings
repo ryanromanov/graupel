@@ -28800,6 +28800,18 @@
           }
         }
       }
+    },
+    "gRp-up-d8C.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Check for Updates…\"; ObjectID = \"gRp-up-d8C\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Check for Updates…"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

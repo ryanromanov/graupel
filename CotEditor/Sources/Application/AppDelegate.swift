@@ -156,9 +156,7 @@ extension Logger {
         
         self.prepareMainMenu()
         
-        #if SPARKLE
-        UpdaterManager.shared.setup()
-        #endif
+        _ = SoftwareUpdater.shared
     }
     
     

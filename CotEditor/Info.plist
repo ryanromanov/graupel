@@ -152,6 +152,10 @@
 	</array>
 	<key>OSAScriptingDefinition</key>
 	<string>$(PRODUCT_MODULE_NAME).sdef</string>
+	<key>SUFeedURL</key>
+	<string>$(GRAUPEL_UPDATE_FEED_URL)</string>
+	<key>SUPublicEDKey</key>
+	<string>$(GRAUPEL_UPDATE_PUBLIC_KEY)</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

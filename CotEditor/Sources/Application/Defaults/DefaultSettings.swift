@@ -42,7 +42,6 @@ struct DefaultSettings {
             .suppressesInconsistentLineEndingAlert: false,
             .enablesRemoteEditing: false,
             .remoteEditingPort: RMateServer.defaultPort,
-            .checksUpdatesForBeta: false,
             .syncsSettings: false,
             
             // Appearance

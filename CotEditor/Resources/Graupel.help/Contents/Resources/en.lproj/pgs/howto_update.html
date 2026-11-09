@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="update, new version, upgrade, Check for Updates, Homebrew">
+	<link rel="stylesheet" href="../../Shared/sty/standard.css">
+	<script defer src="../../Shared/js/toc.js"></script>
+
+	<title>Update Graupel</title>
+</head>
+
+<body>
+<a name="howto_update"></a>
+
+<h1>Update Graupel</h1>
+
+<p>Graupel looks for a new version once a day. When there is one, it shows what changed and asks whether to install it. The second time you open Graupel, it asks if it should keep checking. You can change your answer in General settings.</p>
+
+<p>To look now, choose <strong>Graupel &gt; Check for Updates</strong>.</p>
+
+<p>Every update is signed. Graupel won’t install one that wasn’t signed with Graupel’s own key.</p>
+
+
+<section>
+<h2>Change how updates happen</h2>
+
+<p>Choose <strong>Graupel &gt; Settings</strong>, click <strong>General</strong>, then look under <strong>Updates</strong>:</p>
+
+<ul>
+	<li><p><strong>Look for new versions automatically</strong> turns the daily check on or off. <strong>Check for Updates</strong> still works when it’s off.</p></li>
+	<li><p><strong>Download and install them without asking</strong> installs an update in the background. It takes effect the next time you quit Graupel.</p></li>
+</ul>
+</section>
+
+
+<section>
+<h2>If you installed Graupel with Homebrew</h2>
+
+<p>Graupel updates itself the same way. <code>brew upgrade</code> leaves it alone; <code>brew upgrade --greedy</code> updates it too.</p>
+</section>
+
+
+<section id="cf">
+<h2>See also</h2>
+<ul>
+	<li><a href="settings_general.html">General settings</a></li>
+	<li><a href="releasenotes.html">Release notes</a></li>
+</ul>
+</section>
+
+</body>
+</html>
