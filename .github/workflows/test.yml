@@ -55,6 +55,18 @@ jobs:
             -testPlan Tests -derivedDataPath build \
             -skipPackagePluginValidation -skipMacroValidation \
             CODE_SIGN_ENTITLEMENTS=
+
+  release:
+    name: Release launch
+    runs-on: xcode-27
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Show versions
+        run: |
+          sw_vers
+          xcodebuild -version
+      # Its own job so it runs alongside the tests. Built with the app's entitlements, hardened heap included.
       - name: Build and launch a Release build
         run: |
           set -eu
