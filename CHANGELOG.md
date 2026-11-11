@@ -1,5 +1,14 @@
 # Change Log
 
+0.4.2 (2026-11-11)
+--------------------------
+
+### Fixes
+
+- Fix syntax highlighting taking minutes on large files. A 10 MB Boreas file took 51 seconds to highlight and now
+  takes about 13.
+
+
 0.4.1 (2026-11-09)
 --------------------------
 
