@@ -30,7 +30,9 @@ import Defaults
 @testable import CotEditor
 
 // The observer integration tests post notifications from shared setting managers.
-@MainActor @Suite(.serialized) struct CloudSettingsAutosaveTests {
+// The time limit is for an intermittent hang seen once on CI in `activationDoesNotSaveWithoutError(enabled: false)`:
+// a hang should fail here and name the test instead of running into the job's timeout.
+@MainActor @Suite(.serialized, .timeLimit(.minutes(2))) struct CloudSettingsAutosaveTests {
     
     /// Verifies enabling, disabling, and resuming automatic saving without removing the previous copy.
     ///
