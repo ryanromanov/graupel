@@ -121,6 +121,70 @@ struct HighlightSortingTests {
     }
     
     
+    @Test func adjacentRangesOfOneTypeJoin() throws {
+        
+        let dict: [SyntaxType: [NSRange]] = [
+            .keywords: [NSRange(location: 3, length: 2), NSRange(location: 0, length: 3), NSRange(location: 8, length: 0)],
+        ]
+        
+        let result = try Highlight.highlights(dictionary: dict)
+        
+        #expect(result == [Highlight(value: .keywords, range: NSRange(location: 0, length: 5))])
+    }
+    
+    
+    @Test(arguments: 0..<20)
+    func matchesCharacterByCharacterResolution(seed: UInt64) throws {
+        
+        var generator = SeededGenerator(seed: seed)
+        let length = 300
+        var dict: [SyntaxType: [NSRange]] = [:]
+        for type in SyntaxType.allCases where Bool.random(using: &generator) {
+            dict[type] = (0..<Int.random(in: 0...40, using: &generator)).map { _ in
+                let location = Int.random(in: 0..<length, using: &generator)
+                return NSRange(location: location, length: Int.random(in: 0...min(20, length - location), using: &generator))
+            }
+        }
+        
+        // reference: for each character, the covering type that comes last in `allCases`
+        var owners = [SyntaxType?](repeating: nil, count: length)
+        for type in SyntaxType.allCases {
+            for range in dict[type] ?? [] {
+                for location in range.lowerBound..<range.upperBound {
+                    owners[location] = type
+                }
+            }
+        }
+        var expected: [Highlight] = []
+        var location = 0
+        while location < length {
+            guard let owner = owners[location] else { location += 1; continue }
+            var end = location
+            while end < length, owners[end] == owner { end += 1 }
+            expected.append(Highlight(value: owner, range: NSRange(location: location, length: end - location)))
+            location = end
+        }
+        
+        #expect(try Highlight.highlights(dictionary: dict) == expected)
+    }
+    
+    
+    @Test(.timeLimit(.minutes(1)))
+    func manyInterleavedRanges() throws {
+        
+        // 2 million separate short ranges, those of each type falling between those of the others,
+        // as in a large source file
+        var dict: [SyntaxType: [NSRange]] = [:]
+        for (offset, type) in SyntaxType.allCases.enumerated() {
+            dict[type] = stride(from: offset * 10, to: 40_000_000, by: 200).map { NSRange(location: $0, length: 4) }
+        }
+        
+        let result = try Highlight.highlights(dictionary: dict)
+        
+        #expect(result.count == 2_000_000)
+    }
+    
+    
     @Test func cancellation() async throws {
         
         let dict: [SyntaxType: [NSRange]] = [
@@ -149,5 +213,26 @@ private extension [NSRange] {
     var union: IndexSet {
         
         self.reduce(into: IndexSet()) { $0.insert(integersIn: $1.lowerBound..<$1.upperBound) }
+    }
+}
+
+
+private struct SeededGenerator: RandomNumberGenerator {
+    
+    var state: UInt64
+    
+    init(seed: UInt64) {
+        
+        self.state = seed &+ 0x9E37_79B9_7F4A_7C15
+    }
+    
+    mutating func next() -> UInt64 {
+        
+        // SplitMix64
+        self.state &+= 0x9E37_79B9_7F4A_7C15
+        var z = self.state
+        z = (z ^ (z >> 30)) &* 0xBF58_476D_1CE4_E5B9
+        z = (z ^ (z >> 27)) &* 0x94D0_49BB_1331_11EB
+        return z ^ (z >> 31)
     }
 }
