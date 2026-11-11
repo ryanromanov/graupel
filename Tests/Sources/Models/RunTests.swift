@@ -308,3 +308,50 @@ private extension RunSession {
         self.chunks.filter { $0.stream == stream }.map(\.text).joined()
     }
 }
+
+
+@MainActor struct RunOutputLimitTests {
+    
+    @Test func trimDropsWholeChunksFirst() {
+        
+        let limit = RunSession.outputLimit
+        var chunks = [RunSession.Chunk(stream: .output, text: String(repeating: "a", count: 10)),
+                      RunSession.Chunk(stream: .error, text: String(repeating: "b", count: limit))]
+        var count = limit + 10
+        
+        #expect(RunSession.trim(&chunks, characterCount: &count) == 1)
+        #expect(chunks.map(\.stream) == [.error])
+        #expect(count == limit)
+    }
+    
+    
+    @Test func trimShortensALastChunkThatIsTooLong() {
+        
+        // a program that prints without pause adds to one chunk
+        let limit = RunSession.outputLimit
+        var chunks = [RunSession.Chunk(stream: .output, text: String(repeating: "a", count: 5) + String(repeating: "b", count: limit))]
+        var count = limit + 5
+        
+        #expect(RunSession.trim(&chunks, characterCount: &count) == 0)
+        #expect(count == limit)
+        #expect(chunks.count == 1)
+        #expect(chunks[0].text.count == limit)
+        #expect(!chunks[0].text.contains("a"))
+    }
+    
+    
+    @Test func bufferStaysBoundedWhenOneStreamKeepsPrinting() {
+        
+        let buffer = RunOutputBuffer()
+        let piece = String(repeating: "looping\n", count: 1_000)
+        for _ in 0..<1_000 {  // 8 million characters, all joining one chunk
+            buffer.append(piece, as: .output)
+        }
+        
+        let chunks = buffer.take()
+        
+        #expect(chunks.count == 1)
+        #expect(chunks[0].text.count <= 2 * RunSession.outputLimit)
+        #expect(chunks[0].text.hasSuffix(piece))
+    }
+}
