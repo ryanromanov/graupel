@@ -2,7 +2,8 @@
 #
 # Builds a release of Graupel: signs it with the Developer ID certificate, has Apple notarize it,
 # zips the result, and makes the signed update feed (appcast.xml) for Sparkle. Nothing is uploaded
-# anywhere except to Apple's notary service.
+# anywhere except to Apple's notary service. A copy of the archive, with its debug symbols, is kept in
+# ~/Library/Developer/Xcode/Archives so crash reports from the release can be read.
 #
 #   Scripts/release.sh               sign, notarize, staple, and zip
 #   Scripts/release.sh --sign-only   stop after signing and checking, without contacting Apple
@@ -135,5 +136,14 @@ python3 Scripts/releaseNotes.py "$version" < CHANGELOG.md > "$feed_dir/Graupel-$
     --maximum-deltas 0 \
     -o "$output/appcast.xml"
 rm -rf "$feed_dir"
+
+echo "==> Keeping the archive"
+# build-release is temporary, but the archive's debug symbols (dSYMs) are needed to read crash reports from
+# this version and can't be rebuilt to match. Xcode's Organizer finds archives in this folder.
+build=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$app/Contents/Info.plist")
+kept="$HOME/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/Graupel $version ($build) $(date +%H.%M.%S).xcarchive"
+mkdir -p "$(dirname "$kept")"
+ditto "$archive" "$kept"
+echo "Kept: $kept"
 
 echo "Done: attach $zip, $zip.sha256, and $output/appcast.xml to the release"
