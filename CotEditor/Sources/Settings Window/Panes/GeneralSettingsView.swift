@@ -35,7 +35,6 @@ struct GeneralSettingsView: View {
     @AppStorage(.quitAlwaysKeepsWindows) private var quitAlwaysKeepsWindows: Bool
     @AppStorage(.noDocumentOnLaunchOption) private var noDocumentOnLaunchOption: NoDocumentOnLaunchOption
     @AppStorage(.enablesAutosaveInPlace) private var enablesAutosaveInPlace: Bool
-    @AppStorage(.syncsSettings) private var syncsSettings: Bool
     @AppStorage(.documentConflictOption) private var documentConflictOption: DocumentConflictOption
     
     @State private var initialEnablesAutosaveInPlace: Bool = false
@@ -163,22 +162,6 @@ struct GeneralSettingsView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    if CloudSettingsManager.isAvailable {
-                        Toggle(isOn: $syncsSettings) {
-                            Text("Keep a copy in iCloud", tableName: "GeneralSettings",
-                                 comment: "verb; checkbox; refer to the expression for “Keep a copy” by Apple")
-                            Text("Store a copy of these settings for other devices to import.", tableName: "GeneralSettings")
-                        }
-                        if let error = CloudSettingsManager.shared.error {
-                            Label(error.localizedDescription, systemImage: "exclamationmark.triangle")
-                                .symbolVariant(.fill)
-                                .symbolRenderingMode(.multicolor)
-                                .foregroundStyle(.secondary)
-                                .controlSize(.small)
-                                .padding(.leading, 20)
-                        }
-                    }
-                    
                     HStack {
                         Button(.init("Action.export.ellipsis.label", defaultValue: "Export…")) {
                             self.isSettingsExporterPresented.toggle()
@@ -235,75 +218,15 @@ struct GeneralSettingsView: View {
 private struct SettingsImportMenu: View {
     
     @State private var importingSettings: PortableSettingsDocument?
-    @State private var importingCloudArchiveURL: URL?
-    @State private var cloudArchives: [CloudSettingsManager.Archive]?
-    @State private var cloudArchivesError: any Error?
     @State private var error: any Error?
     
     @State private var isImporterPresented = false
-    @State private var isCopiesManagerPresented = false
     
     
     var body: some View {
         
-        HStack {
-            if CloudSettingsManager.isAvailable {
-                Menu(.init("Action.import.ellipsis.label", defaultValue: "Import…")) {
-                    if let cloudArchivesError {
-                        Text(cloudArchivesError.localizedDescription)
-                    } else if let cloudArchives {
-                        if cloudArchives.isEmpty {
-                            Text("No Settings Copies in iCloud", tableName: "GeneralSettings", comment: "message; menu item")
-                        }
-                        ForEach(cloudArchives.sortedBySource) { archive in
-                            Button {
-                                self.importingCloudArchiveURL = archive.url
-                            } label: {
-                                let secondaryLabel = if let info = archive.info {
-                                    "\(info.date.formatted(date: .abbreviated, time: .omitted)) (iCloud)"
-                                } else {
-                                    "(iCloud)"
-                                }
-                                Text(AttributedString(archive.displayName + " ") +
-                                     AttributedString(secondaryLabel, attributes: .init().foregroundColor(.secondary)))
-                            }
-                        }
-                    } else {
-                        Text("Loading Settings Copies from iCloud…", tableName: "GeneralSettings", comment: "message; menu item")
-                    }
-                
-                    Divider()
-                
-                    if self.cloudArchives?.isEmpty == false {
-                        Button(.init("Manage Copies on iCloud…", table: "GeneralSettings", comment: "verb; menu item")) {
-                            self.isCopiesManagerPresented = true
-                        }
-                    }
-                    Button(.init("Choose Settings Archive…", table: "GeneralSettings", comment: "verb; menu item")) {
-                        self.isImporterPresented = true
-                    }
-                } primaryAction: {
-                    self.isImporterPresented.toggle()
-                }
-                .menuStyle(.button)
-                .menuOrder(.fixed)
-                .disabled(self.importingCloudArchiveURL != nil)
-                .task(id: CloudSettingsManager.shared.ubiquityIdentityToken as? NSObject) {
-                    await self.observeCloudArchives()
-                }
-                .task(id: self.importingCloudArchiveURL) {
-                    await self.loadCloudArchive()
-                }
-            } else {
-                Button(.init("Action.import.ellipsis.label", defaultValue: "Import…")) {
-                    self.isImporterPresented.toggle()
-                }
-            }
-            
-            if self.importingCloudArchiveURL != nil {
-                ProgressView()
-                    .controlSize(.small)
-            }
+        Button(.init("Action.import.ellipsis.label", defaultValue: "Import…")) {
+            self.isImporterPresented.toggle()
         }
         .fileImporter(isPresented: $isImporterPresented, allowedContentTypes: [.cotSettings]) { result in
             switch result {
@@ -330,61 +253,7 @@ private struct SettingsImportMenu: View {
                 .frame(width: 420)
                 .presentationSizing(.fitted)
         }
-        .sheet(isPresented: $isCopiesManagerPresented) {
-            CloudSettingsCopiesView(archives: $cloudArchives, loadingError: self.cloudArchivesError)
-                .id(CloudSettingsManager.shared.ubiquityIdentityToken as? NSObject)
-                .scenePadding()
-                .frame(width: 420)
-                .presentationSizing(.fitted)
-        }
         .alert(error: $error)
-    }
-    
-    
-    /// Updates the cloud archive menu while the view is visible.
-    private func observeCloudArchives() async {
-        
-        guard !Task.isCancelled else { return }
-        
-        self.cloudArchives = nil
-        self.cloudArchivesError = nil
-        self.importingCloudArchiveURL = nil
-        
-        do {
-            for try await archives in CloudSettingsManager.shared.archives() {
-                guard !Task.isCancelled else { return }
-                self.cloudArchives = archives
-            }
-        } catch {
-            guard !Task.isCancelled else { return }
-            self.cloudArchivesError = error
-        }
-    }
-    
-    
-    /// Loads the selected cloud archive and presents the existing settings selection sheet.
-    private func loadCloudArchive() async {
-        
-        guard let url = self.importingCloudArchiveURL else { return }
-        
-        // -> The account can change before SwiftUI cancels this task.
-        let identity = CloudSettingsManager.shared.ubiquityIdentityToken as? NSObject
-        
-        let result = await Result { try await CloudSettingsManager.shared.load(from: url) }
-        
-        guard
-            !Task.isCancelled,
-            identity == CloudSettingsManager.shared.ubiquityIdentityToken as? NSObject,
-            self.importingCloudArchiveURL == url
-        else { return }
-        
-        self.importingCloudArchiveURL = nil
-        switch result {
-            case .success(let document):
-                self.importingSettings = document
-            case .failure(let error):
-                self.error = error
-        }
     }
 }
 

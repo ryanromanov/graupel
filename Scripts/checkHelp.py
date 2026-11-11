@@ -23,12 +23,6 @@ CREDIT_PAGES = {"about_sourcecode.html", "releasenotes.html", "script_overview.h
 PROPER_NOUNS = {"Graupel", "CotEditor", "Boreas", "Graupel User Guide", "AppleScript", "Unicode", "Finder", "Terminal",
                 "Mode", "Settings", "Markdown", "Python", "JavaScript", "Shift", "Japanese", "iCloud", "Apple"}
 
-# anchors the app names that have no page on purpose
-UNUSED_ANCHORS = {
-    "howto_edit_remote",  # remote editing is hidden (RemoteEditingController.isAvailable)
-    "howto_store_settings_in_icloud",  # iCloud copies are hidden (CloudSettingsManager.isAvailable)
-}
-
 BANNED = [
     "seamless", "robust", "powerful", "effortless", "intuitive", "leverage", "utilize", "delve", "streamline",
     "elevate", "enhance", "empower", "harness", "crucial", "vital", "comprehensive",
@@ -91,7 +85,7 @@ def check_anchors(paths):
     for name, where in sorted(owners.items()):
         if len(where) > 1:
             errors.append(f"anchor {name} is on {len(where)} pages: {', '.join(where)}")
-    for name in sorted(app_anchors() - UNUSED_ANCHORS):
+    for name in sorted(app_anchors()):
         if name not in owners:
             errors.append(f"the app opens anchor {name}, but no page has it")
     return errors

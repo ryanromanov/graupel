@@ -74,7 +74,7 @@ endorsed by the CotEditor Project, so please don't report Graupel's issues to Co
 
 Graupel's own changes include language server support, the removal of the App Sandbox (so that language servers can
 run without the menu bar showing each one as a running script), and its own name, icons, settings, and Help.
-It leaves out CotEditor's settings copies in iCloud, remote editing, and automatic updates for now.
+It doesn't include CotEditor's settings copies in iCloud, remote editing, or automatic updates.
 The full history of changes is in this repository's commit log.
 
 

@@ -79,7 +79,7 @@ import XCTest
         
         // open the Settings window
         let menuBarsQuery = app.menuBars
-        menuBarsQuery.menuBarItems["CotEditor"].click()
+        menuBarsQuery.menuBarItems["Graupel"].click()
         menuBarsQuery.menuItems["Settings…"].click()
         
         // open all panes
@@ -91,14 +91,7 @@ import XCTest
         app.buttons["Format"].firstMatch.click()
         app.buttons["Snippets"].firstMatch.click()
         app.buttons["Shortcuts"].firstMatch.click()
-    }
-    
-    
-    func testLaunchPerformance() throws {
-        
-        // This measures how long it takes to launch your application.
-        self.measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+        app.buttons["Language Servers"].firstMatch.click()
+        app.buttons["Integration"].firstMatch.click()
     }
 }
