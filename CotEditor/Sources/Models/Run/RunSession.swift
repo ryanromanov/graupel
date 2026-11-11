@@ -314,15 +314,33 @@ import Synchronization
         self.chunks += newChunks
         self.keptCharacterCount += newChunks.reduce(0) { $0 + $1.text.count }
         
+        self.droppedChunkCount += Self.trim(&self.chunks, characterCount: &self.keptCharacterCount)
+    }
+    
+    
+    /// Drops the oldest output until at most `outputLimit` characters are left.
+    ///
+    /// Whole chunks go first. If the last chunk alone is too long, as when a program prints without pause and
+    /// its output keeps joining one chunk, the start of that chunk goes.
+    ///
+    /// - Parameters:
+    ///   - chunks: The output, oldest first.
+    ///   - characterCount: The number of characters in `chunks`, updated to the number left.
+    /// - Returns: The number of whole chunks dropped.
+    static func trim(_ chunks: inout [Chunk], characterCount: inout Int) -> Int {
+        
         var dropCount = 0
-        while self.keptCharacterCount > Self.outputLimit, dropCount < self.chunks.count - 1 {
-            self.keptCharacterCount -= self.chunks[dropCount].text.count
+        while characterCount > Self.outputLimit, dropCount < chunks.count - 1 {
+            characterCount -= chunks[dropCount].text.count
             dropCount += 1
         }
-        if dropCount > 0 {
-            self.chunks.removeFirst(dropCount)
-            self.droppedChunkCount += dropCount
+        chunks.removeFirst(dropCount)
+        
+        if characterCount > Self.outputLimit, let last = chunks.indices.last {
+            characterCount = chunks[last].text.trimStart(toCount: Self.outputLimit)
         }
+        
+        return dropCount
     }
     
     
@@ -384,6 +402,12 @@ final class RunOutputBuffer: Sendable {
             
             while contents.characterCount > RunSession.outputLimit, contents.chunks.count > 1 {
                 contents.characterCount -= contents.chunks.removeFirst().text.count
+            }
+            
+            // A program that prints without pause adds to one chunk; trim its start. Waiting until it's twice
+            // the limit keeps this from copying the chunk on every append; the session trims to the limit.
+            if contents.characterCount > 2 * RunSession.outputLimit {
+                contents.characterCount = contents.chunks[0].text.trimStart(toCount: RunSession.outputLimit)
             }
         }
     }
@@ -451,5 +475,24 @@ struct IncrementalUTF8Decoder: Sendable {
         defer { self.pending.removeAll() }
         
         return String(decoding: self.pending, as: UTF8.self)
+    }
+}
+
+
+private extension String {
+    
+    /// Removes characters from the start until at most `count` are left.
+    ///
+    /// - Parameter count: The most characters to keep.
+    /// - Returns: The number of characters left.
+    mutating func trimStart(toCount count: Int) -> Int {
+        
+        let length = self.count
+        
+        guard length > count else { return length }
+        
+        self.removeFirst(length - count)
+        
+        return count
     }
 }
