@@ -29,7 +29,6 @@ import Combine
 import SwiftUI
 import UniformTypeIdentifiers
 import Defaults
-import RMate
 import StringUtils
 import URLUtils
 
@@ -209,27 +208,11 @@ protocol AdditionalDocumentPreparing: NSDocument {
             }
         }
         
-        let document: NSDocument = if RemoteEditingController.fileStore.isBackingFile(url) {
-            try RemoteDocument(contentsOf: url, ofType: typeName)
-        } else {
-            try super.makeDocument(withContentsOf: url, ofType: typeName)
-        }
+        let document = try super.makeDocument(withContentsOf: url, ofType: typeName)
         
         (document as? any AdditionalDocumentPreparing)?.didMakeDocumentForExistingFile(url: url)
         
         return document
-    }
-    
-    
-    override func makeDocument(for url: URL?, withContentsOf contentsURL: URL, ofType typeName: String) throws -> NSDocument {
-        
-        // [caution] This method may be called from a background thread during restoration.
-        
-        if let url, RemoteEditingController.fileStore.isBackingFile(url) {
-            return try RemoteDocument(restoring: url, withContentsOf: contentsURL, ofType: typeName)
-        }
-        
-        return try super.makeDocument(for: url, withContentsOf: contentsURL, ofType: typeName)
     }
     
     
@@ -287,14 +270,6 @@ protocol AdditionalDocumentPreparing: NSDocument {
         }
         
         super.openDocument(sender)
-    }
-    
-    
-    override func noteNewRecentDocumentURL(_ url: URL) {
-        
-        guard !RemoteEditingController.fileStore.isBackingFile(url) else { return }
-        
-        super.noteNewRecentDocumentURL(url)
     }
     
     

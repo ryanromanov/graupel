@@ -29,7 +29,6 @@ import CharacterInfo
 import DocumentFile
 import FileEncoding
 import LineEnding
-import RMate
 import SyntaxFormat
 
 @MainActor @Observable private final class DocumentInspectorViewModel: DocumentInspectorView.ModelProtocol {
@@ -44,9 +43,8 @@ import SyntaxFormat
     
     var document: DataDocument?  { willSet { self.cancelObservation() } didSet { self.didUpdateDocument() } }
     
-    var attributes: FileAttributes?  { self.remotePath == nil ? self.document?.fileAttributes : nil }
+    var attributes: FileAttributes?  { self.document?.fileAttributes }
     var fileURL: URL?
-    var remotePath: String?  { (self.document as? RemoteDocument)?.remoteState?.file.metadata.path }
     var countResult: EditorCounter.Result?  { (self.document as? TextDocument)?.counter.result }
     
     private var urlObserver: AnyCancellable?
@@ -127,7 +125,6 @@ struct DocumentInspectorView: View, HostedPaneView {
         
         var attributes: FileAttributes? { get }
         var fileURL: URL? { get }
-        var remotePath: String? { get }
         var textSettings: TextSettings? { get }
         var countResult: EditorCounter.Result? { get }
     }
@@ -143,7 +140,7 @@ struct DocumentInspectorView: View, HostedPaneView {
         
         ScrollView(.vertical) {
             VStack(spacing: 8) {
-                DocumentFileView(attributes: self.model.attributes, fileURL: self.model.fileURL, remotePath: self.model.remotePath)
+                DocumentFileView(attributes: self.model.attributes, fileURL: self.model.fileURL)
                 
                 if let textSettings = self.model.textSettings {
                     TextSettingsView(value: textSettings)
@@ -175,7 +172,6 @@ private struct DocumentFileView: View {
     
     var attributes: FileAttributes?
     var fileURL: URL?
-    var remotePath: String?
     
     @State private var isExpanded = true
     
@@ -212,14 +208,14 @@ private struct DocumentFileView: View {
                                optional: self.attributes?.owner)
                 
                 LabeledContent(.init("Full Path", table: "Document", comment: "label in document inspector")) {
-                    if let path = self.remotePath ?? self.fileURL?.formatted(.url.scheme(.never)), !path.isEmpty {
+                    if let path = self.fileURL?.formatted(.url.scheme(.never)), !path.isEmpty {
                         HStack(alignment: .lastTextBaseline, spacing: 4) {
                             Text(path)
                                 .lineLimit(5)
                                 .truncationMode(.middle)
                                 .textSelection(.enabled)
                                 .help(path)
-                            if let fileURL, self.remotePath == nil {
+                            if let fileURL {
                                 Button(.init("Show in Finder", table: "Document", comment: "verb; button"), systemImage: "arrow.forward") {
                                     NSWorkspace.shared.activateFileViewerSelecting([fileURL])
                                 }
@@ -403,7 +399,6 @@ private extension ControlSize {
     
     var attributes: FileAttributes?
     var fileURL: URL?
-    var remotePath: String?
     var textSettings: TextSettings?
     var countResult: EditorCounter.Result?
 }
@@ -439,11 +434,5 @@ private extension ControlSize {
 
 #Preview {
     DocumentInspectorView(isPresented: true, model: MockedModel())
-        .frame(width: 240)
-}
-
-
-#Preview("Remote") {
-    DocumentInspectorView(isPresented: true, model: MockedModel(remotePath: "/etc/nginx/nginx.conf"))
         .frame(width: 240)
 }

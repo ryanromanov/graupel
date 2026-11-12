@@ -109,13 +109,6 @@
         "identifier" : "DocumentFileTests",
         "name" : "DocumentFileTests"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "RMateTests",
-        "name" : "RMateTests"
-      }
     }
   ],
   "version" : 1
