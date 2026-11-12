@@ -1,5 +1,14 @@
 # Change Log
 
+0.4.3 (2026-11-12)
+--------------------------
+
+### Fixes
+
+- Fix the Run panel keeping more than its 1,000,000 characters of output when a program prints without stopping,
+  so a runaway program could use more and more memory.
+
+
 0.4.2 (2026-11-11)
 --------------------------
 
