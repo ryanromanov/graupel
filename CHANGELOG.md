@@ -1,5 +1,14 @@
 # Change Log
 
+0.4.4 (unreleased)
+--------------------------
+
+### Improvements
+
+- Boreas: highlight `@`, which now marks a write that reaches the caller, and stop highlighting `update`, which
+  Boreas no longer has as a keyword.
+
+
 0.4.3 (2026-11-12)
 --------------------------
 
