@@ -250,6 +250,30 @@ actor BundledSyntaxTests {
     }
     
     
+    /// `@` marks a write that reaches the caller (it replaced the `update` keyword), so it highlights with the operators
+    /// and `update` is an ordinary name again.
+    @Test func boreasWriteMark() async throws {
+        
+        let parser = try #require(try Self.loadSyntax(named: "Boreas").highlightParser)
+        
+        // each line, and the words that highlight as keywords (operators are in that group too)
+        let cases: [(line: String, highlighted: [String])] = [
+            ("@x = 1", ["@"]),
+            ("allocate @a[n]", ["allocate", "@"]),
+            ("deallocate @a", ["deallocate", "@"]),
+            ("update x = 1", []),
+        ]
+        for (line, highlighted) in cases {
+            let string = line as NSString
+            let result = try await parser.parseHighlights(in: line, range: NSRange(location: 0, length: string.length))
+            let found = (result?.highlights ?? [])
+                .filter { $0.value == .keywords }
+                .map { string.substring(with: $0.range) }
+            #expect(found == highlighted, "\(line)")
+        }
+    }
+    
+    
     private static func loadSyntax(named name: String) throws -> Syntax {
         
         let url = try #require(Bundle.main.url(forResource: name, withExtension: "cotsyntax", subdirectory: "Syntaxes"))
