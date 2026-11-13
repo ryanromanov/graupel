@@ -24,7 +24,7 @@
 //
 
 import Testing
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct DebouncerTests {
     

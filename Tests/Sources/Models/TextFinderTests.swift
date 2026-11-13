@@ -29,7 +29,7 @@ import Defaults
 import LineEnding
 import TextFind
 import Testing
-@testable import CotEditor
+@testable import Graupel
 
 @Suite(.serialized)  // TextFinder instances share their find settings.
 @MainActor struct TextFinderTests {

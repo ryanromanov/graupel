@@ -26,7 +26,7 @@
 import Foundation
 import Testing
 import DocumentFile
-@testable import CotEditor
+@testable import Graupel
 
 struct FileNodeTests {
     

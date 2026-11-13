@@ -27,7 +27,7 @@ import Foundation
 import Testing
 import StringUtils
 import TextEditing
-@testable import CotEditor
+@testable import Graupel
 
 struct SnippetTests {
     

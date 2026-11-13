@@ -16,7 +16,7 @@
 #
 # The update feed is signed with the EdDSA key stored in the keychain under the account "graupel",
 # made once with Sparkle's generate_keys. Its public half is GRAUPEL_UPDATE_PUBLIC_KEY in
-# Configurations/CotEditor.xcconfig. If the private key is lost, no installed copy can update again.
+# Configurations/Graupel.xcconfig. If the private key is lost, no installed copy can update again.
 
 set -eu
 
@@ -60,7 +60,7 @@ xcodebuild archive \
     > "$output/archive.log" 2>&1 || { tail -30 "$output/archive.log" >&2; exit 1; }
 
 sparkle_bin="$output/derived/SourcePackages/artifacts/sparkle/Sparkle/bin"
-public_key=$(sed -n 's/^GRAUPEL_UPDATE_PUBLIC_KEY = *//p' Configurations/CotEditor.xcconfig)
+public_key=$(sed -n 's/^GRAUPEL_UPDATE_PUBLIC_KEY = *//p' Configurations/Graupel.xcconfig)
 keychain_key=$("$sparkle_bin/generate_keys" --account "$key_account" -p 2>/dev/null || true)
 if [ -z "$public_key" ] || [ "$public_key" != "$keychain_key" ]; then
     echo "error: GRAUPEL_UPDATE_PUBLIC_KEY doesn't match the update key in the keychain (account \"$key_account\")" >&2

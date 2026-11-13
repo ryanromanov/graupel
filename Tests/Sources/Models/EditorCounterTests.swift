@@ -26,7 +26,7 @@
 import Foundation
 import Testing
 import LineEnding
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor final class EditorCounterTests {
     

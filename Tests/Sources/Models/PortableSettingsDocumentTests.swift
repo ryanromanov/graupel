@@ -30,7 +30,7 @@ import Defaults
 import FolderFind
 import SemanticVersioning
 import SyntaxFormat
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct PortableSettingsDocumentTests {
     

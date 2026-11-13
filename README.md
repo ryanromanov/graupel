@@ -59,8 +59,7 @@ xcodebuild -project Graupel.xcodeproj -scheme Graupel -configuration Debug -deri
     -skipPackagePluginValidation -skipMacroValidation build
 ```
 
-The app is built as `build/Build/Products/Debug/Graupel.app`. (The source folder, targets, and Swift module still
-use CotEditor's names, which keeps the code close to CotEditor's.)
+The app is built as `build/Build/Products/Debug/Graupel.app`.
 
 Builds from source are signed ad hoc, so no certificate is needed. `Scripts/release.sh` makes a signed and notarized
 release, which needs a Developer ID certificate.

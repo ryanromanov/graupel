@@ -26,7 +26,7 @@
 import Foundation
 import UniformTypeIdentifiers
 import Testing
-@testable import CotEditor
+@testable import Graupel
 
 struct DocumentHistoryTests {
     

@@ -27,7 +27,7 @@ import Testing
 import Shortcut
 import AppKit.NSEvent
 import Foundation
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct KeyBindingTests {
     

@@ -9,7 +9,7 @@
         <!--Print Panel Accessory Controller-->
         <scene sceneID="PEd-7d-5j0">
             <objects>
-                <viewController id="bU7-R8-ocO" customClass="PrintPanelAccessoryController" customModule="CotEditor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bU7-R8-ocO" customClass="PrintPanelAccessoryController" customModule="Graupel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="abc-de-fgh">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="381"/>
                         <autoresizingMask key="autoresizingMask"/>

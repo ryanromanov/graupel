@@ -30,7 +30,7 @@ import Testing
 import FolderFind
 import TextFind
 import UniformTypeIdentifiers
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct FolderFindTests {
     

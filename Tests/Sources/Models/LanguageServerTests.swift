@@ -26,7 +26,7 @@
 import AppKit
 import Foundation
 import Testing
-@testable import CotEditor
+@testable import Graupel
 
 struct LanguageServerMessageFramerTests {
     

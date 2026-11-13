@@ -27,7 +27,7 @@ import Foundation
 import Testing
 import Defaults
 import FolderFind
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct FolderFindSavedScopesTests {
     

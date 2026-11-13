@@ -27,7 +27,7 @@ import Foundation
 import Testing
 import DocumentFile
 import URLUtils
-@testable import CotEditor
+@testable import Graupel
 
 struct DirectoryDocumentTests {
     

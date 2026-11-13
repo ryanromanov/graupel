@@ -444,7 +444,7 @@ Gw
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="0o1-Dn-smf"/>
-                                                    <menuItem title="Font Type" id="Nfx-qA-gK4" customClass="HeadingMenuItem" customModule="CotEditor" customModuleProvider="target">
+                                                    <menuItem title="Font Type" id="Nfx-qA-gK4" customClass="HeadingMenuItem" customModule="Graupel" customModuleProvider="target">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                     <menuItem title="Standard" id="qTY-rj-A3z">
@@ -563,7 +563,7 @@ Gw
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Writing Direction" id="hxr-2A-KYT">
                                                 <items>
-                                                    <menuItem title="Orientation" enabled="NO" id="6eV-nI-heo" customClass="HeadingMenuItem" customModule="CotEditor" customModuleProvider="target">
+                                                    <menuItem title="Orientation" enabled="NO" id="6eV-nI-heo" customClass="HeadingMenuItem" customModule="Graupel" customModuleProvider="target">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                     <menuItem title="Horizontal" state="on" secondaryImage="text.alignleft" catalog="system" id="jQ7-hG-AjA">
@@ -579,7 +579,7 @@ Gw
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="GcI-ed-8Zi"/>
-                                                    <menuItem title="Direction" enabled="NO" id="ICu-yD-nVi" customClass="HeadingMenuItem" customModule="CotEditor" customModuleProvider="target">
+                                                    <menuItem title="Direction" enabled="NO" id="ICu-yD-nVi" customClass="HeadingMenuItem" customModule="Graupel" customModuleProvider="target">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                     <menuItem title="Left to Right" state="on" secondaryImage="text.alignleft" catalog="system" id="7pw-5S-ekC">
@@ -1316,7 +1316,7 @@ CA
                     </connections>
                 </application>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="CotEditor" customModuleProvider="target">
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Graupel" customModuleProvider="target">
                     <connections>
                         <outlet property="encodingsMenu" destination="300" id="Oy6-3l-RCI"/>
                         <outlet property="lineEndingsMenu" destination="296" id="U4V-rN-Wn0"/>

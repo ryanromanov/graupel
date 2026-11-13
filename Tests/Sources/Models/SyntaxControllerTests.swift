@@ -28,7 +28,7 @@ import Testing
 import SyntaxFormat
 import SyntaxParsers
 import ValueRange
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct SyntaxControllerTests {
     

@@ -25,7 +25,7 @@
 
 import SwiftUI
 import Testing
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct BindingTests {
     

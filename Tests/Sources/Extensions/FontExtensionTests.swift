@@ -27,7 +27,7 @@
 import AppKit.NSFont
 import Testing
 import Numerics
-@testable import CotEditor
+@testable import Graupel
 
 struct FontExtensionTests {
     

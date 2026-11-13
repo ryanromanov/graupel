@@ -29,7 +29,7 @@ import UniformTypeIdentifiers
 import Testing
 import Numerics
 import SyntaxFormat
-@testable import CotEditor
+@testable import Graupel
 
 actor ThemeTests {
     
