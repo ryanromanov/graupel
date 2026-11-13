@@ -7,6 +7,8 @@
 
 - Boreas: highlight `@`, which now marks a write that reaches the caller, and stop highlighting `update`, which
   Boreas no longer has as a keyword.
+- Boreas: highlight the new built-in functions `count`, `findloc`, `lbound`, `maxloc`, `merge`, `minloc`, `norm2`,
+  `pack`, `spread` and `ubound`.
 
 
 0.4.3 (2026-11-12)
