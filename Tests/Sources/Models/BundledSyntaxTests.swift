@@ -29,6 +29,7 @@ import Testing
 import SyntaxFormat
 import SyntaxParsers
 import TextEditing
+import ValueRange
 @testable import CotEditor
 
 actor BundledSyntaxTests {
@@ -215,6 +216,36 @@ actor BundledSyntaxTests {
             let string = line + "\n"
             let context = string.smartIndent(style: .space, indentWidth: 2, tokens: tokens, in: [NSRange(location: string.utf16.count, length: 0)])
             #expect(context == nil, "\(name): should not indent after “\(line)”")
+        }
+    }
+    
+    
+    /// Boreas's `is` and `as` are keywords only in a type test, `select type`, and `record r is iface`;
+    /// elsewhere they're ordinary names.
+    @Test func boreasContextualKeywords() async throws {
+        
+        let parser = try #require(try Self.loadSyntax(named: "Boreas").highlightParser)
+        
+        // each line, and where an `is` or `as` highlighted as a keyword starts
+        let cases: [(line: String, offsets: [Int])] = [
+            ("if shapes[2] is rect as r then", [13, 21]),
+            ("else if x is sized as s then", [10, 19]),
+            ("IF x IS Rect AS r THEN", [5, 13]),
+            ("if x is rect then", [5]),
+            ("select type x as p", [14]),
+            ("record square is shape, sized", [14]),
+            ("if is > 0 then", []),
+            ("if f(is) is rect then", [9]),
+            ("integer :: is, as", []),
+            ("x = is + as", []),
+        ]
+        for (line, offsets) in cases {
+            let string = line as NSString
+            let result = try await parser.parseHighlights(in: line, range: NSRange(location: 0, length: string.length))
+            let found = (result?.highlights ?? [])
+                .filter { $0.value == .keywords && ["is", "as"].contains(string.substring(with: $0.range).lowercased()) }
+                .map(\.range.location)
+            #expect(found == offsets, "\(line)")
         }
     }
     
