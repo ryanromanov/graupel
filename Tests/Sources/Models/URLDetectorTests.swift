@@ -26,7 +26,7 @@
 import AppKit.NSTextStorage
 import Testing
 import ValueRange
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct URLDetectorTests {
     

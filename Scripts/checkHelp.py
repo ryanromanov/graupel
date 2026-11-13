@@ -13,7 +13,7 @@ import re
 import sys
 
 REPO = os.path.join(os.path.dirname(__file__), "..")
-ROOT = os.path.join(REPO, "CotEditor", "Resources", "Graupel.help", "Contents", "Resources")
+ROOT = os.path.join(REPO, "Graupel", "Resources", "Graupel.help", "Contents", "Resources")
 BOOK = os.path.join(ROOT, "en.lproj")
 
 # pages allowed to name CotEditor (see docs/HELP_STYLE.md): credit, and where compatibility with it matters
@@ -56,7 +56,7 @@ def anchors_in(source):
 def app_anchors():
     """The Help anchors the app opens: Help buttons, alerts, errors, and Help menu items."""
     found = set()
-    for folder in ("CotEditor/Sources", "CotEditor/Storyboards", "Packages"):
+    for folder in ("Graupel/Sources", "Graupel/Storyboards", "Packages"):
         for directory, _, files in os.walk(os.path.join(REPO, folder)):
             for name in files:
                 path = os.path.join(directory, name)

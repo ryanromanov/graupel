@@ -63,7 +63,7 @@
     { "kind": "folder", "path": "Configurations" },
     {
       "kind": "folder",
-      "path": "CotEditor",
+      "path": "Graupel",
       "file-types": {
         "Resources/graupel": "text.script.python",
       },
@@ -73,17 +73,17 @@
         "Resources/Themes",
       ],
       "target-membership": [
-        "CotEditor",
+        "Graupel",
       ],
       "membership-exceptions": [
         {
-          "target": "CotEditor",
+          "target": "Graupel",
           "exclusions": [
             "Info.plist",
             "Resources/graupel",
           ],
         }, {
-          "build-phase": "CotEditor/copy/Copy Command-Line Tools",
+          "build-phase": "Graupel/copy/Copy Command-Line Tools",
           "inclusions": [
             "Resources/graupel",
           ],
@@ -108,14 +108,14 @@
   ],
   "targets": [
     {
-      "name": "CotEditor",
+      "name": "Graupel",
       "id": "2A6F0D4E1B5500E100C2D03C",
       "product": "id:2A7380222CAD911F00E870E5",
       "product-type": "application",
       "last-swift-migration": "9.0",
       "specialized-configurations": [
-        { "name": "Debug", "file": { "anchor": "Configurations", "relative-path": "CotEditor.xcconfig" } },
-        { "name": "Release", "file": { "anchor": "Configurations", "relative-path": "CotEditor.xcconfig" } },
+        { "name": "Debug", "file": { "anchor": "Configurations", "relative-path": "Graupel.xcconfig" } },
+        { "name": "Release", "file": { "anchor": "Configurations", "relative-path": "Graupel.xcconfig" } },
       ],
       "dependencies": [
         { "kind": "package", "product-name": "SyntaxMapBuilder" },
@@ -127,10 +127,10 @@
           "name": "Build Syntax Map",
           "log-environment-variables": true,
           "input-paths": [
-            "$(SRCROOT)/CotEditor/Resources/Syntaxes",
+            "$(SRCROOT)/Graupel/Resources/Syntaxes",
           ],
           "output-paths": [
-            "$(SRCROOT)/CotEditor/Resources/SyntaxMap.json",
+            "$(SRCROOT)/Graupel/Resources/SyntaxMap.json",
           ],
           "shell": "/bin/sh",
           "script": "\"$BUILT_PRODUCTS_DIR/SyntaxMapBuilder\" \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"\n",
@@ -181,7 +181,7 @@
         "ENABLE_HARDWARE_CHECKED_POINTER_ARITHMETIC_SLICE": "NO",
         "ENABLE_POINTER_AUTHENTICATION": "NO",
         "ENABLE_USER_SCRIPT_SANDBOXING": "NO",
-        "INFOPLIST_FILE": "CotEditor/Info.plist",
+        "INFOPLIST_FILE": "Graupel/Info.plist",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.productivity",
         "INFOPLIST_KEY_NSAppleEventsUsageDescription": "${PRODUCT_NAME} needs your approval to control other applications with AppleScript.",
@@ -189,7 +189,7 @@
         "INFOPLIST_KEY_NSMainStoryboardFile": "Main",
         "MARKETING_VERSION": "0.4.3",
         "PRODUCT_BUNDLE_IDENTIFIER": "com.ryanromanov.Graupel",
-        "PRODUCT_MODULE_NAME": "CotEditor",
+        "PRODUCT_MODULE_NAME": "Graupel",
         "PRODUCT_NAME": "Graupel",
         "SWIFT_STRICT_CONCURRENCY": "complete",
         "SWIFT_UPCOMING_FEATURE_CONCISE_MAGIC_FILE": "YES",
@@ -210,14 +210,14 @@
       "product": "Products/Tests.xctest",
       "product-type": "bundle.unit-test",
       "last-swift-migration": "9.0",
-      "test-host-target": "CotEditor",
+      "test-host-target": "Graupel",
       "specialized-configurations": [
         { "name": "Debug", "file": { "anchor": "Configurations", "relative-path": "CodeSigning.xcconfig" } },
         { "name": "Release", "file": { "anchor": "Configurations", "relative-path": "CodeSigning.xcconfig" } },
       ],
       "dependencies": [
         { "kind": "package", "package": "SwiftLintPlugins", "product-name": "SwiftLintBuildToolPlugin", "product-type": "build-tool-plugin" },
-        "CotEditor",
+        "Graupel",
       ],
       "build-phases": [
         "compile-sources",
@@ -242,14 +242,14 @@
       "id": "2A3F18F6203270BE002F1CA7",
       "product": "Products/UI Tests.xctest",
       "product-type": "bundle.ui-testing",
-      "test-host-target": "CotEditor",
+      "test-host-target": "Graupel",
       "specialized-configurations": [
         { "name": "Debug", "file": { "anchor": "Configurations", "relative-path": "CodeSigning.xcconfig" } },
         { "name": "Release", "file": { "anchor": "Configurations", "relative-path": "CodeSigning.xcconfig" } },
       ],
       "dependencies": [
         { "kind": "package", "package": "SwiftLintPlugins", "product-name": "SwiftLintBuildToolPlugin", "product-type": "build-tool-plugin" },
-        "CotEditor",
+        "Graupel",
       ],
       "build-phases": [
         "compile-sources",
@@ -257,7 +257,7 @@
       "build-settings": {
         "PRODUCT_BUNDLE_IDENTIFIER": "com.ryanromanov.GraupelUITests",
         "PRODUCT_NAME": "$(TARGET_NAME)",
-        "TEST_TARGET_NAME": "CotEditor",
+        "TEST_TARGET_NAME": "Graupel",
       },
     }, {
       "name": "Update Help Index",

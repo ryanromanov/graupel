@@ -10,7 +10,7 @@
         <!--Multiple Replace View Controller-->
         <scene sceneID="7ic-e2-LjN">
             <objects>
-                <viewController showSeguePresentationStyle="single" id="uzB-9o-Idl" customClass="MultipleReplaceViewController" customModule="CotEditor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController showSeguePresentationStyle="single" id="uzB-9o-Idl" customClass="MultipleReplaceViewController" customModule="Graupel" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="8CD-v6-nsP">
                         <rect key="frame" x="0.0" y="0.0" width="461" height="307"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -89,7 +89,7 @@
                                                                         <imageReference key="image" image="exclamationmark.triangle.fill" catalog="system" symbolScale="default" renderingMode="original"/>
                                                                     </imageCell>
                                                                 </imageView>
-                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="34g-xE-Dei" customClass="RegularExpressionTextField" customModule="CotEditor" customModuleProvider="target">
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="34g-xE-Dei" customClass="RegularExpressionTextField" customModule="Graupel" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="104" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" id="dIq-un-bYZ">
                                                                         <font key="font" metaFont="system"/>
@@ -132,7 +132,7 @@
                                                             <rect key="frame" x="136" y="1" width="104" height="16"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hXD-LW-TDg" customClass="RegularExpressionTextField" customModule="CotEditor" customModuleProvider="target">
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hXD-LW-TDg" customClass="RegularExpressionTextField" customModule="Graupel" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="104" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" id="DD9-M3-I3n">
                                                                         <font key="font" metaFont="system"/>

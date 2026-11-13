@@ -30,7 +30,7 @@ import SyntaxFormat
 import SyntaxParsers
 import TextEditing
 import ValueRange
-@testable import CotEditor
+@testable import Graupel
 
 actor BundledSyntaxTests {
     

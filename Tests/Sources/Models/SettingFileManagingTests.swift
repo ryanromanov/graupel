@@ -28,7 +28,7 @@ import UniformTypeIdentifiers
 import Testing
 import TextFind
 import SyntaxFormat
-@testable import CotEditor
+@testable import Graupel
 
 @MainActor struct SettingFileManagingTests {
     

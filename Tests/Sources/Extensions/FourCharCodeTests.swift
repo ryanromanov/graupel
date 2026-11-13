@@ -26,7 +26,7 @@
 
 import Foundation
 import Testing
-@testable import CotEditor
+@testable import Graupel
 
 struct FourCharCodeTests {
     
