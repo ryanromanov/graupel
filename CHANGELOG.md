@@ -9,6 +9,8 @@
   Boreas no longer has as a keyword.
 - Boreas: highlight the new built-in functions `count`, `findloc`, `lbound`, `maxloc`, `merge`, `minloc`, `norm2`,
   `pack`, `spread` and `ubound`.
+- Boreas: highlight `where`, `elsewhere` and `end where`, and indent after a `where` or `elsewhere` line. A variable
+  named `where` is left alone.
 
 
 0.4.3 (2026-11-12)

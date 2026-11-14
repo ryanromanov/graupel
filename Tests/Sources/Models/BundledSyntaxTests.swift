@@ -156,8 +156,9 @@ actor BundledSyntaxTests {
         "Boreas": (
             ["program demo", "module geometry", "public record point", "function square(real :: x) -> real",
              "subroutine swap(inout real :: a)", "outer: do i = 1, 10", "DO I = 1, N", "select case (x)", "case 1, 3",
-             "if x then ! note", "else", "else if y then"],
-            ["case 1, 3 -> \"small\"", "case default -> 2", "end do", "end function", "! do this", "x = 1 ! then"]
+             "if x then ! note", "else", "else if y then", "where a > 0.0 then", "elsewhere", "elsewhere ! the rest"],
+            ["case 1, 3 -> \"small\"", "case default -> 2", "end do", "end function", "! do this", "x = 1 ! then",
+             "end where", "where = 3", "elsewhere = 3"]
         ),
         "Fortran": (
             ["program main", "module geometry", "subroutine swap(a, b)", "real function f(x)",
@@ -246,6 +247,40 @@ actor BundledSyntaxTests {
                 .filter { $0.value == .keywords && ["is", "as"].contains(string.substring(with: $0.range).lowercased()) }
                 .map(\.range.location)
             #expect(found == offsets, "\(line)")
+        }
+    }
+    
+    
+    /// `where` and `elsewhere` are keywords only as a `where ... then` statement, an `elsewhere` line, and `end where`;
+    /// elsewhere they're ordinary names.
+    @Test func boreasWhereStatement() async throws {
+        
+        let parser = try #require(try Self.loadSyntax(named: "Boreas").highlightParser)
+        
+        // each line, and the `where` and `elsewhere` words that highlight as keywords
+        let cases: [(line: String, highlighted: [String])] = [
+            ("where a > 0.0 then", ["where"]),
+            ("  WHERE a > 0.0 THEN ! mask", ["WHERE"]),
+            ("where (a > 0.0) then", ["where"]),
+            ("elsewhere", ["elsewhere"]),
+            ("  elsewhere ! the rest", ["elsewhere"]),
+            ("end where", ["where"]),
+            ("  end where ! done", ["where"]),
+            ("where = 3", []),
+            ("x = where + 1", []),
+            ("if where > 0 then", []),
+            ("elsewhere = 3", []),
+            ("y = elsewhere", []),
+            ("print(where)", []),
+        ]
+        for (line, highlighted) in cases {
+            let string = line as NSString
+            let result = try await parser.parseHighlights(in: line, range: NSRange(location: 0, length: string.length))
+            let found = (result?.highlights ?? [])
+                .filter { $0.value == .keywords }
+                .map { string.substring(with: $0.range) }
+                .filter { ["where", "elsewhere"].contains($0.lowercased()) }
+            #expect(found == highlighted, "\(line)")
         }
     }
     
