@@ -11,6 +11,8 @@
   `pack`, `spread` and `ubound`.
 - Boreas: highlight `where`, `elsewhere` and `end where`, and indent after a `where` or `elsewhere` line. A variable
   named `where` is left alone.
+- Boreas: highlight the new `map` and `set` types (`map[string, integer]`, `set[string]`) and the built-in functions
+  `get`, `has`, `keys` and `values`. A variable named `map` or `set` is left alone.
 
 
 0.4.3 (2026-11-12)

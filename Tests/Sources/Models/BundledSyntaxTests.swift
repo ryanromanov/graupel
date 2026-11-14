@@ -285,6 +285,34 @@ actor BundledSyntaxTests {
     }
     
     
+    /// `map` and `set` are types only before `[` and a type name; elsewhere they're ordinary names.
+    @Test func boreasMapAndSetTypes() async throws {
+        
+        let parser = try #require(try Self.loadSyntax(named: "Boreas").highlightParser)
+        
+        // each line, and the words that highlight as types
+        let cases: [(line: String, highlighted: [String])] = [
+            ("map[string, integer] :: age", ["map", "string", "integer"]),
+            ("set[string] :: seen", ["set", "string"]),
+            ("SET[Real] :: s", ["SET", "Real"]),
+            ("map[string, set[integer]] :: groups", ["map", "string", "set", "integer"]),
+            ("map[3] :: x", []),
+            ("map[i] = 1", []),
+            ("map = 1", []),
+            ("x = set + 1", []),
+            ("integer :: set", ["integer"]),
+        ]
+        for (line, highlighted) in cases {
+            let string = line as NSString
+            let result = try await parser.parseHighlights(in: line, range: NSRange(location: 0, length: string.length))
+            let found = (result?.highlights ?? [])
+                .filter { $0.value == .types }
+                .map { string.substring(with: $0.range) }
+            #expect(found == highlighted, "\(line)")
+        }
+    }
+    
+    
     /// `@` marks a write that reaches the caller (it replaced the `update` keyword), so it highlights with the operators
     /// and `update` is an ordinary name again.
     @Test func boreasWriteMark() async throws {
