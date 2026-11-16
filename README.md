@@ -19,9 +19,9 @@ With [Homebrew](https://brew.sh):
 brew install --cask ryanromanov/tap/graupel
 ```
 
-`brew upgrade` keeps it current. Or get the latest `Graupel-x.y.z.zip` from
-[Releases](https://github.com/ryanromanov/graupel/releases). Graupel doesn't update itself, so if you install it this
-way, download new versions from there.
+Graupel checks for new versions once a day and updates itself; choose Graupel > Check for Updates to look now.
+`brew upgrade` leaves it alone, and `brew upgrade --greedy` updates it too. Or get the latest `Graupel-x.y.z.zip`
+from [Releases](https://github.com/ryanromanov/graupel/releases).
 
 Language servers are installed separately. For Boreas, install `boreas` as its
 [README](https://github.com/ryanromanov/boreas#install-and-run) describes, and Graupel finds it by itself.
@@ -73,7 +73,7 @@ endorsed by the CotEditor Project, so please don't report Graupel's issues to Co
 
 Graupel's own changes include language server support, the removal of the App Sandbox (so that language servers can
 run without the menu bar showing each one as a running script), and its own name, icons, settings, and Help.
-It doesn't include CotEditor's settings copies in iCloud, remote editing, or automatic updates.
+It doesn't include CotEditor's settings copies in iCloud or remote editing.
 The full history of changes is in this repository's commit log.
 
 

@@ -14,6 +14,11 @@
 - Boreas: highlight the new `map` and `set` types (`map[string, integer]`, `set[string]`) and the built-in functions
   `get`, `has`, `keys` and `values`. A variable named `map` or `set` is left alone.
 
+### Fixes
+
+- Help: say that the Boreas server can format a document, and fix the README's statements that Graupel doesn't
+  update itself and that `brew upgrade` keeps it current.
+
 
 0.4.3 (2026-11-12)
 --------------------------
