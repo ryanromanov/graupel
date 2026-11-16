@@ -313,8 +313,8 @@ actor BundledSyntaxTests {
     }
     
     
-    /// `@` marks a write that reaches the caller (it replaced the `update` keyword), so it highlights with the operators
-    /// and `update` is an ordinary name again.
+    /// `@` marks a write that reaches the caller (it replaced the `update` keyword), in an assignment and at a call site,
+    /// so it highlights with the operators and `update` is an ordinary name again.
     @Test func boreasWriteMark() async throws {
         
         let parser = try #require(try Self.loadSyntax(named: "Boreas").highlightParser)
@@ -325,6 +325,11 @@ actor BundledSyntaxTests {
             ("allocate @a[n]", ["allocate", "@"]),
             ("deallocate @a", ["deallocate", "@"]),
             ("update x = 1", []),
+            ("call swap(@x, @y)", ["call", "@", "@"]),
+            ("call fill(@x, 7)", ["call", "@"]),
+            ("call add(@seen, \"x\")", ["call", "@"]),
+            ("call @c.grow(2.0)", ["call", "@"]),
+            ("call @x.f(@a, b)", ["call", "@", "@"]),
         ]
         for (line, highlighted) in cases {
             let string = line as NSString
