@@ -53,6 +53,7 @@ struct DefaultSettings {
             .windowAlpha: 1.0,
             .theme: "Graupel",
             .pinsThemeAppearance: false,
+            .windowStyle: WindowStyle.system.rawValue,
             
             // Window
             .windowTabbing: -1,  // = Respect System Setting

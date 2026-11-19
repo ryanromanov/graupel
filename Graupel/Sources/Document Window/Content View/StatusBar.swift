@@ -49,6 +49,7 @@ struct StatusBar: View {
     
     
     @State var model: Model
+    let chrome: WindowChrome
     
     @AppStorage(.prefersOpaqueBarBackground) private var prefersOpaqueBarBackground
     @AppStorage(.showStatusBar) private var showsStatusBar
@@ -134,7 +135,17 @@ struct StatusBar: View {
                     .containerCornerOffset(.horizontal, sizeToFit: true)
             }
         }
-        .background(.windowBackground.opacity(self.prefersOpaqueBarBackground ? 1 : 0))
+        .modifier { container in
+            if let style = self.chrome.style {
+                container
+                    .foregroundStyle(Color(nsColor: style.secondaryText))
+                    .background(Color(nsColor: style.background))
+                    .overlay(alignment: .top) { Color(nsColor: style.border).frame(height: 1) }
+            } else {
+                container
+                    .background(.windowBackground.opacity(self.prefersOpaqueBarBackground ? 1 : 0))
+            }
+        }
         .animation(.default, value: self.prefersOpaqueBarBackground)
     }
 }
@@ -524,5 +535,5 @@ private extension UserDefaults {
     document.isEditable = false
     document.counter.result.lines = .init(entire: 1024, selected: 64)
     
-    return StatusBar(model: StatusBar.Model(document: document))
+    return StatusBar(model: StatusBar.Model(document: document), chrome: WindowChrome())
 }

@@ -49,6 +49,7 @@ extension DefaultKeys {
     static let windowAlpha = DefaultKey<Double>("windowAlpha")
     static let theme = DefaultKey<String>("defaultTheme")
     static let pinsThemeAppearance = DefaultKey<Bool>("pinsThemeAppearance")
+    static let windowStyle = RawRepresentableDefaultKey<WindowStyle>("windowStyle")
     
     // Window
     static let windowTabbing = DefaultKey<Int>("windowTabbing")
