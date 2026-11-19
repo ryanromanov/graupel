@@ -81,6 +81,7 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     private var documentSyntaxObserver: Task<Void, Never>?
     private var syntaxNamesObserver: Task<Void, Never>?
     private var chromeObserver: Task<Void, Never>?
+    private var effectiveAppearanceObserver: AnyCancellable?
     private var toolbarDisplayModeBeforeChrome: NSToolbar.DisplayMode?
     private var syntaxDefaultsObserver: AnyCancellable?
     private weak var syntaxPopUpButton: NSPopUpButton?
@@ -161,6 +162,10 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         
         // observe the window style to restyle the toolbar
         if let chrome = (window.contentViewController as? WindowContentViewController)?.chrome {
+            // draw the chrome with the default theme until a document provides its own
+            self.effectiveAppearanceObserver = window.publisher(for: \.effectiveAppearance, options: [.initial, .new])
+                .sink { chrome.applyDefaultTheme(isDark: $0.isDark) }
+            
             self.chromeObserver = Task { [weak self] in
                 for await _ in Observations({ chrome.revision }) {
                     self?.applyChrome(chrome.style)

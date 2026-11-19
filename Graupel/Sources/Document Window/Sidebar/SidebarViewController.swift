@@ -42,6 +42,12 @@ final class SidebarViewController: SidebarTabViewController {
     var selectedPane: SidebarPane  { SidebarPane(rawValue: self.selectedTabViewItemIndex) ?? .fileBrowser }
     
     
+    // MARK: Private Properties
+    
+    private let chromeBackgroundView = NSView()
+    private var chromeObserver: Task<Void, Never>?
+    
+    
     // MARK: Lifecycle
     
     init(document: DirectoryDocument) {
@@ -73,10 +79,42 @@ final class SidebarViewController: SidebarTabViewController {
             return item
         }
         
+        // prepare the background that is drawn in the theme's color when the window has a custom style
+        self.chromeBackgroundView.wantsLayer = true
+        self.chromeBackgroundView.isHidden = true
+        self.chromeBackgroundView.frame = self.view.bounds
+        self.chromeBackgroundView.autoresizingMask = [.width, .height]
+        self.view.addSubview(self.chromeBackgroundView, positioned: .below, relativeTo: nil)
+        
         // set accessibility
         self.view.setAccessibilityElement(true)
         self.view.setAccessibilityRole(.group)
         self.view.setAccessibilityLabel(String(localized: "Sidebar", table: "Document", comment: "accessibility label"))
+    }
+    
+    
+    override func viewDidAppear() {
+        
+        super.viewDidAppear()
+        
+        guard let chrome = (self.view.window as? DocumentWindow)?.chrome else { return }
+        
+        self.applyChrome(chrome.style)
+        self.chromeObserver?.cancel()
+        self.chromeObserver = Task { [weak self] in
+            for await _ in Observations({ chrome.revision }) {
+                self?.applyChrome(chrome.style)
+            }
+        }
+    }
+    
+    
+    override func viewDidDisappear() {
+        
+        super.viewDidDisappear()
+        
+        self.chromeObserver?.cancel()
+        self.chromeObserver = nil
     }
 }
 
@@ -117,5 +155,18 @@ private extension SidebarPane {
             case .find:
                 NSHostingController(rootView: FolderFindView(model: FolderFinder(document: document)))
         }
+    }
+}
+
+
+private extension SidebarViewController {
+    
+    /// Draws the sidebar in the color of the window chrome, or leaves it to the system when there's no custom style.
+    ///
+    /// - Parameter style: The style of the chrome, or `nil` for the system style.
+    func applyChrome(_ style: ChromeStyle?) {
+        
+        self.chromeBackgroundView.isHidden = (style == nil)
+        self.chromeBackgroundView.layer?.backgroundColor = style?.sidebar.cgColor
     }
 }
