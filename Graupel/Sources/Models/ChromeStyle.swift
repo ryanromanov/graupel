@@ -98,6 +98,12 @@ private extension NSColor {
     
     private(set) var style: ChromeStyle?
     
+    /// Whether the window is drawn with a custom style.
+    var isActive: Bool  { self.style != nil }
+    
+    /// A counter that changes whenever the style changes, for observers that can't hold the style itself.
+    private(set) var revision = 0
+    
     @ObservationIgnored private var theme: Theme?
     @ObservationIgnored private var defaultsObserver: AnyCancellable?
     
@@ -128,6 +134,7 @@ private extension NSColor {
         
         if self.style != style {
             self.style = style
+            self.revision += 1
         }
     }
 }

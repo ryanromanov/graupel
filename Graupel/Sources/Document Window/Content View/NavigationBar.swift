@@ -89,7 +89,7 @@ struct NavigationBar: View {
         .controlSize(.small)
         .padding(.horizontal, 4)
         .frame(height: 24)
-        .background(.windowBackground)
+        .chromeSurface(system: .windowBackground)
         .accessibilityElement(children: .contain)
         .accessibilityLabel(.init("Navigation Bar", table: "Document", comment: "accessibility label"))
     }

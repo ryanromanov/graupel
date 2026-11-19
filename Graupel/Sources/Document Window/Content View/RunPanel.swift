@@ -106,7 +106,7 @@ struct RunPanel: View {
                     .help(String(localized: "Text to send to the program; press Return to send it", table: "Run", comment: "tooltip"))
             }
         }
-        .background(.background)
+        .chromeSurface(system: .background)
     }
 }
 
