@@ -74,6 +74,25 @@ actor ThemeTests {
     }
     
     
+    @Test func graupelThemes() throws {
+        
+        for name in ["Graupel", "Rain"] {
+            let light = try self.loadThemeWithName(name)
+            let dark = try self.loadThemeWithName(name + " (Dark)")
+            
+            #expect(!light.isDarkTheme)
+            #expect(dark.isDarkTheme)
+            
+            for type in SyntaxType.allCases {
+                #expect(light.style(for: type) != nil)
+                #expect(dark.style(for: type) != nil)
+            }
+        }
+        
+        #expect(DefaultSettings.defaults[.theme] as? String == "Graupel")
+    }
+    
+    
     /// Tests if all of bundled themes are valid.
     @Test func bundledThemes() throws {
         

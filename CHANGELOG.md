@@ -5,6 +5,8 @@
 
 ### Improvements
 
+- Add the Graupel and Rain themes, each with a dark variant, and make Graupel the default theme. Your own
+  choice of theme is kept.
 - Boreas: highlight `@`, which now marks a write that reaches the caller, and stop highlighting `update`, which
   Boreas no longer has as a keyword.
 - Boreas: highlight the new built-in functions `count`, `findloc`, `lbound`, `maxloc`, `merge`, `minloc`, `norm2`,
