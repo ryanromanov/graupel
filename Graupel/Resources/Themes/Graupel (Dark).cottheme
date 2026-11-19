@@ -1,0 +1,59 @@
+{
+  "attributes" : {
+    "color" : "#f08cb5"
+  },
+  "background" : {
+    "color" : "#16171f"
+  },
+  "characters" : {
+    "color" : "#7fd1a8"
+  },
+  "commands" : {
+    "color" : "#d98ccb"
+  },
+  "comments" : {
+    "color" : "#6b6f86"
+  },
+  "highlight" : {
+    "color" : "#8a6d1f",
+    "usesSystemSetting" : true
+  },
+  "insertionPoint" : {
+    "color" : "#8f92f7"
+  },
+  "invisibles" : {
+    "color" : "#484b5e"
+  },
+  "keywords" : {
+    "color" : "#8f92f7"
+  },
+  "lineHighlight" : {
+    "color" : "#1e2029"
+  },
+  "metadata" : {
+    "author" : "Graupel",
+    "description" : "Graupel built-in theme.",
+    "license" : "Same as Graupel (Apache, ver.2)"
+  },
+  "numbers" : {
+    "color" : "#f0a15c"
+  },
+  "selection" : {
+    "color" : "#33365e"
+  },
+  "strings" : {
+    "color" : "#8fcf7f"
+  },
+  "text" : {
+    "color" : "#d7d9e6"
+  },
+  "types" : {
+    "color" : "#4fc3dc"
+  },
+  "values" : {
+    "color" : "#f2895a"
+  },
+  "variables" : {
+    "color" : "#a9aedf"
+  }
+}

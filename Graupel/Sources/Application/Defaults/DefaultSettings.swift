@@ -51,7 +51,7 @@ struct DefaultSettings {
             .documentAppearance: AppearanceMode.default.rawValue,
             .prefersOpaqueBarBackground: false,
             .windowAlpha: 1.0,
-            .theme: "Anura",
+            .theme: "Graupel",
             .pinsThemeAppearance: false,
             
             // Window
