@@ -47,6 +47,16 @@ final class DocumentWindow: NSWindow {
         }
     }
     
+    /// The background color of the window when it is drawn with a custom style.
+    var chromeBackgroundColor: NSColor? {
+        
+        didSet {
+            guard chromeBackgroundColor != oldValue else { return }
+            
+            self.applyBackgroundOpacity()
+        }
+    }
+    
     @objc dynamic var backgroundAlpha: Double = 1.0 {
         
         didSet {
@@ -82,7 +92,7 @@ final class DocumentWindow: NSWindow {
         if self.isOpaque != shouldBeOpaque {
             self.isOpaque = shouldBeOpaque
         }
-        self.backgroundColor = shouldBeOpaque ? nil : self.contentBackgroundColor.withAlphaComponent(self.backgroundAlpha)
+        self.backgroundColor = shouldBeOpaque ? self.chromeBackgroundColor : self.contentBackgroundColor.withAlphaComponent(self.backgroundAlpha)
         
         self.invalidateShadow()
         self.contentView?.needsDisplay = true

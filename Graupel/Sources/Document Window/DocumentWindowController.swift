@@ -80,6 +80,8 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     
     private var documentSyntaxObserver: Task<Void, Never>?
     private var syntaxNamesObserver: Task<Void, Never>?
+    private var chromeObserver: Task<Void, Never>?
+    private var toolbarDisplayModeBeforeChrome: NSToolbar.DisplayMode?
     private var syntaxDefaultsObserver: AnyCancellable?
     private weak var syntaxPopUpButton: NSPopUpButton?
     
@@ -157,6 +159,15 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
             }
             .assign(to: \.appearance, on: window)
         
+        // observe the window style to restyle the toolbar
+        if let chrome = (window.contentViewController as? WindowContentViewController)?.chrome {
+            self.chromeObserver = Task { [weak self] in
+                for await _ in Observations({ chrome.revision }) {
+                    self?.applyChrome(chrome.style)
+                }
+            }
+        }
+        
         // observe for syntax line-up change
         self.syntaxNamesObserver = Task { [weak self] in
             for await _ in Observations({ SyntaxManager.shared.settingNames }) {
@@ -185,6 +196,7 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     isolated deinit {
         self.documentSyntaxObserver?.cancel()
         self.syntaxNamesObserver?.cancel()
+        self.chromeObserver?.cancel()
     }
     
     
@@ -540,6 +552,41 @@ private extension NSViewController {
 
 
 // MARK: - Toolbar
+
+private extension DocumentWindowController {
+    
+    /// Restyles the toolbar to match the window style.
+    ///
+    /// The items stay the user's own; only their look changes: icons without labels and without a bezel.
+    ///
+    /// - Parameter style: The style of the chrome, or `nil` for the system style.
+    func applyChrome(_ style: ChromeStyle?) {
+        
+        guard let window = self.window as? DocumentWindow, let toolbar = window.toolbar else { return }
+        
+        let isActive = (style != nil)
+        
+        // let the window background show through the title bar
+        window.titlebarAppearsTransparent = isActive
+        window.chromeBackgroundColor = style?.background
+        
+        if isActive {
+            if self.toolbarDisplayModeBeforeChrome == nil {
+                self.toolbarDisplayModeBeforeChrome = toolbar.displayMode
+            }
+            toolbar.displayMode = .iconOnly
+        } else if let displayMode = self.toolbarDisplayModeBeforeChrome {
+            toolbar.displayMode = displayMode
+            self.toolbarDisplayModeBeforeChrome = nil
+        }
+        
+        for item in toolbar.items {
+            item.isBordered = !isActive
+            (item.view as? NSPopUpButton)?.isBordered = !isActive
+        }
+    }
+}
+
 
 private extension NSToolbar.Identifier {
     
