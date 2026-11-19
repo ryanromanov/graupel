@@ -32,6 +32,9 @@ final class DocumentWindow: NSWindow {
     
     // MARK: Public Properties
     
+    /// The chrome of the window, drawn from the editor theme.
+    var chrome: WindowChrome?  { (self.contentViewController as? WindowContentViewController)?.chrome }
+    
     var contentBackgroundColor: NSColor = .controlBackgroundColor {
         
         didSet {
@@ -60,6 +63,16 @@ final class DocumentWindow: NSWindow {
     
     
     // MARK: Public Methods
+    
+    /// Applies the theme of the editor to the window.
+    ///
+    /// - Parameter theme: The theme to apply.
+    func apply(theme: Theme) {
+        
+        self.contentBackgroundColor = theme.background.color
+        self.chrome?.apply(theme: theme)
+    }
+    
     
     /// Applies the current background opacity to the window.
     func applyBackgroundOpacity() {

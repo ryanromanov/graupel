@@ -34,6 +34,8 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     // MARK: Public Properties
     
     var document: DataDocument?  { didSet { self.updateDocument() } }
+    /// The chrome of the window, drawn from the editor theme.
+    let chrome = WindowChrome()
     var documentViewController: DocumentViewController?  { self.contentViewController.hostedViewController as? DocumentViewController }
     
     
@@ -104,7 +106,7 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         let contentViewController = ContentViewController(document: self.document)
         self.contentViewItem = NSSplitViewItem(viewController: contentViewController)
         let statusBarController = NSSplitViewItemAccessoryViewController()
-        statusBarController.view = NSHostingView(rootView: StatusBar(model: self.statusBarModel))
+        statusBarController.view = NSHostingView(rootView: StatusBar(model: self.statusBarModel, chrome: self.chrome))
         statusBarController.isHidden = !UserDefaults.standard[.showStatusBar]
         if #unavailable(macOS 27) {
             statusBarController.automaticallyAppliesContentInsets = false

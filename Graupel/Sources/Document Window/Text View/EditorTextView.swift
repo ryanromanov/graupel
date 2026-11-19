@@ -385,7 +385,7 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
         
         // apply theme to window when attached
         if let window = self.window as? DocumentWindow, let theme = self.theme {
-            window.contentBackgroundColor = theme.background.color
+            window.apply(theme: theme)
         }
         
         if let window {
@@ -1627,7 +1627,7 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
         // in the Dark mode (2025-04, macOS 15).
         self.selectedTextAttributes[.foregroundColor] = nil
         
-        (self.window as? DocumentWindow)?.contentBackgroundColor = theme.background.color
+        (self.window as? DocumentWindow)?.apply(theme: theme)
         self.enclosingScrollView?.backgroundColor = theme.background.color
         self.enclosingScrollView?.scrollerKnobStyle = theme.isDarkTheme ? .light : .dark
         
