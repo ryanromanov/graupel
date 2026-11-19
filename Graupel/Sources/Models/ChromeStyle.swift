@@ -105,6 +105,7 @@ private extension NSColor {
     private(set) var revision = 0
     
     @ObservationIgnored private var theme: Theme?
+    @ObservationIgnored private var hasEditorTheme = false
     @ObservationIgnored private var defaultsObserver: AnyCancellable?
     
     
@@ -119,6 +120,24 @@ private extension NSColor {
     ///
     /// - Parameter theme: The theme of the editor.
     func apply(theme: Theme) {
+        
+        self.hasEditorTheme = true
+        self.theme = theme
+        self.update()
+    }
+    
+    
+    /// Sets the user's default theme to draw the chrome with, until an editor provides its own.
+    ///
+    /// A window that shows no document yet, such as a folder window, has no editor to take the theme from.
+    ///
+    /// - Parameter isDark: Whether the window uses the dark appearance.
+    func applyDefaultTheme(isDark: Bool) {
+        
+        guard
+            !self.hasEditorTheme,
+            let theme = try? ThemeManager.shared.setting(name: ThemeManager.shared.userDefaultSettingName(inDarkMode: isDark))
+        else { return }
         
         self.theme = theme
         self.update()
