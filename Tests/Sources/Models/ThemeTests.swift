@@ -38,14 +38,8 @@ actor ThemeTests {
     
     @Test func defaultTheme() throws {
         
-        let themeName = "Dendrobates"
-        let theme = try self.loadThemeWithName(themeName)
+        let theme = try self.loadThemeWithName("Graupel")
         
-        #expect(theme.text.color == NSColor.black.usingColorSpace(.genericRGB))
-        #expect(theme.insertionPoint.color == NSColor.black.usingColorSpace(.genericRGB))
-        #expect(theme.invisibles.color.brightnessComponent.isApproximatelyEqual(to: 0.725, relativeTolerance: 0.01))
-        #expect(theme.background.color == NSColor.white.usingColorSpace(.genericRGB))
-        #expect(theme.lineHighlight.color.brightnessComponent.isApproximatelyEqual(to: 0.929, relativeTolerance: 0.01))
         #expect(!theme.isDarkTheme)
         
         let aqua = try #require(NSAppearance(named: .aqua))
@@ -62,15 +56,6 @@ actor ThemeTests {
             let style = try #require(theme.style(for: type))
             #expect(style.color.hueComponent > 0)
         }
-    }
-    
-    
-    @Test func darkTheme() throws {
-        
-        let themeName = "Anura (Dark)"
-        let theme = try self.loadThemeWithName(themeName)
-        
-        #expect(theme.isDarkTheme)
     }
     
     

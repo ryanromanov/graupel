@@ -47,13 +47,7 @@ import TextEditing
 }
 
 
-final class DocumentViewController: NSSplitViewController, ThemeChanging, NSToolbarItemValidation {
-    
-    private enum SerializationKey {
-        
-        static let theme = "theme"
-    }
-    
+final class DocumentViewController: NSSplitViewController, NSToolbarItemValidation {
     
     // MARK: Public Properties
     
@@ -164,30 +158,20 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         
         // observe
         self.observers = [
-            // observe theme change
-            UserDefaults.standard.publisher(for: .theme, initial: false)
-                .sink { [weak self] in self?.setTheme(name: $0) },
+            // observe theme change, including the ones that follow the appearance
+            ThemeManager.shared.themeNamesPublisher
+                .map(\.editor)
+                .removeDuplicates()
+                .sink { [weak self] name in
+                    guard name != self?.themeName else { return }
+                    self?.setTheme(name: name)
+                },
             NotificationCenter.default.publisher(for: DidManagerUpdateSettingMessage<ThemeManager>.name, object: ThemeManager.shared)
                 .map { $0.userInfo!["change"] as! SettingChange }
                 .filter { [weak self] in $0.old == self?.themeName }
                 .compactMap(\.new)
                 .throttle(for: 0.1, scheduler: DispatchQueue.main, latest: true)
                 .sink { [weak self] in self?.setTheme(name: $0) },
-            
-            // observe appearance change for theme toggle
-            ThemeManager.shared.usesDarkAppearancePublisher
-                .sink { [weak self] usesDark in
-                    guard
-                        let self,
-                        !UserDefaults.standard[.pinsThemeAppearance],
-                        self.viewIfLoaded?.window != nil,
-                        let currentThemeName = self.themeName,
-                        let themeName = ThemeManager.shared.equivalentSettingName(to: currentThemeName, forDark: usesDark),
-                        currentThemeName != themeName
-                    else { return }
-                    
-                    self.setTheme(name: themeName)
-                },
         ]
     }
     
@@ -250,33 +234,6 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
                 [NSNumber.self]
             default:
                 super.allowedClasses(forRestorableStateKeyPath: keyPath)
-        }
-    }
-    
-    
-    override func encodeRestorableState(with coder: NSCoder, backgroundQueue queue: OperationQueue) {
-        
-        super.encodeRestorableState(with: coder, backgroundQueue: queue)
-        
-        if let themeName = self.themeName {
-            coder.encode(themeName, forKey: SerializationKey.theme)
-        }
-    }
-    
-    
-    override func restoreState(with coder: NSCoder) {
-        
-        super.restoreState(with: coder)
-        
-        if let storedThemeName = coder.decodeObject(of: NSString.self, forKey: SerializationKey.theme) as? String {
-            let usesDark = ThemeManager.shared.usesDarkAppearance(inDarkMode: NSApp.effectiveAppearance.isDark)
-            let themeName = UserDefaults.standard[.pinsThemeAppearance]
-                ? storedThemeName
-                : ThemeManager.shared.equivalentSettingName(to: storedThemeName, forDark: usesDark) ?? storedThemeName
-            
-            if themeName != self.themeName {
-                self.setTheme(name: themeName)
-            }
         }
     }
     
@@ -401,11 +358,6 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
                 
             case #selector(changeOrientation):
                 (item as? NSToolbarItemGroup)?.selectedIndex = self.verticalLayoutOrientation ? 1 : 0
-                
-            case #selector(changeTheme):
-                if let item = item as? NSMenuItem {
-                    item.state = (self.themeName == item.title) ? .on : .off
-                }
                 
             case #selector(toggleSplitOrientation):
                 (item as? NSMenuItem)?.title = self.splitView.isVertical
@@ -603,13 +555,6 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     @IBAction func recolorAll(_ sender: Any?) {
         
         self.document.syntaxController.parseAll()
-    }
-    
-    
-    /// Sets new theme from a menu item.
-    @IBAction func changeTheme(_ sender: NSMenuItem) {
-        
-        self.setTheme(name: sender.title)
     }
     
     

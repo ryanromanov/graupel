@@ -45,12 +45,6 @@ extension Logger {
 }
 
 
-@MainActor @objc protocol ThemeChanging: AnyObject {
-    
-    func changeTheme(_ sender: NSMenuItem)
-}
-
-
 @MainActor @objc protocol SyntaxChanging: AnyObject {
     
     func changeSyntax(_ sender: NSMenuItem)
@@ -101,7 +95,6 @@ extension Logger {
     @IBOutlet private weak var encodingsMenu: NSMenu?
     @IBOutlet private weak var syntaxesMenu: NSMenu?
     @IBOutlet private weak var lineEndingsMenu: NSMenu?
-    @IBOutlet private weak var themesMenu: NSMenu?
     @IBOutlet private weak var normalizationMenu: NSMenu?
     @IBOutlet private weak var snippetMenu: NSMenu?
     @IBOutlet private weak var multipleReplaceMenu: NSMenu?
@@ -441,13 +434,6 @@ extension Logger {
                         noneItem,
                         .separator()
                     ] + items
-                }
-            },
-            
-            Task(priority: .medium) { [menu = self.themesMenu!] in
-                for await names in Observations({ ThemeManager.shared.settingNames }) {
-                    menu.items = names
-                        .map { NSMenuItem(title: $0, action: #selector((any ThemeChanging).changeTheme), keyEquivalent: "") }
                 }
             },
             

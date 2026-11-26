@@ -51,7 +51,6 @@ struct StatusBar: View {
     @State var model: Model
     let chrome: WindowChrome
     
-    @AppStorage(.prefersOpaqueBarBackground) private var prefersOpaqueBarBackground
     @AppStorage(.showStatusBar) private var showsStatusBar
     
     
@@ -141,14 +140,12 @@ struct StatusBar: View {
         // -> Don’t branch on the chrome style here: a branch gives the view a new identity when the style
         //    changes, and the old view’s `onDisappear` then stops the counting that the new one started.
         .foregroundStyle(self.chrome.style.map { AnyShapeStyle(Color(nsColor: $0.text)) } ?? AnyShapeStyle(.foreground))
-        .background(self.chrome.style.map { AnyShapeStyle(Color(nsColor: $0.background)) }
-                    ?? AnyShapeStyle(.windowBackground.opacity(self.prefersOpaqueBarBackground ? 1 : 0)))
+        .background(self.chrome.style.map { Color(nsColor: $0.background) } ?? .clear)
         .overlay(alignment: .top) {
             if let style = self.chrome.style {
                 Color(nsColor: style.border).frame(height: 1)
             }
         }
-        .animation(.default, value: self.prefersOpaqueBarBackground)
     }
 }
 

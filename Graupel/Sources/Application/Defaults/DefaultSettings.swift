@@ -48,12 +48,12 @@ struct DefaultSettings {
             .monospacedShouldAntialias: true,
             .monospacedLigature: false,
             .lineHeight: 1.3,
-            .documentAppearance: AppearanceMode.default.rawValue,
-            .prefersOpaqueBarBackground: false,
             .windowAlpha: 1.0,
             .theme: "Graupel",
-            .pinsThemeAppearance: false,
-            .windowStyle: WindowStyle.system.rawValue,
+            .editorThemeAppearance: AppearanceMode.default.rawValue,
+            .editorMatchesWindowTheme: true,
+            .windowTheme: "Graupel",
+            .windowThemeAppearance: AppearanceMode.default.rawValue,
             
             // Window
             .windowTabbing: -1,  // = Respect System Setting

@@ -285,7 +285,6 @@ import URLUtils
         switch menuItem.action {
             case #selector((any EncodingChanging).changeEncoding),
                  #selector((any SyntaxChanging).changeSyntax),
-                 #selector((any ThemeChanging).changeTheme),
                  #selector(TextDocument.changeLineEnding(_:)),
                  #selector((any SnippetInsertable).insertSnippet),
                  #selector(ScriptManager.launchScript),

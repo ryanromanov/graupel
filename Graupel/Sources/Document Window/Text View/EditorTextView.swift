@@ -1630,6 +1630,8 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
         (self.window as? DocumentWindow)?.apply(theme: theme)
         self.enclosingScrollView?.backgroundColor = theme.background.color
         self.enclosingScrollView?.scrollerKnobStyle = theme.isDarkTheme ? .light : .dark
+        // the editor theme can differ in darkness from the window’s
+        self.enclosingScrollView?.appearance = NSAppearance(named: theme.isDarkTheme ? .darkAqua : .aqua)
         
         self.setNeedsDisplay(self.visibleRect, avoidAdditionalLayout: true)
     }

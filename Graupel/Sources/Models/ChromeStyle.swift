@@ -22,18 +22,7 @@ import Combine
 import Defaults
 import Observation
 
-/// The way the window around the editor is drawn.
-enum WindowStyle: Int, CaseIterable {
-    
-    /// The standard macOS window.
-    case system
-    
-    /// A light, airy window whose chrome takes its colors from the theme.
-    case overcast
-}
-
-
-/// The colors of the window chrome, derived from the editor theme.
+/// The colors of the window chrome, derived from a theme.
 ///
 /// The colors come from keys every theme already has (background, text and keywords),
 /// so the chrome follows any theme, including users' own.
@@ -91,9 +80,9 @@ private extension NSColor {
 }
 
 
-/// The chrome of one window.
+/// The chrome of one window, colored by the window theme.
 ///
-/// `style` is `nil` for the system window style, in which case views draw as they always have.
+/// `style` is `nil` only if the theme can't be read, in which case views draw with the system style.
 @MainActor @Observable final class WindowChrome {
     
     private(set) var style: ChromeStyle?
@@ -104,52 +93,36 @@ private extension NSColor {
     /// A counter that changes whenever the style changes, for observers that can't hold the style itself.
     private(set) var revision = 0
     
-    @ObservationIgnored private var theme: Theme?
-    @ObservationIgnored private var hasEditorTheme = false
-    @ObservationIgnored private var defaultsObserver: AnyCancellable?
+    @ObservationIgnored private var themeName: String?
+    @ObservationIgnored private var observers: Set<AnyCancellable> = []
     
     
     init() {
         
-        self.defaultsObserver = UserDefaults.standard.publisher(for: .windowStyle, initial: false)
-            .sink { [weak self] _ in self?.update() }
-    }
-    
-    
-    /// Sets the theme to draw the chrome with.
-    ///
-    /// - Parameter theme: The theme of the editor.
-    func apply(theme: Theme) {
-        
-        self.hasEditorTheme = true
-        self.theme = theme
-        self.update()
-    }
-    
-    
-    /// Sets the user's default theme to draw the chrome with, until an editor provides its own.
-    ///
-    /// A window that shows no document yet, such as a folder window, has no editor to take the theme from.
-    ///
-    /// - Parameter isDark: Whether the window uses the dark appearance.
-    func applyDefaultTheme(isDark: Bool) {
-        
-        guard
-            !self.hasEditorTheme,
-            let theme = try? ThemeManager.shared.setting(name: ThemeManager.shared.userDefaultSettingName(inDarkMode: isDark))
-        else { return }
-        
-        self.theme = theme
-        self.update()
+        self.observers = [
+            ThemeManager.shared.themeNamesPublisher
+                .map(\.window)
+                .removeDuplicates()
+                .sink { [weak self] in
+                    self?.themeName = $0
+                    self?.update()
+                },
+            // follow edits to the theme
+            NotificationCenter.default.publisher(for: DidManagerUpdateSettingMessage<ThemeManager>.name, object: ThemeManager.shared)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in self?.update() },
+        ]
     }
     
     
     private func update() {
         
-        let style: ChromeStyle? = switch UserDefaults.standard[.windowStyle] {
-            case .system: nil
-            case .overcast: self.theme.map(ChromeStyle.init)
-        }
+        guard
+            let themeName = self.themeName,
+            let theme = try? ThemeManager.shared.setting(name: themeName)
+        else { return }
+        
+        let style = ChromeStyle(theme: theme)
         
         if self.style != style {
             self.style = style
