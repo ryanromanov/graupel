@@ -5,8 +5,11 @@
 
 ### Improvements
 
-- Add the Graupel and Rain themes, each with a dark variant, and make Graupel the default theme. Your own
-  choice of theme is kept.
+- Color the whole window with a theme, and choose the window theme and the editor theme separately in
+  Appearance settings, each light, dark, or matching your Mac. The Theme menu, the Appearance setting, and the status
+  bar’s Tinted and Opaque setting have been removed, and themes are edited from the Create or Edit Theme button.
+- Replace the built-in themes with Graupel and Rain, each with a dark variant. Your own themes are kept; if you
+  used a removed theme, the editor now matches the window.
 - Boreas: highlight `@`, which now marks a write that reaches the caller, and stop highlighting `update`, which
   Boreas no longer has as a keyword.
 - Boreas: highlight the new built-in functions `count`, `findloc`, `lbound`, `maxloc`, `merge`, `minloc`, `norm2`,
