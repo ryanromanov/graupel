@@ -23,6 +23,8 @@
 //  limitations under the License.
 //
 
+import AppKit
+import Combine
 import Foundation
 import UniformTypeIdentifiers
 import Defaults
@@ -139,6 +141,20 @@ import StringUtils
             case .light: false
             case .dark: true
         }
+    }
+    
+    
+    /// Publishes whether document windows use the dark appearance, following the system appearance and the setting.
+    ///
+    /// Observe this rather than the appearance of a window or view, which a custom window style sets to match
+    /// its theme.
+    var usesDarkAppearancePublisher: AnyPublisher<Bool, Never> {
+        
+        NSApp.publisher(for: \.effectiveAppearance)
+            .combineLatest(UserDefaults.standard.publisher(for: .documentAppearance, initial: true))
+            .map { [unowned self] appearance, _ in self.usesDarkAppearance(inDarkMode: appearance.isDark) }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
     
     

@@ -175,14 +175,14 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
                 .sink { [weak self] in self?.setTheme(name: $0) },
             
             // observe appearance change for theme toggle
-            self.view.publisher(for: \.effectiveAppearance)
-                .sink { [weak self] appearance in
+            ThemeManager.shared.usesDarkAppearancePublisher
+                .sink { [weak self] usesDark in
                     guard
                         let self,
                         !UserDefaults.standard[.pinsThemeAppearance],
                         self.viewIfLoaded?.window != nil,
                         let currentThemeName = self.themeName,
-                        let themeName = ThemeManager.shared.equivalentSettingName(to: currentThemeName, forDark: appearance.isDark),
+                        let themeName = ThemeManager.shared.equivalentSettingName(to: currentThemeName, forDark: usesDark),
                         currentThemeName != themeName
                     else { return }
                     
@@ -269,9 +269,10 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         super.restoreState(with: coder)
         
         if let storedThemeName = coder.decodeObject(of: NSString.self, forKey: SerializationKey.theme) as? String {
+            let usesDark = ThemeManager.shared.usesDarkAppearance(inDarkMode: NSApp.effectiveAppearance.isDark)
             let themeName = UserDefaults.standard[.pinsThemeAppearance]
                 ? storedThemeName
-                : ThemeManager.shared.equivalentSettingName(to: storedThemeName, forDark: self.view.effectiveAppearance.isDark) ?? storedThemeName
+                : ThemeManager.shared.equivalentSettingName(to: storedThemeName, forDark: usesDark) ?? storedThemeName
             
             if themeName != self.themeName {
                 self.setTheme(name: themeName)

@@ -81,7 +81,9 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     private var documentSyntaxObserver: Task<Void, Never>?
     private var syntaxNamesObserver: Task<Void, Never>?
     private var chromeObserver: Task<Void, Never>?
-    private var effectiveAppearanceObserver: AnyCancellable?
+    private var defaultThemeObserver: AnyCancellable?
+    /// The window appearance chosen in the settings, or `nil` to follow the system.
+    private var settingAppearance: NSAppearance?
     private var toolbarDisplayModeBeforeChrome: NSToolbar.DisplayMode?
     private var syntaxDefaultsObserver: AnyCancellable?
     private weak var syntaxPopUpButton: NSPopUpButton?
@@ -151,20 +153,23 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         
         // observe appearance setting change
         self.appearanceModeObserver = UserDefaults.standard.publisher(for: .documentAppearance, initial: true)
-            .map { value in
+            .map { value -> NSAppearance? in
                 switch value {
                     case .default: nil
                     case .light: NSAppearance(named: .aqua)
                     case .dark: NSAppearance(named: .darkAqua)
                 }
             }
-            .assign(to: \.appearance, on: window)
+            .sink { [weak self] in
+                self?.settingAppearance = $0
+                self?.updateWindowAppearance()
+            }
         
         // observe the window style to restyle the toolbar
         if let chrome = (window.contentViewController as? WindowContentViewController)?.chrome {
             // draw the chrome with the default theme until a document provides its own
-            self.effectiveAppearanceObserver = window.publisher(for: \.effectiveAppearance, options: [.initial, .new])
-                .sink { chrome.applyDefaultTheme(isDark: $0.isDark) }
+            self.defaultThemeObserver = ThemeManager.shared.usesDarkAppearancePublisher
+                .sink { chrome.applyDefaultTheme(isDark: $0) }
             
             self.chromeObserver = Task { [weak self] in
                 for await _ in Observations({ chrome.revision }) {
@@ -574,6 +579,7 @@ private extension DocumentWindowController {
         // let the window background show through the title bar
         window.titlebarAppearsTransparent = isActive
         window.chromeBackgroundColor = style?.background
+        self.updateWindowAppearance()
         
         if isActive {
             if self.toolbarDisplayModeBeforeChrome == nil {
@@ -589,6 +595,20 @@ private extension DocumentWindowController {
             item.isBordered = !isActive
             (item.view as? NSPopUpButton)?.isBordered = !isActive
         }
+    }
+    
+    
+    /// Sets the window’s appearance, which draws the title, toolbar and bar text.
+    ///
+    /// A custom window style paints the window in the theme’s colors, so the appearance has to match how dark
+    /// the theme is. Otherwise it follows the settings.
+    private func updateWindowAppearance() {
+        
+        guard let window = self.window as? DocumentWindow else { return }
+        
+        let themeAppearance = window.chrome?.style.flatMap { NSAppearance(named: $0.isDark ? .darkAqua : .aqua) }
+        
+        window.appearance = themeAppearance ?? self.settingAppearance
     }
 }
 
