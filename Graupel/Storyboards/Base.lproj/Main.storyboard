@@ -491,10 +491,6 @@ Gw
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Theme" secondaryImage="paintbrush" catalog="system" id="8z7-Jc-agP">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Theme" id="165-HJ-Xty"/>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="9GY-M7-uHl"/>
                                         <menuItem title="Tab Width" secondaryImage="arrow.right.to.line" catalog="system" id="djM-fI-MkN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -715,6 +711,11 @@ Gw
                                             <connections>
                                                 <action selector="toggleStatusBar:" target="Ady-hI-5gd" id="pjH-8E-CJp"/>
                                             </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Gr9-th-m3S"/>
+                                        <menuItem title="Theme" secondaryImage="paintbrush" catalog="system" id="8z7-Jc-agP">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Theme" id="165-HJ-Xty"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="366"/>
                                         <menuItem title="Move Focus to Next Editor" secondaryImage="inset.filled.bottomhalf.tophalf.rectangle" catalog="system" keyEquivalent="`" id="794">
