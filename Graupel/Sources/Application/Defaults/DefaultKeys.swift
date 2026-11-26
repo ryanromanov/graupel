@@ -44,12 +44,12 @@ extension DefaultKeys {
     static let monospacedShouldAntialias = DefaultKey<Bool>("monospacedShouldAntialias")
     static let monospacedLigature = DefaultKey<Bool>("monospacedLigature")
     static let lineHeight = DefaultKey<Double>("lineHeight")
-    static let documentAppearance = RawRepresentableDefaultKey<AppearanceMode>("appearance")
-    static let prefersOpaqueBarBackground = DefaultKey<Bool>("prefersOpaqueBarBackground")
     static let windowAlpha = DefaultKey<Double>("windowAlpha")
     static let theme = DefaultKey<String>("defaultTheme")
-    static let pinsThemeAppearance = DefaultKey<Bool>("pinsThemeAppearance")
-    static let windowStyle = RawRepresentableDefaultKey<WindowStyle>("windowStyle")
+    static let editorThemeAppearance = RawRepresentableDefaultKey<AppearanceMode>("editorThemeAppearance")
+    static let editorMatchesWindowTheme = DefaultKey<Bool>("editorMatchesWindowTheme")
+    static let windowTheme = DefaultKey<String>("windowTheme")
+    static let windowThemeAppearance = RawRepresentableDefaultKey<AppearanceMode>("windowThemeAppearance")
     
     // Window
     static let windowTabbing = DefaultKey<Int>("windowTabbing")

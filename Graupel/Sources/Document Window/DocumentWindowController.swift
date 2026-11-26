@@ -74,16 +74,12 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     private lazy var editedIndicator: NSView = NSHostingView(rootView: EditedIndicator())
     
     private var opacityObserver: AnyCancellable?
-    private var appearanceModeObserver: AnyCancellable?
     private var fileDocumentNameObserver: AnyCancellable?
     private var documentObservers: [NotificationCenter.ObservationToken] = []
     
     private var documentSyntaxObserver: Task<Void, Never>?
     private var syntaxNamesObserver: Task<Void, Never>?
     private var chromeObserver: Task<Void, Never>?
-    private var defaultThemeObserver: AnyCancellable?
-    /// The window appearance chosen in the settings, or `nil` to follow the system.
-    private var settingAppearance: NSAppearance?
     private var toolbarDisplayModeBeforeChrome: NSToolbar.DisplayMode?
     private var syntaxDefaultsObserver: AnyCancellable?
     private weak var syntaxPopUpButton: NSPopUpButton?
@@ -151,26 +147,8 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
                 .assign(to: \.backgroundAlpha, on: window)
         }
         
-        // observe appearance setting change
-        self.appearanceModeObserver = UserDefaults.standard.publisher(for: .documentAppearance, initial: true)
-            .map { value -> NSAppearance? in
-                switch value {
-                    case .default: nil
-                    case .light: NSAppearance(named: .aqua)
-                    case .dark: NSAppearance(named: .darkAqua)
-                }
-            }
-            .sink { [weak self] in
-                self?.settingAppearance = $0
-                self?.updateWindowAppearance()
-            }
-        
-        // observe the window style to restyle the toolbar
+        // observe the window theme to restyle the toolbar
         if let chrome = (window.contentViewController as? WindowContentViewController)?.chrome {
-            // draw the chrome with the default theme until a document provides its own
-            self.defaultThemeObserver = ThemeManager.shared.usesDarkAppearancePublisher
-                .sink { chrome.applyDefaultTheme(isDark: $0) }
-            
             self.chromeObserver = Task { [weak self] in
                 for await _ in Observations({ chrome.revision }) {
                     self?.applyChrome(chrome.style)
@@ -600,15 +578,14 @@ private extension DocumentWindowController {
     
     /// Sets the window’s appearance, which draws the title, toolbar and bar text.
     ///
-    /// A custom window style paints the window in the theme’s colors, so the appearance has to match how dark
-    /// the theme is. Otherwise it follows the settings.
+    /// The window is painted in the window theme’s colors, so the appearance has to match how dark the theme is.
     private func updateWindowAppearance() {
         
         guard let window = self.window as? DocumentWindow else { return }
         
         let themeAppearance = window.chrome?.style.flatMap { NSAppearance(named: $0.isDark ? .darkAqua : .aqua) }
         
-        window.appearance = themeAppearance ?? self.settingAppearance
+        window.appearance = themeAppearance
     }
 }
 

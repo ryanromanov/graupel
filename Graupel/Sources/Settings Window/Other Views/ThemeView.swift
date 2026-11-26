@@ -24,6 +24,7 @@
 //
 
 import SwiftUI
+import Combine
 import AppKit.NSColor
 import Defaults
 import SyntaxFormat
@@ -33,12 +34,6 @@ struct ThemeView: View {
     
     private var manager: ThemeManager = .shared
     
-    @Environment(\.colorScheme) private var colorScheme
-    
-    @AppStorage(.theme) private var themeName
-    @AppStorage(.pinsThemeAppearance) private var pinsThemeAppearance
-    @AppStorage(.documentAppearance) private var documentAppearance
-    
     @State private var selection: String = ""
     @State private var theme: Theme = .init()
     @State private var isBundled: Bool = false
@@ -46,6 +41,7 @@ struct ThemeView: View {
     @State private var error: any Error?
     
     @State private var settingUpdateObserver: NotificationCenter.ObservationToken?
+    @State private var editorThemeObserver: AnyCancellable?
     
     
     var body: some View {
@@ -71,24 +67,25 @@ struct ThemeView: View {
         .clipShape(.rect(cornerRadius: 7, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous).strokeBorder(.separator))
         .onAppear {
-            self.selectDefaultTheme()
+            // show the editor’s theme, including after a change in the menus above
+            // -> Subscribe once. A publisher made in `body` would be subscribed again on every update,
+            //    and its first value would undo the selection in the list.
+            self.editorThemeObserver = self.manager.themeNamesPublisher
+                .map(\.editor)
+                .removeDuplicates()
+                .sink { self.selection = $0 }
             
             self.settingUpdateObserver = NotificationCenter.default.addObserver(of: self.manager, for: DidManagerUpdateSettingMessage.self) { message in
-                guard let name = message.change.new, name == self.themeName else { return }
-                self.setTheme(name: name)
+                guard let name = message.change.new, name == self.selection else { return }
+                self.loadTheme(name: name)
             }
         }
         .onDisappear {
             self.settingUpdateObserver = nil
-        }
-        .onChange(of: self.documentAppearance) {
-            self.selectDefaultTheme()
-        }
-        .onChange(of: self.themeName) {
-            self.selectDefaultTheme()
+            self.editorThemeObserver = nil
         }
         .onChange(of: self.selection) { _, newValue in
-            self.setTheme(name: newValue)
+            self.loadTheme(name: newValue)
         }
         .alert(error: $error)
         .accessibilityElement(children: .contain)
@@ -96,30 +93,10 @@ struct ThemeView: View {
     }
     
     
-    /// Selects the effective default theme.
-    private func selectDefaultTheme() {
-        
-        self.selectTheme(name: self.manager.userDefaultSettingName(inDarkMode: self.colorScheme == .dark))
-    }
-    
-    
-    /// Selects the given theme.
+    /// Shows the given theme in the editor of themes.
     ///
     /// - Parameter name: The theme name.
-    private func selectTheme(name: String) {
-        
-        if self.selection == name {
-            self.setTheme(name: name)
-        } else {
-            self.selection = name
-        }
-    }
-    
-    
-    /// Sets the given theme to the editor.
-    ///
-    /// - Parameter name: The theme name.
-    private func setTheme(name: String) {
+    private func loadTheme(name: String) {
         
         let theme: Theme
         do {
@@ -128,12 +105,6 @@ struct ThemeView: View {
             self.error = error
             return
         }
-        
-        // update default theme setting
-        let isDarkTheme = ThemeManager.isDark(name: name)
-        let usesDarkAppearance = self.manager.usesDarkAppearance(inDarkMode: self.colorScheme == .dark)
-        self.pinsThemeAppearance = (isDarkTheme != usesDarkAppearance)
-        self.themeName = name
         
         self.isBundled = self.manager.state(of: name)?.isBundled == true
         self.theme = theme
@@ -167,8 +138,16 @@ private struct ThemeListView: View {
                     let state = self.manager.state(of: name)
                     
                     SettingNameField(text: name) { newName in
+                        // keep using the theme under its new name
+                        let isEditorTheme = ThemeManager.baseName(of: name) == UserDefaults.standard[.theme]
+                        let matchesWindow = UserDefaults.standard[.editorMatchesWindowTheme]
                         do {
-                            self.selection = try self.manager.renameSetting(name: name, to: newName)
+                            let newName = try self.manager.renameSetting(name: name, to: newName)
+                            if isEditorTheme, !ThemeManager.hasTheme(name, in: self.manager.settingNames) {
+                                UserDefaults.standard[.theme] = ThemeManager.baseName(of: newName)
+                                UserDefaults.standard[.editorMatchesWindowTheme] = matchesWindow
+                            }
+                            self.selection = newName
                         } catch {
                             self.error = error
                             return false
@@ -644,7 +623,7 @@ private struct TransferableTheme: TransferableFile {
 }
 
 #Preview("ThemeEditorView", traits: .fixedLayout(width: 400, height: 280)) {
-    @Previewable @State var theme = try! ThemeManager.shared.setting(name: "Anura")
+    @Previewable @State var theme = try! ThemeManager.shared.setting(name: "Graupel")
     
     ThemeEditorView(theme: $theme, isBundled: false)
         .scenePadding()

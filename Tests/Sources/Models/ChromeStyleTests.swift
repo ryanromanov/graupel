@@ -51,10 +51,4 @@ import Testing
             #expect(style.secondaryText != style.background, "\(name)")
         }
     }
-    
-    
-    @Test func windowStyleDefaultsToSystem() {
-        
-        #expect(DefaultSettings.defaults[.windowStyle] as? Int == WindowStyle.system.rawValue)
-    }
 }

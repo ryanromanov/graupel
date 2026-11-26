@@ -712,11 +712,6 @@ Gw
                                                 <action selector="toggleStatusBar:" target="Ady-hI-5gd" id="pjH-8E-CJp"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="Gr9-th-m3S"/>
-                                        <menuItem title="Theme" secondaryImage="paintbrush" catalog="system" id="8z7-Jc-agP">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Theme" id="165-HJ-Xty"/>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="366"/>
                                         <menuItem title="Move Focus to Next Editor" secondaryImage="inset.filled.bottomhalf.tophalf.rectangle" catalog="system" keyEquivalent="`" id="794">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES"/>
@@ -1326,7 +1321,6 @@ CA
                         <outlet property="scriptMenu" destination="616" id="5Z8-hr-h6d"/>
                         <outlet property="snippetMenu" destination="dZy-7n-iCq" id="3hf-hr-ScA"/>
                         <outlet property="syntaxesMenu" destination="304" id="KxC-5F-otD"/>
-                        <outlet property="themesMenu" destination="165-HJ-Xty" id="R7w-wo-SVO"/>
                     </connections>
                 </customObject>
                 <customObject id="1Vq-aI-bgB" customClass="NSFontManager"/>

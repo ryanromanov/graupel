@@ -24,7 +24,9 @@
 //
 
 import SwiftUI
+import Combine
 import Defaults
+import StringUtils
 
 struct AppearanceSettingsView: View {
     
@@ -41,10 +43,9 @@ struct AppearanceSettingsView: View {
     @AppStorage(.monospacedLigature) private var monospacedLigature
     
     @AppStorage(.lineHeight) private var lineHeight
-    @AppStorage(.documentAppearance) private var documentAppearance
-    @AppStorage(.prefersOpaqueBarBackground) private var prefersOpaqueBarBackground
     @AppStorage(.windowAlpha) private var windowAlpha
     
+    @State private var isThemeEditorPresented = false
     @State private var monospacedAlertFont: Data?
     @State private var isRestoringMonospacedFont = false
     
@@ -106,23 +107,15 @@ struct AppearanceSettingsView: View {
                 }
                 .padding(.bottom, Self.verticalSpace)
                 
-                Picker(.init("Appearance:", table: "AppearanceSettings"), selection: $documentAppearance) {
-                    ForEach(AppearanceMode.allCases, id: \.self) {
-                        Text($0.label)
-                    }
-                }
-                .pickerStyle(.radioGroup)
-                .horizontalRadioGroupLayout()
-                .padding(.bottom, Self.verticalSpace)
+                ThemeSelectionView()
                 
-                Picker(.init("Status bar:", table: "AppearanceSettings"), selection: $prefersOpaqueBarBackground) {
-                    Text("Tinted", tableName: "AppearanceSettings", comment: "adjective; radio button; status bar appearance")
-                        .tag(false)
-                    Text("Opaque", tableName: "AppearanceSettings", comment: "adjective; radio button; status bar appearance")
-                        .tag(true)
+                LabeledContent {
+                    Button(.init("Create or Edit Theme…", table: "AppearanceSettings", comment: "button; opens the theme editor")) {
+                        self.isThemeEditorPresented = true
+                    }
+                } label: {
+                    EmptyView()
                 }
-                .pickerStyle(.radioGroup)
-                .horizontalRadioGroupLayout()
                 .padding(.bottom, Self.verticalSpace)
                 
                 LabeledContent(.init("Editor opacity:", table: "AppearanceSettings")) {
@@ -157,14 +150,15 @@ struct AppearanceSettingsView: View {
             }
             .padding(.bottom)
             
-            ThemeView()
-            
             HStack {
                 Spacer()
                 HelpLink(anchor: "settings_appearance")
             }
         }
         .frame(width: SettingsPane.width)
+        .sheet(isPresented: $isThemeEditorPresented) {
+            ThemeEditorSheet()
+        }
     }
     
     
@@ -173,6 +167,136 @@ struct AppearanceSettingsView: View {
         
         Binding(get: { self.windowAlpha.clamped(to: Self.windowAlphaRange) },
                 set: { self.windowAlpha = $0.clamped(to: Self.windowAlphaRange) })
+    }
+}
+
+
+/// The list of themes and their colors, in a sheet.
+private struct ThemeEditorSheet: View {
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    
+    var body: some View {
+        
+        VStack {
+            ThemeView()
+                .frame(height: 360)
+            
+            HStack {
+                HelpLink(anchor: "howto_customize_theme")
+                Spacer()
+                Button(.init("Done", table: "AppearanceSettings", comment: "button; closes the theme editor")) {
+                    self.dismiss()
+                }
+                .keyboardShortcut(.defaultAction)
+            }
+        }
+        .scenePadding()
+        .frame(width: SettingsPane.width)
+        .onDisappear {
+            // the Colors window would otherwise stay open with nothing to change
+            if NSColorPanel.sharedColorPanelExists {
+                NSColorPanel.shared.close()
+            }
+        }
+    }
+}
+
+
+/// The menus to choose the themes of the window and the editor.
+private struct ThemeSelectionView: View {
+    
+    private var manager: ThemeManager = .shared
+    
+    @AppStorage(.windowTheme) private var windowTheme
+    @AppStorage(.windowThemeAppearance) private var windowThemeAppearance
+    @AppStorage(.theme) private var editorTheme
+    @AppStorage(.editorThemeAppearance) private var editorThemeAppearance
+    @AppStorage(.editorMatchesWindowTheme) private var editorMatchesWindowTheme
+    
+    
+    var body: some View {
+        
+        LabeledContent(.init("Window theme:", table: "AppearanceSettings")) {
+            HStack {
+                Picker(.init("Window theme:", table: "AppearanceSettings"), selection: $windowTheme) {
+                    ForEach(ThemeManager.windowThemeNames, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .fixedSize()
+                
+                AppearanceModePicker(.init("Window theme appearance", table: "AppearanceSettings"), selection: $windowThemeAppearance)
+            }
+            .labelsHidden()
+        }
+        
+        LabeledContent(.init("Editor theme:", table: "AppearanceSettings")) {
+            HStack {
+                Picker(.init("Editor theme:", table: "AppearanceSettings"), selection: self.editorSelection) {
+                    Text("Match Window", tableName: "AppearanceSettings", comment: "menu item; the editor uses the window’s theme")
+                        .tag(String?.none)
+                    Divider()
+                    ForEach(self.editorThemeNames, id: \.self) {
+                        Text($0).tag(String?.some($0))
+                    }
+                }
+                .fixedSize()
+                
+                if !self.editorMatchesWindowTheme {
+                    AppearanceModePicker(.init("Editor theme appearance", table: "AppearanceSettings"), selection: $editorThemeAppearance)
+                }
+            }
+            .labelsHidden()
+        }
+        .padding(.bottom, 6)
+    }
+    
+    
+    /// The names of the themes for the editor, listing a pair of light and dark themes once.
+    private var editorThemeNames: [String] {
+        
+        self.manager.settingNames.map(ThemeManager.baseName(of:)).uniqued
+    }
+    
+    
+    /// The editor theme, or `nil` to match the window.
+    private var editorSelection: Binding<String?> {
+        
+        Binding(get: { self.editorMatchesWindowTheme ? nil : ThemeManager.baseName(of: self.editorTheme) },
+                set: { name in
+                    if let name {
+                        self.editorTheme = name
+                    }
+                    self.editorMatchesWindowTheme = (name == nil)
+                })
+    }
+}
+
+
+/// A menu to choose whether a theme is light or dark, or matches the system.
+private struct AppearanceModePicker: View {
+    
+    private var title: LocalizedStringResource
+    @Binding private var selection: AppearanceMode
+    
+    
+    init(_ title: LocalizedStringResource, selection: Binding<AppearanceMode>) {
+        
+        self.title = title
+        self._selection = selection
+    }
+    
+    
+    var body: some View {
+        
+        Picker(self.title, selection: $selection) {
+            ForEach(AppearanceMode.allCases, id: \.self) {
+                Text($0.label)
+            }
+        }
+        .fixedSize()
     }
 }
 
@@ -238,7 +362,7 @@ private extension AppearanceMode {
                 .init("AppearanceMode.automatic.label",
                       defaultValue: "Match System",
                       table: "AppearanceSettings",
-                      comment: "verb; radio button; use the system’s appearance setting")
+                      comment: "verb; menu item; use the system’s appearance setting")
             case .light:
                 .init("AppearanceMode.light.label",
                       defaultValue: "Light",

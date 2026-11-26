@@ -43,10 +43,12 @@ extension DefaultSettings {
         .monospacedShouldAntialias,
         .monospacedLigature,
         .lineHeight,
-        .documentAppearance,
         .windowAlpha,
         .theme,
-        .pinsThemeAppearance,
+        .editorThemeAppearance,
+        .editorMatchesWindowTheme,
+        .windowTheme,
+        .windowThemeAppearance,
         
         // Window
         .windowTabbing,

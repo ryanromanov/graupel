@@ -150,7 +150,7 @@ import SyntaxFormat
         try self.cleanUp(manager)
         defer { try? self.cleanUp(manager) }
         
-        let url = try self.createThemeFile(named: "Dendrobates")
+        let url = try self.createThemeFile(named: "Graupel")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
         
         let type = try url.resourceValues(forKeys: [.contentTypeKey]).contentType
@@ -162,7 +162,7 @@ import SyntaxFormat
         let setting = try manager.setting(name: name)
         let savedURL = try #require(manager.urlForUserSetting(name: name))
         
-        #expect(setting.metadata?.author == "1024jp")
+        #expect(setting.metadata?.author == "Graupel")
         #expect(savedURL.pathExtension == UTType.cotTheme.preferredFilenameExtension)
     }
     

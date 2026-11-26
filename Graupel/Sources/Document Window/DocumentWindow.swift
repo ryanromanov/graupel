@@ -80,7 +80,6 @@ final class DocumentWindow: NSWindow {
     func apply(theme: Theme) {
         
         self.contentBackgroundColor = theme.background.color
-        self.chrome?.apply(theme: theme)
     }
     
     
