@@ -125,8 +125,11 @@ struct StatusBar: View {
         .lineLimit(1)
         .modifier { container in
             if #available(macOS 27, *) {
+                // a custom window style colors the whole bar, so apply the system’s insets here instead
                 container
                     .frame(height: 13)
+                    .padding(.horizontal, self.chrome.isActive ? 10 : 0)
+                    .padding(.vertical, self.chrome.isActive ? 9 : 0)
             } else {
                 container
                     .frame(height: 18)
@@ -135,15 +138,14 @@ struct StatusBar: View {
                     .containerCornerOffset(.horizontal, sizeToFit: true)
             }
         }
-        .modifier { container in
+        // -> Don’t branch on the chrome style here: a branch gives the view a new identity when the style
+        //    changes, and the old view’s `onDisappear` then stops the counting that the new one started.
+        .foregroundStyle(self.chrome.style.map { AnyShapeStyle(Color(nsColor: $0.text)) } ?? AnyShapeStyle(.foreground))
+        .background(self.chrome.style.map { AnyShapeStyle(Color(nsColor: $0.background)) }
+                    ?? AnyShapeStyle(.windowBackground.opacity(self.prefersOpaqueBarBackground ? 1 : 0)))
+        .overlay(alignment: .top) {
             if let style = self.chrome.style {
-                container
-                    .foregroundStyle(Color(nsColor: style.secondaryText))
-                    .background(Color(nsColor: style.background))
-                    .overlay(alignment: .top) { Color(nsColor: style.border).frame(height: 1) }
-            } else {
-                container
-                    .background(.windowBackground.opacity(self.prefersOpaqueBarBackground ? 1 : 0))
+                Color(nsColor: style.border).frame(height: 1)
             }
         }
         .animation(.default, value: self.prefersOpaqueBarBackground)
