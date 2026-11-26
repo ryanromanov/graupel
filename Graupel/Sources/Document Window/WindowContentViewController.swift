@@ -53,6 +53,7 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     private var versionBrowserObservers: [any NSObjectProtocol] = []
     
     private var defaultsObserver: AnyCancellable?
+    private var chromeObserver: Task<Void, Never>?
     
     
     // MARK: Split View Controller Methods
@@ -78,6 +79,7 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     
     isolated deinit {
         self.versionBrowserObservers.forEach(NotificationCenter.default.removeObserver)
+        self.chromeObserver?.cancel()
     }
     
     
@@ -110,6 +112,13 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         statusBarController.isHidden = !UserDefaults.standard[.showStatusBar]
         if #unavailable(macOS 27) {
             statusBarController.automaticallyAppliesContentInsets = false
+        } else {
+            // a custom window style must color the whole bar, so the status bar then insets itself
+            self.chromeObserver = Task { [chrome, weak statusBarController] in
+                for await _ in Observations({ chrome.revision }) {
+                    statusBarController?.automaticallyAppliesContentInsets = !chrome.isActive
+                }
+            }
         }
         self.contentViewItem.addBottomAlignedAccessoryViewController(statusBarController)
         self.addSplitViewItem(self.contentViewItem)
