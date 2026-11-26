@@ -150,9 +150,12 @@ import StringUtils
     /// its theme.
     var usesDarkAppearancePublisher: AnyPublisher<Bool, Never> {
         
+        // -> Don’t combine these with `combineLatest`: the defaults publisher then drops its initial value,
+        //    and nothing is published until the setting changes.
         NSApp.publisher(for: \.effectiveAppearance)
-            .combineLatest(UserDefaults.standard.publisher(for: .documentAppearance, initial: true))
-            .map { [unowned self] appearance, _ in self.usesDarkAppearance(inDarkMode: appearance.isDark) }
+            .map { _ in }
+            .merge(with: UserDefaults.standard.publisher(for: .documentAppearance).map { _ in })
+            .map { [unowned self] in self.usesDarkAppearance(inDarkMode: NSApp.effectiveAppearance.isDark) }
             .removeDuplicates()
             .eraseToAnyPublisher()
     }
