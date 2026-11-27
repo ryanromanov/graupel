@@ -80,6 +80,8 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
         
         let outlineView = NSOutlineView()
         outlineView.headerView = nil
+        outlineView.style = .fullWidth
+        outlineView.backgroundColor = .clear
         outlineView.addTableColumn(NSTableColumn())
         outlineView.setAccessibilityLabel(String(localized: "Files", table: "Document", comment: "accessibility label"))
         outlineView.target = self
@@ -106,10 +108,8 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
             messageField.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
         ])
         
-        let bottomSeparator = NSBox()
-        bottomSeparator.boxType = .separator
+        let bottomSeparator = ChromeSeparator()
         
-        // use custom MenuButton to apply Liquid Glass style (2026-07, macOS 27)
         let addMenu = NSMenu()
         addMenu.autoenablesItems = false
         addMenu.items = [
@@ -123,11 +123,9 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
         addMenu.items.forEach { $0.target = self }
         let addButton = MenuButton()
         addButton.image = NSImage(systemSymbolName: "plus", accessibilityDescription: nil)
-        addButton.bezelStyle = .glass
-        addButton.borderShape = .circle
-        if #unavailable(macOS 27) {
-            addButton.isBordered = false
-        }
+        addButton.isBordered = false
+        addButton.contentTintColor = .secondaryLabelColor
+        addButton.widthAnchor.constraint(equalToConstant: 22).isActive = true
         addButton.menu = addMenu
         addButton.setAccessibilityLabel(String(localized: "Action.add.label", defaultValue: "Add"))
         
@@ -156,13 +154,12 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
         footerView.setHuggingPriority(.required, for: .vertical)
         footerView.edgeInsets = NSEdgeInsets(top: 6, left: 7, bottom: 6, right: 7)
         footerView.alignment = .centerY
-        let footerContainer = NSGlassEffectContainerView()
-        footerContainer.contentView = footerView
         
-        let stackView = NSStackView(views: [scrollView, bottomSeparator, footerContainer])
+        let stackView = NSStackView(views: [scrollView, bottomSeparator, footerView])
         stackView.orientation = .vertical
         stackView.spacing = 0
-        footerContainer.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        footerView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        bottomSeparator.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         
         self.view = stackView
         self.outlineView = outlineView
@@ -1171,7 +1168,7 @@ extension FileBrowserViewController: NSOutlineViewDelegate {
         cellView.tags = node.file.tags
         
         cellView.textField!.stringValue = node.file.name
-        cellView.textField!.textColor = if node.file.isHidden {
+        cellView.nameColor = if node.file.isHidden {
             .tertiaryLabelColor
         } else if node.filterState != nil {
             .secondaryLabelColor
@@ -1358,6 +1355,23 @@ private final class FileBrowserServicesRequestor: NSObject, NSServicesMenuReques
 }
 
 
+/// A hairline in the color of the window chrome.
+private final class ChromeSeparator: NSView {
+    
+    override var intrinsicContentSize: NSSize {
+        
+        NSSize(width: NSView.noIntrinsicMetric, height: 1)
+    }
+    
+    
+    override func draw(_ dirtyRect: NSRect) {
+        
+        ((self.window as? DocumentWindow)?.chrome?.style?.border ?? .separatorColor).setFill()
+        self.bounds.fill()
+    }
+}
+
+
 private final class FileBrowserTableRowView: NSTableRowView {
     
     override var isSelected: Bool {
@@ -1368,14 +1382,48 @@ private final class FileBrowserTableRowView: NSTableRowView {
                 .forEach { $0.isSelected = isSelected }
         }
     }
+    
+    
+    // a row can be selected before it has its cell
+    override func didAddSubview(_ subview: NSView) {
+        
+        super.didAddSubview(subview)
+        
+        (subview as? FileBrowserTableCellView)?.isSelected = self.isSelected
+    }
+    
+    
+    /// The cell’s colors are set for the chrome, so AppKit mustn’t turn them white.
+    override var interiorBackgroundStyle: NSView.BackgroundStyle {
+        
+        (self.chromeStyle == nil) ? super.interiorBackgroundStyle : .normal
+    }
+    
+    
+    override func drawSelection(in dirtyRect: NSRect) {
+        
+        guard let style = self.chromeStyle else { return super.drawSelection(in: dirtyRect) }
+        
+        // the same solid block whether or not the list has the focus
+        style.selection.setFill()
+        self.bounds.fill()
+    }
+    
+    
+    private var chromeStyle: ChromeStyle? {
+        
+        (self.window as? DocumentWindow)?.chrome?.style
+    }
 }
 
 
-private final class FileBrowserTableCellView: NSTableCellView {
+private final class FileBrowserTableCellView: NSTableCellView, ChromeColoring {
     
     var isAlias: Bool = false  { didSet { self.aliasArrowView?.isHidden = !isAlias } }
     var tags: [FinderTag] = []  { didSet { self.updateTagsView() } }
-    var isSelected = false  { didSet { self.updateTagsView() } }
+    var isSelected = false  { didSet { self.updateTagsView(); self.applyRowColors() } }
+    /// The color of the name while the row isn’t selected.
+    var nameColor: NSColor = .labelColor  { didSet { self.applyRowColors() } }
     var matchedRange: NSRange?  { didSet { self.needsDisplay = true } }
     
     private var aliasArrowView: NSImageView?
@@ -1401,12 +1449,45 @@ private final class FileBrowserTableCellView: NSTableCellView {
     }
     
     
+    override func viewDidMoveToWindow() {
+        
+        super.viewDidMoveToWindow()
+        
+        // the window provides the colors
+        self.applyRowColors()
+    }
+    
+    
     override func viewWillDraw() {
         
         super.viewWillDraw()
         
         // apply after super since it resets the text attributes in the source list style
+        self.applyRowColors()
         self.highlightMatchedRange()
+    }
+    
+    
+    func updateChromeColors() {
+        
+        self.applyRowColors()
+        self.highlightMatchedRange()
+    }
+    
+    
+    /// Colors the name and icon for whether the row is selected.
+    private func applyRowColors() {
+        
+        let selectionColor = self.isSelected ? (self.window as? DocumentWindow)?.chrome?.style?.onSelection : nil
+        let textColor = selectionColor ?? self.nameColor
+        let tintColor = selectionColor ?? self.tags.last?.color.color
+        
+        if let textField, textField.currentEditor() == nil, textField.textColor != textColor {
+            textField.textColor = textColor
+        }
+        if self.imageView?.contentTintColor != tintColor {
+            self.imageView?.contentTintColor = tintColor
+        }
     }
     
     
@@ -1424,7 +1505,8 @@ private final class FileBrowserTableCellView: NSTableCellView {
         
         guard matchedRange.upperBound <= name.length else { return }
         
-        name.addAttribute(.foregroundColor, value: NSColor.labelColor, range: matchedRange)
+        let selectionColor = self.isSelected ? (self.window as? DocumentWindow)?.chrome?.style?.onSelection : nil
+        name.addAttribute(.foregroundColor, value: selectionColor ?? .labelColor, range: matchedRange)
         name.applyFontTraits(.boldFontMask, range: matchedRange)
         
         textField.attributedStringValue = name

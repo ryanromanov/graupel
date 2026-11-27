@@ -106,6 +106,12 @@ class FilterSearchField: NSSearchField {
         
         self.sendsSearchStringImmediately = true
         
+        // a flat field, filled in `draw(_:)`
+        self.isBezeled = false
+        self.isBordered = false
+        self.drawsBackground = false
+        self.focusRingType = .none
+        
         if let searchButtonCell {
             searchButtonCell.image = NSImage(systemSymbolName: "line.3.horizontal.decrease.circle", accessibilityDescription: nil)
             searchButtonCell.alternateImage = NSImage(systemSymbolName: "line.3.horizontal.decrease.circle.fill", accessibilityDescription: nil)?
@@ -125,6 +131,43 @@ class FilterSearchField: NSSearchField {
     
     
     // MARK: Text Field Methods
+    
+    override var intrinsicContentSize: NSSize {
+        
+        NSSize(width: super.intrinsicContentSize.width, height: 24)
+    }
+    
+    
+    // center the icon and text, which a field without a bezel doesn't
+    override var searchButtonBounds: NSRect {
+        
+        self.centered(super.searchButtonBounds, height: super.searchButtonBounds.height)
+    }
+    
+    
+    override var searchTextBounds: NSRect {
+        
+        self.centered(super.searchTextBounds, height: self.cell?.cellSize.height ?? super.searchTextBounds.height)
+    }
+    
+    
+    override var cancelButtonBounds: NSRect {
+        
+        self.centered(super.cancelButtonBounds, height: super.cancelButtonBounds.height)
+    }
+    
+    
+    // vibrancy would brighten the fill in the inspector
+    override var allowsVibrancy: Bool  { false }
+    
+    
+    override func draw(_ dirtyRect: NSRect) {
+        
+        ((self.window as? DocumentWindow)?.chrome?.style?.fill ?? .quaternarySystemFill).setFill()
+        self.bounds.fill()
+        
+        super.draw(dirtyRect)
+    }
     
     override var recentsAutosaveName: NSSearchField.RecentsAutosaveName? {
         
@@ -151,6 +194,15 @@ class FilterSearchField: NSSearchField {
     
     
     // MARK: Private Methods
+    
+    /// Returns a rectangle moved to the vertical center of the field.
+    private func centered(_ rect: NSRect, height: CGFloat) -> NSRect {
+        
+        let height = min(height, self.bounds.height)
+        
+        return NSRect(x: rect.minX, y: ((self.bounds.height - height) / 2).rounded(), width: rect.width, height: height)
+    }
+    
     
     /// Updates the visual highlight state of the search button.
     private func invalidateHighlight() {

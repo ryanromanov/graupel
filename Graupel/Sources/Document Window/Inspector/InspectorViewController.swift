@@ -44,6 +44,12 @@ final class InspectorViewController: NSTabViewController {
     var selectedPane: InspectorPane  { InspectorPane(rawValue: self.selectedTabViewItemIndex) ?? .document }
     
     
+    // MARK: Private Properties
+    
+    private let chromeBackgroundView = NSView()
+    private var chromeObserver: Task<Void, Never>?
+    
+    
     // MARK: Lifecycle
     
     convenience init(document: DataDocument?) {
@@ -93,6 +99,13 @@ final class InspectorViewController: NSTabViewController {
             self.selectedTabViewItemIndex = pane.rawValue
         }
         
+        // prepare the background that is drawn in the theme’s color
+        self.chromeBackgroundView.wantsLayer = true
+        self.chromeBackgroundView.isHidden = true
+        self.chromeBackgroundView.frame = self.view.bounds
+        self.chromeBackgroundView.autoresizingMask = [.width, .height]
+        self.view.addSubview(self.chromeBackgroundView, positioned: .below, relativeTo: nil)
+        
         // set accessibility
         self.view.setAccessibilityElement(true)
         self.view.setAccessibilityRole(.group)
@@ -101,6 +114,31 @@ final class InspectorViewController: NSTabViewController {
     
     
     // MARK: Tab View Controller Methods
+    
+    override func viewDidAppear() {
+        
+        super.viewDidAppear()
+        
+        guard let chrome = (self.view.window as? DocumentWindow)?.chrome else { return }
+        
+        self.applyChrome(chrome.style)
+        self.chromeObserver?.cancel()
+        self.chromeObserver = Task { [weak self] in
+            for await _ in Observations({ chrome.revision }) {
+                self?.applyChrome(chrome.style)
+            }
+        }
+    }
+    
+    
+    override func viewDidDisappear() {
+        
+        super.viewDidDisappear()
+        
+        self.chromeObserver?.cancel()
+        self.chromeObserver = nil
+    }
+    
     
     override var selectedTabViewItemIndex: Int {
         
@@ -114,6 +152,17 @@ final class InspectorViewController: NSTabViewController {
     
     
     // MARK: Private Methods
+    
+    /// Draws the inspector in the color of the window chrome.
+    ///
+    /// - Parameter style: The style of the chrome, or `nil` for the system style.
+    private func applyChrome(_ style: ChromeStyle?) {
+        
+        self.chromeBackgroundView.isHidden = (style == nil)
+        self.chromeBackgroundView.layer?.backgroundColor = style?.sidebar.cgColor
+        (self.tabView as? InspectorTabView)?.tabBarColors = style?.tabBarColors
+    }
+    
     
     /// Updates the document in children.
     private func updateDocument() {

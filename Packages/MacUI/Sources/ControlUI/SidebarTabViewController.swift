@@ -30,7 +30,17 @@ open class SidebarTabViewController: NSTabViewController {
     
     // MARK: Private Properties
     
-    private lazy var segmentedControl = NSSegmentedControl()
+    private lazy var tabBar = FlatTabBar()
+    
+    
+    // MARK: Public Properties
+    
+    /// The colors of the pane switcher, or `nil` to use the system colors.
+    public var tabBarColors: FlatTabBar.Colors? {
+        
+        get { self.tabBar.colors }
+        set { self.tabBar.colors = newValue }
+    }
     
     
     // MARK: Tab View Controller Methods
@@ -41,13 +51,7 @@ open class SidebarTabViewController: NSTabViewController {
         
         self.tabStyle = .unspecified
         
-        self.segmentedControl.segmentDistribution = .fillEqually
-        self.segmentedControl.controlSize = .large
-        if #available(macOS 27, *) {
-            self.segmentedControl.role = .tabs
-        }
-        self.segmentedControl.target = self.tabView
-        self.segmentedControl.action = #selector(NSTabView.takeSelectedTabViewItemFromSender)
+        self.tabBar.selectionHandler = { [weak self] in self?.tabView.selectTabViewItem(at: $0) }
     }
     
     
@@ -55,21 +59,15 @@ open class SidebarTabViewController: NSTabViewController {
         
         super.viewWillAppear()
         
-        guard self.segmentedControl.segmentCount == 0 else { return }
-        
-        self.segmentedControl.segmentCount = self.tabViewItems.count - 1
-        for (segment, item) in self.tabViewItems.enumerated() {
-            self.segmentedControl.setImage(item.image, forSegment: segment)
-            self.segmentedControl.setToolTip(item.label, forSegment: segment)
-        }
-        self.segmentedControl.selectedSegment = self.selectedTabViewItemIndex
+        self.tabBar.setItems(self.tabViewItems)
+        self.tabBar.selectedIndex = self.selectedTabViewItemIndex
     }
     
     
     open override var selectedTabViewItemIndex: Int {
         
         didSet {
-            self.segmentedControl.selectedSegment = selectedTabViewItemIndex
+            self.tabBar.selectedIndex = selectedTabViewItemIndex
         }
     }
     
@@ -81,21 +79,22 @@ open class SidebarTabViewController: NSTabViewController {
     /// - Returns: An accessory view controller that displays the pane selection control.
     public func makeAccessoryViewController() -> NSSplitViewItemAccessoryViewController {
         
-        let view = self.segmentedControl
+        let view = self.tabBar
         let containerView = NSView()
         view.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(view)
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: containerView.topAnchor),
-            view.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 0.5),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: containerView.trailingAnchor, multiplier: -0.5),
-            view.bottomAnchor.constraint(equalToSystemSpacingBelow: containerView.bottomAnchor, multiplier: -0.5),
+            view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 6),
         ])
         
         // present the pane selector inside the tab view controller's accessibility group
         containerView.setAccessibilityChildren([])
         view.setAccessibilityParent(self.view)
-        self.view.setAccessibilityChildren((view.accessibilityChildren() ?? []) + [self.tabView])
+        // -> The tabs don’t exist yet, so list the bar rather than its children.
+        self.view.setAccessibilityChildren([view, self.tabView])
         
         let viewController = NSSplitViewItemAccessoryViewController()
         viewController.view = containerView
