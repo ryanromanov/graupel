@@ -24,6 +24,7 @@
 ### Fixes
 
 - Draw the selected sidebar tab in the window theme’s own color in light themes.
+- Open a folder window for the first time with a narrower sidebar.
 - Help: say that the Boreas server can format a document, and fix the README's statements that Graupel doesn't
   update itself and that `brew upgrade` keeps it current.
 

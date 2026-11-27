@@ -148,7 +148,13 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         // -> Need to set *both* identifier and autosaveName to make autosaving work.
         let autosaveName = (self.directoryDocument == nil) ? "WindowContentSplitView" : "DirectoryWindowContentSplitView"
         self.splitView.identifier = NSUserInterfaceItemIdentifier(autosaveName)
+        let hasSavedWidths = (UserDefaults.standard.object(forKey: "NSSplitView Subview Frames \(autosaveName)") != nil)
         self.splitView.autosaveName = autosaveName
+        
+        // without widths to restore, the sidebar would take much of the window
+        if !hasSavedWidths, self.sidebarViewItem != nil {
+            self.splitView.setPosition(220, ofDividerAt: 0)
+        }
         
         // keep open sidebar at the beginning
         self.sidebarViewItem?.isCollapsed = false
