@@ -200,6 +200,8 @@ struct OutlineInspectorView: View, HostedPaneView {
                     .font(.system(size: self.fontSize))
                     .listRowSeparator(.hidden)
             }
+            // show the window’s color behind the list
+            .scrollContentBackground(.hidden)
             .environment(\.defaultMinListRowHeight, self.fontSize)
             .clipShape(.rect(cornerRadius: 8, style: .continuous))
             .onChange(of: self.model.outlineAllIDs, initial: true) { oldValue, newValue in

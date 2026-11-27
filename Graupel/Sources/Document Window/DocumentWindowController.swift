@@ -558,6 +558,8 @@ private extension DocumentWindowController {
         window.titlebarAppearsTransparent = isActive
         window.chromeBackgroundColor = style?.background
         self.updateWindowAppearance()
+        // update the views that read the chrome colors themselves
+        window.contentView?.updateChromeColorsInSubtree()
         
         if isActive {
             if self.toolbarDisplayModeBeforeChrome == nil {
@@ -1179,5 +1181,24 @@ private struct EditedIndicator: View {
             .help(.init("Document has unsaved changes",
                         table: "Document",
                         comment: "tooltip for the “edited” indicator in the window tab"))
+    }
+}
+
+
+/// A view that sets colors from the window chrome on its subviews, so redrawing it isn’t enough.
+protocol ChromeColoring: NSView {
+    
+    func updateChromeColors()
+}
+
+
+private extension NSView {
+    
+    /// Updates the chrome colors of the view and all its subviews, and redraws them.
+    func updateChromeColorsInSubtree() {
+        
+        (self as? any ChromeColoring)?.updateChromeColors()
+        self.needsDisplay = true
+        self.subviews.forEach { $0.updateChromeColorsInSubtree() }
     }
 }

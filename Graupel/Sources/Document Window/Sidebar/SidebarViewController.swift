@@ -168,5 +168,6 @@ private extension SidebarViewController {
         
         self.chromeBackgroundView.isHidden = (style == nil)
         self.chromeBackgroundView.layer?.backgroundColor = style?.sidebar.cgColor
+        self.tabBarColors = style?.tabBarColors
     }
 }

@@ -30,18 +30,22 @@ public final class InspectorTabView: NSTabView {
     
     // MARK: Private Properties
     
-    private let segmentedControl: NSSegmentedControl
+    private let tabBar = FlatTabBar()
+    
+    
+    // MARK: Public Properties
+    
+    /// The colors of the pane switcher, or `nil` to use the system colors.
+    public var tabBarColors: FlatTabBar.Colors? {
+        
+        get { self.tabBar.colors }
+        set { self.tabBar.colors = newValue }
+    }
     
     
     // MARK: Lifecycle
     
     public override init(frame frameRect: NSRect) {
-        
-        self.segmentedControl = NSSegmentedControl()
-        self.segmentedControl.controlSize = .large
-        if #available(macOS 27, *) {
-            self.segmentedControl.role = .tabs
-        }
         
         super.init(frame: frameRect)
         
@@ -49,17 +53,16 @@ public final class InspectorTabView: NSTabView {
         self.tabViewType = .noTabsNoBorder
         
         // setup the private tab control
-        self.segmentedControl.target = self
-        self.segmentedControl.action = #selector(takeSelectedTabViewItemFromSender)
+        self.tabBar.selectionHandler = { [weak self] in self?.selectTabViewItem(at: $0) }
         
         // add control parts
-        self.segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(self.segmentedControl)
+        self.tabBar.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.tabBar)
         
         NSLayoutConstraint.activate([
-            self.segmentedControl.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            self.segmentedControl.leadingAnchor.constraint(equalToSystemSpacingAfter: self.safeAreaLayoutGuide.leadingAnchor, multiplier: 1 / 2),
-            self.segmentedControl.trailingAnchor.constraint(equalToSystemSpacingAfter: self.safeAreaLayoutGuide.trailingAnchor, multiplier: -1 / 2),
+            self.tabBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            self.tabBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            self.tabBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
     
@@ -73,10 +76,18 @@ public final class InspectorTabView: NSTabView {
     
     // MARK: Tab View Methods
     
+    public override func accessibilityChildren() -> [Any]? {
+        
+        // a tab view without its own tabs leaves out the bar
+        let children = super.accessibilityChildren() ?? []
+        
+        return children.contains { $0 as? NSView === self.tabBar } ? children : [self.tabBar] + children
+    }
+    
     public override var contentRect: NSRect {
         
         // take off control space
-        let offset = self.safeAreaInsets.top + self.segmentedControl.frame.height
+        let offset = self.safeAreaInsets.top + FlatTabBar.height
         var rect = self.bounds
         rect.origin.y = offset
         rect.size.height -= offset
@@ -97,7 +108,7 @@ public final class InspectorTabView: NSTabView {
         
         super.selectTabViewItem(at: index)
         
-        self.segmentedControl.selectedSegment = index
+        self.tabBar.selectedIndex = index
     }
     
     
@@ -122,15 +133,10 @@ public final class InspectorTabView: NSTabView {
     /// Updates the private control every time when the line-up of tab items changed.
     private func rebuildSegmentedControl() {
         
-        self.segmentedControl.segmentCount = self.numberOfTabViewItems
-        
-        for (segment, item) in self.tabViewItems.enumerated() {
-            self.segmentedControl.setImage(item.image, forSegment: segment)
-            self.segmentedControl.setToolTip(item.label, forSegment: segment)
-        }
+        self.tabBar.setItems(self.tabViewItems)
         
         if let item = self.selectedTabViewItem, let index = self.tabViewItems.firstIndex(of: item) {
-            self.segmentedControl.selectedSegment = index
+            self.tabBar.selectedIndex = index
         }
     }
 }

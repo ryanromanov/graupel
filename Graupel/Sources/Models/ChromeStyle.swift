@@ -19,6 +19,7 @@
 
 import AppKit
 import Combine
+import ControlUI
 import Defaults
 import Observation
 
@@ -46,8 +47,23 @@ struct ChromeStyle: Equatable {
     /// The color of the active item.
     var accent: NSColor
     
+    /// The solid fill of the selected tab or row.
+    var selection: NSColor
+    
+    /// The color of text and icons on the selection.
+    var onSelection: NSColor
+    
+    /// The fill of text fields.
+    var fill: NSColor
+    
     /// Whether the chrome is dark.
     var isDark: Bool
+    
+    
+    /// The lowest contrast between the selection and the text on it.
+    ///
+    /// Short labels stay readable here, and a higher value would lose the muted color.
+    static let minimumContrast = 3.5
     
     
     init(theme: Theme) {
@@ -60,8 +76,51 @@ struct ChromeStyle: Equatable {
         self.border = background.mixed(with: text, fraction: 0.12)
         self.text = text
         self.secondaryText = background.mixed(with: text, fraction: 0.55)
+        let accent = theme.keywords.color.usingColorSpace(.sRGB) ?? theme.keywords.color
         self.accent = theme.keywords.color
+        self.fill = background.mixed(with: text, fraction: 0.08)
         self.isDark = theme.isDarkTheme
+        
+        // a grayed accent, moved away from the text color on it until the text is easy to read
+        let onSelection: NSColor = theme.isDarkTheme ? background : .white
+        let away: NSColor = theme.isDarkTheme ? .white : .black
+        var selection = accent.mixed(with: background.mixed(with: text, fraction: 0.45), fraction: 0.45)
+        for _ in 0..<40 where selection.contrastRatio(with: onSelection) < Self.minimumContrast {
+            selection = selection.mixed(with: away.usingColorSpace(.sRGB) ?? away, fraction: 0.04)
+        }
+        self.selection = selection
+        // a custom theme can leave too little room, so fall back to black or white
+        self.onSelection = (selection.contrastRatio(with: onSelection) >= Self.minimumContrast)
+            ? onSelection
+            : [NSColor.black, .white].max { selection.contrastRatio(with: $0) < selection.contrastRatio(with: $1) }!
+    }
+}
+
+
+extension NSColor {
+    
+    /// Returns the contrast ratio with another color, as defined by WCAG.
+    ///
+    /// - Parameter color: The color to compare with.
+    /// - Returns: A ratio from 1 to 21.
+    func contrastRatio(with color: NSColor) -> Double {
+        
+        let luminances = [self.relativeLuminance, color.relativeLuminance].sorted()
+        
+        return (luminances[1] + 0.05) / (luminances[0] + 0.05)
+    }
+    
+    
+    /// The relative luminance in the sRGB color space.
+    private var relativeLuminance: Double {
+        
+        guard let color = self.usingColorSpace(.sRGB) else { return 0 }
+        
+        let components = [color.redComponent, color.greenComponent, color.blueComponent]
+            .map { Double($0) }
+            .map { ($0 <= 0.04045) ? $0 / 12.92 : pow(($0 + 0.055) / 1.055, 2.4) }
+        
+        return 0.2126 * components[0] + 0.7152 * components[1] + 0.0722 * components[2]
     }
 }
 
@@ -76,6 +135,17 @@ private extension NSColor {
     func mixed(with color: NSColor, fraction: Double) -> NSColor {
         
         self.blended(withFraction: fraction, of: color) ?? self
+    }
+}
+
+
+extension ChromeStyle {
+    
+    /// The colors of the sidebar’s and inspector’s pane switchers.
+    var tabBarColors: FlatTabBar.Colors {
+        
+        FlatTabBar.Colors(selection: self.selection, onSelection: self.onSelection,
+                          icon: self.secondaryText, border: self.border)
     }
 }
 

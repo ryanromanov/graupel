@@ -51,4 +51,23 @@ import Testing
             #expect(style.secondaryText != style.background, "\(name)")
         }
     }
+    
+    
+    @Test func selectionIsReadable() throws {
+        
+        for name in ["Graupel", "Graupel (Dark)", "Rain", "Rain (Dark)"] {
+            let style = ChromeStyle(theme: try ThemeManager.shared.setting(name: name))
+            
+            #expect(style.selection.contrastRatio(with: style.onSelection) >= ChromeStyle.minimumContrast, "\(name)")
+            #expect(style.selection != style.sidebar, "\(name)")
+            #expect(style.fill != style.sidebar, "\(name)")
+        }
+    }
+    
+    
+    @Test func measuresContrast() {
+        
+        #expect(abs(NSColor.black.contrastRatio(with: .white) - 21) < 0.1)
+        #expect(abs(NSColor.white.contrastRatio(with: .white) - 1) < 0.01)
+    }
 }
