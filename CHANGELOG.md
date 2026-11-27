@@ -5,6 +5,10 @@
 
 ### Improvements
 
+- Replace the toolbar and title bar with a top bar of square buttons in the window theme’s colors: the sidebar
+  button, Back and Forward, the folder and file name, Run, and the inspector button. The toolbar can no longer be
+  customized or hidden; the commands for its optional buttons are in the menus.
+- Move the syntax menu to the status bar, beside the text encoding and line endings.
 - Color the whole window with a theme, and choose the window theme and the editor theme separately in
   Appearance settings, each light, dark, or matching your Mac. The Theme menu, the Appearance setting, and the status
   bar’s Tinted and Opaque setting have been removed, and themes are edited from the Create or Edit Theme button.

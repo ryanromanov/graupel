@@ -98,7 +98,37 @@ final class DocumentWindow: NSWindow {
     }
     
     
+    /// Gives the title bar the height of the top bar, with an empty toolbar.
+    func installTitleBarSpacer() {
+        
+        guard self.toolbar == nil else { return }
+        
+        self.toolbar = NSToolbar(identifier: "TitleBarSpacer")
+        self.toolbarStyle = .unifiedCompact
+    }
+    
+    
     // MARK: Window Methods
+    
+    override func sendEvent(_ event: NSEvent) {
+        
+        // macOS doesn’t act on a double-click on the top bar, so follow the user’s setting here
+        if event.type == .leftMouseUp,
+           event.clickCount == 2,
+           !self.styleMask.contains(.fullScreen),
+           self.contentView?.superview?.hitTest(event.locationInWindow) is TopBar
+        {
+            switch UserDefaults.standard.string(forKey: "AppleActionOnDoubleClick") {
+                case "Minimize": self.miniaturize(nil)
+                case "None": break
+                default: self.zoom(nil)
+            }
+            return
+        }
+        
+        super.sendEvent(event)
+    }
+    
     
     override static var restorableStateKeyPaths: [String] {
         

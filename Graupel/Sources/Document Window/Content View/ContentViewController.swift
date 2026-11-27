@@ -49,7 +49,6 @@ final class ContentViewController: NSViewController {
     private var runPanelItem: NSSplitViewItem?
     
     private var windowCloseObserver: (any NSObjectProtocol)?
-    private var toolbarUpdateTask: Task<Void, Never>?
     
     
     // MARK: Lifecycle
@@ -77,7 +76,6 @@ final class ContentViewController: NSViewController {
         if let windowCloseObserver {
             NotificationCenter.default.removeObserver(windowCloseObserver)
         }
-        self.toolbarUpdateTask?.cancel()
     }
     
     
@@ -133,15 +131,6 @@ final class ContentViewController: NSViewController {
         
         super.viewDidAppear()
         
-        // update the toolbar's Run button when a run starts or ends, which isn't a user event
-        if self.toolbarUpdateTask == nil {
-            self.toolbarUpdateTask = Task { [weak self, runController] in
-                for await _ in Observations({ runController.isRunning }) {
-                    self?.view.window?.toolbar?.validateVisibleItems()
-                }
-            }
-        }
-        
         // stop the window's runs when it closes
         if self.windowCloseObserver == nil, let window = self.view.window {
             self.windowCloseObserver = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: .main) { [weak self] _ in
@@ -178,7 +167,7 @@ final class ContentViewController: NSViewController {
     }
     
     
-    /// Runs the document, or stops the run if one is going; the toolbar's Run button.
+    /// Runs the document, or stops the run if one is going; the top bar's Run button.
     @IBAction func toggleRun(_ sender: Any?) {
         
         if self.runController.isRunning {
@@ -302,7 +291,7 @@ final class ContentViewController: NSViewController {
 }
 
 
-extension ContentViewController: NSUserInterfaceValidations, NSToolbarItemValidation {
+extension ContentViewController: NSUserInterfaceValidations {
     
     func validateUserInterfaceItem(_ item: any NSValidatedUserInterfaceItem) -> Bool {
         
@@ -312,14 +301,6 @@ extension ContentViewController: NSUserInterfaceValidations, NSToolbarItemValida
             case #selector(stopRun):
                 return self.runController.isRunning
             case #selector(toggleRun):
-                let isRunning = self.runController.isRunning
-                (item as? StatableToolbarItem)?.state = isRunning ? .on : .off
-                (item as? NSToolbarItem)?.label = isRunning
-                    ? String(localized: "Toolbar.run.label.stop", defaultValue: "Stop", table: "Document", comment: "verb")
-                    : String(localized: "Toolbar.run.label", defaultValue: "Run", table: "Document", comment: "verb")
-                (item as? NSToolbarItem)?.toolTip = isRunning
-                    ? String(localized: "Toolbar.run.tooltip.stop", defaultValue: "Stop the program", table: "Document")
-                    : String(localized: "Toolbar.run.tooltip", defaultValue: "Save and run the document", table: "Document")
                 return self.document is TextDocument
             case #selector(toggleRunPanel):
                 (item as? NSMenuItem)?.title = (self.runPanelItem?.isCollapsed == false)
@@ -330,12 +311,7 @@ extension ContentViewController: NSUserInterfaceValidations, NSToolbarItemValida
                 return true
         }
     }
-    
-    
-    func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
-        
-        self.validateUserInterfaceItem(item)
-    }
+
 }
 
 
