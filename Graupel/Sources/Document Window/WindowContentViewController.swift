@@ -29,7 +29,7 @@ import Combine
 import ControlUI
 import Defaults
 
-final class WindowContentViewController: NSSplitViewController, NSToolbarItemValidation {
+final class WindowContentViewController: NSSplitViewController {
     
     // MARK: Public Properties
     
@@ -54,6 +54,12 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     
     private var defaultsObserver: AnyCancellable?
     private var chromeObserver: Task<Void, Never>?
+    
+    private let topBar = TopBar()
+    @ViewLoading private var topBarWindowedConstraint: NSLayoutConstraint
+    @ViewLoading private var topBarFullScreenConstraint: NSLayoutConstraint
+    private var topBarObservers: Set<AnyCancellable> = []
+    private var runObserver: Task<Void, Never>?
     
     
     // MARK: Split View Controller Methods
@@ -80,6 +86,7 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     isolated deinit {
         self.versionBrowserObservers.forEach(NotificationCenter.default.removeObserver)
         self.chromeObserver?.cancel()
+        self.runObserver?.cancel()
     }
     
     
@@ -136,6 +143,8 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         self.inspectorViewItem.isCollapsed = true
         self.inspectorViewItem.titlebarSeparatorStyle = .none
         self.addSplitViewItem(self.inspectorViewItem)
+        
+        self.setUpTopBar()
     }
     
     
@@ -191,6 +200,8 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
             []
         }
         
+        self.observeTopBarState()
+        
         // move focus to the editor
         // -> The editor doesn’t automatically receive focus
         //    when keyboard navigation is enabled in system settings. (2025-11, macOS 26)
@@ -217,6 +228,17 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         
         self.defaultsObserver?.cancel()
         self.defaultsObserver = nil
+        self.topBarObservers.removeAll()
+        self.runObserver?.cancel()
+        self.runObserver = nil
+    }
+    
+    
+    override func splitViewDidResizeSubviews(_ notification: Notification) {
+        
+        super.splitViewDidResizeSubviews(notification)
+        
+        self.topBar.needsLayout = true
     }
     
     
@@ -230,20 +252,6 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         } else {
             return super.supplementalTarget(forAction: action, sender: sender)
         }
-    }
-    
-    
-    func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
-        
-        switch item.action {
-            case #selector(toggleSidebar):
-                // validation of `toggleSidebar` is implemented in `validateToolbarItem`
-                return self.canToggleSidebar
-            default:
-                break
-        }
-        
-        return true
     }
     
     
@@ -329,6 +337,57 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     }
     
     
+    /// Lays out the window for full screen, where there is no title bar to hold the top bar.
+    ///
+    /// - Parameter isFullScreen: Whether the window is in full screen.
+    func setFullScreen(_ isFullScreen: Bool) {
+        
+        // keep the columns below the bar, as the title bar does otherwise
+        self.splitView.additionalSafeAreaInsets.top = isFullScreen ? TopBar.height : 0
+        
+        // below the tab bar if there is one in full screen
+        self.topBarWindowedConstraint.isActive = false
+        self.topBarFullScreenConstraint.isActive = false
+        (isFullScreen ? self.topBarFullScreenConstraint : self.topBarWindowedConstraint).isActive = true
+        
+        self.topBar.needsLayout = true
+    }
+    
+    
+    /// Updates the contents of the top bar.
+    func updateTopBar() {
+        
+        guard self.isViewLoaded else { return }
+        
+        let window = self.view.window
+        let isInspectorShown = !self.inspectorViewItem.isCollapsed
+        let sidebar: TopBar.State.Toggle? = self.sidebarViewItem.map { item in
+            .init(isOn: !item.isCollapsed,
+                  isEnabled: self.canToggleSidebar,
+                  toolTip: item.isCollapsed
+                      ? String(localized: "Show Sidebar", table: "MainMenu", comment: "verb; menu item")
+                      : String(localized: "Hide Sidebar", table: "MainMenu", comment: "verb; menu item"))
+        }
+        let history = self.directoryDocument.map { document in
+            (back: document.documentHistory.canNavigate(forward: false),
+             forward: document.documentHistory.canNavigate(forward: true))
+        }
+        let inspector = TopBar.State.Toggle(isOn: isInspectorShown, isEnabled: true,
+                                            toolTip: isInspectorShown
+                                                ? String(localized: "Hide Inspector", table: "MainMenu", comment: "verb; menu item")
+                                                : String(localized: "Show Inspector", table: "MainMenu", comment: "verb; menu item"))
+        
+        self.topBar.apply(.init(sidebar: sidebar,
+                                history: history,
+                                isRunning: self.contentViewController.runController.isRunning,
+                                canRun: self.document is TextDocument,
+                                inspector: inspector,
+                                title: window?.title ?? "",
+                                subtitle: window?.subtitle ?? "",
+                                isEdited: window?.isDocumentEdited ?? false))
+    }
+    
+    
     // MARK: Action Messages
     
     /// Moves the focus to the editor.
@@ -392,6 +451,114 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     
     
     // MARK: Private Methods
+    
+    /// Adds the top bar over the title bar area.
+    private func setUpTopBar() {
+        
+        let topBar = self.topBar
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(topBar)
+        
+        self.topBarWindowedConstraint = topBar.topAnchor.constraint(equalTo: self.view.topAnchor)
+        self.topBarFullScreenConstraint = topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        NSLayoutConstraint.activate([
+            self.topBarWindowedConstraint,
+            topBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            topBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            topBar.heightAnchor.constraint(equalToConstant: TopBar.height),
+        ])
+        
+        topBar.columnProvider = { [weak self] in
+            self?.columnWidths ?? .init(leading: 0, trailing: 0)
+        }
+        
+        topBar.sidebarCell.target = self
+        topBar.sidebarCell.action = #selector(toggleSidebar)
+        topBar.inspectorCell.target = self
+        topBar.inspectorCell.action = #selector(toggleInspector)
+        topBar.runCell.target = self.contentViewController
+        topBar.runCell.action = #selector(ContentViewController.toggleRun)
+        
+        if let directoryDocument {
+            directoryDocument.documentHistoryDidChange = { [weak self] in self?.updateTopBar() }
+            topBar.backCell.target = directoryDocument
+            topBar.backCell.action = #selector(DirectoryDocument.navigateBackDocumentHistory)
+            topBar.forwardCell.target = directoryDocument
+            topBar.forwardCell.action = #selector(DirectoryDocument.navigateForwardDocumentHistory)
+            topBar.backCell.menu = self.historyMenu(identifier: .backDocumentHistoryMenu)
+            topBar.forwardCell.menu = self.historyMenu(identifier: .forwardDocumentHistoryMenu)
+        }
+    }
+    
+    
+    /// Updates the top bar when what it shows changes.
+    private func observeTopBarState() {
+        
+        self.topBarObservers.removeAll()
+        
+        for item in [self.sidebarViewItem, self.inspectorViewItem].compactMap(\.self) {
+            item.publisher(for: \.isCollapsed)
+                .sink { [weak self] _ in self?.updateTopBar() }
+                .store(in: &self.topBarObservers)
+        }
+        if let window = self.view.window {
+            window.publisher(for: \.title)
+                .sink { [weak self] _ in self?.updateTopBar() }
+                .store(in: &self.topBarObservers)
+            window.publisher(for: \.subtitle)
+                .sink { [weak self] _ in self?.updateTopBar() }
+                .store(in: &self.topBarObservers)
+        }
+        
+        // a run starts and ends without a user event
+        let runController = self.contentViewController.runController
+        self.runObserver?.cancel()
+        self.runObserver = Task { [weak self] in
+            for await _ in Observations({ runController.isRunning }) {
+                self?.updateTopBar()
+            }
+        }
+    }
+    
+    
+    /// How much of the window the sidebar and the inspector take up now, including while they open and close.
+    private var columnWidths: TopBar.Columns {
+        
+        let width = self.view.bounds.width
+        let isRightToLeft = (self.view.userInterfaceLayoutDirection == .rightToLeft)
+        
+        // the frame of a column measured from the leading edge, if it is on screen
+        func frame(_ item: NSSplitViewItem?) -> NSRect? {
+            guard
+                let view = item?.viewController.viewIfLoaded,
+                view.window != nil,
+                !view.isHiddenOrHasHiddenAncestor
+            else { return nil }
+            
+            var frame = self.view.convert(view.bounds, from: view)
+            if isRightToLeft {
+                frame.origin.x = width - frame.maxX
+            }
+            return frame
+        }
+        
+        let leading = frame(self.sidebarViewItem).map { min(max($0.maxX, 0), width) } ?? 0
+        let trailing = frame(self.inspectorViewItem).map { min(max(width - $0.minX, 0), width) } ?? 0
+        
+        return .init(leading: leading.rounded(), trailing: trailing.rounded())
+    }
+    
+    
+    /// Creates a menu that lists the document history in one direction.
+    private func historyMenu(identifier: NSUserInterfaceItemIdentifier) -> NSMenu {
+        
+        let menu = NSMenu()
+        menu.identifier = identifier
+        menu.delegate = self
+        
+        return menu
+    }
+    
     
     /// Whether the sidebar can currently be toggled.
     private var canToggleSidebar: Bool {
@@ -472,6 +639,57 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         
         if self.directoryDocument != nil {
             self.contentViewController.view.setAccessibilityLabel(self.document?.displayName ?? "")
+        }
+        
+        self.updateTopBar()
+    }
+}
+
+
+extension WindowContentViewController: NSMenuDelegate {
+    
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        
+        guard let directoryDocument else { return assertionFailure() }
+        
+        let forward = (menu.identifier == .forwardDocumentHistoryMenu)
+        
+        menu.items = directoryDocument.documentHistory.menuItems(forward: forward)
+            .map { item in
+                let menuItem = NSMenuItem(title: item.url.lastPathComponent,
+                                          action: #selector(DirectoryDocument.jumpDocumentHistory),
+                                          keyEquivalent: "")
+                menuItem.target = directoryDocument
+                menuItem.representedObject = item.index
+                menuItem.image = item.icon
+                menuItem.image?.size = NSSize(width: 16, height: 16)
+                
+                guard #available(macOS 27, *) else { return menuItem }
+                
+                menuItem.preferredImageVisibility = .visible
+                
+                return menuItem
+            }
+    }
+}
+
+
+private extension NSUserInterfaceItemIdentifier {
+    
+    static let backDocumentHistoryMenu = Self(rawValue: "backDocumentHistoryMenu")
+    static let forwardDocumentHistoryMenu = Self(rawValue: "forwardDocumentHistoryMenu")
+}
+
+
+private extension DocumentHistory.Item {
+    
+    /// The document icon.
+    var icon: NSImage {
+        
+        if let type = self.entry.fileType {
+            NSWorkspace.shared.icon(for: type)
+        } else {
+            NSWorkspace.shared.icon(forFile: self.url.path)
         }
     }
 }

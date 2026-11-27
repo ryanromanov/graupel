@@ -31,6 +31,12 @@ import DocumentFile
 import FileEncoding
 import LineEnding
 
+enum SyntaxMenuTag: Int {
+    
+    case recentItem = 1
+}
+
+
 struct StatusBar: View {
     
     @MainActor @Observable final class Model {
@@ -331,6 +337,7 @@ private struct DocumentStatusBar: View {
     @State private var lineEnding: LineEnding
     @State private var fileEncoding: FileEncoding
     @State private var encodingManager: EncodingManager = .shared
+    @State private var syntaxManager: SyntaxManager = .shared
     
     
     init(document: TextDocument) {
@@ -344,6 +351,14 @@ private struct DocumentStatusBar: View {
     var body: some View {
         
         HStack(spacing: 4) {
+            Divider()
+            
+            SyntaxPicker(document: self.document,
+                         syntaxName: self.document.syntaxName,
+                         syntaxNames: self.syntaxManager.settingNames)
+                .fixedSize()
+                .help(.init("Toolbar.syntax.tooltip", defaultValue: "Change syntax", table: "Document"))
+            
             Divider()
             
             Picker(.init("Text Encoding", table: "Document"), selection: $fileEncoding) {
@@ -381,6 +396,133 @@ private struct DocumentStatusBar: View {
         }
         .onChange(of: self.document.lineEnding) { _, newValue in self.lineEnding = newValue }
         .onChange(of: self.document.fileEncoding) { _, newValue in self.fileEncoding = newValue }
+    }
+}
+
+
+/// A pop-up menu of the syntaxes, as wide as the selected name.
+private struct SyntaxPicker: NSViewRepresentable {
+    
+    typealias NSViewType = NSPopUpButton
+    
+    var document: TextDocument
+    var syntaxName: String
+    var syntaxNames: [String]
+    
+    
+    func makeNSView(context: Context) -> NSPopUpButton {
+        
+        let menu = NSMenu()
+        menu.delegate = context.coordinator
+        
+        let popUpButton = NSPopUpButton()
+        popUpButton.menu = menu
+        popUpButton.isBordered = false
+        popUpButton.controlSize = .small
+        popUpButton.font = .menuFont(ofSize: NSFont.smallSystemFontSize)
+        popUpButton.setAccessibilityLabel(String(localized: "Toolbar.syntax.label",
+                                                 defaultValue: "Syntax", table: "Document"))
+        context.coordinator.popUpButton = popUpButton
+        
+        return popUpButton
+    }
+    
+    
+    func updateNSView(_ nsView: NSPopUpButton, context: Context) {
+        
+        context.coordinator.picker = self
+        context.coordinator.rebuildMenu()
+        nsView.invalidateIntrinsicContentSize()
+    }
+    
+    
+    func sizeThatFits(_ proposal: ProposedViewSize, nsView: NSPopUpButton, context: Context) -> CGSize? {
+        
+        // the button’s own width fits the longest name in the menu
+        let font = nsView.font ?? .menuFont(ofSize: NSFont.smallSystemFontSize)
+        let titleWidth = (self.syntaxName as NSString).size(withAttributes: [.font: font]).width
+        
+        return CGSize(width: ceil(titleWidth) + 14, height: nsView.intrinsicContentSize.height)
+    }
+    
+    
+    func makeCoordinator() -> Coordinator {
+        
+        Coordinator(picker: self)
+    }
+    
+    
+    @MainActor final class Coordinator: NSObject, NSMenuDelegate {
+        
+        var picker: SyntaxPicker
+        weak var popUpButton: NSPopUpButton?
+        
+        
+        init(picker: SyntaxPicker) {
+            
+            self.picker = picker
+        }
+        
+        
+        func menuNeedsUpdate(_ menu: NSMenu) {
+            
+            // the recently used syntaxes may have changed since the last update
+            self.rebuildMenu()
+        }
+        
+        
+        /// Lists the syntaxes and selects the one of the document.
+        func rebuildMenu() {
+            
+            guard
+                let popUpButton = self.popUpButton,
+                let menu = popUpButton.menu
+            else { return }
+            
+            let document = self.picker.document
+            let syntaxName = self.picker.syntaxName
+            let syntaxNames = self.picker.syntaxNames
+            let recentSyntaxNames = UserDefaults.standard[.recentSyntaxNames]
+            
+            // the document validates its items, to check the current one and hide the ones the user hid
+            func item(name: String, title: String? = nil) -> NSMenuItem {
+                let item = NSMenuItem(title: title ?? name, action: #selector(TextDocument.changeSyntax), keyEquivalent: "")
+                item.target = document
+                item.representedObject = name
+                return item
+            }
+            
+            menu.removeAllItems()
+            menu.addItem(item(name: SyntaxName.none,
+                              title: String(localized: "SyntaxName.none", defaultValue: "None")))
+            menu.addItem(.separator())
+            
+            if syntaxName != SyntaxName.none, !syntaxNames.contains(syntaxName) {
+                menu.addItem(.sectionHeader(title: String(localized: "Toolbar.syntax.menu.deleted.label",
+                                                          defaultValue: "Deleted", table: "Document",
+                                                          comment: "menu item header")))
+                let deletedItem = NSMenuItem(title: syntaxName, action: nil, keyEquivalent: "")
+                deletedItem.representedObject = syntaxName
+                menu.addItem(deletedItem)
+                menu.addItem(.separator())
+            }
+            
+            if !recentSyntaxNames.isEmpty {
+                menu.addItem(.sectionHeader(title: String(localized: "Toolbar.syntax.menu.recentlyUsed.label",
+                                                          defaultValue: "Recently Used", table: "Document",
+                                                          comment: "menu item header")))
+                menu.items += recentSyntaxNames.reversed().map { name in
+                    let item = item(name: name)
+                    item.tag = SyntaxMenuTag.recentItem.rawValue
+                    return item
+                }
+                menu.addItem(.separator())
+            }
+            
+            menu.items += syntaxNames.map { item(name: $0) }
+            
+            popUpButton.selectItem(at: popUpButton.indexOfItem(withRepresentedObject: syntaxName))
+        }
     }
 }
 

@@ -617,18 +617,6 @@ Gw
                                                 <action selector="toggleTabBar:" target="Ady-hI-5gd" id="ehM-lG-1tm"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hide Toolbar" keyEquivalent="t" id="612">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="toggleToolbarShown:" target="Ady-hI-5gd" id="GPs-2m-wXS"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Customize Toolbar…" id="613">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="TD8-6D-Wfe"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="WNT-nz-Qhz"/>
                                         <menuItem title="Show Quick Actions…" secondaryImage="filemenu.and.selection" catalog="system" keyEquivalent="k" id="7Su-OV-TgR">
                                             <connections>

@@ -27,16 +27,9 @@
 import AppKit
 import Combine
 import SwiftUI
-import UniformTypeIdentifiers
 import Defaults
 import ControlUI
 import URLUtils
-
-enum SyntaxMenuTag: Int {
-    
-    case recentItem = 1
-}
-
 
 final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     
@@ -77,12 +70,7 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     private var fileDocumentNameObserver: AnyCancellable?
     private var documentObservers: [NotificationCenter.ObservationToken] = []
     
-    private var documentSyntaxObserver: Task<Void, Never>?
-    private var syntaxNamesObserver: Task<Void, Never>?
     private var chromeObserver: Task<Void, Never>?
-    private var toolbarDisplayModeBeforeChrome: NSToolbar.DisplayMode?
-    private var syntaxDefaultsObserver: AnyCancellable?
-    private weak var syntaxPopUpButton: NSPopUpButton?
     
     
     // MARK: Lifecycle
@@ -133,12 +121,11 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         
         window.delegate = self
         
-        // setup toolbar
-        let toolbar = NSToolbar(identifier: self.isDirectoryDocument ? .directoryDocument : .document)
-        toolbar.allowsUserCustomization = true
-        toolbar.autosavesConfiguration = true
-        toolbar.delegate = self
-        window.toolbar = toolbar
+        // the top bar stands in for the title and the toolbar
+        window.titleVisibility = .hidden
+        window.titlebarAppearsTransparent = true
+        window.titlebarSeparatorStyle = .none
+        window.installTitleBarSpacer()
         
         // observe opacity setting change
         // -> Keep opaque when the window was created as a browsing window (the right side ones in the browsing mode).
@@ -147,7 +134,7 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
                 .assign(to: \.backgroundAlpha, on: window)
         }
         
-        // observe the window theme to restyle the toolbar
+        // observe the window theme to restyle the window
         if let chrome = (window.contentViewController as? WindowContentViewController)?.chrome {
             self.chromeObserver = Task { [weak self] in
                 for await _ in Observations({ chrome.revision }) {
@@ -155,16 +142,6 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
                 }
             }
         }
-        
-        // observe for syntax line-up change
-        self.syntaxNamesObserver = Task { [weak self] in
-            for await _ in Observations({ SyntaxManager.shared.settingNames }) {
-                self?.buildSyntaxPopUpButton()
-            }
-        }
-        self.syntaxDefaultsObserver = Publishers.Merge(UserDefaults.standard.publisher(for: .recentSyntaxNames),
-                                                       UserDefaults.standard.publisher(for: .hiddenSyntaxes))
-            .sink { [weak self] _ in self?.buildSyntaxPopUpButton() }
         
         // observe documents to update window title
         self.documentObservers = [
@@ -182,8 +159,6 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     
     
     isolated deinit {
-        self.documentSyntaxObserver?.cancel()
-        self.syntaxNamesObserver?.cancel()
         self.chromeObserver?.cancel()
     }
     
@@ -205,6 +180,8 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         self.window?.tab.accessoryView = dirtyFlag ? self.editedIndicator : nil
         
         super.setDocumentEdited(self.isWhitePaper ? false : dirtyFlag)
+        
+        self.updateTopBar()
     }
     
     
@@ -285,6 +262,23 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     func windowWillEnterFullScreen(_ notification: Notification) {
         
         self.window?.isOpaque = true
+        
+        // in full screen, even an empty toolbar covers the top of the window
+        self.window?.toolbar = nil
+        (self.contentViewController as? WindowContentViewController)?.setFullScreen(true)
+    }
+    
+    
+    func windowDidExitFullScreen(_ notification: Notification) {
+        
+        self.restoreTitleBar()
+    }
+    
+    
+    func windowDidFailToEnterFullScreen(_ window: NSWindow) {
+        
+        self.restoreTitleBar()
+        self.restoreWindowOpacity()
     }
     
     
@@ -306,7 +300,24 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     }
     
     
+    // MARK: Public Methods
+    
+    /// Updates the contents of the top bar.
+    func updateTopBar() {
+        
+        (self.contentViewController as? WindowContentViewController)?.updateTopBar()
+    }
+    
+    
     // MARK: Private Methods
+    
+    /// Restores the title bar after full screen.
+    private func restoreTitleBar() {
+        
+        (self.window as? DocumentWindow)?.installTitleBarSpacer()
+        (self.contentViewController as? WindowContentViewController)?.setFullScreen(false)
+    }
+    
     
     /// Returns the user-defined frame size for the given window, if set.
     ///
@@ -342,19 +353,6 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         if self.isDirectoryDocument {
             self.fileDocumentNameObserver = document?.publisher(for: \.fileURL, options: .initial)
                 .sink { [weak self] _ in self?.synchronizeWindowTitleWithDocumentName() }
-        }
-        
-        // observe document's syntax change for toolbar
-        self.documentSyntaxObserver?.cancel()
-        if let document = document as? TextDocument {
-            self.syntaxPopUpButton?.isEnabled = true
-            self.documentSyntaxObserver = Task { [weak self] in
-                for await syntaxName in Observations({ document.syntaxName }) {
-                    self?.selectSyntaxPopUpItem(with: syntaxName)
-                }
-            }
-        } else {
-            self.syntaxPopUpButton?.isEnabled = false
         }
         
         // update the window title for the new document
@@ -399,122 +397,6 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         self.uniqueDirectory = uniqueDirectory
         self.synchronizeWindowTitleWithDocumentName()
     }
-    
-    
-    /// Builds syntax pop-up menu in toolbar.
-    ///
-    /// - Parameter popUpButton: The pop-up button to build the menu for, or `nil` to use the one in the toolbar.
-    private func buildSyntaxPopUpButton(_ popUpButton: NSPopUpButton? = nil) {
-        
-        guard
-            let popUpButton = popUpButton ?? self.syntaxPopUpButton,
-            let menu = popUpButton.menu
-        else { return }
-        
-        let syntaxNames = SyntaxManager.shared.settingNames
-        let recentSyntaxNames = UserDefaults.standard[.recentSyntaxNames]
-        let action = #selector((any SyntaxChanging).changeSyntax)
-        
-        menu.removeAllItems()
-        
-        let noneItem = NSMenuItem(title: String(localized: "SyntaxName.none", defaultValue: "None"), action: action, keyEquivalent: "")
-        noneItem.representedObject = SyntaxName.none
-        
-        menu.addItem(noneItem)
-        menu.addItem(.separator())
-        
-        if !recentSyntaxNames.isEmpty {
-            let title = String(localized: "Toolbar.syntax.menu.recentlyUsed.label",
-                               defaultValue: "Recently Used", table: "Document", comment: "menu item header")
-            menu.addItem(.sectionHeader(title: title))
-            
-            menu.items += recentSyntaxNames.reversed()
-                .map { name in
-                    let item = NSMenuItem(title: name, action: action, keyEquivalent: "")
-                    item.representedObject = name
-                    item.tag = SyntaxMenuTag.recentItem.rawValue
-                    return item
-                }
-            menu.addItem(.separator())
-        }
-        
-        menu.items += syntaxNames
-            .map { name in
-                let item = NSMenuItem(title: name, action: action, keyEquivalent: "")
-                item.representedObject = name
-                return item
-            }
-        
-        if let document = self.fileDocument as? TextDocument {
-            self.selectSyntaxPopUpItem(with: document.syntaxName, in: popUpButton)
-        } else {
-            self.updateSyntaxPopUpButtonWidth(popUpButton)
-        }
-    }
-    
-    
-    /// Selects the given syntax in the syntax pop-up button for the toolbar.
-    ///
-    /// - Parameters:
-    ///   - syntaxName: The name of the syntax to select.
-    ///   - popUpButton: The pop-up button to select the item in, or `nil` to use the one in the toolbar.
-    private func selectSyntaxPopUpItem(with syntaxName: String, in popUpButton: NSPopUpButton? = nil) {
-        
-        guard
-            let popUpButton = popUpButton ?? self.syntaxPopUpButton,
-            let menu = popUpButton.menu
-        else { return }
-        
-        let deletedTag = -1
-        
-        // remove deleted items
-        menu.items.removeAll { $0.tag == deletedTag }
-        
-        // deselect current one
-        popUpButton.selectItem(at: -1)
-        
-        let index = popUpButton.indexOfItem(withRepresentedObject: syntaxName)
-        if index >= 0 {
-            popUpButton.selectItem(at: index)
-            
-        } else {
-            // insert item by adding Deleted item section
-            menu.insertItem(.init(title: syntaxName, action: nil, keyEquivalent: ""), at: 1)
-            menu.item(at: 1)?.tag = deletedTag
-            popUpButton.selectItem(at: 1)
-            
-            let title = String(localized: "Toolbar.syntax.menu.deleted.label",
-                               defaultValue: "Deleted", table: "Document", comment: "menu item header")
-            menu.insertItem(.sectionHeader(title: title), at: 1)
-            menu.item(at: 1)?.tag = deletedTag
-            
-            menu.insertItem(.separator(), at: 1)
-            menu.item(at: 1)?.tag = deletedTag
-        }
-        
-        self.updateSyntaxPopUpButtonWidth(popUpButton)
-    }
-    
-    
-    /// Updates the fixed width of the syntax pop-up button to fit its menu items.
-    ///
-    /// - Parameter popUpButton: The syntax pop-up button to update.
-    private func updateSyntaxPopUpButtonWidth(_ popUpButton: NSPopUpButton) {
-        
-        guard #available(macOS 27, *) else { return }
-        
-        // Work around an AppKit layout loop near the toolbar overflow threshold (2026-09, macOS 27, FB25001982).
-        // -> The pop-up button's intrinsic width alternates depending on its toolbar layout, so constrain it explicitly.
-        let identifier = "syntaxPopUpButtonWidth"
-        let width = popUpButton.intrinsicContentSize.width
-        if let constraint = popUpButton.constraints.first(where: { $0.identifier == identifier }) {
-            constraint.constant = width
-        } else {
-            let constraint = popUpButton.widthAnchor.constraint(equalToConstant: width)
-            constraint.identifier = identifier
-            constraint.isActive = true
-        }
-    }
 }
 
 
@@ -539,631 +421,34 @@ private extension NSViewController {
 }
 
 
-// MARK: - Toolbar
+// MARK: - Chrome
 
 private extension DocumentWindowController {
     
-    /// Restyles the toolbar to match the window style.
-    ///
-    /// The items stay the user's own; only their look changes: icons without labels and without a bezel.
+    /// Restyles the window to match the window theme.
     ///
     /// - Parameter style: The style of the chrome, or `nil` for the system style.
     func applyChrome(_ style: ChromeStyle?) {
         
-        guard let window = self.window as? DocumentWindow, let toolbar = window.toolbar else { return }
+        guard let window = self.window as? DocumentWindow else { return }
         
-        let isActive = (style != nil)
-        
-        // let the window background show through the title bar
-        window.titlebarAppearsTransparent = isActive
         window.chromeBackgroundColor = style?.background
         self.updateWindowAppearance()
         // update the views that read the chrome colors themselves
         window.contentView?.updateChromeColorsInSubtree()
-        
-        if isActive {
-            if self.toolbarDisplayModeBeforeChrome == nil {
-                self.toolbarDisplayModeBeforeChrome = toolbar.displayMode
-            }
-            toolbar.displayMode = .iconOnly
-        } else if let displayMode = self.toolbarDisplayModeBeforeChrome {
-            toolbar.displayMode = displayMode
-            self.toolbarDisplayModeBeforeChrome = nil
-        }
-        
-        for item in toolbar.items {
-            item.isBordered = !isActive
-            (item.view as? NSPopUpButton)?.isBordered = !isActive
-        }
     }
     
     
-    /// Sets the window’s appearance, which draws the title, toolbar and bar text.
+    /// Sets the window’s appearance, which draws the text of the bars and panes.
     ///
     /// The window is painted in the window theme’s colors, so the appearance has to match how dark the theme is.
-    private func updateWindowAppearance() {
+    func updateWindowAppearance() {
         
         guard let window = self.window as? DocumentWindow else { return }
         
         let themeAppearance = window.chrome?.style.flatMap { NSAppearance(named: $0.isDark ? .darkAqua : .aqua) }
         
         window.appearance = themeAppearance
-    }
-}
-
-
-private extension NSToolbar.Identifier {
-    
-    static let document = Self("Document")
-    static let directoryDocument = Self("DirectoryDocument")
-}
-
-
-private extension NSToolbarItem.Identifier {
-    
-    private static let prefix = "com.ryanromanov.Graupel.ToolbarItem."
-    
-    
-    static let documentHistory = Self(Self.prefix + "documentHistory")
-    static let backDocumentHistory = Self(Self.prefix + "backDocumentHistory")
-    static let forwardDocumentHistory = Self(Self.prefix + "forwardDocumentHistory")
-    
-    static let syntax = Self(Self.prefix + "syntaxStyle")
-    
-    static let textSize = Self(Self.prefix + "textSize")
-    static let smaller = Self(Self.prefix + "smaller")
-    static let bigger = Self(Self.prefix + "bigger")
-    
-    static let writingDirection = Self(Self.prefix + "writingDirection")
-    static let leftToRight = Self(Self.prefix + "leftToRight")
-    static let rightToLeft = Self(Self.prefix + "rightToLeft")
-    
-    static let textOrientation = Self(Self.prefix + "textOrientation")
-    static let horizontalText = Self(Self.prefix + "horizontalText")
-    static let verticalText = Self(Self.prefix + "verticalText")
-    
-    static let indent = Self(Self.prefix + "indent")
-    static let shiftLeft = Self(Self.prefix + "shiftLeft")
-    static let shiftRight = Self(Self.prefix + "shiftRight")
-    
-    static let comment = Self(Self.prefix + "comment")
-    static let tabStyle = Self(Self.prefix + "tabStyle")
-    static let invisibles = Self(Self.prefix + "invisibles")
-    static let wrapLines = Self(Self.prefix + "wrapLines")
-    static let indentGuides = Self(Self.prefix + "indentGuides")
-    static let keepOnTop = Self(Self.prefix + "keepOnTop")
-    static let editable = Self(Self.prefix + "editable")
-    static let spellCheck = Self(Self.prefix + "spellCheck")
-    static let emojiAndSymbols = Self(Self.prefix + "emojiAndSymbols")
-    static let fonts = Self(Self.prefix + "fonts")
-    static let find = Self(Self.prefix + "find")
-    static let share = Self(Self.prefix + "share")
-    static let run = Self(Self.prefix + "run")
-}
-
-
-private extension NSUserInterfaceItemIdentifier {
-    
-    static let backDocumentHistoryMenu = Self(rawValue: "backDocumentHistoryMenu")
-    static let forwardDocumentHistoryMenu = Self(rawValue: "forwardDocumentHistoryMenu")
-}
-
-
-extension DocumentWindowController: NSToolbarDelegate {
-    
-    private var immovableDirectoryIdentifiers: [NSToolbarItem.Identifier] {
-        
-        [
-            .flexibleSpace,
-            .toggleSidebar,
-            .sidebarTrackingSeparator,
-        ]
-    }
-    
-    
-    func toolbarImmovableItemIdentifiers(_ toolbar: NSToolbar) -> Set<NSToolbarItem.Identifier> {
-        
-        Set(self.isDirectoryDocument ? self.immovableDirectoryIdentifiers : []).union([
-            .inspectorTrackingSeparator,
-            .flexibleSpace,
-            .toggleInspector,
-        ])
-    }
-    
-    
-    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        
-        let directoryIdentifiers = self.isDirectoryDocument ? self.immovableDirectoryIdentifiers + [.documentHistory] : []
-        
-        return directoryIdentifiers + [
-            .syntax,
-            .run,
-            .inspectorTrackingSeparator,
-            .flexibleSpace,
-            .toggleInspector,
-        ]
-    }
-    
-    
-    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        
-        let directoryIdentifiers = self.isDirectoryDocument ? self.immovableDirectoryIdentifiers + [.documentHistory] : []
-        
-        var identifiers = directoryIdentifiers + [
-            .syntax,
-            .run,
-            .toggleInspector,
-            .textSize,
-            .writingDirection,
-            .textOrientation,
-            .indent,
-            .comment,
-            .tabStyle,
-            .wrapLines,
-            .invisibles,
-            .indentGuides,
-            .keepOnTop,
-            .editable,
-            .spellCheck,
-            .emojiAndSymbols,
-            .fonts,
-            .find,
-            .print,
-            .writingToolsItemIdentifier,
-            .share,
-            .space,
-        ]
-        
-        if !NSWritingToolsCoordinator.isWritingToolsAvailable {
-            identifiers.removeAll { $0 == .writingToolsItemIdentifier }
-        }
-        
-        return identifiers
-    }
-    
-    
-    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-        
-        switch itemIdentifier {
-            case .documentHistory:
-                let previousMenu = NSMenu()
-                previousMenu.identifier = .backDocumentHistoryMenu
-                previousMenu.delegate = self
-                
-                let backItem = NSMenuToolbarItem(itemIdentifier: .backDocumentHistory)
-                backItem.label = String(localized: "Toolbar.documentHistory.back.label",
-                                        defaultValue: "Back", table: "Document")
-                backItem.toolTip = String(localized: "Toolbar.documentHistory.back.tooltip",
-                                          defaultValue: "Go to the previous document", table: "Document")
-                backItem.image = NSImage(systemSymbolName: "chevron.backward", accessibilityDescription: backItem.label)
-                backItem.action = #selector(DirectoryDocument.navigateBackDocumentHistory)
-                backItem.autovalidates = true
-                backItem.showsIndicator = false
-                backItem.menu = previousMenu
-                
-                let forwardMenu = NSMenu()
-                forwardMenu.identifier = .forwardDocumentHistoryMenu
-                forwardMenu.delegate = self
-                
-                let forwardItem = NSMenuToolbarItem(itemIdentifier: .forwardDocumentHistory)
-                forwardItem.label = String(localized: "Toolbar.documentHistory.forward.label",
-                                           defaultValue: "Forward", table: "Document")
-                forwardItem.toolTip = String(localized: "Toolbar.documentHistory.forward.tooltip",
-                                             defaultValue: "Go to the next document", table: "Document")
-                forwardItem.image = NSImage(systemSymbolName: "chevron.forward", accessibilityDescription: forwardItem.label)
-                forwardItem.action = #selector(DirectoryDocument.navigateForwardDocumentHistory)
-                forwardItem.autovalidates = true
-                forwardItem.showsIndicator = false
-                forwardItem.menu = forwardMenu
-                
-                let item = NSToolbarItemGroup(itemIdentifier: itemIdentifier)
-                item.isBordered = true
-                item.controlRepresentation = .expanded
-                item.selectionMode = .momentary
-                item.isNavigational = true
-                item.label = String(localized: "Toolbar.documentHistory.label",
-                                    defaultValue: "Back/Forward", table: "Document")
-                item.toolTip = String(localized: "Toolbar.documentHistory.tooltip",
-                                      defaultValue: "Go back or forward in document history", table: "Document")
-                item.subitems = [backItem, forwardItem]
-                item.action = #selector(DirectoryDocument.navigateDocumentHistory(_:))
-                
-                let menuRepresentation = NSMenu()
-                menuRepresentation.items = [
-                    NSMenuItem(title: backItem.label, action: backItem.action, keyEquivalent: ""),
-                    NSMenuItem(title: forwardItem.label, action: forwardItem.action, keyEquivalent: ""),
-                ]
-                item.menuFormRepresentation = NSMenuItem(title: item.label, action: nil, keyEquivalent: "")
-                item.menuFormRepresentation?.submenu = menuRepresentation
-                
-                return item
-                
-            case .syntax:
-                let popUpButton = NSPopUpButton()
-                popUpButton.bezelStyle = .toolbar
-                popUpButton.isEnabled = (self.fileDocument is TextDocument)
-                // store the reference only for the actual toolbar
-                // -> this method is invoked also for creating the item copies for the customization palette.
-                if flag {
-                    self.syntaxPopUpButton = popUpButton
-                }
-                self.buildSyntaxPopUpButton(popUpButton)
-                
-                let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.syntax.label",
-                                    defaultValue: "Syntax", table: "Document")
-                item.toolTip = String(localized: "Toolbar.syntax.tooltip",
-                                      defaultValue: "Change syntax", table: "Document")
-                item.view = popUpButton
-                item.visibilityPriority = .high
-                
-                let menuItem = NSMenuItem()
-                menuItem.submenu = popUpButton.menu
-                menuItem.title = item.label
-                item.menuFormRepresentation = menuItem
-                
-                return item
-                
-            case .textSize:
-                let smallerItem = NSToolbarItem(itemIdentifier: .smaller)
-                smallerItem.label = String(localized: "Toolbar.textSize.smaller.label",
-                                           defaultValue: "Smaller", table: "Document")
-                smallerItem.toolTip = String(localized: "Toolbar.textSize.smaller.tooltip",
-                                             defaultValue: "Decrease text size", table: "Document")
-                smallerItem.image = NSImage(systemSymbolName: "textformat.size.smaller", accessibilityDescription: smallerItem.label)
-                smallerItem.action = #selector(EditorTextView.smallerFont)
-                
-                let biggerItem = NSToolbarItem(itemIdentifier: .bigger)
-                biggerItem.label = String(localized: "Toolbar.textSize.bigger.label",
-                                          defaultValue: "Bigger", table: "Document")
-                biggerItem.toolTip = String(localized: "Toolbar.textSize.bigger.tooltip",
-                                            defaultValue: "Increase text size", table: "Document")
-                biggerItem.image = NSImage(systemSymbolName: "textformat.size.larger", accessibilityDescription: biggerItem.label)
-                biggerItem.action = #selector(EditorTextView.biggerFont)
-                
-                let item = NSToolbarItemGroup(itemIdentifier: itemIdentifier)
-                item.isBordered = true
-                item.controlRepresentation = .expanded
-                item.selectionMode = .momentary
-                item.label = String(localized: "Toolbar.textSize.label",
-                                    defaultValue: "Text Size", table: "Document")
-                item.toolTip = String(localized: "Toolbar.textSize.tooltip",
-                                      defaultValue: "Change text size", table: "Document")
-                item.subitems = [smallerItem, biggerItem]
-                return item
-                
-            case .writingDirection:
-                let ltrItem = NSToolbarItem(itemIdentifier: .leftToRight)
-                ltrItem.label = String(localized: "Toolbar.writingDirection.leftToRight.label",
-                                       defaultValue: "Left to Right", table: "Document")
-                ltrItem.toolTip = String(localized: "Toolbar.writingDirection.leftToRight.tooltip",
-                                         defaultValue: "Left to right", table: "Document")
-                ltrItem.image = NSImage(systemSymbolName: "text.alignleft", accessibilityDescription: ltrItem.label)
-                ltrItem.action = #selector(DocumentViewController.makeWritingDirectionLeftToRight)
-                
-                let rtlItem = NSToolbarItem(itemIdentifier: .rightToLeft)
-                rtlItem.label = String(localized: "Toolbar.writingDirection.rightToLeft.label",
-                                       defaultValue: "Right to Left", table: "Document")
-                rtlItem.toolTip = String(localized: "Toolbar.writingDirection.rightToLeft.tooltip",
-                                         defaultValue: "Right to left", table: "Document")
-                rtlItem.image = NSImage(systemSymbolName: "text.alignright", accessibilityDescription: rtlItem.label)
-                rtlItem.action = #selector(DocumentViewController.makeWritingDirectionRightToLeft)
-                
-                let item = NSToolbarItemGroup(itemIdentifier: itemIdentifier)
-                item.isBordered = true
-                item.controlRepresentation = .expanded
-                item.selectionMode = .selectOne
-                item.label = String(localized: "Toolbar.writingDirection.label",
-                                    defaultValue: "Writing Direction", table: "Document")
-                item.toolTip = String(localized: "Toolbar.writingDirection.tooltip",
-                                      defaultValue: "Change writing direction", table: "Document")
-                item.action = #selector(DocumentViewController.changeWritingDirection)
-                item.subitems = [ltrItem, rtlItem]
-                return item
-                
-            case .textOrientation:
-                let horizontalItem = NSToolbarItem(itemIdentifier: .horizontalText)
-                horizontalItem.label = String(localized: "Toolbar.textOrientation.horizontalText.label",
-                                              defaultValue: "Horizontal", table: "Document")
-                horizontalItem.toolTip = String(localized: "Toolbar.textOrientation.horizontalText.tooltip",
-                                                defaultValue: "Horizontal", table: "Document")
-                horizontalItem.image = NSImage(systemSymbolName: "text.alignleft", accessibilityDescription: horizontalItem.label)
-                horizontalItem.action = #selector(DocumentViewController.makeLayoutOrientationHorizontal)
-                
-                let verticalItem = NSToolbarItem(itemIdentifier: .verticalText)
-                verticalItem.label = String(localized: "Toolbar.textOrientation.verticalText.label",
-                                            defaultValue: "Vertical", table: "Document")
-                verticalItem.toolTip = String(localized: "Toolbar.textOrientation.verticalText.tooltip",
-                                              defaultValue: "Vertical", table: "Document")
-                verticalItem.image = NSImage(resource: .textVertical)
-                verticalItem.action = #selector(DocumentViewController.makeLayoutOrientationVertical)
-                
-                let item = NSToolbarItemGroup(itemIdentifier: itemIdentifier)
-                item.isBordered = true
-                item.controlRepresentation = .expanded
-                item.selectionMode = .selectOne
-                item.label = String(localized: "Toolbar.textOrientation.label",
-                                    defaultValue: "Text Orientation", table: "Document")
-                item.toolTip = String(localized: "Toolbar.textOrientation.tooltip",
-                                      defaultValue: "Switch text orientation", table: "Document")
-                item.action = #selector(DocumentViewController.changeOrientation)
-                item.subitems = [horizontalItem, verticalItem]
-                return item
-                
-            case .indent:
-                let leftItem = NSToolbarItem(itemIdentifier: .shiftLeft)
-                leftItem.label = String(localized: "Toolbar.indent.shiftLeft.label",
-                                        defaultValue: "Shift Left", table: "Document")
-                leftItem.toolTip = String(localized: "Toolbar.indent.shiftLeft.tooltip",
-                                          defaultValue: "Shift lines to the left", table: "Document")
-                leftItem.image = NSImage(systemSymbolName: "decrease.indent", accessibilityDescription: leftItem.label)
-                leftItem.action = #selector(EditorTextView.shiftLeft)
-                
-                let rightItem = NSToolbarItem(itemIdentifier: .shiftRight)
-                rightItem.label = String(localized: "Toolbar.indent.shiftRight.label",
-                                         defaultValue: "Shift Right", table: "Document")
-                rightItem.toolTip = String(localized: "Toolbar.indent.shiftRight.tooltip",
-                                           defaultValue: "Shift lines to the right", table: "Document")
-                rightItem.image = NSImage(systemSymbolName: "increase.indent", accessibilityDescription: rightItem.label)
-                rightItem.action = #selector(EditorTextView.shiftRight)
-                
-                let item = NSToolbarItemGroup(itemIdentifier: itemIdentifier)
-                item.isBordered = true
-                item.controlRepresentation = .expanded
-                item.selectionMode = .momentary
-                item.label = String(localized: "Toolbar.indent.label",
-                                    defaultValue: "Indent", table: "Document")
-                item.toolTip = String(localized: "Toolbar.indent.tooltip",
-                                      defaultValue: "Indent selection", table: "Document")
-                item.subitems = (self.window?.windowTitlebarLayoutDirection == .rightToLeft) ? [rightItem, leftItem] : [leftItem, rightItem]
-                return item
-                
-            case .comment:
-                let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.comment.label",
-                                    defaultValue: "Comment", table: "Document",
-                                    comment: "verb, toggle commenting of the selection")
-                item.toolTip = String(localized: "Toolbar.comment.tooltip",
-                                      defaultValue: "Comment-out or uncomment selection", table: "Document")
-                item.image = NSImage(resource: .textCommentout)
-                item.action = #selector(EditorTextView.toggleComment)
-                return item
-                
-            case .tabStyle:
-                let item = StatableMenuToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.tabStyle.label",
-                                    defaultValue: "Tab Style", table: "Document",
-                                    comment: "Tab refers to indentation")
-                item.toolTip = String(localized: "Toolbar.tabStyle.tooltip.off",
-                                      defaultValue: "Use spaces for indentation", table: "Document")
-                item.stateImages[.on] = NSImage(systemSymbolName: "arrow.left.arrow.right", accessibilityDescription: nil)
-                item.stateImages[.off] = NSImage(systemSymbolName: "arrow.right.to.line", accessibilityDescription: nil)
-                item.action = #selector(DocumentViewController.toggleAutoTabExpand)
-                item.menu.items = [
-                    .sectionHeader(title: String(localized: "Toolbar.tabStyle.menu.tabWidth.label",
-                                                 defaultValue: "Tab Width", table: "Document", comment: "noun; menu section header; Tab refers to indentation")),
-                ] + [2, 4, 8].map { width in
-                    let item = NSMenuItem(title: width.formatted(), action: #selector(DocumentViewController.changeTabWidth), keyEquivalent: "")
-                    item.tag = width
-                    return item
-                } + [
-                    NSMenuItem(title: String(localized: "Toolbar.tabStyle.menu.custom.label",
-                                             defaultValue: "Custom…", table: "Document"),
-                               action: #selector(DocumentViewController.customizeTabWidth), keyEquivalent: ""),
-                    .separator(),
-                    NSMenuItem(title: String(localized: "Toolbar.tabStyle.menu.toggle.label",
-                                             defaultValue: "Use Spaces for Indentation", table: "Document"),
-                               action: #selector(DocumentViewController.toggleAutoTabExpand), keyEquivalent: ""),
-                ]
-                
-                return item
-                
-            case .wrapLines:
-                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.wrapLines.label",
-                                    defaultValue: "Line Wrapping", table: "Document")
-                item.toolTip = String(localized: "Toolbar.wrapLines.tooltip.off",
-                                      defaultValue: "Wrap lines", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .textWrapSlash)
-                item.stateImages[.off] = NSImage(resource: .textWrap)
-                item.action = #selector(DocumentViewController.toggleLineWrap)
-                item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
-                return item
-                
-            case .invisibles:
-                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.invisibles.label",
-                                    defaultValue: "Invisibles", table: "Document")
-                item.toolTip = String(localized: "Toolbar.invisibles.tooltip.off",
-                                      defaultValue: "Show invisible characters", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .paragraphsignSlash)
-                item.stateImages[.off] = NSImage(systemSymbolName: "paragraphsign", accessibilityDescription: item.label)
-                item.action = #selector(DocumentViewController.toggleInvisibleChars)
-                item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
-                return item
-                
-            case .indentGuides:
-                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.indentGuides.label",
-                                    defaultValue: "Indent Guides", table: "Document")
-                item.toolTip = String(localized: "Toolbar.indentGuides.tooltip.off",
-                                      defaultValue: "Show indent guide lines", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .textIndentguides)
-                    .withSymbolConfiguration(.init(paletteColors: [.tertiaryLabelColor, .labelColor]))
-                item.stateImages[.off] = NSImage(resource: .textIndentguides)
-                item.action = #selector(DocumentViewController.toggleIndentGuides)
-                item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
-                return item
-                
-            case .run:
-                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.run.label", defaultValue: "Run", table: "Document", comment: "verb")
-                item.paletteLabel = String(localized: "Toolbar.run.paletteLabel", defaultValue: "Run/Stop", table: "Document")
-                item.toolTip = String(localized: "Toolbar.run.tooltip", defaultValue: "Save and run the document", table: "Document")
-                item.stateImages[.on] = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: nil)
-                item.stateImages[.off] = NSImage(systemSymbolName: "play.fill", accessibilityDescription: nil)
-                item.action = #selector(ContentViewController.toggleRun)
-                return item
-                
-            case .keepOnTop:
-                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.keepOnTop.label",
-                                    defaultValue: "Keep on Top", table: "Document")
-                item.toolTip = String(localized: "Toolbar.keepOnTop.tooltip",
-                                      defaultValue: "Keep the window always on top", table: "Document")
-                item.stateImages[.on] = NSImage(systemSymbolName: "pin.slash", accessibilityDescription: item.label)
-                item.stateImages[.off] = NSImage(systemSymbolName: "pin", accessibilityDescription: item.label)
-                item.action = #selector(DocumentWindow.toggleKeepOnTop)
-                return item
-                
-            case .editable:
-                let item = StatableToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.editable.label",
-                                    defaultValue: "Edit", table: "Document")
-                item.toolTip = String(localized: "Toolbar.editable.tooltip.off",
-                                      defaultValue: "Prevent the document from being edited", table: "Document")
-                item.stateImages[.on] = NSImage(systemSymbolName: "pencil", accessibilityDescription: item.label)
-                item.stateImages[.off] = NSImage(systemSymbolName: "pencil.slash", accessibilityDescription: item.label)
-                item.action = #selector(TextDocument.toggleEditable)
-                return item
-                
-            case .spellCheck:
-                let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.spellCheck.label",
-                                    defaultValue: "Spell Check", table: "Document")
-                item.toolTip = String(localized: "Toolbar.spellCheck.tooltip",
-                                      defaultValue: "Show spelling and grammar", table: "Document")
-                item.image = NSImage(systemSymbolName: "textformat.abc.dottedunderline", accessibilityDescription: item.label)?
-                    .withLocale(Locale(script: .latin))  // fix the symbol with "abc"
-                item.action = #selector(NSTextView.showGuessPanel)
-                return item
-                
-            case .emojiAndSymbols:
-                let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.emojiAndSymbols.label",
-                                    defaultValue: "Emoji & Symbols", table: "Document")
-                item.toolTip = String(localized: "Toolbar.emojiAndSymbols.tooltip",
-                                      defaultValue: "Show Emoji & Symbols", table: "Document")
-                item.image = NSImage(systemSymbolName: "face.smiling", accessibilityDescription: nil)
-                item.action = #selector(NSApplication.orderFrontCharacterPalette)
-                return item
-                
-            case .fonts:
-                let item = NSMenuToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.fonts.label",
-                                    defaultValue: "Fonts", table: "Document")
-                item.toolTip = String(localized: "Toolbar.fonts.tooltip",
-                                      defaultValue: "Change Font", table: "Document")
-                item.image = NSImage(systemSymbolName: "textformat", accessibilityDescription: item.label)
-                item.showsIndicator = false
-                item.menu.items = [
-                    NSMenuItem(),  // dummy item that will be hidden
-                    .sectionHeader(title: String(localized: "Toolbar.fonts.menu.fontType.label",
-                                                 defaultValue: "Font Type", table: "Document", comment: "menu item header")),
-                    NSMenuItem(title: String(localized: "Toolbar.fonts.menu.standard.label",
-                                             defaultValue: "Standard", table: "Document"),
-                               action: #selector(DocumentViewController.makeFontStandard), keyEquivalent: ""),
-                    NSMenuItem(title: String(localized: "Toolbar.fonts.menu.monospaced.label",
-                                             defaultValue: "Monospaced", table: "Document"),
-                               action: #selector(DocumentViewController.makeFontMonospaced), keyEquivalent: ""),
-                    .separator(),
-                    NSMenuItem(title: String(localized: "Toolbar.fonts.menu.showFonts.label",
-                                             defaultValue: "Show Fonts", table: "Document"),
-                               systemImage: "textformat",
-                               action: #selector(NSFontManager.orderFrontFontPanel), keyEquivalent: ""),
-                ]
-                return item
-                
-            case .find:
-                let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-                item.label = String(localized: "Toolbar.find.label",
-                                    defaultValue: "Find", table: "Document")
-                item.toolTip = String(localized: "Toolbar.find.tooltip",
-                                      defaultValue: "Show Find & Replace", table: "Document")
-                item.image = NSImage(systemSymbolName: "magnifyingglass", accessibilityDescription: item.label)
-                item.action = #selector(performTextFinderAction)
-                item.tag = TextFinder.Action.showFindInterface.rawValue
-                return item
-                
-            case .share:
-                let item = NSSharingServicePickerToolbarItem(itemIdentifier: itemIdentifier)
-                item.toolTip = String(localized: "Toolbar.share.tooltip",
-                                      defaultValue: "Share document file", table: "Document",
-                                      comment: "(label for the Share toolbar item is set automatically)")
-                item.delegate = self
-                return item
-                
-            default:
-                return NSToolbarItem(itemIdentifier: itemIdentifier)
-        }
-    }
-}
-
-
-extension DocumentWindowController: NSMenuDelegate {
-    
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        
-        switch menu.identifier {
-            case .backDocumentHistoryMenu:
-                self.updateDocumentHistoryMenu(menu, forward: false)
-            case .forwardDocumentHistoryMenu:
-                self.updateDocumentHistoryMenu(menu, forward: true)
-            default:
-                assertionFailure()
-        }
-    }
-    
-    
-    /// Updates a document history menu.
-    ///
-    /// - Parameters:
-    ///   - menu: The menu to update.
-    ///   - forward: Whether the menu represents forward history.
-    private func updateDocumentHistoryMenu(_ menu: NSMenu, forward: Bool) {
-        
-        guard let directoryDocument else { return assertionFailure() }
-        
-        menu.items = directoryDocument.documentHistory.menuItems(forward: forward)
-            .map { item in
-                let menuItem = NSMenuItem(title: item.url.lastPathComponent,
-                                          action: #selector(DirectoryDocument.jumpDocumentHistory),
-                                          keyEquivalent: "")
-                menuItem.representedObject = item.index
-                menuItem.image = item.icon
-                menuItem.image?.size = NSSize(width: 16, height: 16)
-                
-                guard #available(macOS 27, *) else { return menuItem }
-                
-                menuItem.preferredImageVisibility = .visible
-                
-                return menuItem
-            }
-    }
-}
-
-
-extension DocumentWindowController: NSSharingServicePickerToolbarItemDelegate {
-    
-    func items(for pickerToolbarItem: NSSharingServicePickerToolbarItem) -> [Any] {
-        
-        guard let document = self.fileDocument else { return [] }
-        
-        return [document]
-    }
-}
-
-
-private extension DocumentHistory.Item {
-    
-    /// The document icon.
-    var icon: NSImage {
-        
-        if let type = self.entry.fileType {
-            NSWorkspace.shared.icon(for: type)
-        } else {
-            NSWorkspace.shared.icon(forFile: self.url.path)
-        }
     }
 }
 

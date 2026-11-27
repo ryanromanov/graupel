@@ -42,7 +42,9 @@ final class DirectoryDocument: NSDocument {
     
     private(set) var fileNode: FileNode?
     private(set) weak var currentDocument: DataDocument?
-    var documentHistory = DocumentHistory()
+    var documentHistory = DocumentHistory()  { didSet { self.documentHistoryDidChange?() } }
+    /// Called when the history changes, to update the window’s Back and Forward buttons.
+    var documentHistoryDidChange: (() -> Void)?
     
     weak var fileBrowserViewController: FileBrowserViewController?
     
