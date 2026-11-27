@@ -213,6 +213,9 @@ private final class FlatTabButton: NSButton {
     // the button’s usual margins would make the fill spill over the lines around the bar
     override var alignmentRectInsets: NSEdgeInsets  { NSEdgeInsets() }
     
+    // the sidebar’s vibrancy would change the fill from the theme’s color
+    override var allowsVibrancy: Bool  { false }
+    
     
     override func draw(_ dirtyRect: NSRect) {
         
