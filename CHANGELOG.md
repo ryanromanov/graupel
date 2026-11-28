@@ -5,6 +5,9 @@
 
 ### Improvements
 
+- Open the files of a folder window in tabs. Clicking a file uses a temporary tab until you double-click or edit
+  it. In a folder window, Close (⌘W) now closes the tab, and Close Window (⇧⌘W) closes the window. The tabs have
+  a row of their own or share the top bar (View > Tab Rows), and scroll or shrink when they don’t fit.
 - Replace the toolbar and title bar with a top bar of square buttons in the window theme’s colors: the sidebar
   button, Back and Forward, the folder and file name, Run, and the inspector button. The toolbar can no longer be
   customized or hidden; the commands for its optional buttons are in the menus.

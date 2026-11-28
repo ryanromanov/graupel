@@ -272,6 +272,15 @@ extension Logger {
     
     // MARK: Action Messages
     
+    /// Changes how folder windows lay out their tabs; the tag of the menu item is the value.
+    @IBAction func changeTabRows(_ sender: NSMenuItem) {
+        
+        guard let rows = TabRows(rawValue: sender.tag) else { return assertionFailure() }
+        
+        UserDefaults.standard[.tabRows] = rows
+    }
+    
+    
     /// Activates self and perform New menu action (from Dock menu).
     @IBAction func newDocumentActivatingApplication(_ sender: Any?) {
         

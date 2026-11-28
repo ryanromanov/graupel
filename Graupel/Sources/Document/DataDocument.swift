@@ -34,6 +34,9 @@ import DocumentFile
     
     weak var windowController: DocumentWindowController?
     
+    /// The folder window that holds the document in a tab, whether or not the tab is selected.
+    weak var hostWindowController: DocumentWindowController?
+    
     
     // MARK: Document Methods
     

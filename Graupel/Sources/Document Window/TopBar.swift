@@ -71,6 +71,26 @@ final class TopBar: NSView, ChromeColoring {
     let runCell = TopBarCell()
     let inspectorCell = TopBarCell()
 
+    /// The tabs, when they share the bar; they take the place of the title.
+    var tabStrip: TabStrip? {
+
+        didSet {
+            guard tabStrip !== oldValue else { return }
+
+            if let oldValue, oldValue.superview === self {
+                oldValue.removeFromSuperview()
+            }
+            if let tabStrip {
+                tabStrip.autoresizingMask = []
+                self.addSubview(tabStrip)
+            }
+            self.needsLayout = true
+        }
+    }
+
+    /// The space kept free beside the tabs, to drag the window by.
+    private static let dragGap: CGFloat = 44
+
 
     // MARK: Private Properties
 
@@ -144,7 +164,12 @@ final class TopBar: NSView, ChromeColoring {
         // the title behaves as the empty bar does, to drag and double-click the window
         guard let view = super.hitTest(point) else { return nil }
 
-        return (view is TopBarCell) ? view : self
+        if view is TopBarCell { return view }
+
+        // the tabs take clicks, but not the empty part of their strip
+        if let tabStrip, view.isDescendant(of: tabStrip), view !== tabStrip, view.superview !== tabStrip { return view }
+
+        return self
     }
 
 
@@ -209,7 +234,16 @@ final class TopBar: NSView, ChromeColoring {
         contentEnd = min(contentEnd, width - cellWidth)
         place(self.runCell, at: contentEnd - cellWidth)
 
-        // the title
+        // the tabs or the title
+        for field in [self.titleField, self.subtitleField] {
+            field.isHidden = (self.tabStrip != nil) || field.stringValue.isEmpty
+        }
+        self.editedField.isHidden = (self.tabStrip != nil) || !state.isEdited
+        if let tabStrip = self.tabStrip {
+            let stripWidth = max(contentEnd - cellWidth - Self.dragGap - contentStart, 0)
+            tabStrip.frame = self.mirrored(NSRect(x: contentStart, y: 0, width: stripWidth, height: height))
+        }
+
         var x = contentStart + Self.titlePadding
         let titleEnd = contentEnd - cellWidth - Self.titlePadding
         for field in [self.titleField, self.subtitleField, self.editedField] where !field.isHidden {
@@ -283,8 +317,6 @@ final class TopBar: NSView, ChromeColoring {
 
         self.titleField.stringValue = state.title
         self.subtitleField.stringValue = state.subtitle
-        self.subtitleField.isHidden = state.subtitle.isEmpty
-        self.editedField.isHidden = !state.isEdited
 
         self.updateChromeColors()
         self.needsLayout = true

@@ -50,6 +50,8 @@ extension DefaultKeys {
     static let editorMatchesWindowTheme = DefaultKey<Bool>("editorMatchesWindowTheme")
     static let windowTheme = DefaultKey<String>("windowTheme")
     static let windowThemeAppearance = RawRepresentableDefaultKey<AppearanceMode>("windowThemeAppearance")
+    static let tabRows = RawRepresentableDefaultKey<TabRows>("tabRows")
+    static let tabOverflow = RawRepresentableDefaultKey<TabOverflow>("tabOverflow")
     
     // Window
     static let windowTabbing = DefaultKey<Int>("windowTabbing")

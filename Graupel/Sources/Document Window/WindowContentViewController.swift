@@ -61,6 +61,12 @@ final class WindowContentViewController: NSSplitViewController {
     private var topBarObservers: Set<AnyCancellable> = []
     private var runObserver: Task<Void, Never>?
     
+    /// The tabs of a folder window, shown in their own row or in the top bar.
+    private let tabStrip = TabStrip()
+    private let tabRow = NSView()
+    private var tabRowController: NSSplitViewItemAccessoryViewController?
+    private var tabSettingObservers: Set<AnyCancellable> = []
+    
     
     // MARK: Split View Controller Methods
     
@@ -145,6 +151,10 @@ final class WindowContentViewController: NSSplitViewController {
         self.addSplitViewItem(self.inspectorViewItem)
         
         self.setUpTopBar()
+        
+        if let directoryDocument {
+            self.setUpTabs(for: directoryDocument)
+        }
     }
     
     
@@ -384,7 +394,8 @@ final class WindowContentViewController: NSSplitViewController {
                                 inspector: inspector,
                                 title: window?.title ?? "",
                                 subtitle: window?.subtitle ?? "",
-                                isEdited: window?.isDocumentEdited ?? false))
+                                // the tabs of a folder window mark their own changes
+                                isEdited: self.directoryDocument == nil && (window?.isDocumentEdited ?? false)))
     }
     
     
@@ -487,6 +498,110 @@ final class WindowContentViewController: NSSplitViewController {
             topBar.forwardCell.action = #selector(DirectoryDocument.navigateForwardDocumentHistory)
             topBar.backCell.menu = self.historyMenu(identifier: .backDocumentHistoryMenu)
             topBar.forwardCell.menu = self.historyMenu(identifier: .forwardDocumentHistoryMenu)
+        }
+    }
+    
+    
+    /// Adds the tabs of a folder window.
+    private func setUpTabs(for directoryDocument: DirectoryDocument) {
+        
+        let accessory = NSSplitViewItemAccessoryViewController()
+        self.tabRow.frame.size.height = TabStrip.height
+        self.tabRow.heightAnchor.constraint(equalToConstant: TabStrip.height).isActive = true
+        accessory.view = self.tabRow
+        accessory.automaticallyAppliesContentInsets = false
+        accessory.isHidden = true
+        self.contentViewItem.addTopAlignedAccessoryViewController(accessory)
+        self.tabRowController = accessory
+        
+        self.tabStrip.perform = { [weak self] command, id in
+            self?.perform(command, onTabWith: id)
+        }
+        directoryDocument.tabsDidChange = { [weak self] in self?.updateTabs() }
+        
+        self.tabSettingObservers = [
+            UserDefaults.standard.publisher(for: .tabRows)
+                .sink { [weak self] _ in self?.updateTabs() },
+            UserDefaults.standard.publisher(for: .tabOverflow)
+                .sink { [weak self] _ in self?.updateTabs() },
+        ]
+        self.updateTabs()
+    }
+    
+    
+    /// Shows the tabs of the folder window where the settings put them.
+    private func updateTabs() {
+        
+        guard let directoryDocument else { return }
+        
+        let tabs = directoryDocument.tabs
+        let names = tabs.items.map { $0.fileURL?.lastPathComponent ?? $0.displayName ?? "" }
+        let rootPath = directoryDocument.fileURL?.path(percentEncoded: false) ?? ""
+        let items = zip(tabs.items, names).map { document, name in
+            let isAmbiguous = names.count(where: { $0 == name }) > 1
+            let path = document.fileURL?.path(percentEncoded: false)
+            
+            return TabStrip.Item(id: ObjectIdentifier(document),
+                                 title: name,
+                                 detail: isAmbiguous ? document.fileURL?.deletingLastPathComponent().lastPathComponent : nil,
+                                 toolTip: path.map { $0.hasPrefix(rootPath) ? String($0.dropFirst(rootPath.count)).trimmingPrefix("/").description : $0 },
+                                 isSelected: document == tabs.selection,
+                                 isPreview: document == tabs.preview,
+                                 isEdited: document.isDocumentEdited)
+        }
+        
+        self.tabStrip.overflow = UserDefaults.standard[.tabOverflow]
+        self.tabStrip.apply(items)
+        self.contentViewController.discardEditors(except: tabs.items)
+        
+        // place the strip; without tabs, there is no tab row
+        let rows = UserDefaults.standard[.tabRows]
+        if rows == .one, !items.isEmpty {
+            self.topBar.tabStrip = self.tabStrip
+        } else {
+            self.topBar.tabStrip = nil
+            if self.tabStrip.superview !== self.tabRow {
+                self.tabStrip.frame = self.tabRow.bounds
+                self.tabStrip.autoresizingMask = [.width, .height]
+                self.tabRow.addSubview(self.tabStrip)
+            }
+        }
+        self.tabRowController?.isHidden = (rows != .two || items.isEmpty)
+        
+        self.updateTopBar()
+    }
+    
+    
+    /// Does what the user asked of a tab.
+    private func perform(_ command: TabStrip.Command, onTabWith id: ObjectIdentifier) {
+        
+        guard
+            let directoryDocument,
+            let document = directoryDocument.tabs.items.first(where: { ObjectIdentifier($0) == id })
+        else { return }
+        
+        switch command {
+            case .select:
+                if document != directoryDocument.currentDocument {
+                    directoryDocument.show(document)
+                }
+                self.focusEditor()
+            case .keep:
+                directoryDocument.keepTab(of: document)
+            case .close:
+                Task { await directoryDocument.closeTab(of: document) }
+            case .closeOthers:
+                Task { await directoryDocument.closeTabs(except: document) }
+            case .openInNewWindow:
+                if let fileURL = document.fileURL {
+                    directoryDocument.openInNewWindow(fileURL: fileURL)
+                }
+            case .reveal:
+                if let fileURL = document.fileURL {
+                    directoryDocument.revealInFileBrowser(fileURL: fileURL)
+                }
+            case .move(let index):
+                directoryDocument.moveTab(of: document, to: index)
         }
     }
     

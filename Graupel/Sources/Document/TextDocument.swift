@@ -110,6 +110,7 @@ extension NSTextView: EditorCounter.Source { }
     private var shouldSaveEncodingXattr = true
     private var isExecutable = false
     private var isExternalUpdateAlertPending = false
+    private var hasPendingExternalUpdate = false
     private var isInconsistentLineEndingAlertPending = false
     private var suppressesInconsistentLineEndingAlert = false
     private var allowsLossySaving = false
@@ -314,7 +315,7 @@ extension NSTextView: EditorCounter.Source { }
     
     override var windowForSheet: NSWindow? {
         
-        super.windowForSheet ?? self.windowController?.window
+        super.windowForSheet ?? self.windowController?.window ?? self.hostWindowController?.window
     }
     
     
@@ -1515,12 +1516,23 @@ extension NSTextView: EditorCounter.Source { }
         guard let viewController = self.viewController else { return }
         
         // update view
-        if self.isVerticalText {
+        // -> The editor of a tab is reused, so the document's setting applies only once.
+        if self.isVerticalText, !viewController.hasAppliedDocumentLayout {
             viewController.verticalLayoutOrientation = true
+        }
+        viewController.hasAppliedDocumentLayout = true
+        
+        if self.hasPendingExternalUpdate {
+            self.hasPendingExternalUpdate = false
+            self.showUpdatedByExternalProcessAlert()
         }
         
         // show alert if line endings are inconsistent
-        if !self.lineEndingScanner.inconsistentLineEndings.isEmpty, !self.isBrowsingVersions {
+        // -> Once per editor, as a tab is shown again each time it's selected.
+        if !self.lineEndingScanner.inconsistentLineEndings.isEmpty, !self.isBrowsingVersions,
+           !viewController.hasCheckedLineEndings
+        {
+            viewController.hasCheckedLineEndings = true
             self.showInconsistentLineEndingAlert()
         }
     }
@@ -1778,6 +1790,12 @@ extension NSTextView: EditorCounter.Source { }
     
     /// Displays an alert about file modification by an external process.
     private func showUpdatedByExternalProcessAlert() {
+        
+        // ask about the file of a tab in the background when the tab is shown
+        if self.windowController == nil, self.hostWindowController != nil {
+            self.hasPendingExternalUpdate = true
+            return
+        }
         
         // avoid queuing the same alert twice
         guard !self.isExternalUpdateAlertPending else { return }

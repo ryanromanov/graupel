@@ -106,6 +106,11 @@
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="wbx-5J-ooi"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Close Window" keyEquivalent="W" id="Gpl-cw-001">
+                                            <connections>
+                                                <action selector="performCloseWindow:" target="Ady-hI-5gd" id="Gpl-cw-002"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Save" keyEquivalent="s" id="75">
                                             <connections>
                                                 <action selector="saveDocument:" target="Ady-hI-5gd" id="Dj6-pd-2Ei"/>
@@ -673,6 +678,25 @@ CA
                                                     <menuItem title="Show Inspector" secondaryImage="sidebar.trailing" catalog="system" keyEquivalent="i" id="I2p-KB-gxR">
                                                         <connections>
                                                             <action selector="toggleInspector:" target="Ady-hI-5gd" id="Xmb-c9-cWL"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Tab Rows" id="Gpl-tr-001">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Tab Rows" id="Gpl-tr-002">
+                                                <items>
+                                                    <menuItem title="Two Rows" id="Gpl-tr-003">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeTabRows:" target="Ady-hI-5gd" id="Gpl-tr-004"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="One Row" tag="1" id="Gpl-tr-005">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeTabRows:" target="Ady-hI-5gd" id="Gpl-tr-006"/>
                                                         </connections>
                                                     </menuItem>
                                                 </items>
