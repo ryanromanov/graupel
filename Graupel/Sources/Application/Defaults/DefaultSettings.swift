@@ -54,6 +54,8 @@ struct DefaultSettings {
             .editorMatchesWindowTheme: true,
             .windowTheme: "Graupel",
             .windowThemeAppearance: AppearanceMode.default.rawValue,
+            .tabRows: TabRows.two.rawValue,
+            .tabOverflow: TabOverflow.scroll.rawValue,
             
             // Window
             .windowTabbing: -1,  // = Respect System Setting

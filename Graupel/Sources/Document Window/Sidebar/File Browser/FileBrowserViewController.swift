@@ -48,6 +48,9 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
     
     private var expandingNodes: [FileNode: [FileNode]] = [:]
     
+    /// Whether the selection is changing to match the current document, which opens nothing.
+    private var isSyncingSelection = false
+    
     private var contextMenuSession = 0
     private var isContextMenuShown = false
     
@@ -327,10 +330,25 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
     /// Selects the current document in the outline view.
     func selectCurrentDocument() {
         
+        guard self.isViewLoaded else { return }
+        
+        self.isSyncingSelection = true
+        defer { self.isSyncingSelection = false }
+        
+        // clear the selection once no document is open, so that clicking its file opens it again
+        guard let currentDocument = self.document.currentDocument else {
+            return self.outlineView.deselectAll(nil)
+        }
         guard
-            let fileURL = self.document.currentDocument?.fileURL,
+            let fileURL = currentDocument.fileURL,
             let node = self.document.fileNode?.node(at: fileURL)
         else { return }
+        
+        // leave an alias that shows the current document selected
+        if self.outlineView.numberOfSelectedRows == 1,
+           let selectedNode = self.outlineView.item(atRow: self.outlineView.selectedRow) as? FileNode,
+           selectedNode === node || (selectedNode.file.isAlias && (try? URL(resolvingAliasFileAt: selectedNode.file.fileURL)) == fileURL)
+        { return }
         
         self.select(node: node)
     }
@@ -631,6 +649,14 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
     @objc private func outlineViewDoubleClicked(_ outlineView: NSOutlineView) {
         
         guard let item = outlineView.item(atRow: outlineView.clickedRow) else { return }
+        
+        // double-clicking a file keeps its tab open
+        if let node = item as? FileNode, !node.file.isDirectory {
+            Task {
+                await self.document.openDocument(at: node.file.fileURL, prefersOriginal: node.file.isAlias && !node.file.isFolder, keeps: true)
+            }
+            return
+        }
         
         if outlineView.isItemExpanded(item) {
             outlineView.animator().collapseItem(item)
@@ -1192,6 +1218,7 @@ extension FileBrowserViewController: NSOutlineViewDelegate {
         let outlineView = notification.object as! NSOutlineView
         
         guard
+            !self.isSyncingSelection,
             outlineView.numberOfSelectedRows == 1,
             let node = outlineView.item(atRow: outlineView.selectedRow) as? FileNode,
             !node.file.isDirectory

@@ -35,13 +35,21 @@ final class DirectoryDocument: NSDocument {
     private enum SerializationKey {
         
         static let currentDocument = "currentDocument"
+        static let tabs = "tabs"
+        static let tabsAsPlainText = "tabsAsPlainText"
+        static let previewTab = "previewTab"
     }
     
     
     // MARK: Public Properties
     
     private(set) var fileNode: FileNode?
-    private(set) weak var currentDocument: DataDocument?
+    /// The documents open in the window, each in a tab.
+    private(set) var tabs = DocumentTabs<DataDocument>()  { didSet { self.invalidateTabs() } }
+    /// Called when the tabs or what they show change, to update the window.
+    var tabsDidChange: (() -> Void)?
+    /// The document of the selected tab.
+    var currentDocument: DataDocument?  { self.tabs.selection }
     var documentHistory = DocumentHistory()  { didSet { self.documentHistoryDidChange?() } }
     /// Called when the history changes, to update the window’s Back and Forward buttons.
     var documentHistoryDidChange: (() -> Void)?
@@ -51,10 +59,9 @@ final class DirectoryDocument: NSDocument {
     
     // MARK: Private Properties
     
-    private var documents: [DataDocument] = []
-    private var windowController: DocumentWindowController?  { self.windowControllers.first as? DocumentWindowController }
+    private weak var windowController: DocumentWindowController?
     
-    private var documentObserver: NotificationCenter.ObservationToken?
+    private var documentObservers: [NotificationCenter.ObservationToken] = []
     
     
     // MARK: Document Methods
@@ -77,13 +84,28 @@ final class DirectoryDocument: NSDocument {
     
     override func encodeRestorableState(with coder: NSCoder, backgroundQueue queue: OperationQueue) {
         
-        super.encodeRestorableState(with: coder, backgroundQueue: queue)
-        
-        if let fileURL = self.currentDocument?.fileURL,
-           let bookmarkData = try? fileURL.bookmarkData(options: .withSecurityScope)
-        {
-            coder.encode(bookmarkData, forKey: SerializationKey.currentDocument)
+        var bookmarks: [NSData] = []
+        var asPlainText: [NSNumber] = []
+        for document in self.tabs.items {
+            guard
+                let fileURL = document.fileURL,
+                let bookmarkData = try? fileURL.bookmarkData(options: .withSecurityScope)
+            else { continue }
+            
+            if document == self.tabs.selection {
+                coder.encode(bookmarkData, forKey: SerializationKey.currentDocument)
+            }
+            if document == self.tabs.preview {
+                coder.encode(bookmarks.count, forKey: SerializationKey.previewTab)
+            }
+            bookmarks.append(bookmarkData as NSData)
+            asPlainText.append(NSNumber(value: self.opensAsPlainText(document)))
         }
+        coder.encode(bookmarks as NSArray, forKey: SerializationKey.tabs)
+        coder.encode(asPlainText as NSArray, forKey: SerializationKey.tabsAsPlainText)
+        
+        // -> Call this last, since it goes on writing to the coder in the background queue.
+        super.encodeRestorableState(with: coder, backgroundQueue: queue)
     }
     
     
@@ -91,18 +113,43 @@ final class DirectoryDocument: NSDocument {
         
         super.restoreState(with: coder)
         
-        // restore the last opened document
-        var isStale = false
-        guard
-            let fileURL,
-            let bookmarkData = coder.decodeObject(of: NSData.self, forKey: SerializationKey.currentDocument) as? Data,
-            let documentURL = try? URL(resolvingBookmarkData: bookmarkData, options: .withSecurityScope, bookmarkDataIsStale: &isStale),
-            fileURL.isAncestor(of: documentURL),
-            documentURL.isReachable
-        else { return }
+        guard let fileURL else { return }
+        
+        func resolve(_ bookmarkData: NSData) -> URL? {
+            var isStale = false
+            guard
+                let url = try? URL(resolvingBookmarkData: bookmarkData as Data, options: .withSecurityScope, bookmarkDataIsStale: &isStale),
+                fileURL.isAncestor(of: url),
+                url.isReachable
+            else { return nil }
+            
+            return url
+        }
+        
+        // restore the tabs, and then show the one that was selected
+        let selectedURL = coder.decodeObject(of: NSData.self, forKey: SerializationKey.currentDocument).flatMap(resolve)
+        let bookmarks = coder.decodeArrayOfObjects(ofClass: NSData.self, forKey: SerializationKey.tabs) ?? []
+        let asPlainText = coder.decodeArrayOfObjects(ofClass: NSNumber.self, forKey: SerializationKey.tabsAsPlainText) ?? []
+        let previewIndex = coder.containsValue(forKey: SerializationKey.previewTab)
+            ? coder.decodeInteger(forKey: SerializationKey.previewTab)
+            : nil
+        let entries = bookmarks.enumerated().compactMap { index, bookmark in
+            resolve(bookmark).map { url in
+                (url: url,
+                 asPlainText: asPlainText.indices.contains(index) && asPlainText[index].boolValue,
+                 isPreview: index == previewIndex)
+            }
+        }
         
         Task {
-            await self.openDocument(at: documentURL)
+            for entry in entries {
+                await self.openDocument(at: entry.url, asPlainText: entry.asPlainText, keeps: !entry.isPreview,
+                                        recordsHistory: false)
+            }
+            // -> Only the selected document was saved before the window had tabs.
+            if let selectedURL {
+                await self.openDocument(at: selectedURL)
+            }
             self.fileBrowserViewController?.selectCurrentDocument()
         }
     }
@@ -110,16 +157,22 @@ final class DirectoryDocument: NSDocument {
     
     override func makeWindowControllers() {
         
-        self.addWindowController(DocumentWindowController(directoryDocument: self))
+        let windowController = DocumentWindowController(directoryDocument: self)
+        self.windowController = windowController
+        self.addWindowController(windowController)
         
         NotificationCenter.default.post(DidMakeWindowMessage(), subject: self)
         
-        // observe document updates for the edited marker in the close button
-        if self.documentObserver == nil {
-            self.documentObserver = NotificationCenter.default.addObserver(for: TextDocument.DidUpdateChangeMessage.self) { [unowned self] _ in
-                let hasEditedDocuments = self.documents.contains(where: \.isDocumentEdited)
-                self.windowController?.setDocumentEdited(hasEditedDocuments)
-            }
+        // observe document updates for the tabs and the edited marker in the close button
+        if self.documentObservers.isEmpty {
+            self.documentObservers = [
+                NotificationCenter.default.addObserver(for: TextDocument.DidUpdateChangeMessage.self) { [weak self] _ in
+                    self?.documentsDidUpdate()
+                },
+                NotificationCenter.default.addObserver(for: NSDocument.DidChangeFileURLMessage.self) { [weak self] _ in
+                    self?.tabsDidChange?()
+                },
+            ]
         }
     }
     
@@ -167,9 +220,9 @@ final class DirectoryDocument: NSDocument {
         Task {
             // save unsaved changes in the file documents before closing
             var canClose = true
-            for document in self.documents where document.isDocumentEdited {
+            for document in self.tabs.items where document.isDocumentEdited {
                 // ask to the user one-by-one
-                guard await document.canClose() else {
+                guard await self.confirmClosing(document) else {
                     canClose = false
                     break
                 }
@@ -184,11 +237,12 @@ final class DirectoryDocument: NSDocument {
         
         super.close()
         
-        for document in self.documents {
+        for document in self.tabs.items {
+            document.windowController = nil
             document.close()
         }
         
-        self.documentObserver = nil
+        self.documentObservers.removeAll()
     }
     
     
@@ -229,7 +283,7 @@ final class DirectoryDocument: NSDocument {
         guard let fileURL = sender.representedObject as? URL else { return }
         
         Task {
-            await self.openDocument(at: fileURL, asPlainText: true)
+            await self.openDocument(at: fileURL, asPlainText: true, keeps: true)
         }
     }
     
@@ -252,7 +306,7 @@ final class DirectoryDocument: NSDocument {
         }
         
         Task {
-            await self.openDocument(at: resolvedURL, asPlainText: true)
+            await self.openDocument(at: resolvedURL, asPlainText: true, keeps: true)
         }
     }
     
@@ -265,11 +319,11 @@ final class DirectoryDocument: NSDocument {
     /// - Returns: A document if found.
     func openedDocument(at node: FileNode) -> DataDocument? {
         
-        self.documents.first { $0.fileURL == node.file.fileURL }
+        self.tabs.items.first { $0.fileURL == node.file.fileURL }
     }
     
     
-    /// Opens a document as a member.
+    /// Opens a document as a member, in a tab.
     ///
     /// This method opens the alias destination instead, only if the URL already has permission.
     ///
@@ -277,16 +331,10 @@ final class DirectoryDocument: NSDocument {
     ///   - fileURL: The file URL of the document to open.
     ///   - asPlainText: If `true`, the document is forcibly opened as a plain text file.
     ///   - prefersOriginal: If `true`, opens the alias destination only if the URL already has permission. Otherwise, opens the original file.
+    ///   - keeps: If `true`, the tab stays open. Otherwise, a new tab is a preview that the next one replaces.
     ///   - recordsHistory: If `true`, records the opened document in the document history.
     /// - Returns: Return `true` if the document of the given file did successfully open.
-    @discardableResult func openDocument(at fileURL: URL, asPlainText: Bool = false, prefersOriginal: Bool = false, recordsHistory: Bool = true) async -> Bool {
-        
-        if let currentDocument,
-           fileURL == currentDocument.fileURL,
-           !asPlainText || currentDocument is TextDocument
-        {
-            return true  // already open
-        }
+    @discardableResult func openDocument(at fileURL: URL, asPlainText: Bool = false, prefersOriginal: Bool = false, keeps: Bool = false, recordsHistory: Bool = true) async -> Bool {
         
         // open alias target if the URL already has permission
         var fileURL = fileURL
@@ -294,31 +342,27 @@ final class DirectoryDocument: NSDocument {
            let resolvedURL = try? URL(resolvingAliasFileAt: fileURL),
            (try? resolvedURL.isReadable) == true
         {
-            if let currentDocument,
-               resolvedURL == currentDocument.fileURL,
-               !asPlainText || currentDocument is TextDocument
-            {
-                return true  // already open
-            }
-            
             fileURL = resolvedURL
         }
         
-        // existing document
-        if let document = NSDocumentController.shared.document(for: fileURL) as? TextDocument {
-            if self.documents.contains(document) {
-                self.changeFrontmostDocument(to: document)
-                if recordsHistory {
-                    self.recordDocumentHistory(document: document, opensAsPlainText: asPlainText)
-                }
-                return true
-                
-            } else {
-                return await withCheckedContinuation { continuation in
-                    self.presentErrorAsSheet(DirectoryDocumentError.alreadyOpen(fileURL)) { _ in
-                        document.showWindows()
-                        continuation.resume(returning: false)
-                    }
+        // already open in a tab
+        let openedDocument = self.tabs.items.first { $0.fileURL == fileURL }
+        if let openedDocument, !asPlainText || openedDocument is TextDocument {
+            if keeps {
+                self.keepTab(of: openedDocument)
+            }
+            if openedDocument != self.currentDocument {
+                self.show(openedDocument, recordsHistory: recordsHistory)
+            }
+            return true
+        }
+        
+        // open in another window
+        if openedDocument == nil, let document = NSDocumentController.shared.document(for: fileURL) as? TextDocument {
+            return await withCheckedContinuation { continuation in
+                self.presentErrorAsSheet(DirectoryDocumentError.alreadyOpen(fileURL)) { _ in
+                    document.showWindows()
+                    continuation.resume(returning: false)
                 }
             }
         }
@@ -326,9 +370,9 @@ final class DirectoryDocument: NSDocument {
         let contentType = (try? fileURL.resourceValues(forKeys: [.contentTypeKey]).contentType) ?? .data
         
         // make document
-        let document: NSDocument
+        let newDocument: NSDocument
         do {
-            document = (asPlainText || Self.shouldOpen(url: fileURL, ofType: contentType))
+            newDocument = (asPlainText || Self.shouldOpen(url: fileURL, ofType: contentType))
                 ? try NSDocumentController.shared.makeDocument(withContentsOf: fileURL, ofType: contentType.identifier)
                 : try PreviewDocument(contentsOf: fileURL, ofType: contentType.identifier)
         } catch {
@@ -336,17 +380,93 @@ final class DirectoryDocument: NSDocument {
             return false
         }
         
-        guard let document = document as? DataDocument else { return false }
+        guard let document = newDocument as? DataDocument else { return false }
         
-        self.documents.append(document)
+        document.hostWindowController = self.windowController
         NSDocumentController.shared.addDocument(document)
         
-        self.changeFrontmostDocument(to: document)
-        if recordsHistory {
-            self.recordDocumentHistory(document: document, opensAsPlainText: asPlainText)
+        let replacedDocument: DataDocument?
+        if let openedDocument {
+            // a preview of the file gives way to its text
+            self.tabs.replace(openedDocument, with: document)
+            self.tabs.select(document)
+            replacedDocument = openedDocument
+        } else {
+            // never replace a preview that has changes
+            if let preview = self.tabs.preview, preview.hasChanges {
+                self.keepTab(of: preview)
+            }
+            replacedDocument = self.tabs.open(document, asPreview: !keeps)
         }
+        self.show(document, recordsHistory: recordsHistory)
+        replacedDocument.map(self.discard)
         
         return true
+    }
+    
+    
+    /// Shows the document of a tab.
+    ///
+    /// - Parameters:
+    ///   - document: The document to show.
+    ///   - recordsHistory: If `true`, records the document in the document history.
+    func show(_ document: DataDocument, recordsHistory: Bool = true) {
+        
+        guard self.tabs.items.contains(document) else { return assertionFailure() }
+        
+        self.tabs.select(document)
+        self.displaySelectedDocument()
+        
+        if recordsHistory {
+            self.recordDocumentHistory(document: document, opensAsPlainText: self.opensAsPlainText(document))
+        }
+    }
+    
+    
+    /// Makes the preview tab of the document stay open.
+    func keepTab(of document: DataDocument) {
+        
+        guard self.tabs.preview == document else { return }
+        
+        self.tabs.keep(document)
+    }
+    
+    
+    /// Moves the tab of the document.
+    func moveTab(of document: DataDocument, to index: Int) {
+        
+        self.tabs.move(document, to: index)
+    }
+    
+    
+    /// Closes the tab of the document, saving its changes or asking about them first.
+    ///
+    /// - Returns: `false` if the user canceled.
+    @discardableResult func closeTab(of document: DataDocument) async -> Bool {
+        
+        guard self.tabs.items.contains(document) else { return true }
+        
+        if document.hasChanges {
+            guard await self.confirmClosing(document) else { return false }
+        }
+        
+        // -> The tab may have gone while the user was asked.
+        guard self.tabs.items.contains(document) else { return true }
+        
+        self.removeTab(of: document)
+        self.discard(document)
+        self.documentsDidUpdate()
+        
+        return true
+    }
+    
+    
+    /// Closes all the tabs but that of the document, until the user cancels.
+    func closeTabs(except document: DataDocument) async {
+        
+        for other in self.tabs.items where other != document {
+            guard await self.closeTab(of: other) else { return }
+        }
     }
     
     
@@ -441,7 +561,7 @@ final class DirectoryDocument: NSDocument {
             throw InvalidNameError.newLine
         }
         
-        let isCurrentDocument = self.currentDocument?.fileURL == node.file.fileURL
+        let openedDocument = self.openedDocument(at: node)
         let newURL = node.file.fileURL.deletingLastPathComponent().appending(component: name)
         
         do {
@@ -452,7 +572,7 @@ final class DirectoryDocument: NSDocument {
             throw error
         }
         
-        if isCurrentDocument, let document = self.currentDocument as? TextDocument {
+        if let document = openedDocument as? TextDocument {
             // -> At this point, the document hasn’t updated its fileURL yet.
             document.invalidateSyntax(filename: name)
         }
@@ -533,7 +653,7 @@ final class DirectoryDocument: NSDocument {
     ///   - node: The file node to move to the Trash.
     func trashItem(_ node: FileNode) throws {
         
-        let documentsToClose = self.documents.filter { document in
+        let documentsToClose = self.tabs.items.filter { document in
             guard let fileURL = document.fileURL else { return false }
             
             return fileURL == node.file.fileURL || node.file.fileURL.isAncestor(of: fileURL)
@@ -559,20 +679,16 @@ final class DirectoryDocument: NSDocument {
             throw CocoaError(.fileWriteUnknown)
         }
         
-        if !documentsToClose.isEmpty {
-            if let currentDocument, documentsToClose.contains(where: { $0 === currentDocument }) {
-                self.windowController?.fileDocument = nil
-                self.currentDocument = nil
-            }
-            
-            for document in documentsToClose {
-                self.documents.removeFirst(document)
-                document.close()
-            }
-            self.invalidateRestorableState()
+        for document in documentsToClose {
+            self.removeTab(of: document)
+            self.discard(document)
         }
         
         node.removeFromParent()
+        
+        if !documentsToClose.isEmpty {
+            self.documentsDidUpdate()
+        }
     }
     
     
@@ -629,18 +745,14 @@ final class DirectoryDocument: NSDocument {
             }
         }
         
-        if let document = self.documents.first(where: { $0.fileURL == fileURL }) {
+        if let document = self.tabs.items.first(where: { $0.fileURL == fileURL }) {
             // detach the document from the receiver
-            if document === self.currentDocument {
-                self.windowController?.fileDocument = nil
-                self.currentDocument = nil
-            }
-            self.documents.removeFirst(document)
-            self.invalidateRestorableState()
+            self.removeTab(of: document)
+            self.documentsDidUpdate()
             
             if let document = document as? TextDocument {
                 // create a new window for the document
-                document.windowController = nil
+                document.hostWindowController = nil
                 document.makeWindowControllers()
                 document.showWindows()
                 return
@@ -722,23 +834,92 @@ final class DirectoryDocument: NSDocument {
     }
     
     
-    /// Changes the frontmost document.
+    /// Puts the document of the selected tab in the window.
+    private func displaySelectedDocument() {
+        
+        // -> Without a window, a document would make one of its own.
+        guard let windowController else { return }
+        
+        let document = self.currentDocument
+        
+        // remove window controller from the document shown until now
+        if let shownDocument = windowController.fileDocument, shownDocument != document {
+            shownDocument.windowController = nil
+        }
+        
+        document?.windowController = windowController
+        windowController.fileDocument = document
+        document?.makeWindowControllers()
+        
+        self.fileBrowserViewController?.selectCurrentDocument()
+    }
+    
+    
+    /// Takes the tab of the document out of the window, without closing the document.
+    private func removeTab(of document: DataDocument) {
+        
+        self.tabs.close(document)
+        self.displaySelectedDocument()
+        document.windowController = nil
+    }
+    
+    
+    /// Closes a document that has no tab anymore.
+    private func discard(_ document: DataDocument) {
+        
+        assert(!self.tabs.items.contains(document))
+        
+        document.windowController = nil
+        document.close()
+    }
+    
+    
+    /// Saves the changes of the document or asks the user about them.
     ///
-    /// - Parameter document: The document to bring frontmost.
-    private func changeFrontmostDocument(to document: DataDocument) {
+    /// - Returns: `true` if the document can be closed.
+    private func confirmClosing(_ document: DataDocument) async -> Bool {
         
-        assert(self.documents.contains(document))
+        // show the document the question is about
+        // -> A document that saves itself doesn’t ask in the usual case.
+        if !type(of: document).autosavesInPlace {
+            self.show(document, recordsHistory: false)
+        }
         
-        // remove window controller from current document
-        self.windowController?.fileDocument?.windowController = nil
+        return await document.canClose()
+    }
+    
+    
+    /// Keeps the tabs and the window in step with the documents.
+    private func documentsDidUpdate() {
         
-        document.windowController = self.windowController
-        self.windowController?.fileDocument = document
-        self.currentDocument = document
-        document.makeWindowControllers()
+        // a preview stays open once it's edited
+        if let preview = self.tabs.preview, preview.isDocumentEdited {
+            self.keepTab(of: preview)
+        }
         
-        // clean-up
-        self.disposeUnusedDocuments()
+        self.windowController?.setDocumentEdited(self.tabs.items.contains(where: \.isDocumentEdited))
+        self.tabsDidChange?()
+    }
+    
+    
+    private func invalidateTabs() {
+        
+        self.invalidateRestorableState()
+        self.tabsDidChange?()
+    }
+    
+    
+    /// Whether the document shows as text a file that would otherwise open as a preview.
+    private func opensAsPlainText(_ document: DataDocument) -> Bool {
+        
+        guard
+            document is TextDocument,
+            let fileURL = document.fileURL
+        else { return false }
+        
+        let contentType = (try? fileURL.resourceValues(forKeys: [.contentTypeKey]).contentType) ?? .data
+        
+        return !Self.shouldOpen(url: fileURL, ofType: contentType)
     }
     
     
@@ -752,18 +933,6 @@ final class DirectoryDocument: NSDocument {
         guard let fileURL = document.fileURL else { return }
         
         self.documentHistory.record(fileURL: fileURL, opensAsPlainText: opensAsPlainText, fileType: document.fileType.flatMap(UTType.init))
-    }
-    
-    
-    /// Disposes unused documents.
-    private func disposeUnusedDocuments() {
-        
-        // -> postpone closing opened document if edited
-        for document in self.documents where !document.isDocumentEdited && document != self.currentDocument {
-            document.close()
-            self.documents.removeFirst(document)
-        }
-        self.invalidateRestorableState()
     }
     
     
@@ -815,6 +984,16 @@ final class DirectoryDocument: NSDocument {
         if let error = coordinationError ?? movingError {
             throw error
         }
+    }
+}
+
+
+private extension DataDocument {
+    
+    /// Whether closing the document would lose something without saving it first.
+    var hasChanges: Bool {
+        
+        self.isDocumentEdited || self.hasUnautosavedChanges
     }
 }
 

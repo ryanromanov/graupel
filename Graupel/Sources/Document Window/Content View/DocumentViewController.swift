@@ -55,6 +55,10 @@ final class DocumentViewController: NSSplitViewController, NSToolbarItemValidati
     
     private(set) weak var focusedTextView: EditorTextView?
     
+    /// Whether the document has set up the editor, which a folder window keeps while the tab is open.
+    var hasAppliedDocumentLayout = false
+    var hasCheckedLineEndings = false
+    
     
     // MARK: Private Properties
     

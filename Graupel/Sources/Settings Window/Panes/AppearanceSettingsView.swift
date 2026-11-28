@@ -44,6 +44,8 @@ struct AppearanceSettingsView: View {
     
     @AppStorage(.lineHeight) private var lineHeight
     @AppStorage(.windowAlpha) private var windowAlpha
+    @AppStorage(.tabRows) private var tabRows
+    @AppStorage(.tabOverflow) private var tabOverflow
     
     @State private var isThemeEditorPresented = false
     @State private var monospacedAlertFont: Data?
@@ -116,6 +118,21 @@ struct AppearanceSettingsView: View {
                 } label: {
                     EmptyView()
                 }
+                .padding(.bottom, Self.verticalSpace)
+                
+                Picker(.init("Tab rows:", table: "AppearanceSettings"), selection: $tabRows) {
+                    Text("Two Rows", tableName: "AppearanceSettings", comment: "option; the tabs have a row of their own").tag(TabRows.two)
+                    Text("One Row", tableName: "AppearanceSettings", comment: "option; the tabs share the top bar").tag(TabRows.one)
+                }
+                .pickerStyle(.segmented)
+                .fixedSize()
+                
+                Picker(.init("When tabs don’t fit:", table: "AppearanceSettings"), selection: $tabOverflow) {
+                    Text("Scroll", tableName: "AppearanceSettings", comment: "option for tabs that don’t fit").tag(TabOverflow.scroll)
+                    Text("Shrink", tableName: "AppearanceSettings", comment: "option for tabs that don’t fit").tag(TabOverflow.shrink)
+                }
+                .pickerStyle(.segmented)
+                .fixedSize()
                 .padding(.bottom, Self.verticalSpace)
                 
                 LabeledContent(.init("Editor opacity:", table: "AppearanceSettings")) {

@@ -57,6 +57,10 @@ final class DocumentWindow: NSWindow {
         }
     }
     
+    private weak var closeMenuItem: NSMenuItem?
+    /// The title of the Close command as the menu has it.
+    private static var closeTitle: String?
+    
     @objc dynamic var backgroundAlpha: Double = 1.0 {
         
         didSet {
@@ -110,6 +114,48 @@ final class DocumentWindow: NSWindow {
     
     // MARK: Window Methods
     
+    override func performClose(_ sender: Any?) {
+        
+        // in a folder window, the Close command closes the tab, while the close button closes the window
+        if sender is NSMenuItem,
+           let directoryDocument = self.tabbedDocument,
+           let document = directoryDocument.currentDocument
+        {
+            Task { await directoryDocument.closeTab(of: document) }
+            return
+        }
+        
+        super.performClose(sender)
+    }
+    
+    
+    override func selectNextTab(_ sender: Any?) {
+        
+        guard self.tabbedDocument != nil else { return super.selectNextTab(sender) }
+        
+        self.selectDocumentTab(offset: 1)
+    }
+    
+    
+    override func selectPreviousTab(_ sender: Any?) {
+        
+        guard self.tabbedDocument != nil else { return super.selectPreviousTab(sender) }
+        
+        self.selectDocumentTab(offset: -1)
+    }
+    
+    
+    override func resignKey() {
+        
+        super.resignKey()
+        
+        // other windows don’t retitle the Close command
+        if let title = Self.closeTitle {
+            self.closeMenuItem?.title = title
+        }
+    }
+    
+    
     override func sendEvent(_ event: NSEvent) {
         
         // macOS doesn’t act on a double-click on the top bar, so follow the user’s setting here
@@ -156,11 +202,39 @@ final class DocumentWindow: NSWindow {
     
     // MARK: Actions
     
+    /// Closes the window, with all its tabs.
+    @IBAction func performCloseWindow(_ sender: Any?) {
+        
+        super.performClose(nil)
+    }
+    
+    
     override func validateUserInterfaceItem(_ item: any NSValidatedUserInterfaceItem) -> Bool {
         
         switch item.action {
             case #selector(toggleKeepOnTop):
                 (item as? any StatableItem)?.state = self.isFloating ? .on : .off
+                
+            case #selector(performClose(_:)):
+                if let menuItem = item as? NSMenuItem {
+                    let isValid = super.validateUserInterfaceItem(item)
+                    self.closeMenuItem = menuItem
+                    let title = Self.closeTitle ?? menuItem.title
+                    Self.closeTitle = title
+                    menuItem.title = (self.tabbedDocument?.currentDocument != nil)
+                        ? String(localized: "Close Tab", table: "Document", comment: "menu item")
+                        : title
+                    return isValid
+                }
+                
+            case #selector(performCloseWindow):
+                (item as? NSMenuItem)?.isHidden = (self.tabbedDocument?.currentDocument == nil)
+                return self.styleMask.contains(.closable)
+                
+            case #selector(selectNextTab(_:)), #selector(selectPreviousTab(_:)):
+                if let directoryDocument = self.tabbedDocument {
+                    return directoryDocument.tabs.items.count > 1
+                }
                 
             default:
                 break
@@ -178,6 +252,69 @@ final class DocumentWindow: NSWindow {
     
     
     // MARK: Private Methods
+    
+    /// The folder whose documents the window shows in tabs, if it’s a folder window.
+    private var tabbedDocument: DirectoryDocument? {
+        
+        (self.windowController as? DocumentWindowController)?.directoryDocument
+    }
+    
+    
+    /// Selects the tab the given number of places after the selected one.
+    private func selectDocumentTab(offset: Int) {
+        
+        guard
+            let directoryDocument = self.tabbedDocument,
+            let document = directoryDocument.tabs.item(offsetFromSelection: offset),
+            document != directoryDocument.currentDocument
+        else { return }
+        
+        directoryDocument.show(document)
+    }
+    
+    
+    /// Selects a tab of a folder window with a keyboard shortcut.
+    ///
+    /// - Parameter event: The key down event.
+    /// - Returns: `true` if the event selects a tab.
+    private func selectDocumentTab(with event: NSEvent) -> Bool {
+        
+        guard
+            let directoryDocument = self.tabbedDocument,
+            !directoryDocument.tabs.items.isEmpty
+        else { return false }
+        
+        let modifiers = event.modifierFlags.intersection([.command, .shift, .option, .control])
+        let key = event.charactersIgnoringModifiers ?? ""
+        let tabKeyCode: UInt16 = 48
+        
+        let offset: Int? = switch (modifiers, key) {
+            case ([.command, .shift], "{"), ([.command, .shift], "["): -1
+            case ([.command, .shift], "}"), ([.command, .shift], "]"): 1
+            case ([.control], _) where event.keyCode == tabKeyCode: 1
+            case ([.control, .shift], _) where event.keyCode == tabKeyCode: -1
+            default: nil
+        }
+        // ⌘1–⌘8 select a tab by its position, and ⌘9 the last one
+        let number = (modifiers == [.command] && key.count == 1) ? Int(key).flatMap { (1...9).contains($0) ? $0 : nil } : nil
+        
+        guard offset != nil || number != nil else { return false }
+        
+        // prefer a shortcut that the user might have defined
+        guard NSApp.mainMenu?.performKeyEquivalent(with: event) != true else { return true }
+        
+        if let offset {
+            self.selectDocumentTab(offset: offset)
+        } else if let number {
+            let items = directoryDocument.tabs.items
+            if let document = (number == 9) ? items.last : items[safe: number - 1], document != directoryDocument.currentDocument {
+                directoryDocument.show(document)
+            }
+        }
+        
+        return true
+    }
+    
     
     /// Whether the window level is floating.
     private var isFloating: Bool {
@@ -215,6 +352,8 @@ extension DocumentWindow {
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         
         guard !super.performKeyEquivalent(with: event) else { return true }
+        
+        if self.selectDocumentTab(with: event) { return true }
         
         // select tabbed window with `⌘-number` (`⌘9` for the last tab)
         if

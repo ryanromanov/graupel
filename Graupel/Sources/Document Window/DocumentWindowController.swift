@@ -55,9 +55,12 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     }
     
     
+    /// The folder the window shows, if it’s a folder window.
+    private(set) weak var directoryDocument: DirectoryDocument?
+    
+    
     // MARK: Private Properties
     
-    private let directoryDocument: DirectoryDocument?
     private let isDirectoryDocument: Bool
     
     private let windowAutosaveName: NSWindow.FrameAutosaveName

@@ -17401,6 +17401,66 @@
         }
       }
     },
+    "Gpl-cw-001.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Close Window\"; ObjectID = \"Gpl-cw-001\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close Window"
+          }
+        }
+      }
+    },
+    "Gpl-tr-001.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Tab Rows\"; ObjectID = \"Gpl-tr-001\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tab Rows"
+          }
+        }
+      }
+    },
+    "Gpl-tr-002.title" : {
+      "comment" : "Class = \"NSMenu\"; title = \"Tab Rows\"; ObjectID = \"Gpl-tr-002\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tab Rows"
+          }
+        }
+      }
+    },
+    "Gpl-tr-003.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Two Rows\"; ObjectID = \"Gpl-tr-003\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Two Rows"
+          }
+        }
+      }
+    },
+    "Gpl-tr-005.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"One Row\"; ObjectID = \"Gpl-tr-005\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "One Row"
+          }
+        }
+      }
+    },
     "gqI-2M-XIx.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Show Substitutions\"; ObjectID = \"gqI-2M-XIx\";",
       "extractionState" : "extracted_with_value",

@@ -49,6 +49,8 @@ final class ContentViewController: NSViewController {
     private var runPanelItem: NSSplitViewItem?
     
     private var windowCloseObserver: (any NSObjectProtocol)?
+    /// The editors of the documents shown so far, which keep their scroll position, selection and split views.
+    private var editorViewControllers: [ObjectIdentifier: DocumentViewController] = [:]
     
     
     // MARK: Lifecycle
@@ -59,6 +61,10 @@ final class ContentViewController: NSViewController {
         self.hostedViewController = Self.viewController(document: document)
         
         super.init(nibName: nil, bundle: nil)
+        
+        if let document, let viewController = self.hostedViewController as? DocumentViewController {
+            self.editorViewControllers[ObjectIdentifier(document)] = viewController
+        }
         
         self.editorViewController.addChild(self.hostedViewController)
     }
@@ -139,6 +145,18 @@ final class ContentViewController: NSViewController {
                 }
             }
         }
+    }
+    
+    
+    // MARK: Public Methods
+    
+    /// Lets go of the editors of the documents that are no longer open.
+    ///
+    /// - Parameter documents: The documents that are still open.
+    func discardEditors(except documents: [DataDocument]) {
+        
+        let ids = Set(documents.map { ObjectIdentifier($0) })
+        self.editorViewControllers = self.editorViewControllers.filter { ids.contains($0.key) }
     }
     
     
@@ -252,9 +270,25 @@ final class ContentViewController: NSViewController {
         self.hostedViewController.viewIfLoaded?.removeFromSuperview()
         self.hostedViewController.removeFromParent()
         
-        self.hostedViewController = Self.viewController(document: self.document)
+        self.hostedViewController = self.viewController(for: self.document)
         self.editorViewController.addChild(self.hostedViewController)
         self.editorViewController.viewIfLoaded?.embedSubview(self.hostedViewController.view)
+    }
+    
+    
+    /// Returns the view controller to show the document, reusing the editor shown before.
+    private func viewController(for document: DataDocument?) -> NSViewController {
+        
+        guard let document = document as? TextDocument else { return Self.viewController(document: document) }
+        
+        if let viewController = self.editorViewControllers[ObjectIdentifier(document)] {
+            return viewController
+        }
+        
+        let viewController = DocumentViewController(document: document)
+        self.editorViewControllers[ObjectIdentifier(document)] = viewController
+        
+        return viewController
     }
     
     

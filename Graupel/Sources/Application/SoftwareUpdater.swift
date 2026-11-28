@@ -26,6 +26,7 @@
 import AppKit
 import Combine
 import Sparkle
+import Defaults
 
 /// Graupel's in-app updates, handled by Sparkle.
 ///
@@ -84,10 +85,13 @@ extension AppDelegate: NSMenuItemValidation {
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
 
         switch menuItem.action {
+            case #selector(changeTabRows):
+                menuItem.state = (menuItem.tag == UserDefaults.standard[.tabRows].rawValue) ? .on : .off
+                return true
             case #selector(checkForUpdates):
-                SoftwareUpdater.shared.canCheckForUpdates
+                return SoftwareUpdater.shared.canCheckForUpdates
             default:
-                true
+                return true
         }
     }
 }

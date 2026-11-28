@@ -50,6 +50,24 @@ enum WritingDirection: Int, CaseIterable {
 }
 
 
+/// How a folder window lays out its tabs.
+enum TabRows: Int, CaseIterable {
+    
+    /// The tabs have a row of their own, under the buttons.
+    case two
+    /// The tabs share the top bar with the buttons.
+    case one
+}
+
+
+/// What a tab strip does with tabs that don’t fit.
+enum TabOverflow: Int, CaseIterable {
+    
+    case scroll
+    case shrink
+}
+
+
 enum AppearanceMode: Int, CaseIterable {
     
     case `default`

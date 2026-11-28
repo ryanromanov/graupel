@@ -23,7 +23,7 @@
 //  limitations under the License.
 //
 
-import Foundation
+import AppKit
 import Testing
 import DocumentFile
 import URLUtils
@@ -55,7 +55,108 @@ struct DirectoryDocumentTests {
     }
     
     
+    @Test @MainActor func filesOpenInTabs() async throws {
+        
+        let (document, urls) = try self.makeFolder(files: ["a.txt", "b.txt", "c.txt"])
+        defer {
+            document.close()
+            try? FileManager.default.removeItem(at: document.fileURL!)
+        }
+        
+        #expect(await document.openDocument(at: urls[0], keeps: true))
+        #expect(await document.openDocument(at: urls[1]))
+        #expect(await document.openDocument(at: urls[2]))
+        
+        // the second preview took the place of the first, whose document closed
+        #expect(document.tabs.items.compactMap(\.fileURL?.lastPathComponent) == ["a.txt", "c.txt"])
+        #expect(document.tabs.preview === document.currentDocument)
+        #expect(NSDocumentController.shared.document(for: urls[1]) == nil)
+        
+        // opening an open file selects its tab
+        let first = document.tabs.items[0]
+        #expect(await document.openDocument(at: urls[0]))
+        #expect(document.currentDocument === first)
+        #expect(document.tabs.items.count == 2)
+        
+        #expect(await document.closeTab(of: first))
+        #expect(document.currentDocument?.fileURL?.lastPathComponent == "c.txt")
+        #expect(NSDocumentController.shared.document(for: urls[0]) == nil)
+    }
+    
+    
+    @Test @MainActor func editedPreviewIsKept() async throws {
+        
+        let (document, urls) = try self.makeFolder(files: ["a.txt", "b.txt"])
+        defer {
+            document.close()
+            try? FileManager.default.removeItem(at: document.fileURL!)
+        }
+        
+        #expect(await document.openDocument(at: urls[0]))
+        let edited = try #require(document.currentDocument as? TextDocument)
+        edited.updateChangeCount(.changeDone)
+        #expect(await document.openDocument(at: urls[1]))
+        
+        #expect(document.tabs.items.count == 2)
+        #expect(document.tabs.items.first === edited)
+        
+        edited.updateChangeCount(.changeCleared)
+    }
+    
+    
+    @Test @MainActor func tabsAreRestored() async throws {
+        
+        let (document, urls) = try self.makeFolder(files: ["a.txt", "b.txt", "c.txt"])
+        defer { try? FileManager.default.removeItem(at: document.fileURL!) }
+        
+        #expect(await document.openDocument(at: urls[0], keeps: true))
+        #expect(await document.openDocument(at: urls[1], keeps: true))
+        #expect(await document.openDocument(at: urls[2]))
+        #expect(await document.openDocument(at: urls[0]))
+        
+        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        document.encodeRestorableState(with: archiver, backgroundQueue: queue)
+        await withCheckedContinuation { continuation in  // AppKit encodes part of the state there
+            queue.addBarrierBlock { continuation.resume() }
+        }
+        archiver.finishEncoding()
+        document.close()
+        
+        let restored = DirectoryDocument()
+        restored.fileURL = document.fileURL
+        try restored.read(from: document.fileURL!, ofType: "public.folder")
+        defer { restored.close() }
+        restored.restoreState(with: try NSKeyedUnarchiver(forReadingFrom: archiver.encodedData))
+        
+        for _ in 0..<100 where restored.currentDocument?.fileURL?.lastPathComponent != "a.txt" {
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        
+        #expect(restored.tabs.items.compactMap(\.fileURL?.lastPathComponent) == ["a.txt", "b.txt", "c.txt"])
+        #expect(restored.currentDocument?.fileURL?.lastPathComponent == "a.txt")
+        #expect(restored.tabs.preview?.fileURL?.lastPathComponent == "c.txt")
+    }
+    
+    
     // MARK: Private Methods
+    
+    /// Makes a folder document with empty files in a temporary folder.
+    @MainActor private func makeFolder(files: [String]) throws -> (DirectoryDocument, [URL]) {
+        
+        let rootURL = try FileManager.default.makeTemporaryDirectory().resolvingSymlinksInPath()
+        let urls = files.map { rootURL.appending(path: $0, directoryHint: .notDirectory) }
+        for url in urls {
+            try Data("text\n".utf8).write(to: url)
+        }
+        
+        let document = DirectoryDocument()
+        document.fileURL = rootURL
+        try document.read(from: rootURL, ofType: "public.folder")
+        
+        return (document, urls)
+    }
     
     private struct MoveConflictTreeURLs {
         
