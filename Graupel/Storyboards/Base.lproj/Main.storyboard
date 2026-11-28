@@ -253,11 +253,8 @@ CA
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="630"/>
-                                        <menuItem title="Complete" id="Qa9-dA-CF1">
-                                            <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                        <menuItem title="Complete" keyEquivalent=" " id="Qa9-dA-CF1">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                             <attributedString key="userComments">
                                                 <fragment content="verb, complete the current word"/>
                                             </attributedString>

@@ -563,9 +563,12 @@ final class EditorTextView: NSTextView, CurrentLineHighlighting, MultiCursorEdit
             return
         }
         
-        // show the completion list, as Esc does in other Mac text views
+        // leave full screen
         // -> NSTextView doesn't implement `cancelOperation(_:)`. (macOS 10.14)
-        self.complete(sender)
+        //    The completion list has its own shortcuts: Control-Space (Edit > Complete) and Option-Esc.
+        if let window = self.window, window.styleMask.contains(.fullScreen) {
+            window.toggleFullScreen(sender)
+        }
     }
     
     
