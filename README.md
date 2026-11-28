@@ -35,7 +35,7 @@ Language servers are installed separately. For Boreas, install `boreas` as its
   shown in the status bar. What's found depends on the server: `boreas lsp` reports syntax and link errors, and names
   that were never declared.
 - __Completion__: suggestions from the language server as you type; with Boreas, the names in your file, record
-  fields after a dot, built-ins, and keywords. Press Esc to show the list at any time.
+  fields after a dot, built-ins, and keywords. Press Control-Space or Option-Esc to show the list at any time.
 - __Go to definition and hover__: Command-click a name (or Find > Jump to Definition, Control-Command-J) to go to its
   declaration, and rest the pointer on it to see what it is, when the language server supports it, as `boreas lsp`
   does.

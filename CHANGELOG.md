@@ -27,6 +27,8 @@
 
 ### Fixes
 
+- Leave full screen when you press Esc in the editor. Esc no longer shows completions; press Control-Space
+  (Edit > Complete) or Option-Esc instead.
 - Draw the selected sidebar tab in the window theme’s own color in light themes.
 - Open a folder window for the first time with a narrower sidebar.
 - Help: say that the Boreas server can format a document, and fix the README's statements that Graupel doesn't
